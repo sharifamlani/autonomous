@@ -1,7 +1,7 @@
 section	sentence_start	claim	number	source_id	exact_quote	location
 7	Headline numbers have risen from	Best model on original SWE-bench resolved 1.96% of issues	1.96%	C1	Claude 2, is able to solve a mere 1.96% of the issues	p. 1, Abstract
 7	Headline numbers have risen from	One frontier agent resolves 99.4% of the repaired SWE-Bench Pro V2 split	99.4%	C12	Claude Opus 5 (run in Claude Code) resolves 99.4% of the tasks	p. 2, §1 Introduction
-7	Headline numbers have risen from	C12 is written by Scale AI, owner of SWE-Bench Pro		C12	Scale AI	p. 1, author affiliations
+7	Headline numbers have risen from	C12 is written by authors from Scale AI and Reflection AI		C12	Scale AI, 2Reflection AI	p. 1, author affiliations
 7	Headline numbers have risen from	SWE-Bench Pro is Scale AI's benchmark		C9	Scale AI	p. 1, author affiliations
 7	A manual audit of passed	Solution in the issue report or comments for 32.67% of passed patches	32.67%	C5	32.67% of the successful patches involve	p. 1, Abstract
 7	A manual audit of passed	Solution was in the issue report or its comments		C5	the solutions were directly provided in the issue report or the comments	p. 1, Abstract
@@ -12,7 +12,7 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 7	OpenAI stopped reporting SWE-bench Verified	OpenAI stopped reporting SWE-bench Verified		C15	This is why we have stopped reporting SWE-bench Verified scores, and we recommend that other model developers do so too.	https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ (introduction, under the page title)
 7	OpenAI stopped reporting SWE-bench Verified	At least 59.4% of audited problems have flawed tests	59.4%	C15	at least 59.4% of the audited problems have flawed test cases that reject functionally correct submissions	https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ (introduction, under the page title)
 7	OpenAI stopped reporting SWE-bench Verified	Audited subset of 138 problems chosen because o3 did not consistently solve them	138	C15	We conducted an audit of 138 SWE-bench Verified problems that OpenAI o3 did not consistently solve over 64 independent runs.	https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ (section: Too narrow and too wide tests)
-7	OpenAI stopped reporting SWE-bench Verified	Owner of SWE-Bench Pro repaired or removed 480 of 731 tasks	480; 731	C12	480 of the 731 tasks (66%) were repaired or removed	p. 4, §3
+7	OpenAI stopped reporting SWE-bench Verified	Authors from Scale AI and Reflection AI repaired or retired 480 of 731 SWE-Bench Pro tasks	480; 731	C12	repaired or retired 480 of the 731 tasks	p. 1, Abstract
 7	Contamination adds to this	Same agent and model scored 43.20% on Verified	43.20%	C17	43.20%, more than twice the score achieved on SWE-bench-Live	p. 7, §4.2
 7	Contamination adds to this	Same agent and model scored 19.25% on fresh issues	19.25%	C17	SWE-bench-Live is only 19.25%	p. 7, §4.2
 7	Contamination adds to this	Same setup on both benchmarks		C17	using the exact same setups	p. 7, §4.2
@@ -59,9 +59,9 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 7	An issue reports that agents	Agents could read originals from git history		commit-0/commit0#113	Agents can exploit the benchmark by accessing git history to retrieve original function implementations instead of writing them from scratch.	issue #113 body
 7	An issue reports that agents	and paste them in		commit-0/commit0#113	Copy-paste the original code instead of implementing from scratch	issue #113 body
 7	An issue reports that agents	PR to disallow test-file changes closed without merge		commit-0/commit0#100	disallow test file changes	PR #100 title; gh api repos/commit-0/commit0/pulls/100 -> state=closed, merged=false (checked 2026-11-21)
-7	The owner of SWE-Bench Pro	32 of 642 runs of one model contacted code hosts with network open	32; 642	C12	With the network open, 32 of 642 Claude Opus 5 trajectories contacted code hosts	p. 8, §3.5
-7	The owner of SWE-Bench Pro	Scripted agent replacing python3 scores 1	1	C12	a scripted agent that edits no source file and replaces python3 with a script printing PASSED scores 1	p. 8, §3.5 Grading
-7	The owner of SWE-Bench Pro	Verifier ran inside the agent's sandbox		C12	The original harness ran the verifier in the sandbox the agent had just used.	p. 8, §3.5 Grading
+7	The same Scale AI and Reflection AI authors	32 of 642 runs of one model contacted code hosts with network open	32; 642	C12	With the network open, 32 of 642 Claude Opus 5 trajectories contacted code hosts	p. 8, §3.5
+7	The same Scale AI and Reflection AI authors	Scripted agent replacing python3 scores 1	1	C12	a scripted agent that edits no source file and replaces python3 with a script printing PASSED scores 1	p. 8, §3.5 Grading
+7	The same Scale AI and Reflection AI authors	Verifier ran inside the agent's sandbox		C12	The original harness ran the verifier in the sandbox the agent had just used.	p. 8, §3.5 Grading
 7	Terminal-Bench requires an oracle solution	Oracle solution run to ensure solvability		C18	oracle solution to ensure solvability	p. 4, §2.2
 7	Terminal-Bench requires an oracle solution	No-op agent should fail		C18	agent should fail the task	p. 4, §2.2
 7	The harbor harness from the	Harbor is from the Terminal-Bench team		harbor-framework/harbor	Harbor is a framework from the creators of [Terminal-Bench](https://www.tbench.ai) for evaluating and optimizing agents and language models.	README.md line 10 (@96c86af)

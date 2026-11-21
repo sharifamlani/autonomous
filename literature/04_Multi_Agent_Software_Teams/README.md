@@ -23,7 +23,7 @@ must contain, and how the benchmark must score a team against a no-team arm at e
 | T8 | Tran and Kiela, "Single-Agent LLMs Outperform Multi-Agent Systems on Multi-Hop Reasoning Under Equal Thinking Token Budgets" | 2026 | [arXiv:2604.02460](https://arxiv.org/abs/2604.02460) | At matched thinking-token budgets a single agent equals or beats five multi-agent designs, except at tiny budgets and under heavily corrupted context, where a sequential team wins (Section 5.3; reasoning tasks, not coding) |
 | T9 | Mohammadabadi, "More Agents, More Samples, or More Thinking? Untangling Coordination, Ensembling, and Test-Time Compute in Multi-Agent LLMs" | 2026 | [arXiv:2611.17610](https://arxiv.org/abs/2611.17610) | Synthesis of 9 studies / 516 configurations: against sample- or budget-matched baselines multi-agent averages -0.042 accuracy and is at or below baseline in 74% of contrasts |
 | T10 | Zhang et al., "Stop Overvaluing Multi-Agent Debate -- We Must Rethink Evaluation and Embrace Model Heterogeneity" | 2025 | [arXiv:2502.08788](https://arxiv.org/abs/2502.08788) | 5 debate methods x 9 benchmarks x 4 models: none wins more than 20% of 36 scenarios against plain CoT; mixing different models is what helps |
-| T11 | Huang et al., "Large Language Models Cannot Self-Correct Reasoning Yet" (ICLR 2024) | 2023 | [arXiv:2310.01798](https://arxiv.org/abs/2310.01798) | Without external feedback, same-model review degrades answers; debate at equal responses loses to majority voting (83.2 vs 85.3, GSM8K) |
+| A4 (held in 01) | Huang et al., "Large Language Models Cannot Self-Correct Reasoning Yet" (ICLR 2024) | 2023 | [arXiv:2310.01798](https://arxiv.org/abs/2310.01798) | Without external feedback, same-model review degrades answers; debate at equal responses loses to majority voting (83.2 vs 85.3, GSM8K) |
 | T12 | Zeng et al., "Benchmarking and Studying the LLM-based Agent System in End-to-End Software Development" | 2025 | [arXiv:2511.04064](https://arxiv.org/abs/2511.04064) | Controlled single vs developer-then-tester vs designer-developer-tester waterfall on one toolset: 45.7% vs 49.5% vs 27.7% of requirements; the design handoff hurt |
 | T13 | Chowdhury et al., "From Industry Claims to Empirical Reality: An Empirical Study of Code Review Agents in Pull Requests" (MSR 2026) | 2026 | [arXiv:2604.03196](https://arxiv.org/abs/2604.03196) | Among 3,109 agent PRs (from AIDev's 19,450), bot-only review merges 45.20% vs 68.37% human-only; 60.2% of bot-only reviews are 0-30% signal |
 | T14 | Qiu et al., "Adversarial Review: Structured Disagreement for Grounded Agentic Code Review" (ICML 2026 Workshop on DL4C) | 2026 | [arXiv:2608.18167](https://arxiv.org/abs/2608.18167) | Three agents (coder, reviewer, critic) beat a 5-agent team and one agent on LiveCodeBench and SWE-bench Verified (75.2 vs 71.6%), at 4.5× tokens; naive agreement ("false consensus") hides bugs |
@@ -70,14 +70,14 @@ test-gated (T19, T20, T22), and an LLM verifier alone approves about half of fai
    test agent (Section 4.7), and explains why: "the tests designed by the same agent that generates the
    code can be biased by the code and lose objectivity". T6's ablation removes only QA: resolved falls
    "13.94" to "10.63" (Table 2). T2's "executable feedback" adds "4.2% and 5.4% in Pass @1" (Section 4.4).
-   T11 supplies the converse: without external feedback a model reviewing its own work "struggle[s] to
+   A4 supplies the converse: without external feedback a model reviewing its own work "struggle[s] to
    self-correct ... and at times, their performance even degrades" (Abstract). T17 (vendor) reports
    review "works best when the coding and review agents do not share any context beforehand".
 3. **Equal-budget comparisons erase most multi-agent gains.** T8: "SAS is the best-performing system or
    statistically indistinguishable from the best for all budgets except the lowest one (100 tokens)"
    (Section 5.1); at 2,000 thinking tokens the average accuracy is 0.421 for the single agent against
    0.403 for debate and 0.389 for the sequential team (Table 1). T8 also finds the reverse when context is heavily corrupted: "Sequential is clearly better at α = 0.7" (Section 5.3). T10: "none of these MAD methods achieve
-   a win rate higher than 20% when compared to CoT across 36 scenarios" (Section 1). T11, Table 7: debate
+   a win rate higher than 20% when compared to CoT across 36 scenarios" (Section 1). A4, Table 7: debate
    at six responses 83.2 vs self-consistency at six responses 85.3. T9 pools nine studies: multi-agent
    "average[s] -0.042 in accuracy" against matched baselines and "equals or falls below the baseline in
    74% of these comparable contrasts" (Abstract); "positive returns require partitioned evidence,
@@ -190,7 +190,7 @@ $/task for both; (g) distrust the builder's "done": the tester's run is the verd
   correctness differently across benchmarks (its Figure 5 notes they are "not directly comparable").
 - **Preprint quality varies.** T9 is a single-author preprint of a meta-analysis built on nine studies
   with mixed designs; T8 and T12 are preprints; T15 is a workshop paper. Treat the direction as
-  consistent across T8-T11 rather than any one effect size as settled.
+  consistent across T8-T10 and A4 rather than any one effect size as settled.
 - **Round 2 (T18-T31): newer models, but still not our setup and not equal cost.**
   - *Few comparisons are budget-matched.* T20's gains come at about 2x to 4x the single agent's cost
     (Claude Sonnet 4.5 on PaperBench $3.3 to $6.5, Commit0-Lite $1.9 to $8.1, Table 2), and a single agent

@@ -24,8 +24,8 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 11	Across 60,000 trajectories on SWE-bench Verified	2-3 point improvements may be noise	2-3	F19	reported improvements of 2-3 percentage points may reflect evaluation noise	p. 1, Abstract
 11	The same study finds gaps of up to 24.9 points	pass@k vs pass^k gap up to 24.9 points; definitions	24.9	F19	we find gaps up to 24.9 percentage points between	p. 2, §1 Introduction
 11	The same study finds gaps of up to 24.9 points	Definitions of pass@k and pass^k		F19	pass@k (the probability that at least one of k attempts succeeds)	p. 2, §1 Introduction
-11	On tau-bench, gpt-4o falls	gpt-4o about 61% at pass^1 on tau-retail	about 61%	A9	achieve low task success rates (pass^1) using function calling (∼61% on	p. 2, §1 Introduction
-11	On tau-bench, gpt-4o falls	Falls to about 25% at pass^8 on retail	about 25%; pass^8	A9	to as low as ∼25% for pass^8 on	p. 2, §1 Introduction
+11	On tau-bench, GPT-4o falls	gpt-4o about 61% at pass^1 on tau-retail	about 61%	A9	achieve low task success rates (pass^1) using function calling (∼61% on	p. 2, §1 Introduction
+11	On tau-bench, GPT-4o falls	Falls to about 25% at pass^8 on retail	about 25%; pass^8	A9	to as low as ∼25% for pass^8 on	p. 2, §1 Introduction
 11	In 584 runs on one machine-learning task	584 runs on one ML task	584	F24	by intensive replication on one machine-learning task	p. 1, Abstract
 11	In 584 runs on one machine-learning task	584 runs	584	F24	Across 584 runs, we compare six agents on six open-weight model endpoints	p. 1, Abstract
 11	In 584 runs on one machine-learning task	Identical runs varied more than pairings differed		F24	Identical runs of one pairing varied more than the pairings differed from one another	p. 1, Abstract
@@ -75,7 +75,7 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 12	OpenAI, which created SWE-bench Verified	Recommendation retracted		V31	Given the issues uncovered in this analysis, we retract our earlier recommendation to adopt SWE-Bench Pro.	https://openai.com/index/separating-signal-from-noise-coding-evaluations/ , under 'Discussion'
 12	Authors from Scale AI and Reflection AI	Author affiliations Scale AI and Reflection AI		C12	Scale AI	p. 1, title block (affiliations: 1Scale AI, 2Reflection AI)
 12	Authors from Scale AI and Reflection AI	Author affiliations Reflection AI		C12	Reflection AI	p. 1, title block
-12	Authors from Scale AI and Reflection AI	480 of 731 (66%) repaired or removed	480; 731; 66%	C12	480 of the 731 tasks (66%) were repaired or removed	p. 4, §3
+12	Authors from Scale AI and Reflection AI	480 of 731 (66%) repaired or retired (C12 uses both verbs: "repaired or retired" in the Abstract, "repaired or removed" in §3)	480; 731; 66%	C12	480 of the 731 tasks (66%) were repaired or removed	p. 4, §3
 12	Authors from Scale AI and Reflection AI	Frontier agents up to 99.4% on V2	99.4%	C12	On the 642 V2 tasks, frontier agents resolve up to 99.4%	p. 1, Abstract
 12	Authors from Scale AI and Reflection AI	Task 32%, model 2.7%, scaffold 0.3% of variance	32%; 2.7%; 0.3%	C12	the task explains 32% of the variance in solved-or-failed, the model 2.7% and the scaffold 0.3%	p. 10, §4.5
 12	Errors also hide capability	82.7% of 81 failed tasks had benchmark-attributable error	82.7%; 81	D13	82.7% of these 81 tasks contain at least one benchmark-attributable error	p. 2, §1 Introduction
@@ -107,7 +107,7 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 12	Table 3, $/task row	Double-counted cost columns		F12	Aggregate cost from root spans and print the multiplier.	p. 7, §5
 12	Table 3, grader audit row	Broken tests in SWE-bench Verified		C15	59.4% of the 138 problems contained material issues in test design and/or problem description	https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ , under 'Too narrow and too wide tests'
 12	Table 3, grader audit row	Broken SWE-bench Pro tasks		V31	we estimate that ~30% of SWE-bench Pro tasks are broken	https://openai.com/index/separating-signal-from-noise-coding-evaluations/ , introduction (before 'Methodology')
-12	Table 3, grader audit row	SWE-Bench Pro tasks repaired or removed		C12	480 of the 731 tasks (66%) were repaired or removed	p. 4, §3
+12	Table 3, grader audit row	SWE-Bench Pro tasks repaired or retired (C12 §3 says "removed", its Abstract "retired")		C12	480 of the 731 tasks (66%) were repaired or removed	p. 4, §3
 12	Table 3, grader audit row	Answer-key errors		D13	82.7% of these 81 tasks contain at least one benchmark-attributable error	p. 2, §1 Introduction
 12	Table 3, grader audit row	Ungraded episodes scored as failures; report graded fraction		F12	Report the graded fraction.	p. 7, §5
 12	Table 3, task proofs row	Empty-response agent 38% on tau-bench airline	38%	A18	a trivial agent that returns empty responses is considered successful on intentionally impossible tasks	p. 2, §1 Introduction

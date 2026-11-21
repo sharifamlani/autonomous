@@ -1,6 +1,6 @@
 % Verification, Not Capability -- a review article.
 % Build: bash scripts/literature/build_review.sh   (latexmk + bibtex; output literature/LITERATURE_REVIEW.pdf)
-\documentclass[10.5pt,letterpaper]{article}
+\documentclass[10pt,letterpaper]{article}
 
 % ---------- page and type ----------
 \usepackage[T1]{fontenc}
@@ -31,8 +31,9 @@
 \linespread{1.06}
 
 % ---------- headings ----------
-\titleformat{\section}{\normalfont\large\bfseries\color{arblue}\MakeUppercase}{\thesection.}{0.6em}{}
-\titleformat{\subsection}{\normalfont\normalsize\bfseries\color{arblue}}{\thesubsection.}{0.5em}{}
+% headings never hyphenate: ragged right, hyphenation penalty at infinity
+\titleformat{\section}{\normalfont\large\bfseries\color{arblue}\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000\MakeUppercase}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries\color{arblue}\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000}{\thesubsection.}{0.5em}{}
 \titleformat{\subsubsection}{\normalfont\normalsize\itshape}{\thesubsubsection.}{0.5em}{}
 \titlespacing*{\section}{0pt}{1.6ex plus .4ex}{0.8ex}
 \titlespacing*{\subsection}{0pt}{1.2ex plus .3ex}{0.5ex}
@@ -59,7 +60,7 @@
 
 \renewcommand{\refname}{Literature Cited}
 \setlength{\bibsep}{2pt plus 1pt}
-\renewcommand{\bibfont}{\footnotesize}
+\renewcommand{\bibfont}{\footnotesize\raggedright}  % long URLs leave no justification gaps
 
 \begin{document}
 
@@ -77,13 +78,13 @@
 \end{minipage}
 \vspace{12pt}
 
-\noindent\begin{minipage}[t]{0.25\dimexpr\linewidth+1.55in}
+\noindent\begin{minipage}[t]{0.24\dimexpr\linewidth+1.55in}
 \small\raggedright
 \textcolor{arblue}{\textbf{Keywords}}\\[2pt]
 autonomous agents, software engineering, AI scientist, verification, reproducibility, evaluation\\[10pt]
 \textcolor{arblue}{\textbf{Contents}}\\[2pt]
 \input{sections/contents}
-\end{minipage}\hfill
+\end{minipage}\hspace{0.06\dimexpr\linewidth+1.55in}%
 \begin{minipage}[t]{0.70\dimexpr\linewidth+1.55in}
 \setlength{\parindent}{1.2em}\small\noindent
 \textcolor{arblue}{\textbf{Abstract}}\\[2pt]

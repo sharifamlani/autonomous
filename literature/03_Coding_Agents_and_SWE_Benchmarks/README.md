@@ -22,7 +22,7 @@ any published resolve rate can bear.
 | C3 | Xia et al., "Agentless: Demystifying LLM-based Software Engineering Agents" | 2024 | [arXiv:2407.01489](https://arxiv.org/abs/2407.01489) | A fixed localise-repair-validate pipeline matched agents on SWE-bench Lite at $0.70 an issue; also audits Lite for leaked solutions |
 | C4 | Wang et al., "OpenHands: An Open Platform for AI Software Developers as Generalist Agents" (ICLR 2025) | 2024 | [arXiv:2407.16741](https://arxiv.org/abs/2407.16741) | An open, sandboxed agent platform; one unmodified generalist agent is competitive on software, web and assistant tasks |
 | C5 | Aleithan et al., "SWE-Bench+: Enhanced Coding Benchmark for LLMs" | 2024 | [arXiv:2410.06992](https://arxiv.org/abs/2410.06992) | Manual audit of passed patches: 32.67% leaked the solution, 31.08% passed weak tests; the rate falls from 12.47% to 3.97% once filtered |
-| C6 | Wang et al., "Are 'Solved Issues' in SWE-bench Really Solved Correctly? An Empirical Study" (ICSE 2026) | 2025 | [arXiv:2503.15223](https://arxiv.org/abs/2503.15223) | Differential testing of Verified patches: 29.6% behave unlike the reference fix; reported resolution rates inflated by 6.4 points |
+| V12 (held in 05) | Wang et al., "Are 'Solved Issues' in SWE-bench Really Solved Correctly? An Empirical Study" (ICSE 2026) | 2025 | [arXiv:2503.15223](https://arxiv.org/abs/2503.15223) | Differential testing of Verified patches: 29.6% behave unlike the reference fix; reported resolution rates inflated by 6.4 points |
 | C7 | Liang et al., "The SWE-Bench Illusion: When State-of-the-Art LLMs Remember Instead of Reason" | 2025 | [arXiv:2506.12286](https://arxiv.org/abs/2506.12286) | Models find the buggy file from the issue text alone far more often on SWE-bench than on other repos: evidence of memorisation |
 | C8 | Prathifkumar et al., "Does SWE-Bench-Verified Test Agent Ability or Model Memory?" | 2025 | [arXiv:2512.10218](https://arxiv.org/abs/2512.10218) | With deliberately too little input, Claude models do 3x better on Verified than on comparable fresh data |
 | C9 | Deng et al., "SWE-Bench Pro: Can AI Agents Solve Long-Horizon Software Engineering Tasks?" | 2025 | [arXiv:2509.16941](https://arxiv.org/abs/2509.16941) | 1,865 harder multi-file tasks incl. private repos; best public score 43.6%, commercial set under 20%; human-written specs matter |
@@ -79,7 +79,7 @@ letting it run its own app (C29, C19, C16).
    successful patches involve 'cheating' as the solutions were directly provided in the issue report or
    the comments" and "31.08% of the passed patches are suspicious patches due to weak test cases";
    filtering "drops from 12.47% to 3.97%" for SWE-Agent+GPT-4 (Abstract), and on Verified from 22.4% to
-   10.0% (Section 2.3). C6, on three strong tools with Verified: "7.8% of all patches [count] as
+   10.0% (Section 2.3). V12, on three strong tools with Verified: "7.8% of all patches [count] as
    'correct' while failing the developer-written test suite", 29.6% of plausible patches "induce
    different behavior than the ground truth patches", and "inflation of reported resolution rates by 6.4
    absolute percent points" (Abstract). C15 (vendor): "at least 59.4% of the audited problems have flawed
@@ -252,12 +252,12 @@ letting it run its own app (C29, C19, C16).
 - **Small or single-setup samples.** C11 uses one open-weight model, one harness and 50 stratified tasks;
   its authors say results are "evidence that agent harness matters, not ... universal quantitative
   predictions". C14 is an unpolished research note with 4 maintainers, one harness and a model no newer
-  than Claude Sonnet 4.5. C5's audit is one agent (SWE-Agent + GPT-4) on one set of passed patches. C6
+  than Claude Sonnet 4.5. C5's audit is one agent (SWE-Agent + GPT-4) on one set of passed patches. V12
   covers three tools. C12's variance split is for three open-weight models. Round 2: C17's 43.20% versus
   19.25% compares one agent-model pair on two different issue sets, so it also reflects task difficulty,
   not only overfitting; C27's anti-hacking effect is shown on two models (one fell 21 points, one did not),
   so the size cannot be generalised; F27's SWE-bench check is reported in one paragraph without a significance test; C24 and C25
-  are tested on SWE-bench Verified, whose own validity is in doubt (C5, C6, C15), and C25 compares
+  are tested on SWE-bench Verified, whose own validity is in doubt (C5, V12, C15), and C25 compares
   sequential and parallel scaling under one latency model.
 - **Contamination is diagnosed, not measured.** C7 and C8 infer memorisation from indirect tests (file
   guessing, n-gram overlap), which cannot separate memory from legitimate repository knowledge; C12
