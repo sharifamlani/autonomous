@@ -1,0 +1,13 @@
+{
+  "root": "../..",
+  "test_cmd": "npm test -- {filter}",
+  "mutants": [
+    {
+      "id": "G1-guard-removed",
+      "file": "src/example.ts",
+      "anchor": "if (isRunning(session)) return reuse(session);",
+      "replacement": "",
+      "tests": ["example"]
+    }
+  ]
+}
