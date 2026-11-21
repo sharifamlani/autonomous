@@ -6,8 +6,9 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{newtxtext,newtxmath}
-\usepackage[letterpaper,top=0.9in,bottom=1in,left=0.85in,right=2.35in,
-            marginparwidth=1.55in,marginparsep=0.22in,headsep=0.3in]{geometry}
+\renewcommand{\ttdefault}{lmtt}  % newtx typewriter metrics are not in TinyTeX
+\usepackage[letterpaper,top=0.9in,bottom=1in,left=0.85in,right=2.05in,
+            marginparwidth=1.35in,marginparsep=0.2in,headsep=0.3in]{geometry}
 \usepackage{microtype}
 \usepackage{xcolor}
 \definecolor{arblue}{RGB}{0,62,116}
@@ -16,7 +17,7 @@
 \usepackage{graphicx,amsmath,booktabs,tabularx,enumitem}
 \usepackage[font=small,labelfont={bf,color=arblue},labelsep=period,justification=raggedright,singlelinecheck=false]{caption}
 \usepackage{marginnote}
-\usepackage[most]{tcolorbox}
+\usepackage[skins,breakable]{tcolorbox}
 \usepackage{fancyhdr}
 \usepackage{titlesec}
 \usepackage[authoryear,round,sort]{natbib}
@@ -43,18 +44,18 @@
 \fancyhead[R]{\small\color{argray}\textit{Verification, Not Capability}}
 \fancyfoot[C]{\small\thepage}
 \renewcommand{\headrulewidth}{0.3pt}
-\fancyheadoffset[R]{1.77in}
+\fancyheadoffset[R]{1.55in}
 
 % ---------- macros used by the sections ----------
 % Margin definition, Annual Review style: \defn{Term}{definition}
 \newcommand{\defn}[2]{\marginnote{\raggedright\footnotesize\textcolor{arblue}{\textbf{#1:}} #2}}
 % Repository evidence: \repo{owner/repo}{issue} and \repofile{owner/repo}{path}
-\newcommand{\repo}[2]{\href{https://github.com/#1/issues/#2}{\texttt{\small #1}~\##2}}
-\newcommand{\repofile}[2]{\href{https://github.com/#1/blob/HEAD/#2}{\texttt{\small #1}: \texttt{\small\detokenize{#2}}}}
+\newcommand{\repo}[2]{\href{https://github.com/#1/issues/#2}{\texttt{\small\detokenize{#1}}~\##2}}
+\newcommand{\repofile}[2]{\href{https://github.com/#1/blob/HEAD/#2}{\texttt{\small\detokenize{#1}}: \texttt{\small\detokenize{#2}}}}
 % Summary Points / Future Issues boxes
 \newtcolorbox{arbox}[1]{colback=arshade,colframe=arblue,boxrule=0.6pt,arc=0pt,
   left=8pt,right=8pt,top=6pt,bottom=6pt,fonttitle=\bfseries\MakeUppercase,coltitle=white,
-  colbacktitle=arblue,title={#1},enlarge right by=1.77in,width=\linewidth+1.77in}
+  colbacktitle=arblue,title={#1},enlarge right by=1.55in,width=\linewidth+1.55in}
 
 \renewcommand{\refname}{Literature Cited}
 \setlength{\bibsep}{2pt plus 1pt}
@@ -65,8 +66,8 @@
 % ---------- title block ----------
 \thispagestyle{plain}
 \noindent{\small\color{argray}\textsc{Review Article}\hfill Autonomous Working Paper No.~1 \textperiodcentered{} November 2026}\par
-\noindent\textcolor{arblue}{\rule{\dimexpr\linewidth+1.77in}{1.2pt}}\par\vspace{10pt}
-\noindent\begin{minipage}{\dimexpr\linewidth+1.77in}
+\noindent\textcolor{arblue}{\rule{\dimexpr\linewidth+1.55in}{1.2pt}}\par\vspace{10pt}
+\noindent\begin{minipage}{\dimexpr\linewidth+1.55in}
 \raggedright
 {\LARGE\bfseries\color{arblue} Verification, Not Capability: What the Evidence Says About Autonomous Agents That Build Software and Do Research\par}
 \vspace{10pt}
@@ -76,20 +77,21 @@
 \end{minipage}
 \vspace{12pt}
 
-\noindent\begin{minipage}[t]{0.29\dimexpr\linewidth+1.77in}
+\noindent\begin{minipage}[t]{0.25\dimexpr\linewidth+1.55in}
 \small\raggedright
 \textcolor{arblue}{\textbf{Keywords}}\\[2pt]
 autonomous agents, software engineering, AI scientist, verification, reproducibility, evaluation\\[10pt]
 \textcolor{arblue}{\textbf{Contents}}\\[2pt]
 \input{sections/contents}
 \end{minipage}\hfill
-\begin{minipage}[t]{0.66\dimexpr\linewidth+1.77in}
+\begin{minipage}[t]{0.70\dimexpr\linewidth+1.55in}
+\setlength{\parindent}{1.2em}\small\noindent
 \textcolor{arblue}{\textbf{Abstract}}\\[2pt]
 \input{sections/00_abstract}
 \end{minipage}
 \vspace{14pt}
 
-\noindent\textcolor{arblue}{\rule{\dimexpr\linewidth+1.77in}{0.4pt}}
+\noindent\textcolor{arblue}{\rule{\dimexpr\linewidth+1.55in}{0.4pt}}
 \vspace{6pt}
 
 % ---------- body ----------

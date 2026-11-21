@@ -133,8 +133,6 @@ def main():
             "howpublished" if k == "other" else "journal": tex(p["venue"] or ("arXiv preprint" if k == "arxiv" else "")),
             "url": p["url"],
         }
-        if k == "arxiv":
-            fields["note"] = "arXiv:" + p["arxiv_or_doi"]
         if k == "doi":
             fields["doi"] = p["arxiv_or_doi"]
         typ = "misc" if k == "other" else "article"
