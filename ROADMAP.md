@@ -5,16 +5,16 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.10 · 2026-11-21
+> v0.11 · 2026-11-21
 
 ---
 
 ## §0 You are here
 
-- **Current phase:** Phase 5 done (literature: 9 folders, 288 papers, 216 repo candidates); Phase 6 next
-- **Current step:** waiting on Sharif for Phase 6 (GitHub survey: 216 candidates → shortlist, their process and lessons)
+- **Current phase:** Phase 6 done (203 repos surveyed, 20 cloned with process and lessons); Phase 7 next
+- **Current step:** waiting on Sharif for Phase 7 (literature review: what the 288 papers and 20 repos imply for the kit)
 - **Last update:** 2026-11-21
-- **Next action:** Phase 6 on Sharif's go.
+- **Next action:** Phase 7 on Sharif's go.
 
 ---
 
@@ -191,15 +191,15 @@ Source: CLAUDE.md §7.
 **Goal:** the GitHub survey written, the shortlist cloned and pinned, and each kept repo's process and lessons learned written down.
 **Entry gate:** Phase 5.
 **Exit gate:** `PUBLIC_REPOS.md` ≥ 60 repos with full metadata; `sync_public_repos.sh --verify` exit 0.
-**Status:** ⏸ planned
+**Status:** ✅ done (203 repos surveyed, 20 cloned and written up; no grading per D16)
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 6.1 | Merge `public/_candidates/*.tsv`; de-duplicate (was 7.1) | ⏸ | — | gate: Phase 5 | CLAUDE.md §4 |
-| 6.2 | Write `PUBLIC_REPOS.md` (metadata from `gh api`, evidence labels, license notes) (was 7.2) | ⏸ | — | gate: 6.1 | Trading `PUBLIC_REPOS.md` format |
-| 6.3 | Shortlist ≤ 20; clone pinned into `public/`; write `manifest.tsv` (was 7.3) | ⏸ | — | gate: 6.2 | `sync_public_repos.sh` |
-| 6.4 | One evaluation section per clone in `public/_README.md` (was 7.4) | ⏸ | — | gate: 6.3 | public/_README.md |
-| 6.5 | Per kept repo: its process (how agents are organised, handed work, tested, reviewed) and lessons learned (contributor guides, design docs, postmortems, recurring issues) in `public/_README.md` | ⏸ | ✅ research | gate: 6.3 | Sharif 2026-11-21 |
+| 6.1 | Merge `public/_candidates/*.tsv`; de-duplicate (was 7.1) | ✅ | — | 2026-11-21 · `19933b9` (216 → 203 unique; `merge_candidates.py --check` PASS) | CLAUDE.md §4 |
+| 6.2 | Write `PUBLIC_REPOS.md` (metadata from `gh api`, evidence labels, license notes) (was 7.2) | ✅ | — | 2026-11-21 · `25d42f4` (203 repos, live `gh api` metadata, flags, license notes, findings) | Trading `PUBLIC_REPOS.md` format |
+| 6.3 | Shortlist ≤ 20; clone pinned into `public/`; write `manifest.tsv` (was 7.3) | ✅ | — | 2026-11-21 · `a3531b4` (20 pinned; `sync_public_repos.sh --verify` exit 0) | `sync_public_repos.sh` |
+| 6.4 | One evaluation section per clone in `public/_README.md` (was 7.4) | ✅ | — | 2026-11-21 · `af194aa` (20 sections in `public/_README.md`) | public/_README.md |
+| 6.5 | Per kept repo: its process (how agents are organised, handed work, tested, reviewed) and lessons learned (contributor guides, design docs, postmortems, recurring issues) in `public/_README.md` | ✅ | — | 2026-11-21 · `af194aa` (process, lessons with file/issue cites, take/avoid per repo) | Sharif 2026-11-21 |
 
 ### Phase 7 — Literature review and CLAUDE.md v1
 
@@ -326,6 +326,12 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.11 · 2026-11-21** — Phase 6 closed: 216 candidates merged to 203 repos with live GitHub
+  metadata (`PUBLIC_REPOS.md`, `public/candidates.tsv`); 20 shortlisted, cloned pinned, and written up
+  for process and lessons (`public/_README.md`). Found: Anthropic's plugin directory refuses command
+  hooks from non-Verified organisations (claude-plugins-official #7024), so the kit ships from this
+  repo's own marketplace; InfiAgent-DABench's scorer drops unanswered questions and needs fixing
+  before the v0.1 study. Phase 7 unblocked.
 - **v0.10 · 2026-11-21** — Literature round 2 (`1fff37e`, +115, lab-first per Sharif) and a lab-by-lab
   sweep (`60dc6aa`, +32): 288 papers, 216 repo candidates. 12 cross-theme duplicates removed; ERA and
   REPRO-Bench re-added (S31, S32) after both scouts dropped them. "When not to use an evaluator" rule

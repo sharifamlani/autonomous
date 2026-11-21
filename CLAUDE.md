@@ -92,6 +92,9 @@ plain sentence ("this means you still can't X") the same day. Never only a ROADM
   permissions (`--permission-mode`, `--allowedTools`, `--permission-prompts none`).
 - Background subagents under `-p` stop at 10 minutes unless `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0`.
 - Plugin commands and agents are namespaced: `/autonomous:<name>`, `autonomous:<agent>`.
+- Anthropic's plugin directory accepts command hooks and local MCP servers only from Verified
+  organisations, with no published way to apply (claude-plugins-official #7024, found 2026-11-21).
+  The kit ships from this repo's marketplace: `/plugin marketplace add sharifamlani/autonomous`.
 
 **The team question, answered** (spike 4.8, 2026-11-21, `research/spikes/plugin_team.md`): a plugin
 **plus a small launcher script** stands up the whole team. One command creates the team folder
@@ -115,7 +118,7 @@ A folder exists on disk only once it has real content; until then it is listed h
 autonomous/
 ├── CLAUDE.md / README.md        # rules + goals / one-page overview
 ├── ROADMAP.md                   # phase table + status: the canonical execution directive
-├── PUBLIC_REPOS.md              # (planned, Phase 6) GitHub survey: metadata from gh api, evidence-labeled
+├── PUBLIC_REPOS.md              # GitHub survey: 203 repos, metadata from gh api, findings, shortlist
 ├── SHARIF_ACTION_ITEMS.md       # escalations and decisions waiting on Sharif
 ├── docs/plans/                  # one plan per ROADMAP phase: tree, flowchart, derisking, criteria, scorecard
 ├── plugin/                      # (planned, Phase 11) THE KIT: .claude-plugin/, agents/, skills/, hooks/
