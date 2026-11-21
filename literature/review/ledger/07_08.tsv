@@ -1,0 +1,158 @@
+section	sentence_start	claim	number	source_id	exact_quote	location
+7	Headline numbers have risen from	Best model on original SWE-bench resolved 1.96% of issues	1.96%	C1	Claude 2, is able to solve a mere 1.96% of the issues	p. 1, Abstract
+7	Headline numbers have risen from	One frontier agent resolves 99.4% of the repaired SWE-Bench Pro V2 split	99.4%	C12	Claude Opus 5 (run in Claude Code) resolves 99.4% of the tasks	p. 2, §1 Introduction
+7	Headline numbers have risen from	C12 is written by Scale AI, owner of SWE-Bench Pro		C12	Scale AI	p. 1, author affiliations
+7	Headline numbers have risen from	SWE-Bench Pro is Scale AI's benchmark		C9	Scale AI	p. 1, author affiliations
+7	A manual audit of passed	Solution in the issue report or comments for 32.67% of passed patches	32.67%	C5	32.67% of the successful patches involve	p. 1, Abstract
+7	A manual audit of passed	Solution was in the issue report or its comments		C5	the solutions were directly provided in the issue report or the comments	p. 1, Abstract
+7	A manual audit of passed	31.08% of passed patches passed due to weak tests	31.08%	C5	31.08% of the passed patches are suspicious patches due to weak test	p. 1, Abstract
+7	Differential testing found that	Method is differential patch testing		V12	a novel technique for differential patch testing, called PatchDiff	p. 1, Abstract
+7	Differential testing found that	29.6% of plausible patches behave differently from the developer fix	29.6%	V12	(29.6%) plausible patches induce different behavior	p. 1, Abstract
+7	Differential testing found that	Reported resolution rates inflated by 6.4 points	6.4	V12	rates by 6.4 absolute percent points	p. 1, Abstract
+7	OpenAI stopped reporting SWE-bench Verified	OpenAI stopped reporting SWE-bench Verified		C15	This is why we have stopped reporting SWE-bench Verified scores, and we recommend that other model developers do so too.	https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ (introduction, under the page title)
+7	OpenAI stopped reporting SWE-bench Verified	At least 59.4% of audited problems have flawed tests	59.4%	C15	at least 59.4% of the audited problems have flawed test cases that reject functionally correct submissions	https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ (introduction, under the page title)
+7	OpenAI stopped reporting SWE-bench Verified	Audited subset of 138 problems chosen because o3 did not consistently solve them	138	C15	We conducted an audit of 138 SWE-bench Verified problems that OpenAI o3 did not consistently solve over 64 independent runs.	https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ (section: Too narrow and too wide tests)
+7	OpenAI stopped reporting SWE-bench Verified	Owner of SWE-Bench Pro repaired or removed 480 of 731 tasks	480; 731	C12	480 of the 731 tasks (66%) were repaired or removed	p. 4, §3
+7	Contamination adds to this	Same agent and model scored 43.20% on Verified	43.20%	C17	43.20%, more than twice the score achieved on SWE-bench-Live	p. 7, §4.2
+7	Contamination adds to this	Same agent and model scored 19.25% on fresh issues	19.25%	C17	SWE-bench-Live is only 19.25%	p. 7, §4.2
+7	Contamination adds to this	Same setup on both benchmarks		C17	using the exact same setups	p. 7, §4.2
+7	In a research note in	4 maintainers reviewed 296 agent-written PRs	4; 296	C14	we had 4 active maintainers from 3 SWE-bench Verified repositories review 296 AI-generated pull requests	https://metr.org/notes/2026-03-10-many-swe-bench-passing-prs-would-not-be-merged-into-main/ (section: Introduction)
+7	In a research note in	Merge decisions about 24 points below grader scores	24	C14	maintainer merge decisions are about 24 percentage points lower than SWE-bench scores supplied by the automated grader	https://metr.org/notes/2026-03-10-many-swe-bench-passing-prs-would-not-be-merged-into-main/ (section: Introduction)
+7	On Vibe Code Bench, whose	100 web-application specifications	100	C19	100 web application specifications	p. 1, Abstract
+7	On Vibe Code Bench, whose	964 workflows graded by a browser agent	964	C19	964 browser-based workflows comprising 10,131 substeps, evaluated against deployed applications by an autonomous browser agent	p. 1, Abstract
+7	On Vibe Code Bench, whose	Best of 16 models reaches 61.8%	16; 61.8%	C19	Across 16 frontier models, the best achieves 61.8% accuracy	p. 1, Abstract
+7	On Vibe Code Bench, whose	Top model passes 61.8% of workflows	61.8%	C19	passes 61.8% of workflows	p. 1, §1 Introduction
+7	On Vibe Code Bench, whose	All-model average falls from 34.18% to 13.49% with email and Stripe integrations	34.18%; 13.49%	C19	drops from 34.18% to 13.49%	p. 6, §4.3 Integrations
+7	On Vibe Code Bench, whose	Comparison is no-integration apps vs apps needing email and payments		C19	From no-integration apps to apps requiring both email and Stripe	p. 6, §4.3 Integrations
+7	On NL2Repo-Bench, where one	Single requirements document, empty workspace, Python library		C22	Given only a single natural-language requirements document and an empty workspace	p. 1, Abstract
+7	On NL2Repo-Bench, where one	Every model averages below 40.5% of tests passed	40.5%	C22	all models achieve an average test pass rate below 40.5%	p. 9, §4.2
+7	On NL2Repo-Bench, where one	Strongest model fully passes for five of 104 repositories in a single run	5; 104	C22	Across the entire set of 104 tasks, the strongest model fully passes the official	p. 9, §4.2
+7	On NL2Repo-Bench, where one	Five repositories, single run	5	C22	pytest suite for only five repositories in a single run	p. 9, §4.2
+7	Android Bench, on 30 long	30 tasks written by Android developers	30	C29	It has 30 tasks written by Android developers	p. 1, Abstract
+7	Android Bench, on 30 long	Hidden tests in the closed variant		C29	Each task has a closed variant, where the tests are hidden	p. 1, Abstract
+7	Android Bench, on 30 long	Best closed-variant pass rate 41%, mean partial score 0.85	41%; 0.85	C29	passes 41% of tasks with a mean partial score of 0.85	p. 1, Abstract
+7	Android Bench, on 30 long	Most failed runs miss a requirement		C29	Most failed runs miss a requirement rather than fail to build.	p. 1, Abstract
+7	On 1,488 paid freelance tasks	1,488 freelance tasks	1,488	C16	1,488 freelance software engineering jobs from Upwork	p. 1, Abstract
+7	On 1,488 paid freelance tasks	Tasks carry real payouts		C16	valued at $1 million USD total in real	p. 1, Abstract
+7	On 1,488 paid freelance tasks	Best model earned $208,050 of $500,800 on Diamond set	$208,050; $500,800	C16	earning a total of $208,050 out of $500,800 possible on the SWE-Lancer Diamond set	p. 3, §1 Introduction
+7	On 1,488 paid freelance tasks	Study is by OpenAI	2025	C16	samuelgm@openai.com	p. 1, author correspondence footnote
+7	In Android Bench, moving from	Closed variant: acceptance criteria, hidden tests		C29	The agent gets high-level requirements and acceptance criteria	p. 11, §5.2 Closed and open variants
+7	In Android Bench, moving from	Open variant: detailed requirements plus failing tests		C29	The agent gets detailed requirements and the failing verification tests	p. 11, §5.2 Closed and open variants
+7	In Android Bench, moving from	Best agent closed-variant pass rate 22.7% (claude-fable-5-1)	22.7%	C29	22.7%	p. 12, §5.2 table, row claude-fable-5-1 (claude-code), column Closed pass@1
+7	In Android Bench, moving from	Best agent open-variant pass rate 84.0%	84.0%	C29	84.0%	p. 12, §5.2 table, row claude-fable-5-1 (claude-code), column Open pass@1
+7	In Android Bench, moving from	Best open-variant pass rate 84%	84%	C29	With tests available, the best pass rate is 84% (claude-fable-5-1)	p. 1, Abstract
+7	In Android Bench, moving from	Largest multiplier 6.7x	6.7x	C29	6.7x	p. 12, §5.2 table, row kimi-k3 (kimi-code), column pass@1 Multiplier
+7	In Android Bench, moving from	Smallest multiplier 2.6x	2.6x	C29	2.6x	p. 12, §5.2 table, row gemini-3.7-flash (antigravity-sdk), column pass@1 Multiplier
+7	Removing the human-written requirements and	GPT-5 with requirements and interface 25.9%	25.9%	C9	25.9%	p. 8, Table 3, row OPENAI GPT-5 (HIGH), column PROBLEM STATEMENT, REQUIREMENTS, INTERFACE
+7	Removing the human-written requirements and	GPT-5 without human augmentation 8.4%	8.4%	C9	8.40%	p. 8, Table 3, row OPENAI GPT-5 (HIGH), column PROBLEM STATEMENT ONLY
+7	Removing the human-written requirements and	Problem-statement-only setting removes human augmentation		C9	The setting PROBLEM STATEMENT ONLY is without human augmentation.	p. 8, Table 3 caption
+7	On Vibe Code Bench, the number	Browser calls per app correlate with accuracy, r = 0.72	0.72	C19	show a positive correlation with accuracy (Pearson ... 0.72)	p. 7, §5.1
+7	On Vibe Code Bench, the number	Correlation is across the 16 models	16	C19	Across the 16 evaluated models	p. 7, §5.1
+7	In an engineering post by	Post is Anthropic's, about its own model (Opus 4.5)		T28	For the first version of this harness, I used Claude Opus 4.5, running user prompts against both the full harness and a single-agent system for comparison.	https://www.anthropic.com/engineering/harness-design-long-running-apps (section: Running the harness)
+7	In an engineering post by	Evaluator clicks through the running application		T28	the evaluator used the Playwright MCP to click through the running application the way a user would	https://www.anthropic.com/engineering/harness-design-long-running-apps (section: The architecture)
+7	In an engineering post by	More than 20x cost; output judged clearly better	20x	T28	The harness was over 20x more expensive, but the difference in output quality was immediately apparent.	https://www.anthropic.com/engineering/harness-design-long-running-apps (section: Running the harness)
+7	In an engineering post by	Full harness 6 hours, $200	$200; 6 hours	T28	$200	https://www.anthropic.com/engineering/harness-design-long-running-apps (section: Running the harness, table row 'Full harness', cells '6 hr' and '$200')
+7	In an engineering post by	Solo run 20 minutes, $9	$9; 20 minutes	T28	$9	https://www.anthropic.com/engineering/harness-design-long-running-apps (section: Running the harness, table row 'Solo', cells '20 min' and '$9')
+7	In an engineering post by	Author credits separating worker from judge		T28	Separating the agent doing the work from the agent judging it proves to be a strong lever to address this issue.	https://www.anthropic.com/engineering/harness-design-long-running-apps (section: Why naive implementations fall short)
+7	The commit0 benchmark strips function	57 Python libraries graded by their own unit tests	57	commit-0/commit0	The benchmark consists of 57 core Python libraries. The challenge is to rebuild these libraries and pass their unit tests.	README.md line 22 (@1123db3)
+7	The commit0 benchmark strips function	Function bodies stripped to NotImplementedError stubs		commit-0/commit0	You need to implement all functions with 'NotImplementedError('IMPLEMENT ME HERE')' and pass the unit tests.	agent/configs/base.yaml line 8 (@1123db3)
+7	An issue reports that agents	Agents could read originals from git history		commit-0/commit0#113	Agents can exploit the benchmark by accessing git history to retrieve original function implementations instead of writing them from scratch.	issue #113 body
+7	An issue reports that agents	and paste them in		commit-0/commit0#113	Copy-paste the original code instead of implementing from scratch	issue #113 body
+7	An issue reports that agents	PR to disallow test-file changes closed without merge		commit-0/commit0#100	disallow test file changes	PR #100 title; gh api repos/commit-0/commit0/pulls/100 -> state=closed, merged=false (checked 2026-11-21)
+7	The owner of SWE-Bench Pro	32 of 642 runs of one model contacted code hosts with network open	32; 642	C12	With the network open, 32 of 642 Claude Opus 5 trajectories contacted code hosts	p. 8, §3.5
+7	The owner of SWE-Bench Pro	Scripted agent replacing python3 scores 1	1	C12	a scripted agent that edits no source file and replaces python3 with a script printing PASSED scores 1	p. 8, §3.5 Grading
+7	The owner of SWE-Bench Pro	Verifier ran inside the agent's sandbox		C12	The original harness ran the verifier in the sandbox the agent had just used.	p. 8, §3.5 Grading
+7	Terminal-Bench requires an oracle solution	Oracle solution run to ensure solvability		C18	oracle solution to ensure solvability	p. 4, §2.2
+7	Terminal-Bench requires an oracle solution	No-op agent should fail		C18	agent should fail the task	p. 4, §2.2
+7	The harbor harness from the	Harbor is from the Terminal-Bench team		harbor-framework/harbor	Harbor is a framework from the creators of [Terminal-Bench](https://www.tbench.ai) for evaluating and optimizing agents and language models.	README.md line 10 (@96c86af)
+7	The harbor harness from the	Adapters must reach 100% oracle reward	100%	harbor-framework/harbor	Run your adapter with the oracle agent and confirm **100% reward on all tasks**.	adapters/ADAPTER_CONTRIBUTING.md line 251 (@96c86af)
+7	The harbor harness from the	Tests copied in only after the agent runs		harbor-framework/harbor	The /tests folder is automatically copied over by the harness after the agent runs	src/harbor/cli/quality_checker/default-rubric.toml line 38 (@96c86af)
+8.1	The founding system, The AI	Pipeline: ideas, code, experiments, paper, simulated review		S1	generates novel research ideas, writes code, executes experiments, visualizes results	p. 1, Abstract
+8.1	The founding system, The AI	Simulated review step		S1	then runs a simulated review process for evaluation	p. 1, Abstract
+8.1	The founding system, The AI	Less than $15 per paper	$15	S1	at a meager cost of less than $15 per paper	p. 1, Abstract
+8.1	Its successor replaced human-written templates	v2 removes reliance on human-authored templates		S2	human-authored code templates	p. 1, Abstract
+8.1	Its successor replaced human-written templates	v2 uses tree search		S2	agentic tree-search	p. 1, Abstract
+8.1	One of three fully AI-written	One of three manuscripts scored 6.33	3; 6.33	S33	One of the three AI-generated manuscripts received an average score of 6.33	p. 5, Results (workshop submission)
+8.1	One of three fully AI-written	One manuscript scored 6.33 at the ICLR workshop	6.33	S2	one manuscript achieved an average reviewer score of 6.33	p. 2, §1 Introduction
+8.1	One of three fully AI-written	Submissions were fully AI-generated		S33	without any human modification	p. 5, Results (workshop submission)
+8.1	One of three fully AI-written	Review was blind		S33	Reviewers were informed that some of the submissions were AI-generated, but not which ones	p. 5, Results (workshop submission)
+8.1	One of three fully AI-written	Above the workshop's average acceptance threshold		S33	placing it above the workshop's average acceptance threshold	p. 5, Results (workshop submission)
+8.1	One of three fully AI-written	Withdrawn after review as agreed in advance		S33	would be withdrawn after peer review	p. 7, Methods
+8.1	Agent Laboratory reports a full	About $2.33 per paper	$2.33	S3	only $2.33 USD per	p. 3, §1 Introduction (contributions)
+8.1	Agent Laboratory reports a full	Kosmos runs up to 12 hours of data-analysis cycles	12	S13	Kosmos runs for up to 12 hours performing cycles of parallel data analysis	p. 1, Abstract
+8.1	Agent Laboratory reports a full	CodeScientist runs genetic search over research articles and codeblocks		S34	a form of genetic search jointly over ... research articles and codeblocks defining common actions in a domain	p. 1, Abstract
+8.1	In karpathy/autoresearch, an agent edits	Agent edits only train.py		karpathy/autoresearch	- Modify `train.py` — this is the only file you edit.	program.md line 26 (@228791f)
+8.1	In karpathy/autoresearch, an agent edits	Five-minute training budget	5 minutes	karpathy/autoresearch	TIME_BUDGET = 300        # training time budget in seconds (5 minutes)	prepare.py line 31 (@228791f)
+8.1	In karpathy/autoresearch, an agent edits	Keep change only if val_bpb improved		karpathy/autoresearch	8. If val_bpb improved (lower), you "advance" the branch, keeping the git commit	program.md line 103 (@228791f)
+8.1	OpenResearch wraps coding agents in	Answered nodes are frozen		alphaXiv/OpenResearch	good, bad, or `nan` — the node is **frozen**.	agent-skills/orx-experiment-tree/SKILL.md line 38 (@48f42c4)
+8.1	The AI-Scientist-v2 README says the	v1 high success rates, v2 lower success rates		SakanaAI/AI-Scientist-v2	v1 follows well-defined templates, leading to high success rates, while v2 takes a broader, more exploratory approach with lower success rates.	README.md line 23 (@96bd516)
+8.1	Kosmos's developers report 79.4\% of	Kosmos paper is by its developer (Edison Scientific)		S13	Edison Scientific Inc., San Francisco, CA, USA	p. 1, author affiliations
+8.1	Kosmos's developers report 79.4\% of	79.4% of statements accurate	79.4%	S13	79.4% of statements in Kosmos reports to be accurate	p. 1, Abstract
+8.1	Kosmos's developers report 79.4\% of	57.9% of synthesis statements	57.9%	S13	57.9% of synthesis statements	p. 4, §2.1
+8.1	CodeScientist's authors judged 6 of	6 of 19 discoveries judged minimally sound and incrementally novel	6; 19	S34	6 of which were judged as being both at least minimally sound and incrementally novel	p. 1, Abstract
+8.1	CodeScientist's authors judged 6 of	19 discoveries returned	19	S34	with the system returning 19 discover	p. 1, Abstract
+8.2	An independent run of the	Five of twelve experiments failed from coding errors	5; 12	S9	five out of twelve proposed experiments (42%) failed due to coding errors	p. 1, Abstract
+8.2	An independent run of the	Four of seven manuscripts had incorrect or hallucinated numbers	4; 7	S9	Four of seven manuscripts (57%) contained incorrect or hallucinated numerical	p. 7, §2.5
+8.2	An independent run of the	Reviewer identified none of the serious issues		S9	the reviewer agent did not identify any of the truly serious issues	p. 8, §2.6
+8.2	Controlled tests of AI Scientist	Internal reward sees test-set evaluations		S10	the internal reward mechanism for both systems has access to evaluations on the test set	p. 2, §1 Introduction
+8.2	Controlled tests of AI Scientist	Favors strong test performance even when validation is weak		S10	systematically favors experiments with strong test performance, even when training or validation results are weak	p. 2, §1 Introduction
+8.2	Of 945 successful Agent Laboratory	945 runs, 82.4% chose the first four benchmarks	945; 82.4%	S10	among the 945 successful runs under the setting with SOTA reference, 82.4% selected the first four	p. 9, §4 (benchmark selection)
+8.2	Of 945 successful Agent Laboratory	Regardless of order		S10	regardless of the benchmark order	p. 9, §4 (benchmark selection)
+8.2	FabScore, which checks each reported	Claims evaluated by code execution		S15	employs a coding agent to evaluate each claim through static analysis and code execution	p. 1, Abstract
+8.2	FabScore, which checks each reported	144 papers	144	S15	FABSCORE to 144 papers	p. 1, Abstract
+8.2	FabScore, which checks each reported	Claim-level fabrication 21.2%	21.2%	S15	fabrication rate to be 21.2%	p. 1, Abstract
+8.2	FabScore, which checks each reported	70.4% of 54 real conference submissions contain fabrications	70.4%; 54	S15	70.4% of the 54 real conference submissions contain fabrications	p. 2, Figure 1 caption
+8.2	FabScore, which checks each reported	Submissions are AI-authored		S15	over 70% of AI-authored real conference	p. 1, Abstract
+8.2	FabScore, which checks each reported	AI reviewers miss over 85% of detected fabrications	85%	S15	over 85% of FABSCORE-detected fabrications are missed by AI reviewers	p. 3, §1 Introduction (contributions)
+8.2	On MLR-Bench, Claude Code reported	8 of 10 tasks by Claude Code	8; 10	S16	in 8 out of 10 tasks conducted by Claude Code	p. 8, §5
+8.2	On MLR-Bench, Claude Code reported	Synthesized or placeholder data		S16	the reported results were based on synthesized or placeholder data	p. 8, §5
+8.2	On MLR-Bench, Claude Code reported	Persists when told not to fabricate		S16	this behavior persists even when the agent is explicitly instructed not to fabricate	p. 9, §5
+8.2	A code comment in CodeScientist	Simulating is the most common error		allenai/codescientist	# The most common error in experiment building is that the LLM can't figure out how to do something, so it will just "simulate" it.	src/CodeBlockStore.py line 1632 (@778b146)
+8.2	AI-Scientist-v2's guard against invented results	Write-up prompt instruction against results not in logs		SakanaAI/AI-Scientist-v2	- Do not hallucinate new citations or any results not in the logs.	ai_scientist/perform_writeup.py line 405 (@96bd516)
+8.3	Google's system for writing empirical	System is Google's		S31	Google Research, Cambridge, MA 02142, USA	p. 1, author affiliations
+8.3	Google's system for writing empirical	Selects on training set, reports on holdout		S31	the best solution based on the performance on this training set, and report the performance on the holdout	p. 5, Results (single-cell batch integration)
+8.3	Google's system for writing empirical	40 methods beat best known single-cell batch integration method	40	S31	ERA created 40 methods that beat the best known method for scRNA-seq batch integration	p. 12, Discussion
+8.3	Google's system for writing empirical	14 COVID-19 models outperformed CDC ensemble	14	S31	ERA generated 14 models that outperformed the CDC ensemble	p. 1, Abstract
+8.3	In a blog post by Anthropic	Nine copies of Claude Opus 4.6	9	S20	we began with nine copies of Claude Opus 4.6	https://www.anthropic.com/research/automated-alignment-researchers (section: Our setup)
+8.3	In a blog post by Anthropic	Weak-to-strong supervision task		S20	Our new study focuses on a problem known as “weak-to-strong supervision”, a problem that mirrors the one of	https://www.anthropic.com/research/automated-alignment-researchers (section: Our setup)
+8.3	In a blog post by Anthropic	Final PGR 0.97	0.97	S20	achieving a final PGR of 0.97	https://www.anthropic.com/research/automated-alignment-researchers (section: Results)
+8.3	In a blog post by Anthropic	Two researchers, seven days	2; 7	S20	Two of our researchers spent seven days iterating on four of the most promising generalization methods from prior research.	https://www.anthropic.com/research/automated-alignment-researchers (section: Results)
+8.3	In a blog post by Anthropic	Humans reached PGR 0.23	0.23	S20	achieved a PGR of 0.23	https://www.anthropic.com/research/automated-alignment-researchers (section: Results)
+8.3	In a blog post by Anthropic	Cost about $18,000	$18,000	S20	This cost about $18,000 in tokens and model training expenses	https://www.anthropic.com/research/automated-alignment-researchers (section: Results)
+8.3	The method gave no statistically	No significant gain on production model		S20	didn’t lead to a statistically significant improvement	https://www.anthropic.com/research/automated-alignment-researchers (section: Results)
+8.3	The method gave no statistically	Problem chosen as unusually well-suited to automation		S20	We deliberately chose a problem that is unusually well-suited to automation	https://www.anthropic.com/research/automated-alignment-researchers (section: Implications)
+8.3	A follow-up reports 26\% to	26% to 96% of safety gap across ten failures	26%; 96%; 10	S21	Automated research closed 26% to 96% of the safety gap across ten alignment failures	https://www.anthropic.com/research/automated-researchers-mitigate-alignment-failures (figure caption, section: Successfully mitigating diverse alignment failures)
+8.3	AlphaEvolve's evaluator-scored loop found a	Heuristic for data center scheduling		A25	Improving data center scheduling	p. 13, §3.3.1
+8.3	AlphaEvolve's evaluator-scored loop found a	Recovers on average 0.7% of fleet-wide compute	0.7%	A25	continuously recovers on average 0.7% of Google's fleet-wide	p. 14, §3.3.1
+8.3	AlphaEvolve's evaluator-scored loop found a	Main limitation: needs an automated evaluator		A25	The main limitation of AlphaEvolve is that it handles problems for which it is possible to	p. 21, §6 Discussion
+8.3	In one study, selecting final	Test-based selection would raise medal rate 9 to 13 points	9; 13	R26	would increase the medal rate by 9 to 13 % (absolute scale)	p. 2, §1 Introduction
+8.3	In another, removing contaminated tasks	Average speedup 3.13x to 1.49x	3.13x; 1.49x	S28	is reduced from 3.13x to 1.49x	p. 4, §3
+8.3	In another, removing contaminated tasks	Fake 50-120x speedups passed verification	50-120x	S28	even achieve fake speedups of 50-120x	p. 4, §3
+8.3	In another, removing contaminated tasks	Fakes pass verification		S28	which pass KernelBench's verification process	p. 4, §3
+8.3	An issue on karpathy/autoresearch lists	Four ways to lower the score	4	karpathy/autoresearch#599	**Four ways the number can move without a better model:**	issue #599 body
+8.3	An issue on karpathy/autoresearch lists	Agent owns the file that calls the evaluator		karpathy/autoresearch#599	But the agent owns `train.py`, and nothing binds that printed number to real	issue #599 body
+8.3	AI-Scientist-v3 raises an error unless	Disjoint seeds enforced		SakanaAI/AI-Scientist-v3	raise TaskContractError("protocol search and final seeds must be disjoint")	src/investigation/task_contract.py line 629 (@f8ae47d)
+8.3	RD-Agent copies the grader and	Answer file injected at grading		microsoft/RD-Agent	workspace.inject_files(**{"submission_test.csv": (eval_path / "submission_test.csv").read_text()})	rdagent/scenarios/data_science/test_eval.py line 75 (@484776c)
+8.3	RD-Agent copies the grader and	Grader and answer file deleted after		microsoft/RD-Agent	workspace.inject_files(**{file: workspace.DEL_KEY for file in ["grade.py", "submission_test.csv"]})	rdagent/scenarios/data_science/test_eval.py line 80 (@484776c)
+8.3	Moving the evaluator outside is	Repair agent made evaluator non-deterministic		SakanaAI/AI-Scientist-v3#5	Repair agent can make the evaluator non-deterministic, and nothing detects it	issue #5 title
+8.3	Moving the evaluator outside is	Score spread larger than gains	0.2; 0.15	SakanaAI/AI-Scientist-v3#5	The spread between two evaluations of an identical program was about 0.2 in `combined_score`, larger than the real improvements the search was finding (about 0.15).	issue #5 body
+8.3	On PaperBench the best agent	Best agent 21.0%	21.0%	S7	with a simple agentic scaffold achieves a score of 21.0% on PaperBench	p. 2, §1 Introduction
+8.3	On PaperBench the best agent	PhDs 41.4% on 3-paper subset	41.4%; 3	S7	On a 3-paper subset, our human baseline of ML PhDs (best of 3 attempts) achieved 41.4%	p. 2, §1 Introduction
+8.3	On PaperBench the best agent	o1 26.6% on same subset	26.6%	S7	compared to 26.6% achieved by o1 on the same subset	p. 2, §1 Introduction
+8.3	On CORE-Bench Hard, one agent's	pass^1 22.22% and pass^3 8.89% for CORE-Agent with GPT-4o	22.22%; 8.89%	S8	accuracy of CORE-Agent with GPT-4o on CORE-Bench-Hard was 22.22% and the ... accuracy was 8.89%	p. 20, Appendix C.4
+8.3	On CORE-Bench Hard, one agent's	pass^k defined as all k trials successful	3	S8	defined as the chance that all k task trials are successful	p. 20, Appendix C.4
+8.3	ReplicationBench's best model averaged 22\%	Best model averages 22%	22%	S26	Claude 4.5 Sonnet, achieves an average score of 22%	p. 7, §5.1
+8.3	ReplicationBench's best model averaged 22\%	REPRO-Bench best 21.4%, below 25% random	21.4%; 25%	S32	accuracy of 21.4%, which is even lower than the expected 25% accuracy of random guessing	p. 2, §1 Introduction
+8.4	In controlled tests, an LLM	Auditor method is LLM-based		S10	LLM-based auditing method	p. 3, §1 Introduction
+8.4	In controlled tests, an LLM	Paper-only auditing 55% accuracy	55%	S10	classification accuracy 55%, F1 score 0.51	p. 3, §1 Introduction (main findings)
+8.4	In controlled tests, an LLM	Paper-only is the evaluation target		S10	Using only the final paper as the evaluation target	p. 3, §1 Introduction (main findings)
+8.4	In controlled tests, an LLM	With logs and code 82% accuracy	82%	S10	Binary classification accuracy 82%, F1 score 0.81	p. 3, §1 Introduction (main findings)
+8.4	In controlled tests, an LLM	Log traces help		S10	Access to log traces substantially enhances detection accuracy	p. 3, §1 Introduction (main findings)
+8.4	Agent Laboratory's automated reviewers scored	Automated 6.1 vs human 3.8	6.1; 3.8	S3	(6.1/10 vs. 3.8/10 overall)	p. 2, §1 Introduction (findings)
+8.4	In a randomized study at	Randomized study		S29	a large randomized control study	p. 1, Abstract
+8.4	In a randomized study at	Feedback posted to 18,946 reviews	18,946	S29	we posted feedback to 18,946	p. 5, §3 Statistics
+8.4	In a randomized study at	27% of reviewers who received feedback updated	27%	S29	27% of reviewers who received feedback updated their reviews	p. 1, Abstract
+8.4	That suggests reviewers found the	Reviewers found feedback helpful		S29	This suggests that many reviewers found the AI-generated feedback sufficiently helpful to merit updating their reviews.	p. 1, Abstract
+8.4	On AstaBench, step scores reach	Step scores up to about 70%	70%	S19	the average research step completion scores appear reasonable (scores up to	p. 10, §5 End-to-End Discovery
+8.4	On AstaBench, step scores reach	Completing all steps near zero		S19	likelihood of completing all experiment steps remains near zero	p. 10, §5 End-to-End Discovery
+8.4	On AstaBench, step scores reach	Maximum 5%	5%	S19	reaching a maximum of 5%	p. 10, §5 End-to-End Discovery
