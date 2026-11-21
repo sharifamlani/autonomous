@@ -11,6 +11,7 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 §4	ChatDev's quality score of 0.3953	Comparison covers single-agent and multi-agent paradigms		T1	encompassing both single-agent	p. 6, Table 1 caption
 §4	An annotation study of 1,642	1,642 annotated traces from 7 frameworks	1,642; 7	T7	comprising 1642 annotated execution traces collected from 7 popular MAS frameworks	p. 4, §3 MAST-Data
 §4	An annotation study of 1,642	Failure rates 41% to 86.7% on 7 open-source MAS	41%; 86.7%	T7	41% to 86.7% failure rate on 7 state-of-the-art (SOTA) open-source MAS	p. 2, §1 Introduction
+§4	The authors of a failure taxonomy built from 1,642	Failure rates come from per-system benchmarks that differ and are not directly comparable		T7	Performances are measured on different benchmarks, therefore they are not directly comparable.	p. 19, Figure 5 caption
 §4	In TeamBench, a study by	TeamBench authors at MIT, Google Research, Google DeepMind (lab-authored)		T18	1MIT 2Google Research 3Google DeepMind	p. 1, title block
 §4	In TeamBench, a study by	Roles enforced by operating-system permissions		T18	operating system-enforced role separation	p. 1, Abstract
 §4	In TeamBench, a study by	Team vs solo +0.5 points, p = 0.20, 68 of 155 tasks	+0.5; 0.20; 68; 155	T18	Mean team-vs-Solo uplift is +0.5 points (p = 0.20, paired bootstrap, n = 10,000), and the team wins on 68 of 155 tasks	p. 6, §3.3 The Contribution of Each Role
@@ -18,6 +19,7 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 §4	An academic comparison of six	Six workflows vs single controller across ten benchmarks	six; ten	T25	compare six multi-agent workflow configurations against its single-agent reference, BenchAgent Core, across ten reasoning, coding, and	p. 1, Abstract
 §4	An academic comparison of six	GPT-4.1, three runs	three	T25	The primary study uses GPT-4.1 and three runs on fixed task sets	p. 1, Abstract
 §4	An academic comparison of six	Five of six trail by 1.71-8.76 points	1.71-8.76	T25	the other five MAS trail by 1.71–8.76 percentage points	p. 1, Abstract
+§4	An academic comparison of six multi-agent workflows	One workflow (EvoAgent) leads the controller by about three points	79.70%; 76.65%	T25	EvoAgent reaches 79.70% mean pooled accuracy versus 76.65% for Core and exceeds Core in all three runs	p. 1, Abstract
 §4	An academic comparison of six	Authors are university-based (academic)		T25	Beijing University of Posts and Telecommunications	p. 1, title block
 §4	A single-author meta-analysis of nine	Single author		T9	The archive record lists the author as Seyed Mahmoud Sajjadi Mohammadabadi	p. 26, Data availability statement
 §4	A single-author meta-analysis of nine	Synthesis of nine studies	nine	T9	We synthesize nine primary empirical evaluations comprising 516 unique multi-agent configurations	p. 1, Abstract
@@ -29,16 +31,17 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 §4	In Google's scaling study, multi-agent	Range +80.8% to -70.0% vs single agent	+80.8%; -70.0%	H11	Relative performance change compared to single-agent baseline ranges from +80.8% on decomposable financial reasoning to −70.0% on sequential planning	p. 1, Abstract
 §4	In Google's scaling study, multi-agent	Gaia2/ARE is by Meta		A26	Meta Superintelligence Labs	p. 1, title block
 §4	In Google's scaling study, multi-agent	Sub-agent collaboration helps weaker models		A26	scaling up the number of agentic collaborators on Gaia2 tasks improves best-of-n scaling laws for weaker models	p. 15, §4 (Agent2Agent)
+§4	Task and model moderate the result	Agent2Agent collaboration benefits weaker models more than frontier systems		A26	benefiting weaker models such as Llama 3.3 and Llama 4 Maverick more than stronger frontier systems	p. 16, §4 results
 §4	In Google's scaling study, multi-agent	No cost-normalized gain for Claude 4 Sonnet		A26	For Claude 4 Sonnet, increasing the collaborator ratio r – and thus the degree of task decomposition – does not improve cost-normalized performance	p. 19, §4.4
-§4	In Google's scaling study, multi-agent	Terminal-Bench authors include Anthropic		C18	2Laude Institute, 3Anthropic	p. 1, title block
+§4	In Google's scaling study, multi-agent	Terminal-Bench authors are led from Stanford and the Laude Institute (one Anthropic author)		C18	1Stanford University, 2Laude Institute, 3Anthropic	p. 1, title block
 §4	In Google's scaling study, multi-agent	Model selection more important than scaffold		C18	model selection is usually more important than agent scaffold	p. 7, §4 Results
 §4	A separate test-writing agent raised	Single agent 71.3% vs AgentCoder 79.9% pass@1 HumanEval	71.3%; 79.9%	T4	the pass@1 of the single agent has only 71.3% and 79.4% pass@1 for HumanEval and MBPP, while the multi-agent setup (AgentCoder) obtains 79.9% and 89.9%	p. 9, §4.5 RQ4
-§4	A separate test-writing agent raised	Same-agent tests biased by code		T4	can be biased by the code	p. 9, §4.5 RQ4
+§4	A separate test-writing agent raised	Authors give tests biased by the code as one of two possible reasons		T4	There are two possible reasons for the superiority of the multi-agent setup ... the tests designed by the same agent that generates the code can be biased by the code	p. 9, §4.5 RQ4
 §4	A separate test-writing agent raised	MAGIS 13.94% vs w/o QA 10.63% resolved	13.94%; 10.63%	T6	MAGIS 97.39 13.94 MAGIS (w/o QA) 92.71 10.63	p. 7, Table 2 (ablation)
 §4	In TeamBench's role-mixing pool, the	Role-mixing pool used for verifier vs grader		T18	every Verifier verdict is paired with the deterministic grader	p. 6, §3.3 The Contribution of Each Role
 §4	In TeamBench's role-mixing pool, the	Verifier approves 49.4% of grader-rejected submissions, n = 1,083	49.4%; 1,083	T18	approves 49.4% of submissions that the grader rejects (Wilson 95% CI [45.9, 52.9], n = 1,083)	p. 6, §3.3 The Contribution of Each Role
 §4	In TeamBench's role-mixing pool, the	Removing verifier raises mean partial score 5.5 points	5.5	T18	removing the Verifier from the Full Team raises mean partial score by 5.5 points	p. 6, §3.3 The Contribution of Each Role
-§4	Handoffs also lose information: only	Spec-critical token recall 0.24 in executor	0.24	T18	mean recall of spec-critical tokens is 0.79 in the Planner channel but only 0.24 in the Executor tool inputs and outputs	p. 6, §3.4 Where Teams Benefit
+§4	Handoffs also lose information: only	Mean recall of spec-critical tokens falls from 0.79 (Planner channel) to 0.24 (Executor tool inputs and outputs)	0.79; 0.24	T18	mean recall of spec-critical tokens is 0.79 in the Planner channel but only 0.24 in the Executor tool inputs and outputs	p. 6, §3.4 Where Teams Benefit
 §4	Handoffs also lose information: only	Two Gemini-2.5 models used		T12	two leading LLMs Gemini-2.5-Pro and Gemini-2.5-Flash	p. 5, §4 Experimental Setup
 §4	Handoffs also lose information: only	Single agent mean 45.72%, cost $6.58	45.72%; 6.58	T12	Mean 26.14 22.59 45.72% 35.47 10.94 76.39% 12.93 94.85 6.58	p. 7, Table 3
 §4	Handoffs also lose information: only	Developer-tester mean 49.48%, cost $6.64	49.48%; 6.64	T12	Mean 28.95 17.72 49.48% 29.69 8.51 77.66% 12.19 121.01 6.64	p. 7, Table 3
@@ -51,18 +54,19 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 §4	Parallel Claude Code agents passed	Contradictory instances, vs oracle	62%; 16%	T22	Joint pass rates drop significantly for Claude Opus 4.8, from 62% to 16% on contradictory instances	p. 8, §4.1
 §4	Parallel Claude Code agents passed	Oracle is a single agent given all tasks		T22	We compare a single-agent oracle given the combined set of tasks	p. 1, Abstract
 §4	Parallel Claude Code agents passed	Single hand-off 16% to 54%	54%	T22	joint success rises significantly from 16% to 54% on contradictory instances	p. 8, §4.1
-§4	Parallel Claude Code agents passed	Token cost 1.18 times oracle	1.18	T22	1.17 to 1.18 times the oracle for contradictory instances	p. 8, §4.1
+§4	Parallel Claude Code agents passed	Effective token cost 1.17 to 1.18 times the oracle	1.17; 1.18	T22	1.17 to 1.18 times the oracle for contradictory instances	p. 8, §4.1
 §4	Engineers in isolated git worktrees	Isolated git worktrees per engineer		T20	creates isolated git worktrees for every onboarded engineer	p. 1, Figure 1 caption
 §4	Engineers in isolated git worktrees	Merges gated by tests		T20	changes enter the main branch only through explicit merge and test validation	p. 5, §3.4
 §4	Engineers in isolated git worktrees	Claude Sonnet 4.5 PaperBench 57.2 to 63.3	57.2; 63.3	T20	With Claude 4.5, multi-agent execution achieves 63.3% compared to 57.2% for single-agent.	p. 5, §3.4
 §4	Engineers in isolated git worktrees	Cost 3.3 to 6.5 (about twice)	3.3; 6.5	T20	Claude Sonnet 4.5 v1.11.0 57.2 1803.5 3.3 63.3 2080.4 6.5	p. 5, Table 2
 §4	Engineers in isolated git worktrees	Soft isolation 55.5 below single 57.2	55.5	T20	on PaperBench soft isolation drops to 55.5%, below the single-agent score of 57.2%	p. 6, §4 (Table 3)
+§4	Parallel builders helped only when	Soft isolation = one shared workspace, separation by instructions only		T20	where all engineers share one workspace, and the central manager attempts to prevent conflicts through instruction-level constraints	p. 6, §4.1 Git worktree Isolation
 §4	A vendor report without controls	Sixteen agents (vendor, Anthropic)	16	T16	I tasked 16 agents with writing a Rust-based C compiler, from scratch,	https://www.anthropic.com/engineering/building-c-compiler, introduction under the title
 §4	A vendor report without controls	About $20,000 API cost	$20,000	T16	Over nearly 2,000 Claude Code sessions and $20,000 in API costs,	https://www.anthropic.com/engineering/building-c-compiler, introduction under the title
 §4	A vendor report without controls	Task verifier nearly perfect		T16	So it's important that the task verifier is nearly perfect, otherwise Claude will solve the wrong problem.	https://www.anthropic.com/engineering/building-c-compiler, heading 'Write extremely high-quality tests'
 §4	BMAD-METHOD, spec-kit, MetaGPT and gastown	No measured success rate (BMAD, our evaluation)		sharifamlani/autonomous:public/_README.md	The gates are prompt text, with no measured success rates for unattended builds.	public/_README.md line 417
 §4	BMAD-METHOD, spec-kit, MetaGPT and gastown	No measurement (spec-kit, our evaluation)		sharifamlani/autonomous:public/_README.md	there is no benchmark or measurement in the repo	public/_README.md line 497
-§4	BMAD-METHOD, spec-kit, MetaGPT and gastown	No benchmark numbers (MetaGPT, our evaluation)		sharifamlani/autonomous:public/_README.md	No benchmark numbers or results are in the repo.	public/_README.md line 578
+§4	BMAD-METHOD, spec-kit, MetaGPT and gastown	No benchmark numbers in the MetaGPT repo; research claims live in its papers (our evaluation)		sharifamlani/autonomous:public/_README.md	No benchmark numbers or results are in the repo. The research claims live in the linked papers	public/_README.md line 578
 §4	BMAD-METHOD, spec-kit, MetaGPT and gastown	No success-rate data (gastown, our evaluation)		sharifamlani/autonomous:public/_README.md	no success-rate or cost data is in the repo	public/_README.md line 457
 §4	BMAD-METHOD, spec-kit, MetaGPT and gastown	gastown README claims 20-30 agents	20-30	gastownhall/gastown	Scale comfortably to 20-30 agents	README.md line 15
 §4	Their trackers record the failures	Dev agent checks off tasks without building or running tests		bmad-code-org/BMAD-METHOD#95	checks off all tasks without building the application and running the tests	issue #95 body
@@ -72,6 +76,7 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 §4	MetaGPT's current default team hires	QaEngineer hire commented out		FoundationAgents/MetaGPT	#     company.hire([QaEngineer()])	metagpt/software_company.py line 60
 §4	In paperclip, an agent-company tool,	Open issue: reviewer handoff stalls silently, no retry		paperclipai/paperclip#13532	a reviewer handoff stalls silently with no run and no retry	issue #13532 title (state: open)
 §4	Swarm claims are the least supported	Audit: speedup fabricated with Math.random()		ruvnet/ruflo	fabricated with `Math.random()` at runtime	docs/reviews/intelligence-system-audit-2026-05-29.md line 13
+§4	Swarm claims are the least supported	The same audit confirms the core learning loop is real		ruvnet/ruflo	The learning loop is real.	docs/reviews/intelligence-system-audit-2026-05-29.md line 12
 §4	Swarm claims are the least supported	Commenter: only one Claude Code agent doing everything		ruvnet/ruflo#958	i still only have 1 claude code 'agent' doing everything	issue #958 comment by mattpainter701
 §5	A source-level reading of Claude	Core is a simple while-loop		H16	The core of the system is a simple while-loop	p. 1, Abstract
 §5	A source-level reading of Claude	Seven permission modes, five-layer compaction, four extensibility mechanisms	seven; five; four	H16	a permission system with seven modes and an ML-based classifier, a five-layer compaction pipeline for context management, four extensibility mechanisms	p. 1, Abstract
@@ -91,6 +96,7 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 §5	An ETH Zurich study found	Context files do not improve success; cost +20%	20%	H1	providing context files does not generally improve task success rates, while increasing inference cost by over 20% on average	p. 1, Abstract
 §5	An ETH Zurich study found	LLM-generated files raise cost over 20%	20%	H1	increases costs by over 20%	p. 2, §1 Introduction
 §5	An ETH Zurich study found	Developer files cost at most 19%; help all agents but Claude Code	19%	H1	they improve performance for all agents but CLAUDE CODE (see Figure 3 right). However, developer-provided context files also increase the average number of steps and the cost, on average by 3.34 steps and at most 19%	p. 6, §4 Results
+§5	The heavier, more popular components fare worse	Developer files improve performance by 2.4% on average, not significant	2.4%; 21%	H1	Developer-provided context files improve agent performance by 2.4% on average (p = 21%)	p. 6, §4 Results
 §5	Yet context files appear in	2,853 repositories studied	2,853	H2	in an empirical study of 2,853 GitHub repositories	p. 1, Abstract
 §5	Yet context files appear in	Context 2,586; Skills 158; Subagents 131	2,586; 158; 131	H2	Context: 2,586 repos Settings: 290 repos Rules: 238 repos Other: 208 repos Commands: 169 repos Skills: 158 repos Subagents: 131 repos	p. 2, Figure (study design)
 §5	Skills the agent writes for	Self-generated skills -8.1 pp below no-skill, Claude Code + Opus 4.7	8.1	H6	Self-generated Skills land below the no-Skills baseline on all three configurations (−8.1 pp on Claude Code + Opus 4.7	p. 7, §4 Results (self-generated Skills)
@@ -107,17 +113,21 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 §5	In practice, a user who	User installed all agents via plugins		wshobson/agents#93	having installed them all again using the plugin system	issue #93 body
 §5	In practice, a user who	Warning of ~404.1k tokens of agent descriptions	404.1k	wshobson/agents#93	Large cumulative agent descriptions will impact performance (~404.1k	issue #93 body
 §5	In practice, a user who	Skill cut at 20,000 characters after compaction	20,000	obra/superpowers#2481	Each copy was cut to exactly 20,000 characters	issue #2481 body
-§5	In practice, a user who	Five-round cap lost; 18 fix rounds	18; five	obra/superpowers#2481	"""Five rounds maximum per task"" lies past the 20,000-character compaction re-attach cut, and one task ran 18+ fix rounds"	issue #2481 title
+§5	In practice, a user who	Five-round cap lost; 18 fix rounds	18; five	obra/superpowers#2481	"Five rounds maximum per task" lies past the 20,000-character compaction re-attach cut, and one task ran 18+ fix rounds	issue #2481 title
+§5	The heavier, more popular components fare worse	Reporter says the evidence does not establish cause		obra/superpowers#2481	Evidence for involvement is below; it does not establish cause.	issue #2481 body (state: closed)
 §5	In practice, a user who	One task went through 18 fix rounds	18	obra/superpowers#2481	One task went through 18 fix rounds	issue #2481 body
 §5	Anthropic reports that users accept	Users accept 93% of prompts (vendor)	93%	H23	Manual prompts sit in the middle, and in practice users accept 93% of them anyway.	https://www.anthropic.com/engineering/claude-code-auto-mode, opening section under the title
-§5	Anthropic reports that users accept	FPR 0.4% on real traffic (vendor)	0.4%	H23	FPR drops from 8.5% to 0.4%, at the cost of some recall.	https://www.anthropic.com/engineering/claude-code-auto-mode, heading 'Results'
+§5	Anthropic reports that users accept	FPR 0.4% on real internal traffic (vendor)	0.4%	H23	FPR drops from 8.5% to 0.4%, at the cost of some recall.	https://www.anthropic.com/engineering/claude-code-auto-mode, heading 'Results'
 §5	Anthropic reports that users accept	FNR 17% on real overeager actions (vendor)	17%	H23	The 17% false-negative rate on real overeager actions is the honest number.	https://www.anthropic.com/engineering/claude-code-auto-mode, heading 'Results'
 §5	Anthropic reports that users accept	n = 52 overeager actions	52	H23	Real overeager actions (n = 52).	https://www.anthropic.com/engineering/claude-code-auto-mode, heading 'Results'
+§5	Unattended runs remove the human	FPR measured on real internal traffic from Anthropic employees	10,000	H23	Real internal traffic (n = 10,000). Actual Claude Code tool calls from Anthropic employees.	https://www.anthropic.com/engineering/claude-code-auto-mode, heading 'Results'
 §5	An independent stress test of	Independent authors (HKUST, ZJUT, ETH)		H17	1Hong Kong University of Science and Technology 2Zhejiang University of Technology 3ETH Zurich	p. 1, title block
 §5	An independent stress test of	FNR 81.0% (95% CI 73.8-87.4%)	81.0%; 73.8%; 87.4%	H17	The end-to-end false negative rate is 81.0% (95% CI: 73.8%–87.4%)	p. 1, Abstract
 §5	An independent stress test of	128 prompts, DevOps task families	128	H17	AmPermBench, a 128-prompt benchmark spanning four DevOps task families and three controlled ambiguity axes	p. 1, Abstract
 §5	An independent stress test of	36.8% of state-changing actions skip classifier as in-project edits	36.8%	H17	36.8% of all state-changing actions fall outside the classifier’s scope via Tier 2 (in-project file edits)	p. 1, Abstract
 §5	An independent stress test of	Authors caution against extrapolating to production		H17	should not be extrapolated to production-traffic performance	p. 9, Limitations
+§5	An independent stress test of the same mode	On actions the classifier evaluates, FNR still 70.3%	70.3%; 160	H17	Even restricting to the 160 actions the classifier actually evaluates (Tier 3), the FNR remains 70.3%	p. 1, Abstract
+§5	An independent stress test of the same mode	The in-project-edit gap contributes to, not wholly explains, the end-to-end FNR	36.8%	H17	contributing to the elevated end-to-end FNR	p. 1, Abstract
 §5	Deterministic policies do better on	Rules evaluated on proposed actions (hook into decision pipeline)		H8	It hooks into the agent’s decision pipeline, evaluating proposed actions	p. 2, §1 Introduction
 §5	Deterministic policies do better on	Over 90% of unsafe code-agent executions prevented	90%	H8	vents unsafe executions in over 90% of code agent cases	p. 1, Abstract
 §5	Deterministic policies do better on	Millisecond overhead		H8	with overheads in milliseconds	p. 1, Abstract
@@ -126,7 +136,7 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 §5	Deterministic policies do better on	CaMeL 77% with provable security vs 84% undefended	77%; 84%	H18	solving 77% of tasks with provable security (compared to 84% with an undefended system) in AgentDojo	p. 1, Abstract
 §5	Anthropic reports that operating-system sandboxing	Sandboxing cuts prompts 84% (vendor, internal)	84%	H24	In our internal usage, we've found that sandboxing safely reduces permission prompts by 84%.	https://www.anthropic.com/engineering/claude-code-sandboxing, opening section under the title
 §5	Containment only holds if the	Claude can disable sandbox via dangerouslyDisableSandbox (open issue)		anthropics/sandbox-runtime#97	In sandbox auto-allow mode, Claude can autonomously bypass sandbox restrictions by setting `dangerouslyDisableSandbox: true` when it encounters a sandbox-caused failure.	issue #97 body (state: open)
-§5	Containment only holds if the	Hooks never fire on Windows		uditgoenka/autoresearch#115	the hooks appear installed and simply never fire	issue #115 body
+§5	Containment only holds if the	Hooks never fire on Windows		uditgoenka/autoresearch#115	the hooks appear installed and simply never fire	issue #115 body (state: closed)
 §5	The stronger designs keep the	Config restored from base branch on PRs		anthropics/claude-code-action	When the action runs against a pull request, it restores a fixed list of Claude configuration paths from the PR base branch before starting Claude	docs/security.md line 60
 §5	Anthropic's recipe for long-running agents	Progress file alongside git history (vendor)		H13	which is accomplished with the claude-progress.txt file alongside the git history.	https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents, heading 'The long-running agent problem'
 §5	Anthropic's recipe for long-running agents	One feature at a time		H13	the next iteration of the coding agent was then asked to work on only one feature at a time.	https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents, heading 'Incremental progress'
