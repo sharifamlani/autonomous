@@ -1,7 +1,8 @@
 # Phase 7 plan: the literature review (outline for approval)
 
-> ROADMAP Phase 7 (rows 7.1–7.3). Status: **outline, waiting on Sharif.** Nothing is drafted until
-> the outline is approved.
+> ROADMAP Phase 7 (rows 7.1–7.3), Phase 7.5 (QA) and Phase 8 (independent grade, then release).
+> Status: **approved by Sharif 2026-11-21 ("perfect ... go").** Target release: LinkedIn + X at
+> **6:00 AM Sunday 2026-11-22** (machine time, EST), only if QA and the independent grade both pass.
 
 **What it is.** A full review article in the style of the *Annual Review of Political Science*: an
 argued synthesis of a field, organised around its central questions and debates, not a list of
@@ -298,11 +299,60 @@ autonomous/
                                                                |
                                                                v
 +-------------------+    +---------------------+    +----------------------+
-| Phase 8: indep.   |<-- | render_review.py    |<-- | lead writes 1-3,     |
-| evaluator grades  |    | --check (0 dangling)|    | 13-16, abstract;     |
-| (criteria below)  |    | + word count        |    | one voice edit pass  |
+| Phase 7.5: QA     |<-- | render_review.py    |<-- | lead writes 1-3,     |
+| (fact, citation,  |    | --check (0 dangling)|    | 13-16, abstract;     |
+| number checks)    |    | + word count        |    | one voice edit pass  |
++--------+----------+    +---------------------+    +----------------------+
+         | every finding fixed, QA re-checks the fixes
+         v
++-------------------+    +---------------------+    +----------------------+
+| Phase 8: indep.   |--> | Marketing: LinkedIn |--> | video about the      |
+| evaluator grades  |    | + X at 6:00 AM Sun  |    | paper (make-video    |
+| (criteria below)  |    | 2026-11-22, repo    |    | skill), posted with  |
+| loop until PASS   |    | link in 1st comment |    | or under the post    |
 +-------------------+    +---------------------+    +----------------------+
 ```
+
+### Phase 7.5: QA (Sharif 2026-11-21: "very thorough ... for public release ... nothing embarrassing")
+
+QA is a separate team of agents that did not write the review. It runs before the independent
+evaluator, and it checks everything, not a sample:
+
+1. **Claims ledger.** Every writer hands in a ledger with every number and factual claim in its
+   sections. Each row gives the claim, the number, the source ID, the exact supporting quote and
+   where it is (page or README line).
+2. **Number check (100%).** Every number in the review is matched against the PDF or the source
+   page, not against our README summary. That covers percentages, counts, sample sizes, p-values,
+   dates and star counts. A mismatch, a rounding that changes meaning, or a number without a source
+   is a finding.
+3. **Citation check (100%).**
+   - Every `[ID]` resolves, via `render_review.py --check`.
+   - Every cited paper actually says what the sentence attributes to it, judged from the PDF.
+   - Author, year and title in Literature Cited match the source (arXiv or Crossref metadata).
+   - "Et al." is used only where there are three or more authors.
+   - Every repo issue cited exists and says what we claim (`gh api`), and its open or closed state
+     is described correctly.
+4. **Fact check.** Claims about labs, products and people (dates, model names, who published what)
+   are checked against the source. Anything that can't be sourced is cut or hedged.
+5. **Fairness and tone.**
+   - No repo or paper is described as failing beyond what its own issue or audit says.
+   - Lab-authored results are labelled as such.
+   - Nothing reads as an attack on a named person or organisation.
+   - Every "first", "only", "none" or "all" is backed or removed.
+6. **Copy and format.** Spelling, grammar, broken links, figure and table numbering, consistent
+   terms, the abstract at 150 words or fewer, and no personal or private details (public repo,
+   CLAUDE.md §9).
+
+QA writes `literature/qa/LITERATURE_REVIEW_qa.md`: one row per finding, with its severity
+(blocker / major / minor), the fix, and the re-check result. **Exit gate: 0 open blockers and 0 open
+majors, with every fix re-checked by QA.** Only then does the independent evaluator (Phase 8) start.
+
+### Release (after Phase 8 passes)
+
+Marketing posts the paper to LinkedIn and X at **6:00 AM Sunday 2026-11-22**, with the repo link in
+the first comment. The numbers in the post come only from the QA'd review. Marketing also makes a
+short video about the paper with the `make-video` skill and video tool. If QA or the evaluator has
+not passed by then, the post waits, and Sharif is told why in one sentence.
 
 ### Derisking
 

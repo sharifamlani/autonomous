@@ -5,16 +5,16 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.12 · 2026-11-21
+> v0.13 · 2026-11-21
 
 ---
 
 ## §0 You are here
 
-- **Current phase:** Phase 6 done (237 repos surveyed incl. sweep 2, 32 cloned with process and lessons); Phase 7 next
-- **Current step:** waiting on Sharif for Phase 7 (literature review: what the 288 papers and 32 repos imply for the kit)
+- **Current phase:** Phase 7 in progress (literature review, Annual Review-style article; outline approved)
+- **Current step:** drafting sections in parallel; then Phase 7.5 QA (100% number, citation and fact checks), then Phase 8 independent grade
 - **Last update:** 2026-11-21
-- **Next action:** Phase 7 on Sharif's go.
+- **Next action:** release to LinkedIn + X with a video at 6:00 AM Sun 2026-11-22 (EST), only if QA and the grade pass.
 
 ---
 
@@ -208,13 +208,30 @@ Source: CLAUDE.md §7.
 **Goal:** the synthesis that turns the evidence into the kit's design.
 **Entry gate:** Phases 5–6.
 **Exit gate:** `LITERATURE_REVIEW.md` with 0 dangling citation IDs; CLAUDE.md v1 committed.
-**Status:** ⏸ planned
+**Status:** ⏳ in progress (outline approved 2026-11-21)
+**Plan:** `docs/plans/07_literature_review.md`
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
 | 7.1 | Write `literature/LITERATURE_REVIEW.md`: what the evidence and the repo lessons say per part, and what they imply for the kit's roster, prompts and gates (was 8.1) | ⏸ | — | gate: Phases 5–6 | literature/ |
 | 7.2 | Citation check script: every ID in the review resolves in `papers.tsv` (was 8.2) | ⏸ | — | gate: 7.1 | criterion 9 |
 | 7.3 | CLAUDE.md v1: fold in the review's design implications (was 8.3) | ⏸ | — | gate: 7.1 | this plan |
+
+### Phase 7.5 — QA of the literature review (before the independent grade)
+
+**Goal:** a QA team that did not write the review checks every number, citation and fact before anything is graded or published (Sharif 2026-11-21: "very thorough ... for public release").
+**Entry gate:** Phase 7 (full draft, `render_review.py --check` PASS).
+**Exit gate:** `literature/qa/LITERATURE_REVIEW_qa.md` shows 0 open blockers and 0 open majors, every fix re-checked.
+**Status:** ⏸ planned
+**Plan:** `docs/plans/07_literature_review.md` § Phase 7.5
+
+| # | Action | Status | Plan? | Date · Commit / Plan | Source |
+|---|---|---|---|---|---|
+| 7.5.1 | Number check: 100% of numbers matched to the PDF or source page | ⏸ | ✅ 07- | gate: Phase 7 | Sharif 2026-11-21 |
+| 7.5.2 | Citation check: every ID resolves; every cited source says what the sentence claims; Literature Cited metadata matches arXiv/Crossref; every repo issue re-checked via `gh api` | ⏸ | ✅ 07- | gate: Phase 7 | Sharif 2026-11-21 |
+| 7.5.3 | Fact, fairness and tone check (labs, dates, names; no claims beyond a source; no absolutes without backing) | ⏸ | ✅ 07- | gate: Phase 7 | Sharif 2026-11-21 |
+| 7.5.4 | Copy, format and privacy pass | ⏸ | ✅ 07- | gate: Phase 7 | CLAUDE.md §9 |
+| 7.5.5 | Fix round, then QA re-checks every fix | ⏸ | ✅ 07- | gate: 7.5.1–7.5.4 | global CLAUDE.md |
 
 ### Phase 8 — Independent evaluation of the research foundation
 
@@ -227,7 +244,7 @@ Source: CLAUDE.md §7.
 |---|---|---|---|---|---|
 | 8.1 | Evaluator grades the criteria from a fresh clone (citations and repo metadata re-queried) (was 9.1) | ⏸ | — | gate: Phase 7 | D13 |
 | 8.2 | Fix rounds until every criterion passes (was 9.2) | ⏸ | — | gate: 8.1 | global CLAUDE.md |
-| 8.3 | Release card from the scorecard; Marketing posts the update (was 9.3) | ⏸ | — | gate: 8.2 | CLAUDE.md §8 |
+| 8.3 | Release card from the scorecard; Marketing posts the review to LinkedIn + X at 6:00 AM Sun 2026-11-22 (EST) with a video about the paper (`make-video` skill) (was 9.3) | ⏸ | — | gate: 8.2 | CLAUDE.md §8 |
 
 ### Phase 9 — Kit v0.1 design, from the research
 
@@ -328,6 +345,9 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.13 · 2026-11-21** — Phase 7 outline approved by Sharif (Annual Review-style article, thesis
+  "verification, not capability"). New Phase 7.5: a thorough QA (100% number, citation, fact and tone
+  checks) before the independent grade. Release set for 6:00 AM Sun 2026-11-22 with a video.
 - **v0.12 · 2026-11-21** — Phase 6 sweep 2 (Sharif): popularity-led search added 34 automated-science
   and automated-development repos the paper-led sweep missed (237 total); the 12 most-starred cloned
   and written up (groups E, F). New findings: autoresearch-style keep/revert loops map onto the study
