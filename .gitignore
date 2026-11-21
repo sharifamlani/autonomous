@@ -43,12 +43,11 @@ desktop.ini
 /Transcripts/
 # .packages: Sharif's local connector scripts; they hold OAuth tokens
 /.packages/
-# .claude: track the kit's agents and skills; per-machine settings, locks and worktrees stay local
-/.claude/*
-!/.claude/agents/
-!/.claude/skills/
-# sharif-voice: built from Sharif's private corpus (email, dissertation, drafts); local use only
-/.claude/skills/sharif-voice/
+# .claude: local dev config for working ON this repo (Sharif 2026-11-20). The published kit lives in
+# plugin/ and is tracked there; nothing under .claude/ is published.
+/.claude/
+# .agents: the build team's local state (project specifics, registry, lessons, release cards)
+/.agents/
 # .superpowers: plan-execution scratch (ledgers, briefs, review packages)
 /.superpowers/
 # Playwright / browser-automation runtime dumps
@@ -60,6 +59,3 @@ desktop.ini
 !/public/manifest.tsv
 !/public/_README.md
 !/public/_candidates/
-# Pending privacy scrub (Phase 3 publishes cleaned copies): family medical details / personal finances
-/.claude/skills/scheduled-wakeup-loops/
-/.claude/skills/agent-spec/
