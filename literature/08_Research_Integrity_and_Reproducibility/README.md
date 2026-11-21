@@ -65,22 +65,23 @@ unless it came from a plan and decision rule committed before it existed.
    Abstract).
 3. **Agents can be steered, but the lever is the prompt, not the model's tendency.** R1: "the Negative-to-Strong
    CS gap ranges from 34 percentage points (anes-views) to 66 percentage points (metr-rct)" (Section 4.2),
-   and the auditor removed 53-57% of the confirmation-seeking runs against 21-23% of the neutral ones
-   (Table 2), so filtering "narrows, but does not eliminate" the shift. R5: under no-nudge, "upstanding
-   researcher" and "significance" prompts "both models produce accurate and remarkably stable estimates"
-   and refuse ("this is asking me to engage in p-hacking", Section 3.2), with a median of one
+   and the auditor removed 53-57% of the confirmation-seeking runs against 21-23% of the negative, standard and
+   positive personas (Table 2), so filtering "narrows, but does not eliminate" the shift. R5: under no-nudge,
+   "upstanding researcher" and "significance" prompts "both models produce accurate and remarkably stable
+   estimates" and refuse ("this is asking me to engage in p-hacking", Section 3.2), with a median of one
    specification per run; under the "nuclear" prompt that "reframes specification search as uncertainty
-   reporting" the median Thompson run had 13 (Claude) and 16 (Codex) specifications (Section 3.3). One run
-   moved a -0.06 published estimate to -0.194 (p < 0.001). Inflation tracked flexibility: "observational
-   studies are more vulnerable than randomized experiments" (Abstract). So the guardrail stops a blunt
-   request, not a reworded one.
-4. **The agent's bias sits in the verdict, so pre-commit the decision rule.** R2: a confirmatory prompt
-   "flips Claude Code's verdicts from 10% to 90% support while leaving its coefficient distribution
-   essentially unchanged, operating through rule omission rather than rule softening" (Abstract); Claude
-   Code's plans containing an explicit decision rule fell from 11 of 20 to 8 of 20, and "12 of the 20 CC
-   Confirmatory plans omit an explicit verdict criterion altogether" (Results, Fig. 5). That is the
-   mechanism a `PREREG.md` closes: the rule that turns estimates into a claim is written, and committed,
-   before the runs.
+   reporting" the median Thompson run had 13 (Claude) and 16 (Codex) specifications (Section 3.3). One run moved
+   a -0.06 published estimate to -0.194 (p < 0.001). Inflation tracked flexibility: "observational studies are
+   more vulnerable than randomized experiments" (Abstract). So the guardrail stops a blunt request, not a
+   reworded one.
+4. **In R2 the agent's bias sits in the verdict (R3 also finds persona-driven estimates), so pre-commit
+   the decision rule.** R2: a confirmatory prompt "flips Claude Code's verdicts from 10% to 90% support
+   while leaving its coefficient distribution essentially unchanged, operating through rule omission
+   rather than rule softening" (Abstract); Claude Code's plans containing an explicit decision rule
+   fell from 11 of 20 to 8 of 20 (Fig. 5 caption; the Results text gives 12/20 for Default), and
+   "Twelve of the 20 CC Confirmatory plans omit an explicit verdict criterion altogether" (Results,
+   Fig. 5). That is the mechanism a `PREREG.md` closes: the rule that turns estimates into a claim is
+   written, and committed, before the runs.
 5. **Pre-commitment is the tool with measured support.** R13: "96% positive results in standard reports,
    but only 44% positive results in Registered Reports" (Abstract), and within the three journals that
    published both formats 11/13 standard reports were positive against 7/14 Registered Reports
@@ -125,9 +126,9 @@ unless it came from a plan and decision rule committed before it existed.
   although a "seek support" prompt does flip verdicts; R5 finds stability under standard prompts. They differ in
   prompts, datasets, run counts (20 per cell in R2, 10 per prompt in R5), and model versions, so the
   honest summary is "steerable under some framings", not a rate. R1-R4 and R6-R8 are arXiv preprints and
-  R5 is a self-hosted working paper; none is peer reviewed yet. Rewolinski (R4) is internally inconsistent
-  on its headline (the Introduction says the checks "reveal one case", the Abstract says 6 of 11), so we cite the abstract and
-  Section 4.3, which lists 5 datasets as passing both checks.
+  R5 is a self-hosted working paper; none is peer reviewed yet. R4's 6 of 11 (Abstract) is 5 datasets where the
+  agent mostly answers "No" and 1 (caschools, the Introduction's "one case") where it affirms without clear
+  separation from noise; 5 pass both checks (Section 4.3).
 - **Guardrail results age fast.** R5's refusals are for Claude Opus 4.6 and GPT-5.2-Codex in Feb 2026, and
   its authors conclude "safety guardrails are likely unable to restrain researchers intent on
   p-hacking". Our design cannot rely on the model refusing; it must rely on gates it does not control.

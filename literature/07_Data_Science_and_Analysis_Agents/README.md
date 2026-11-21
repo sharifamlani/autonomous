@@ -37,7 +37,7 @@ a quote is from a GitHub README (those were fetched with `gh api` on 2026-11-21 
 
 **Verdict:** accuracy against known answers is **moderate on easy, closed-form questions and low on
 anything multi-step**, and the published numbers are unstable in both directions. They rise fast when a
-harness is tuned to the benchmark (a public leaderboard row reaches 99%, against 57% for the best agent in its own paper), and they are
+harness is tuned to the benchmark (on the live DAB leaderboard a tuned-prompt row with per-query notes reaches 0.9917 against 0.8858 for the best untuned row; the paper's best agent scored 57% on an earlier 104-query set), and they are
 partly capped or distorted by wrong answer keys (one audit puts a third of mismatches on the benchmark,
 not the agent). The dominant failure is not a crash: it is a plausible, wrong number from a wrong
 plan or a wrong implementation. For the kit this means "the analysis ran" is never evidence, a
@@ -82,15 +82,16 @@ data, not only at the code's exit status.
    whose declared inputs conflict with what the agent observed; it reaches "overall scores of 0.723 with
    full source retrieval and 0.747 with gold sources supplied, corresponding to relative gains of 35.9% and
    28.8% over the strongest baselines" (Abstract), and "RADAR costs $1.16 ... versus $6.38" for the
-   strongest baseline on KramaBench Full Input (Section 4.5; the text does not say whether that is per
-   task or per suite). D8 finds "Execution feedback is necessary for LLMs to generate useful programs"
+   strongest baseline on KramaBench Full Input (Section 4.5; the text does not say whether that is per task
+   or per suite). RADAR still leaves silent errors in 28.1% of substantive deliveries, against 41.8% for
+   DS-STAR (Section 4.3). D8 finds "Execution feedback is necessary for LLMs to generate useful programs"
    (Section 4.1). D10: "Agentic control flows drive the largest performance gains": an agent loop with
    Claude-3.7 reached 55.83% against 24.98% for the best fixed pipeline (Section 4). By contrast D6 reports
    that "effective reasoning prompts such as React and planning with a self-critic ... do not help improve
    the simple CodeGen agent", while a run given an oracle score "significantly improves" (Section 5.2): the
-   gain needs a real external signal, which a known-answer check can supply but a self-critic cannot.
-   D11 also finds that giving schema descriptions and hints moved pass@1 by at most 5 points, and a hint
-   that did not apply to a query could mislead the agent into changing a correct answer (Section 4.3).
+   gain needs a real external signal, which a known-answer check can supply but a self-critic cannot. D11
+   also finds that giving schema descriptions and hints moved pass@1 by at most 5 points, and a hint that
+   did not apply to a query could mislead the agent into changing a correct answer (Section 4.3).
 5. **Open-ended analysis has no single right answer, and experts disagree too.** D7 builds ground truth
    from "independent analyses by expert data scientists" because tasks have "multiple valid approaches"
    (Abstract); experts agreed with each other on 75% (transformations) and 80% (conceptual variables), but
@@ -109,9 +110,10 @@ data, not only at the code's exit status.
    "including fatal errors rendering tasks unsolvable" and "metric mismatches that silently corrupt
    scores" (Abstract, Section 5.1). D1's labels come from OpenAI's ADA agent: "Only the answer is kept when
    ADA consistently generates the same answer in all trials" (Section 2.1), then human filtering keeps
-   "85% samples" (Section 2.3.1), so the ceiling is an agent's consensus, not independent truth. D9
-   validated its scorer against two annotators (97.3% agreement, Appendix A.2); D3 had people check its
-   semantic-match function on 100 answers (Appendix F, reported 100% agreement).
+   "85% samples" (Section 2.3.1), so the ceiling is an agent's consensus, not independent truth. D9's two
+   annotators agreed on 97.3% of 75 answers (Cohen's κ = 0.94), and its scorer matched their judgment on
+   all 75; D3 had people check its semantic-match function on 100 answers (Appendix F, reported 100%
+   agreement).
 7. **Contamination and gaming are measured only partly.** D4 found "no evidence of GPT-4o being
    over-reliant" on recognising competitions and no plagiarism or rule-breaking in medal runs, but "does
    not rule out subtler effects" (Section 4.2) and "make[s] no guarantees about future models" (Section
@@ -120,7 +122,7 @@ data, not only at the code's exit status.
    set closed (Section 2.4). The live DAB leaderboard (repo README, fetched 2026-11-21 with `gh api`, not
    a paper) shows the scale of the problem: its best row with a "tuned prompt" is 0.9917, and 0.8858 is the
    best row without one, against 57% in D11; its footnotes record trials "counted as non-passes" because
-   agents "loaded external gold labels", rows whose notes "tell the agent how to solve that query", and a
+   agents "loaded external gold labels", rows where "Each note tells the agent how to solve that query", and a
    validator re-scored after the key listed one of 95 tied answers. D12 also adds an older model "motivated
    by concerns about benchmark contamination" (Section 4.5).
 8. **Datasets we could use as a v0.1 known-answer task.** Read the licence before copying (CLAUDE.md §4);
@@ -128,7 +130,7 @@ data, not only at the code's exit status.
 
    | Candidate | Size and answer type | Licence | Fit for v0.1 |
    |---|---|---|---|
-   | D1 DAEval | 257 questions, 52 CSVs, exact-match `@name[answer]` labels (public validation set; test closed) | repo Apache-2.0; README badge: data CC BY-NC 4.0 | Best fit: closed form, regex grader, small. Audit labels first (see 6) |
+   | D1 DAEval | 257 questions, 52 CSVs, exact-match `@name[answer]` labels (public validation set; test closed) | repo Apache-2.0; README badge: data CC BY-NC 4.0 | Best fit: closed form, regex grader, small; data non-commercial (CC BY-NC 4.0, README badge only). Audit labels first (see 6) |
    | D14 QRData | 411 stats and causal questions, textbook and paper data, gold answers, 3% numeric tolerance | CC BY-NC 4.0 | Good for "right method" checks; non-commercial |
    | D9 DABstep | public dev set with answers plus hidden test; 450 tasks in all, factoid answers | dataset CC BY 4.0 (per the paper) | Good for multi-step; use dev set only |
    | D6 DiscoveryBench | 264 real tasks from papers (test split 239 queries), scored by a GPT-4 evaluator | ODC-By | Open-ended scorer adds judge bias |

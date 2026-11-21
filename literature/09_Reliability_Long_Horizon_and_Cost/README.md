@@ -33,8 +33,9 @@ run with no human needs.
 
 Already held elsewhere and used below: A9 (tau-bench, pass^k), A10 (AI Agents That Matter, cost-controlled
 evaluation), A14 (TheAgentCompany, long-horizon tasks with cost per task), T7 (MAST failure taxonomy,
-multi-agent), C14 (METR: merge decisions about 24 points below automated grades), V3 and V17
-(ImpossibleBench and "Recent Frontier Models Are Reward Hacking", theme 05).
+multi-agent), C14 (METR: merge decisions about 24 points below automated grades, normalised to a 68%
+golden-patch baseline; 34.9 points raw), V3 and V17 (ImpossibleBench and "Recent Frontier Models Are
+Reward Hacking", theme 05).
 
 ## What it establishes
 
@@ -49,15 +50,16 @@ about these.
 
 1. **Success rate falls with task length, and the "reliable" horizon is much shorter than the headline
    one.** F1: "current frontier AI models such as o3 have a 50% time horizon of around 110 minutes" and
-   "doubled approximately every seven months since 2019" (Abstract), but "models' 80% time horizons are
-   4-6x shorter, suggesting that even models that sometimes succeed on difficult and diverse tasks
-   cannot reliably perform tasks of moderate length" (Section 3.2.1). By simple arithmetic on those two
-   figures (mine, not F1's) an o3-class agent finishes about 20-30 minute tasks 80% of the time, not
-   multi-hour ones. F1 also reports that "agents struggle more on tasks that have these 'messy'
-   details", that is, no clear feedback loop (Appendix F.2), and that its 2024-only trend "doubling about
-   every three months" "would not be robust" for extrapolation (Appendix F.1). F14 (vendor) shows what
-   real Claude Code use looks like: "the 99.9th percentile turn duration nearly doubled, from under 25
-   minutes to over 45 minutes", while the median turn is "around 45 seconds" (interactive sessions).
+   "doubled approximately every seven months since 2019, though the trend may have accelerated since
+   2024" (Abstract), but "models' 80% time horizons are 4-6x shorter, suggesting that even models that
+   sometimes succeed on difficult and diverse tasks cannot reliably perform tasks of moderate length"
+   (Section 3.2.1). By simple arithmetic on those two figures (mine, not F1's) an o3-class agent finishes
+   about 20-30 minute tasks 80% of the time, not multi-hour ones. F1 also reports that "agents struggle
+   more on tasks that have these 'messy' details", that is, no clear feedback loop (Appendix F.2), and
+   that its 2024-only trend "doubling about every three months" "would not be robust" for extrapolation
+   (Appendix F.1). F14 (vendor) shows what real Claude Code use looks like: "the 99.9th percentile turn
+   duration nearly doubled, from under 25 minutes to over 45 minutes", while the median turn is "around
+   45 seconds" (interactive sessions).
 2. **Why long tasks fail: errors compound, and models learn from their own mistakes.** F3 supplies the
    plan and knowledge, so only execution is tested, and still "the best-performing model (Qwen3-32B)
    sees its accuracy fall below 50% within 15 turns" (Section 3.1, Result 1). The cause is not only long
@@ -71,8 +73,7 @@ about these.
    kit: a long run should restart from a fresh context with state in files rather than keep conditioning
    on its own transcript, which matches the design in H13.
 3. **Reliability lags capability, and it is a consistency problem.** F2: "recent capability gains have
-   only yielded small improvements in reliability" (Abstract), "outcome consistency remains low across all models ... meaning agents that can solve a task often fail to do so consistently" and consistency "often
-   exhibits an inverse pattern" with model size, since "larger models' multiple solution paths increase
+   only yielded small improvements in reliability" (Abstract), "outcome consistency remains low across all models ... meaning agents that can solve a task often fail to do so consistently" and while "calibration, robustness, and safety generally improve with model size, consistency often exhibits an inverse pattern", since "larger models' multiple solution paths increase
    run-to-run variability" (Section 4). A9 shows the same with pass^k: gpt-4o scores 61% on tau-retail at pass^1 but falls "as low as 25% for pass^8" (Section 1). F2 also finds the "what but not when" pattern: agents pick
    similar action types across runs but vary their order. The benchmark therefore needs at least 3 runs
    per task and a consistency number, which the research protocol in CLAUDE.md section 5 already
@@ -123,7 +124,7 @@ about these.
    files: a general agent "trails ... by 13 points", but "only about half of its episodes were scored and the rest were stored as failures" (Abstract; the author later corrected some per-model numbers in
    his repo, see the catch); a cost column summed a call and its child span, "Exactly 2× in 70 of 134 runs" (Table 1). The remedies are cheap: "Report the graded fraction", "Aggregate cost from root spans and print the multiplier", "Tag the provenance of every recorded action", "Pin evaluator versions and publish re-grade diffs" (Section 5).
    C14 adds the other direction: maintainer merge decisions "are about 24 percentage points lower than
-   SWE-bench scores supplied by the automated grader". The kit's scorecard should include
+   SWE-bench scores supplied by the automated grader" (normalised to the 68% golden-patch merge rate). The kit's scorecard should include
    the graded fraction (episodes graded over episodes run) and the cost source.
 8. **Speed claims need measurement, not belief.** F13's RCT: developers "forecast that allowing AI will
    reduce completion time by 24%", yet "allowing AI actually increases completion time by 19%"
@@ -139,7 +140,8 @@ about these.
   SQL, embodied and household environments; F6 uses SWE-bench Verified single issues with OpenHands;
   F13 is interactive, early-2025 tooling. The only data on real long Claude Code sessions, F14, is
   Anthropic's own telemetry on turn duration, classified by Claude, "a single model provider", with no
-  success rates or costs per run. The kit's benchmark has to supply this evidence.
+  absolute success rate (only that internal success on the hardest tasks "doubled") and no cost per run.
+  The kit's benchmark has to supply this evidence.
 - **Cost evidence is thin for Claude Code.** F6 is OpenHands on SWE-bench Verified with eight models;
   F7's costs are 2025 list prices that "change frequently and often dramatically" (Section 4.1; o3
   dropped 80%); F8 is maths and QA, not agents; F15 is a vendor average for interactive developers, not
@@ -163,10 +165,11 @@ about these.
   depends on scaffold choices (reasoning-effort settings are "not comparable across providers"). Do not
   compare numbers across these papers; use their methods on our tasks.
 - **The easy answer (that models keep getting better, so reliability will follow) is contradicted twice,
-  and also weakly supported.** F2 finds reliability barely moved over 24 months of capability gains and
-  F1 finds the 80% horizon 4-6x shorter than the 50% one. Against that, F3 argues short benchmarks hide
-  the compounding gain ("even marginal gains in single-step accuracy can compound into exponential
-  improvements in the length of tasks a model can successfully complete") and F1's doubling trend is real
-  on its task set. Both can be true; the kit should plan on the shorter, consistency-adjusted horizon.
+  and also weakly supported.** F2 finds "only small improvements" in reliability over 24 months (moderate
+  on τ-bench, "barely any" on GAIA) of capability gains and F1 finds the 80% horizon 4-6x shorter than
+  the 50% one. Against that, F3 argues short benchmarks hide the compounding gain ("even marginal gains
+  in single-step accuracy can compound into exponential improvements in the length of tasks a model can
+  successfully complete") and F1's doubling trend is real on its task set. Both can be true; the kit
+  should plan on the shorter, consistency-adjusted horizon.
 - **Vendor and model-age bias.** F10, F14, F15 and the Claude-specific results in F9 and F11 come from
   or about the vendors themselves; F11's judge panel is made of four vendors' models, so a vendor's own model is among its graders. Model names in F9 to F11 move fast, so numbers go stale within months.
