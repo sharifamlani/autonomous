@@ -98,7 +98,7 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 12	Table 3 proposes eight items	Grader is deterministic		T18	where every Verifier verdict is paired with the deterministic grader	p. 6, §3.3
 12	Most are counts that evaluation pipelines already hold	Errors visible from a number the pipeline already had; report graded fraction		F12	Each of the four errors would have been visible from one extra number that the pipeline already had.	p. 7, §5
 12	Table 3, k runs row	Single-run scores move 2.2-6.0 points	2.2-6.0	F19	pass@1 estimates vary by 2.2 to 6.0 percentage points depending on which run is selected	p. 1, Abstract
-12	Table 3, k runs row	Identical runs varied more than agents differed		F24	Identical runs of one pairing varied more than the pairings differed from one another	p. 1, Abstract
+12	Table 3, k runs row	On one task, identical runs varied more than agent-model pairings differed		F24	Identical runs of one pairing varied more than the pairings differed from one another	p. 1, Abstract
 12	Table 3, baseline row	Full team vs single agent mean +0.5 points, p = 0.20	+0.5; 0.20	T18	Mean team-vs-Solo uplift is +0.5 points (p = 0.20, paired bootstrap, n = 10,000)	p. 6, §3.2
 12	Table 3, baseline row	Full team not significantly better than Solo		T18	Full Team is not significantly better than Solo on average in the reference ablation.	p. 6, §3.3
 12	Table 3, baseline row	Similar accuracy, cost differs almost two orders of magnitude		A10	For substantially similar accuracy, the cost can differ by almost two orders of magnitude.	p. 3, §2

@@ -903,7 +903,7 @@ NOT FOUND / NO PDF = open QA finding.
 - **Where:** docs/plans/07_literature_review.md line 14
 - **Verbatim quote:**
 
-  > 288 verified papers (`literature/papers.tsv`, 2013–2026, 219 of them from 2025–2026)
+  > 286 distinct verified papers (`literature/papers.tsv`, 2013–2026, 218 of them from 2025–2026; 288 entries before two duplicates were removed in QA)
 
 - **Check:** MANUAL
 
@@ -1151,7 +1151,7 @@ NOT FOUND / NO PDF = open QA finding.
 
 ### 2 Scope.24 OpenAI no longer evaluates SWE-bench Verified
 
-- **In the paper:** "OpenAI stopped reporting SWE-bench Verified..."
+- **In the paper:** "OpenAI stopped evaluating on SWE-bench Verified..."
 - **Source:** OpenAI 2026 [C15], *Why SWE-bench Verified no longer measures frontier coding capabilities*
 - **Where:** https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ (page title)
 - **Verbatim quote:**
@@ -1162,7 +1162,7 @@ NOT FOUND / NO PDF = open QA finding.
 
 ### 2 Scope.25 Audit covered a subset models often failed
 
-- **In the paper:** "OpenAI stopped reporting SWE-bench Verified..." (number: 27.6%)
+- **In the paper:** "OpenAI stopped evaluating on SWE-bench Verified..." (number: 27.6%)
 - **Source:** OpenAI 2026 [C15], *Why SWE-bench Verified no longer measures frontier coding capabilities*
 - **Where:** https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ (introductory list, before heading Background)
 - **Verbatim quote:**
@@ -1173,7 +1173,7 @@ NOT FOUND / NO PDF = open QA finding.
 
 ### 2 Scope.26 At least 59.4% of audited problems have flawed tests
 
-- **In the paper:** "OpenAI stopped reporting SWE-bench Verified..." (number: 59.4%)
+- **In the paper:** "OpenAI stopped evaluating on SWE-bench Verified..." (number: 59.4%)
 - **Source:** OpenAI 2026 [C15], *Why SWE-bench Verified no longer measures frontier coding capabilities*
 - **Where:** https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ (introductory list, before heading Background)
 - **Verbatim quote:**
@@ -1184,7 +1184,7 @@ NOT FOUND / NO PDF = open QA finding.
 
 ### 2 Scope.27 Frontier models could reproduce the original human-written fixes
 
-- **In the paper:** "OpenAI stopped reporting SWE-bench Verified..."
+- **In the paper:** "OpenAI stopped evaluating on SWE-bench Verified..."
 - **Source:** OpenAI 2026 [C15], *Why SWE-bench Verified no longer measures frontier coding capabilities*
 - **Where:** https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ (introductory list, before heading Background)
 - **Verbatim quote:**
@@ -8755,7 +8755,7 @@ NOT FOUND / NO PDF = open QA finding.
 
 - **Check:** VERIFIED
 
-### 12.37 Identical runs varied more than agents differed
+### 12.37 On one task, identical runs varied more than agent-model pairings differed
 
 - **In the paper:** "Table 3, k runs row..."
 - **Source:** Rubia & Pafka 2026 [F24], *Identical Runs, Different Results: Benchmarking AI Coding Agents on Open-Weight Models*
@@ -9373,9 +9373,9 @@ NOT FOUND / NO PDF = open QA finding.
 
 - **Check:** VERIFIED
 
-### 13 Synthesis.37 Watchdog misidentified healthy sessions and killed them
+### 13 Synthesis.37 Session-cleanup (session-hygiene) plugin misidentified healthy sessions and killed them
 
-- **In the paper:** "P5. and a watchdog in one orchestrator killed healthy sessions..." (number: 22; 9)
+- **In the paper:** "P5. and a session-cleanup plugin in one orchestrator killed healthy sessions..." (number: 22; 9)
 - **Source:** `gastownhall/gastown#2707`
 - **Where:** issue #2707 body (closed)
 - **Verbatim quote:**
@@ -11532,7 +11532,7 @@ NOT FOUND / NO PDF = open QA finding.
 - **Where:** docs/plans/07_literature_review.md line 14
 - **Verbatim quote:**
 
-  > 288 verified papers (`literature/papers.tsv`, 2013–2026, 219 of them from 2025–2026)
+  > 286 distinct verified papers (`literature/papers.tsv`, 2013–2026, 218 of them from 2025–2026; 288 entries before two duplicates were removed in QA)
 
 - **Check:** MANUAL
 

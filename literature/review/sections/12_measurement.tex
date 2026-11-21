@@ -21,7 +21,7 @@ Table~\ref{tab:reporting} proposes eight items that a study of autonomous agents
 \toprule
 Item & What to report & Why \\
 \midrule
-$k$ runs per arm, with spread & Number of independent runs per arm ($k \geq 3$); mean with standard deviation or range; pass@k and pass\textasciicircum k & Single-run scores move 2.2--6.0 points with the run chosen \citep{F19}; identical runs varied more than agents differed \citep{F24} \\
+$k$ runs per arm, with spread & Number of independent runs per arm ($k \geq 3$); mean with standard deviation or range; pass@k and pass\textasciicircum k & Single-run scores move 2.2--6.0 points with the run chosen \citep{F19}; on one task, identical runs varied more than agent--model pairings differed \citep{F24} \\
 Budget-matched single-agent baseline & One strong agent given the same token or dollar budget as the system under test & In a controlled ablation, a full team was not significantly better than a single agent (mean $+0.5$ points, $p = 0.20$) \citep{T18}; for similar accuracy, cost can differ by almost two orders of magnitude \citep{A10} \\
 \$/task with spread & Dollars per task and per passed task (cost-of-pass), from API usage, with spread across runs & Runs on one task differ up to 30-fold in tokens \citep{F6}; cost-of-pass \citep{F8}; double-counted cost columns \citep{F12} \\
 Grader audit & How the grader was checked; share of tasks repaired or retired; graded fraction & Broken tests and tasks in major benchmarks \citep{C15,V31,C12}; answer-key errors \citep{D13}; ungraded episodes scored as failures \citep{F12} \\
