@@ -1,0 +1,3 @@
+id	folder	first_author	year	title	venue	url	arxiv_or_doi	file	verified
+A90	01_Agent_Architectures_and_Orchestration	Nobody	2024	HTML page, not a PDF	none	https://example.com/		A90_Nobody_2024_Html_Page.pdf	no
+A91	01_Agent_Architectures_and_Orchestration	Nobody	2024	Unresolvable host	none	https://paper.invalid/missing.pdf		A91_Nobody_2024_Unresolvable_Host.pdf	no

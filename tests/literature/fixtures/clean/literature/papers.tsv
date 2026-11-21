@@ -1,0 +1,3 @@
+id	folder	first_author	year	title	venue	url	arxiv_or_doi	file	verified
+A1	01_Agent_Architectures_and_Orchestration	Shunyu Yao	2022	ReAct: Synergizing Reasoning and Acting in Language Models	ICLR 2023	https://arxiv.org/abs/2210.03629	2210.03629	A1_Yao_2022_ReAct.pdf	yes
+H1	02_Claude_Code_and_Harness_Engineering	Anthropic	2025	Claude Code overview	Anthropic docs	https://docs.claude.com/en/docs/claude-code/overview		H1_Anthropic_2025_Claude_Code_Overview_NOTE.md	yes

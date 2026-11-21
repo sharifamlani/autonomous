@@ -1,0 +1,2 @@
+id	folder	first_author	year	title	venue	url	arxiv_or_doi	file	verified
+A1	01_Agent_Architectures_and_Orchestration	Shunyu Yao	2022	ReAct: Synergizing Reasoning and Acting in Language Models	ICLR 2023	https://arxiv.org/abs/2210.03629	2210.03629	A1_Yao_2022_ReAct.pdf	yes

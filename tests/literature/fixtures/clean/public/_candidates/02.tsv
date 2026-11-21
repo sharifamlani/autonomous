@@ -1,0 +1,2 @@
+name	url	stars	last_push	license	archived	theme	why
+anthropics/claude-code	https://github.com/anthropics/claude-code	156484	2026-11-21T04:39:17Z	none	false	02	The CLI itself; plugin and agent docs live in its repo
