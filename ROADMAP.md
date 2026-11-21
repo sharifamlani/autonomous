@@ -5,16 +5,16 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.7 · 2026-11-21
+> v0.8 · 2026-11-21
 
 ---
 
 ## §0 You are here
 
-- **Current phase:** Phase 4 — Research tooling, notebook spike and pilot scout
-- **Current step:** 4.6 pilot scout on theme 02 and 4.8 plugin-team spike, in parallel
+- **Current phase:** Phase 4 done; Phase 5 (8 scouts) waits on Sharif
+- **Current step:** report the pilot, the plugin answer and the skills inventory to Sharif
 - **Last update:** 2026-11-21
-- **Next action:** evaluator grades the pilot (4.7); report the pilot and the plugin answer to Sharif before Phase 5.
+- **Next action:** on Sharif's go, Phase 5 batch 1 (themes 01, 03, 04, 05); fix the checker's `_incoming/` gap first (parked item).
 
 ---
 
@@ -153,7 +153,7 @@ Source: CLAUDE.md §7.
 **Goal:** prove research can run unattended: the notebook template runs headless, the literature tools work, and one scout fills one theme to the contract.
 **Entry gate:** Phase 3.
 **Exit gate:** headless Run All of the notebook template PASS; folder 02 passes `verify_literature.py --all`; ≥ 8 verified papers; candidates TSV has 0 short rows; independent evaluator scorecard all PASS.
-**Status:** ⏳ 4.6 pilot scout and 4.8 plugin-team spike in flight
+**Status:** ✅ done (C1–C8 PASS, independent evaluator); waiting on Sharif before Phase 5
 **Plan:** `docs/plans/04_research_tooling_and_pilot.md` · setup C1–C7 PASS (independent evaluator, 2026-11-21) · research: `docs/plans/research_plan.md`
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
@@ -163,10 +163,10 @@ Source: CLAUDE.md §7.
 | 4.3 | Write `scripts/literature/fetch_papers.py`: download every `papers.tsv` row's PDF locally, verify `%PDF` (was 5.1b) | ✅ | ✅ 04 | 2026-11-21 · `b8693bf` | D4 |
 | 4.4 | Smoke: arXiv PDF fetch returns `%PDF`; `gh api` returns stars/license/archived (was 5.2) | ✅ | ✅ 04 | 2026-11-21 · `b8693bf` | plan smokes |
 | 4.5 | Write the `research-scout` agent (output contract, no citation without a fetched source) (was 5.3) | ✅ | ✅ 04 | 2026-11-21 · local (`.claude/`, gitignored) | CLAUDE.md §3–4 |
-| 4.6 | Run the scout on theme 02 (Claude Code and harness engineering) (was 5.4) | ⏳ | ✅ 04 | 2026-11-21 (in flight; Sharif's go) | literature/README.md |
-| 4.7 | Independent evaluator grades the pilot; tighten the scout prompt if it fails (was 5.5) | ⏸ | ✅ 04 | gate: 4.6 | D13 |
-| 4.8 | Spike: can a plugin stand up the team (Main, builder, QA, tester + registry and prompts) from one command, unattended? Docs + hands-on test plugin; answer: plugin alone / plugin + launcher / other framework | ⏳ | ✅ research | 2026-11-21 (in flight) | Sharif 2026-11-21; D1 |
-| 4.9 | Inventory our own skills (agent-team, shipping/development flywheel incl. hackathon mode, pm-lead-session, parallel-agent-orchestration, ...): purpose, kit part, lessons (local `.agents/playbook_inventory.md`) | ⏳ | ✅ research | 2026-11-21 (in flight) | Sharif 2026-11-21 |
+| 4.6 | Run the scout on theme 02 (Claude Code and harness engineering) (was 5.4) | ✅ | ✅ 04 | 2026-11-21 · `be1834a` (15 sources, 23 repos) | literature/README.md |
+| 4.7 | Independent evaluator grades the pilot; tighten the scout prompt if it fails (was 5.5) | ✅ | ✅ 04 | 2026-11-21 · `be1834a` (C8 PASS 8/8, independent evaluator) | D13 |
+| 4.8 | Spike: can a plugin stand up the team (Main, builder, QA, tester + registry and prompts) from one command, unattended? Docs + hands-on test plugin; answer: plugin alone / plugin + launcher / other framework | ✅ | ✅ research | 2026-11-21 · `4261c62` (answer: plugin + launcher script) | Sharif 2026-11-21; D1 |
+| 4.9 | Inventory our own skills (agent-team, shipping/development flywheel incl. hackathon mode, pm-lead-session, parallel-agent-orchestration, ...): purpose, kit part, lessons (local `.agents/playbook_inventory.md`) | ✅ | ✅ research | 2026-11-21 · local (`.agents/playbook_inventory.md`, 29/29) | Sharif 2026-11-21 |
 
 ### Phase 5 — Research fan-out (8 scouts)
 
@@ -322,6 +322,11 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.8 · 2026-11-21** — Phase 4 closed. Pilot scout filled theme 02 (15 sources, 23 repos; C8 PASS
+  8/8, `be1834a`). Plugin-team spike (4.8, `4261c62`): a plugin plus a small launcher script stands up
+  Main, builder, QA and tester as separate unattended sessions with a working handoff; D1 holds, no
+  red flag. Agent teams and `claude --bg` do not work unattended. Skills inventory 29/29 (local);
+  7 empty skill copies re-copied.
 - **v0.7 · 2026-11-21** — Sharif approved the research plan (`docs/plans/research_plan.md`) and added
   three things: row 4.9, an inventory of our own skills as the starting point; row 4.8, a spike on whether a plugin can stand up the whole agent team (changes D1 if
   not), and row 6.5, each kept repo's process and lessons learned. 4.6 pilot scout started.
