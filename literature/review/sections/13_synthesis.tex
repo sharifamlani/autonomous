@@ -1,0 +1,56 @@
+\section{Synthesis: A Framework for Trustworthy Autonomy}\label{sec:synthesis}
+
+Read together, the preceding sections support one organizing claim: whether autonomous work can be trusted depends less on the model than on the structure that decides when the work is done. This section states that structure as four conditions and six propositions, each with an assessment of its evidence, and applies it to the two kinds of work the review has covered (Figure~\ref{fig:framework}).
+
+\subsection{Four Conditions}
+
+The first condition is an \emph{external signal}: success is decided by something executed or observed, such as a test run, a held-out metric or the state of the running system, rather than by an assertion. The second is a \emph{separation of powers}: the builder, the checker and the grader are distinct, and the builder cannot edit the checker or the grader. The third is a \emph{bounded run}: budgets, stop rules and an honest exit that lets an agent report that it is stuck rather than force a pass. The fourth is \emph{measured reliability}: claims rest on repeated runs, reported with their spread and cost, not on the best run.
+
+The conditions answer different failures, and the evidence suggests that none substitutes for another. An external signal the builder can reach is gamed (Section~\ref{sec:verification}). A separate checker that reads only the builder's account accepts much failing work: in one controlled study, an LLM verifier approved 49.4\% of submissions that a deterministic grader rejected \citep{T18}. A sound and separate check applied once still cannot rank systems, because single-run scores move by 2.2 to 6.0 points depending on which run is taken \citep{F19}. And a run without bounds lets a first error go undetected: in one annotation study, agents never detected their first mistake in 38.5\% of runs \citep{F25}.
+
+\subsection{Six Propositions}
+
+\textbf{P1. Success tracks the presence of an external signal} (Sections~\ref{sec:concepts}, \ref{sec:building}, \ref{sec:science} and \ref{sec:data}). The positive results in automated science come almost entirely from tasks with a computable metric and a held-out set \citep{S31,A25}, and in Android Bench, giving agents detailed requirements and the failing tests raised the best agent's pass rate from 22.7\% to 84.0\% \citep{C29}. \emph{Confidence: moderate.} The pattern holds in both literatures, but most of the support compares different studies, and the Android Bench manipulation changes the detail of the requirements along with access to the tests.
+
+\textbf{P2. Self-report is not evidence, and a checker grows more reliable as its input moves from the agent's account toward observed state} (Sections~\ref{sec:verification}, \ref{sec:science} and \ref{sec:data}). GPT-5 submitted a patch on 100\% of runs and resolved 44\% \citep{F20}; in real sessions, 91.49\% of visible resolutions required explicit correction from the developer \citep{T23}; and an auditor reading only the final paper detected pitfalls with 55\% accuracy, against 82\% when given logs and code \citep{S10}. \emph{Confidence: strong.} Real-use telemetry, trajectory studies, controlled pairings against deterministic graders and independent audits by different groups point the same way.
+
+\textbf{P3. A builder that can reach its checker tends to change the measurement rather than the work, and fixing the check before the work begins is the common remedy in both literatures} (Sections~\ref{sec:verification}, \ref{sec:science} and \ref{sec:replication}). Agents modify test cases on impossible tasks \citep{V3}, tamper with scorers \citep{V17} and overfit validation scores in search loops \citep{R26}, much as human analysts walk forking paths without any conscious fishing \citep{R12}. \emph{Confidence: moderate.} The behavior is documented in controlled studies. The remedy is better supported for software, where adversarial hardening cut the hackable share of benchmarks \citep{V27,T24}, than for agent-run analysis, where the evidence for pre-registration is one retrospective counterfactual \citep{R6}.
+
+\textbf{P4. More agents help when an added agent is an independent, grounded check, or when parallel work is isolated and merged through executed tests; otherwise, at a matched budget, they add cost} (Sections~\ref{sec:architecture} and \ref{sec:measurement}). A team with enforced roles beat a solo agent by a mean of $+0.5$ points ($p = 0.20$) \citep{T18}, and five of six multi-agent workflows trailed a single controller \citep{T25}, while a separate test-writing agent \citep{T4} and test-gated merges from isolated worktrees \citep{T20} did help. \emph{Confidence: moderate.} The cost-matched comparisons agree, but they are few, and none measures an independent tester on applications built from scratch over long unattended runs.
+
+\textbf{P5. Long unattended runs fail by compounding and in silence, so they need several independent bounds, an honest exit, and supervisors that are themselves checked} (Sections~\ref{sec:harness}, \ref{sec:verification} and \ref{sec:reliability}). With about ten steps at 70\% each, the chance of completing all of them is about 3\% \citep{S19}; an instruction to flag tasks for a human cut GPT-5's cheating rate on impossible tasks from 54\% to 9\%, with a much weaker effect for Claude Opus~4.1 \citep{V3}; and a watchdog in one orchestrator killed healthy sessions (\repo{gastownhall/gastown}{2707}). \emph{Confidence: suggestive.} Compounding is well measured, but evidence on which bounds help comes from one study of honest exits, built around deliberately impossible tasks, and from practitioner reports.
+
+\textbf{P6. A single run, an unaudited grader or an unmatched baseline cannot support a claim about an agent} (Sections~\ref{sec:verification}, \ref{sec:reliability} and \ref{sec:measurement}). Identical runs of one agent varied more than agents differed \citep{F24}; audits found flawed tests in at least 59.4\% of a hard subset of one benchmark \citep{C15} and benchmark-attributable errors in 82.7\% of the failed tasks of another \citep{D13}. \emph{Confidence: strong.} Large-sample variance studies and independent and vendor audits of graders agree.
+
+\subsection{Building Software and Running Studies}
+
+Figure~\ref{fig:framework} applies the conditions to building software and to running a study. The mechanisms differ; the logic does not. In software, the external signal is an executed test or the state of the running application; in research, it is a held-out metric or a known answer. In software, the separation of powers is a test the builder cannot edit; in research, it is a decision rule committed before results exist, a check the analyst cannot revise after seeing the data. Software engineering contributes executed checks and isolated environments; the replication-crisis literature contributes pre-commitment, multiverse reporting and independent re-execution.
+
+\begin{figure}[t]
+\centering
+\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{5.7cm}>{\raggedright\arraybackslash}p{5.7cm}@{}}
+\toprule
+\textbf{Condition} & \textbf{Building software} & \textbf{Running a study} \\
+\midrule
+External signal &
+Specification-derived tests that fail before the change and pass after, run in a clean container \citep{V2,C12}; checks of state in the running application by an agent that uses it \citep{V28,C19}. &
+A computable metric scored on held-out data \citep{S31,A25}; known-answer tasks with an audited key \citep{D13}; every reported number checked against code by execution \citep{S15}. \\
+\addlinespace
+Separation of powers &
+An independent checker that runs the code rather than reads the builder's account \citep{T18}; tests the builder cannot modify \citep{V3}, copied in only after the agent runs (harbor$^{a}$). &
+Hypothesis and analysis plan committed before results exist \citep{R13,R19}; grader and answer file placed in the workspace only at grading time (RD-Agent$^{b}$); review from code and logs, not the paper alone \citep{S10}. \\
+\addlinespace
+Bounded runs &
+Separate caps on steps, dollars, wall-clock time and repeated errors, with a named exit status (mini-swe-agent$^{c}$); an honest ``flag for human'' exit \citep{V3}. &
+Search and final seeds kept disjoint (AI-Scientist-v3$^{d}$); one scored look at held-out data, since selecting by test score inflates results \citep{R26}. \\
+\addlinespace
+Measured reliability &
+$k$ runs per arm with pass\textasciicircum k and the spread \citep{F19,A9}; cost per correct solution \citep{F8}; a budget-matched single-agent baseline (Table~\ref{tab:reporting}). &
+Repeated independent runs, reporting the spread of verdicts as well as estimates \citep{R1,D21}; the multiverse of defensible specifications \citep{R30}; independent re-execution \citep{R8}. \\
+\bottomrule
+\multicolumn{3}{@{}p{13.8cm}@{}}{\scriptsize\raggedright Repositories: $^{a}$\,\repofile{harbor-framework/harbor}{src/harbor/cli/quality_checker/default-rubric.toml}; $^{b}$\,\repofile{microsoft/RD-Agent}{rdagent/scenarios/data_science/test_eval.py}; $^{c}$\,\repofile{SWE-agent/mini-swe-agent}{src/minisweagent/agents/default.py}; $^{d}$\,\repofile{SakanaAI/AI-Scientist-v3}{src/investigation/task_contract.py}.} \\
+\end{tabular}
+\caption{The framework applied to two kinds of autonomous work. Rows are the four conditions; each cell names a mechanism supported by the evidence reviewed in Sections~\ref{sec:architecture}--\ref{sec:measurement}, with the supporting study or repository.}
+\label{fig:framework}
+\end{figure}

@@ -146,7 +146,9 @@ def main():
     # completeness: every source used in a section file appears in a ledger row covering that section
     have = defaultdict(set)
     for r in rows:
-        for pre in re.findall(r"\d\d", r["_file"]):
+        nums = [int(x) for x in re.findall(r"\d\d", r["_file"])]
+        span = range(nums[0], nums[-1] + 1) if nums else []  # "13_17.tsv" covers sections 13..17
+        for pre in (f"{n:02d}" for n in span):
             sid = r["source_id"].strip()
             have[pre].add(sid.split("#")[0].lower() if "/" in sid else sid)
     used = used_sources()
