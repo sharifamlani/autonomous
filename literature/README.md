@@ -53,6 +53,8 @@ Filled as each folder lands: papers held, verdict on the folder's central questi
 
 - **Paper IDs** are a folder prefix plus a number (`C4`, `S12`). IDs never change; each prefix lives
   in one folder; new papers take the next free number. A gap is a reserved slot.
+- **PDFs are local only** (gitignored): the public repo publishes the indexes and `papers.tsv`, not the
+  papers. `scripts/literature/fetch_papers.py` re-downloads every PDF from its `papers.tsv` link.
 - **File names:** `<ID>_<FirstAuthor>_<Year>_<Short_Title>.pdf`. A paper we cannot download gets
   `<ID>_<FirstAuthor>_<Year>_<Short_Title>_NOTE.md` with the citation, link and why.
 - **Each folder's README** has the same four sections: **Role** (why the folder exists), **Contents**

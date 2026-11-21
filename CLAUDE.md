@@ -106,7 +106,7 @@ autonomous/
 ├── plugin/                      # (planned, Phase 3) THE KIT: .claude-plugin/, agents/, skills/, hooks/
 ├── benchmark/                   # (planned) task set + graders for `claude plugin eval`; scorecards per version
 ├── showcase/                    # (planned) what the kit made: apps, studies, white paper, post log
-├── literature/                  # papers by theme + papers.tsv catalogue + LITERATURE_REVIEW.md
+├── literature/                  # theme READMEs + papers.tsv catalogue + LITERATURE_REVIEW.md (PDFs local only)
 ├── public/                      # third-party clones (gitignored) + manifest.tsv + _README.md + _candidates/
 ├── research/                    # TRIAL_LOG.tsv, _templates/, NNN_<slug>/ studies
 ├── scripts/                     # new_study.py, sync_public_repos.sh, literature/verify_literature.py
@@ -130,6 +130,8 @@ autonomous/
   recalled from memory is not evidence; `verified` in `papers.tsv` records the check.
 - When citing a number, cite the paper ID and quote the PDF.
 - Run `python scripts/literature/verify_literature.py --all` after any change to `literature/`.
+- PDFs are gitignored (papers are not redistributed from a public repo); `papers.tsv` holds every
+  link, and `scripts/literature/fetch_papers.py` (Phase 5) re-downloads them locally.
 
 ## 4. Public repos rules
 

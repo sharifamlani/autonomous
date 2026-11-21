@@ -5,7 +5,7 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.3 · 2026-11-20
+> v0.4 · 2026-11-20
 
 ---
 
@@ -46,7 +46,7 @@ Source: CLAUDE.md §7.
 | D1 | The deliverable is the kit (Claude Code plugin) + benchmark + showcase | Sharif, 2026-11-20 |
 | D2 | v0.1 proves both halves small: one app task, one known-answer study | Sharif, 2026-11-20 |
 | D3 | The repo is public: github.com/sharifamlani/autonomous | Sharif, 2026-11-20 |
-| D4 | Paper PDFs are committed in `literature/` | Sharif, 2026-11-20 |
+| D4 | Paper PDFs stay local (gitignored); `literature/` READMEs and `papers.tsv` are public; `fetch_papers.py` re-downloads PDFs | Sharif, 2026-11-20 (revised same day) |
 | D5 | `.claude/`, `.agents/`, `.packages/` are local only (gitignored) | Sharif, 2026-11-20 · `9b03690` |
 | D6 | Skills built on private material (`sharif-voice`) or holding personal details stay local until scrubbed | `c9b9638` |
 | D7 | Unattended browser walks use CUA in an isolated Chrome profile; Claude in Chrome is interactive-only | Spike S3b, 2026-11-20 · `dcc04a0` |
@@ -152,6 +152,7 @@ Source: CLAUDE.md §7.
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
 | 5.1 | Add checks to `verify_literature.py`: README sections, unique IDs, `papers.tsv` rows, PDF integrity | ⏸ | — | gate: Phase 3 | literature/README.md |
+| 5.1b | Write `scripts/literature/fetch_papers.py`: download every `papers.tsv` row's PDF locally, verify `%PDF` | ⏸ | — | gate: 5.1 | D4 |
 | 5.2 | Smoke: arXiv PDF fetch returns `%PDF`; `gh api` returns stars/license/archived | ⏸ | — | gate: 5.1 | derisking smokes 3–4 |
 | 5.3 | Write the `research-scout` agent (output contract, no citation without a fetched source) | ⏸ | — | gate: 5.2 | CLAUDE.md §3–4 |
 | 5.4 | Run the scout on theme 02 (Claude Code and harness engineering) | ⏸ | — | gate: 5.3 | literature/README.md |
@@ -306,6 +307,7 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.4 · 2026-11-20** — D4 revised by Sharif: paper PDFs are gitignored; the literature index and catalogue stay public; row 5.1b adds `fetch_papers.py`. `.github/` stays tracked (CI secret scan).
 - **v0.3 · 2026-11-20** — MIT license added (D14; action item A3 closed). Post #1 hooks revised at Sharif's request; still waiting on his pick (A2).
 - **v0.2 · 2026-11-20** — First roadmap. Phases 0–2 done (recon and plan; public repo `c9b9638`;
   day-1 setup and spikes `dcc04a0`); Phase 3 in flight (scripts `4b27ac1`, templates `fdcc5d5`,
