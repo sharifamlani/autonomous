@@ -5,16 +5,16 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.8 · 2026-11-21
+> v0.9 · 2026-11-21
 
 ---
 
 ## §0 You are here
 
-- **Current phase:** Phase 4 done; Phase 5 (8 scouts) waits on Sharif
-- **Current step:** report the pilot, the plugin answer and the skills inventory to Sharif
+- **Current phase:** Phase 5 done (literature: 9 folders, 141 papers); Phase 6 next
+- **Current step:** waiting on Sharif for Phase 6 (GitHub survey: 137 candidates → shortlist, their process and lessons)
 - **Last update:** 2026-11-21
-- **Next action:** on Sharif's go, Phase 5 batch 1 (themes 01, 03, 04, 05); fix the checker's `_incoming/` gap first (parked item).
+- **Next action:** Phase 6 on Sharif's go.
 
 ---
 
@@ -80,6 +80,7 @@ Source: CLAUDE.md §7.
 | D13 | Evaluation criteria are graded by an independent evaluator agent, never the builder | Global CLAUDE.md, 2026-10-28 |
 | D14 | License: MIT (repo and plugin) | Sharif, 2026-11-20 |
 | D15 | The kit is a plugin plus a launcher script that starts each role as its own `claude -p` session (not built-in agent teams, not a separate framework); its permission hook is scoped to the project folder and an allow-list | Spike 4.8, 2026-11-21 · `4261c62` |
+| D16 | Literature collection is not independently graded: scouts self-check with `verify_literature.py`, nothing more ("just get as much literature as we possibly can. We don't need to grade that.") | Sharif, 2026-11-21 |
 
 ---
 
@@ -174,14 +175,14 @@ Source: CLAUDE.md §7.
 **Goal:** all nine literature folders filled with verified papers and repo candidates.
 **Entry gate:** Phase 4 exit gate.
 **Exit gate:** `verify_literature.py --all` PASS; ≥ 90 papers, ≥ 8 per folder.
-**Status:** ⏸ planned
+**Status:** ✅ done (141 papers, 137 repo candidates; no grading rounds per D16)
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 5.1 | Dispatch scouts for themes 01, 03, 04, 05 in parallel (compute-budget limits) (was 6.1) | ⏸ | — | gate: Phase 4 | parallel-agent-orchestration skill |
-| 5.2 | Dispatch scouts for themes 06, 07, 08, 09 in parallel (was 6.2) | ⏸ | — | gate: Phase 4 | same |
-| 5.3 | Verify each folder; re-dispatch only failing themes (was 6.3) | ⏸ | — | gate: 5.1–5.2 | `verify_literature.py` |
-| 5.4 | Update the `literature/README.md` scoreboard (was 6.4) | ⏸ | — | gate: 5.3 | literature/README.md |
+| 5.1 | Dispatch scouts for themes 01, 03, 04, 05 in parallel (compute-budget limits) (was 6.1) | ✅ | — | 2026-11-21 · `25a77ca` (themes 01, 03, 04, 05: 64 sources) | parallel-agent-orchestration skill |
+| 5.2 | Dispatch scouts for themes 06, 07, 08, 09 in parallel (was 6.2) | ✅ | — | 2026-11-21 · `501df84` (themes 06–09: 62 sources) | same |
+| 5.3 | Verify each folder; re-dispatch only failing themes (was 6.3) | ✅ | — | 2026-11-21 · `b711e02` (checker PASS, 9 folders, 141 papers, 137 repos) | `verify_literature.py` |
+| 5.4 | Update the `literature/README.md` scoreboard (was 6.4) | ~ | — | parked: scoreboard rows 01, 03–09 not filled (Sharif: no extra work on literature) | literature/README.md |
 
 ### Phase 6 — Public repos survey and clones
 
@@ -323,6 +324,9 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.9 · 2026-11-21** — Phase 5 closed: all 9 literature folders filled (141 papers, 137 repo
+  candidates), checker PASS. D16: Sharif dropped independent grading of literature collection; the
+  partly applied batch-2 wording fixes were committed as they stood. Plugin answer locked as D15.
 - **v0.8 · 2026-11-21** — Phase 4 closed. Pilot scout filled theme 02 (15 sources, 23 repos; C8 PASS
   8/8, `be1834a`). Plugin-team spike (4.8, `4261c62`): a plugin plus a small launcher script stands up
   Main, builder, QA and tester as separate unattended sessions with a working handoff; D1 holds, no
