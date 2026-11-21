@@ -5,14 +5,14 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.14 · 2026-11-21
+> v0.15 · 2026-11-21
 
 ---
 
 ## §0 You are here
 
 - **Current phase:** Phase 7 in progress (literature review, Annual Review-style article; outline approved)
-- **Current step:** drafting sections in parallel; then Phase 7.5 QA (100% number, citation and fact checks), then Phase 8 independent grade
+- **Current step:** full draft done (`ff08499`); Phase 7.5 QA running (5 agents: sections 1-5, 6-8, 9-12, 13-17, bibliography + consistency)
 - **Last update:** 2026-11-21
 - **Next action:** after QA (incl. the verbatim evidence file) and the grade pass, wait for Sharif's express go before any post (target 6:00 AM Sun 2026-11-22 EST).
 
@@ -213,8 +213,8 @@ Source: CLAUDE.md §7.
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 7.1 | Write `literature/LITERATURE_REVIEW.md`: what the evidence and the repo lessons say per part, and what they imply for the kit's roster, prompts and gates (was 8.1) | ⏸ | — | gate: Phases 5–6 | literature/ |
-| 7.2 | Citation check script: every ID in the review resolves in `papers.tsv` (was 8.2) | ⏸ | — | gate: 7.1 | criterion 9 |
+| 7.1 | Write `literature/LITERATURE_REVIEW.md`: what the evidence and the repo lessons say per part, and what they imply for the kit's roster, prompts and gates (was 8.1) | ⏳ | — | 2026-11-21 · `ff08499` full draft in LaTeX (16 sections, 162 papers + 27 repos, 991-row evidence ledger); in QA | literature/ |
+| 7.2 | Citation check script: every ID in the review resolves in `papers.tsv` (was 8.2) | ✅ | — | 2026-11-21 · `de3f956` `check_review.py` (0 dangling; smoke: fake ID caught) + `build_evidence.py` (`c733ac8`) | criterion 9 |
 | 7.3 | CLAUDE.md v1: fold in the review's design implications (was 8.3) | ⏸ | — | gate: 7.1 | this plan |
 
 ### Phase 7.5 — QA of the literature review (before the independent grade)
@@ -222,7 +222,7 @@ Source: CLAUDE.md §7.
 **Goal:** a QA team that did not write the review checks every number, citation and fact before anything is graded or published (Sharif 2026-11-21: "very thorough ... for public release").
 **Entry gate:** Phase 7 (full draft, `render_review.py --check` PASS).
 **Exit gate:** `literature/qa/LITERATURE_REVIEW_qa.md` shows 0 open blockers and 0 open majors, every fix re-checked.
-**Status:** ⏸ planned
+**Status:** ⏳ in progress (5 QA agents, 2026-11-21)
 **Plan:** `docs/plans/07_literature_review.md` § Phase 7.5
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
@@ -346,6 +346,9 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.15 · 2026-11-21** — Full review draft in LaTeX (`ff08499`): 16 sections, 37 pages, 162 papers
+  and 27 repos cited, evidence ledger 991 rows (720 verified against PDFs by script). Row 7.2 done.
+  Phase 7.5 QA started. Draft is ~13.4k words vs the plan's 9-11k (question to Sharif).
 - **v0.14 · 2026-11-21** — Sharif: an evidence file with every claim's verbatim quote, page and
   location (row 7.5.6, `build_evidence.py` checks quotes against the PDFs), and no social post of the
   paper until his express go order.
