@@ -5,14 +5,14 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.17 · 2026-11-21
+> v0.18 · 2026-11-21
 
 ---
 
 ## §0 You are here
 
 - **Current phase:** Phase 8 (independent evaluation of the literature review); Phases 7 and 7.5 done
-- **Current step:** independent evaluator grading the review against the plan's criteria; word-count criterion awaits Sharif's decision
+- **Current step:** GRADE PASS except word count; waiting on Sharif: raise the length limit or cut to ~11k
 - **Last update:** 2026-11-21
 - **Next action:** after QA (incl. the verbatim evidence file) and the grade pass, wait for Sharif's express go before any post (target 6:00 AM Sun 2026-11-22 EST).
 
@@ -243,7 +243,7 @@ Source: CLAUDE.md §7.
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 8.1 | Evaluator grades the criteria from a fresh clone (citations and repo metadata re-queried) (was 9.1) | ⏸ | — | gate: Phase 7 | D13 |
+| 8.1 | Evaluator grades the criteria from a fresh clone (citations and repo metadata re-queried) (was 9.1) | ~ | — | 2026-11-21 · scorecard `literature/qa/PHASE8_SCORECARD.md`: 6/7 criteria PASS (20/20 random numbers, 20/20 evidence spot checks); word count FAIL (15,043 vs 9-11k) pending Sharif | D13 |
 | 8.2 | Fix rounds until every criterion passes (was 9.2) | ⏸ | — | gate: 8.1 | global CLAUDE.md |
 | 8.3 | Release card from the scorecard; Marketing posts the review to LinkedIn + X with a video about the paper (`make-video` skill) **only on Sharif's express go order** (target 6:00 AM Sun 2026-11-22 EST) (was 9.3) | ⏸ | — | gate: 8.2 | CLAUDE.md §8 |
 
@@ -346,6 +346,9 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.18 · 2026-11-21** — Phase 8 grade: 6/7 criteria PASS on independent re-measurement; the one
+  major reader finding (ruflo fairness) fixed and re-graded. Only the word-count criterion fails
+  (15,043 vs 9-11k); changing it is Sharif's call.
 - **v0.17 · 2026-11-21** — Phase 7.5 closed: QA PASS (`257dd35`), 135/135 findings confirmed fixed by a
   re-checker that touched none of the work. Phase 8 (independent evaluator) started.
 - **v0.16 · 2026-11-21** — Phase 7.5: five QA passes found 135 issues (11 blockers) and all are fixed,
