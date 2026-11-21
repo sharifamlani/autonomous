@@ -80,7 +80,7 @@ autonomous/
 | C4 | Papers come back from the catalogue | 1 real arXiv PDF fetched, starts `%PDF`; 2nd run skips it; bad URL exits non-zero | `fetch_papers.py` on fixture TSVs | output lines |
 | C5 | The scout's sources answer | arXiv `%PDF` ok; `gh api` returns all 4 fields for `anthropics/claude-code` | `smoke_sources.py` | output lines |
 | C6 | The scout prompt carries the full contract | 4 README sections, 10 `papers.tsv` columns, 8 candidates columns, file-name pattern, "no citation without a fetched source" all present | `verify_literature.py --agent` | PASS line |
-| C7 | Nothing private or redistributed reaches the public repo | gitleaks 0 leaks; `git ls-files '*.pdf'` = 0 | gitleaks; git | output |
+| C7 | Nothing private or redistributed reaches the public repo | gitleaks 0 leaks; `git ls-files 'literature/*.pdf'` = 0 (study figure PDFs may be committed) | gitleaks; git | output |
 | C8 (after go) | One scout fills theme 02 correctly | folder 02 passes `--all`; ≥ 8 rows `verified=yes`; 0 short candidates rows; evaluator re-fetches 3 random papers and title/author/year match 3/3 | evaluator, independently | scorecard rows |
 
 Setup closes on C1–C7 PASS from the evaluator. The phase closes on C1–C8.
@@ -94,3 +94,26 @@ Setup closes on C1–C7 PASS from the evaluator. The phase closes on C1–C8.
 4. Evaluator (fresh context) grades C1–C7; fix rounds until all PASS.
 5. ROADMAP flips for 4.1–4.5; Main asks Sharif for the go on 4.6.
 6. After go: 4.6 scout run, 4.7 evaluator grades C8; scorecard appended here.
+
+## Setup scorecard (C1–C7), independent evaluator, 2026-11-21, fresh clone at `b8693bf`
+
+| Criterion | Threshold | Result | Evidence | PASS/FAIL |
+|---|---|---|---|---|
+| C1 | exit 0; 0 error cells; verify PASS; 0 `trading` | stripped copy ran in 6 s; no local paths in outputs | `PASS: 0 error cells, verify cell PASS`; `grep trading: 0` | PASS |
+| C2 | 5/5 planted defects; clean exits 0 | 30 tests pass; evaluator's own 9 extra plants all flagged | `30 passed in 3.09s` | PASS |
+| C3 | exit 0 | passes (library still empty; C8 is the real test) | `PASS`, exit 0 | PASS |
+| C4 | fetch, %PDF, skip, bad URL non-zero | all three | `fetched 1` · `%PDF-1.5` · `skipped 1` · `failed 2`, exit 1 | PASS |
+| C5 | arXiv %PDF; 4 gh fields | both answer | `arxiv: %PDF ok` · `gh: stars=156485 license=None archived=False pushed_at=…` | PASS |
+| C6 | full contract in the scout prompt | checker PASS; read by hand, lines cited | `agent contract: PASS` | PASS |
+| C7 | 0 leaks; 0 PDFs | 16 commits clean; no PDF ever in history | `no leaks found`; `pdf count: 0` | PASS |
+
+**Fixed after grading (scout prompt, before any research):** fetch failure means the entry waits
+(no `_NOTE.md` fallback); surname rule matches the checker; README links are web URLs only; `url`
+must be re-downloadable or the file is a `_NOTE.md`; no-license repos get `NONE`. C7 narrowed to
+`literature/` PDFs so study figures can be committed.
+
+**Parked (non-blocking, with their phase):**
+- `verify_literature.py` does not read `literature/_incoming/` (parallel mode) → fix before Phase 5.
+- `--agent` checks presence, not order → C6 stays graded by reading too.
+- `new_study.py` does not copy `replicate.ipynb`; template runs leave `%TEMP%eplicate_demo_*` → Phase 9 (new-study design).
+- The "no license" value is spelled `NONE` / `none` / `None` across prompt, fixture and smoke → normalise in Phase 6.

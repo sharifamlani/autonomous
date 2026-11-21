@@ -5,16 +5,16 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.5 · 2026-11-21
+> v0.6 · 2026-11-21
 
 ---
 
 ## §0 You are here
 
-- **Current phase:** Phase 3 — Rules, roadmap and scaffolds (3.7 post #1 with Marketing) · Phase 4 setup rows 4.1–4.5 in flight
-- **Current step:** 4.1 notebook spike; 4.2–4.5 research tooling and the scout agent
+- **Current phase:** Phase 4 — Research tooling, notebook spike and pilot scout
+- **Current step:** setup rows 4.1–4.5 done and graded (C1–C7 PASS); 4.6 waits on Sharif's go
 - **Last update:** 2026-11-21
-- **Next action:** finish 4.1–4.5, then Sharif's go before 4.6 (the first scout run, the start of research).
+- **Next action:** on Sharif's go, run the `research-scout` on theme 02 (row 4.6), then the evaluator grades C8 (row 4.7).
 
 ---
 
@@ -136,7 +136,7 @@ Source: CLAUDE.md §7.
 **Goal:** the repo's rules and sequence written down; literature, public and research scaffolds ready.
 **Entry gate:** Phase 2.
 **Exit gate:** CLAUDE.md has its 7 required sections; `verify_literature.py --links --titles` PASS; `sync_public_repos.sh --verify` exit 0.
-**Status:** ⏳ in flight
+**Status:** ✅ done
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
@@ -146,23 +146,23 @@ Source: CLAUDE.md §7.
 | 3.4 | CLAUDE.md v0 | ✅ | — | 2026-11-20 · `7f9ad76` | this plan |
 | 3.5 | ROADMAP.md v0.2 | ✅ | — | 2026-11-20 · this commit | `writing-roadmaps` skill |
 | 3.6 | README.md (one-page overview) and SHARIF_ACTION_ITEMS.md | ✅ | — | 2026-11-20 · this commit | CLAUDE.md §2 |
-| 3.7 | Marketing post #1 drafted (problem + plan, two hooks, shot list) for Sharif's one approval | ⏳ | — | waiting on Sharif (A2) | CLAUDE.md §8 |
+| 3.7 | Marketing post #1 drafted (problem + plan, two hooks, shot list) for Sharif's one approval | ✅ | — | 2026-11-21 · [post](https://www.linkedin.com/feed/update/urn:li:activity:7529775542837882880/) | CLAUDE.md §8 |
 
 ### Phase 4 — Research tooling, notebook spike and pilot scout
 
 **Goal:** prove research can run unattended: the notebook template runs headless, the literature tools work, and one scout fills one theme to the contract.
 **Entry gate:** Phase 3.
 **Exit gate:** headless Run All of the notebook template PASS; folder 02 passes `verify_literature.py --all`; ≥ 8 verified papers; candidates TSV has 0 short rows; independent evaluator scorecard all PASS.
-**Status:** ⏸ planned
-**Plan:** `docs/plans/04_research_tooling_and_pilot.md`
+**Status:** ⏳ setup done (4.1–4.5); 4.6 waits on Sharif's go
+**Plan:** `docs/plans/04_research_tooling_and_pilot.md` · setup C1–C7 PASS (independent evaluator, 2026-11-21)
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 4.1 | Spike: adapt `research/_templates/replicate.ipynb` and Run All headless (promise 2 mechanism) (was 4.1) | ⏸ | ✅ 04 | gate: Phase 3 | `.agents/project.md` |
-| 4.2 | Add checks to `verify_literature.py`: README sections, unique IDs, `papers.tsv` rows, PDF integrity; fix `--all` (was 5.1) | ⏸ | ✅ 04 | gate: Phase 3 | literature/README.md |
-| 4.3 | Write `scripts/literature/fetch_papers.py`: download every `papers.tsv` row's PDF locally, verify `%PDF` (was 5.1b) | ⏸ | ✅ 04 | gate: 4.2 | D4 |
-| 4.4 | Smoke: arXiv PDF fetch returns `%PDF`; `gh api` returns stars/license/archived (was 5.2) | ⏸ | ✅ 04 | gate: 4.3 | plan smokes |
-| 4.5 | Write the `research-scout` agent (output contract, no citation without a fetched source) (was 5.3) | ⏸ | ✅ 04 | gate: 4.4 | CLAUDE.md §3–4 |
+| 4.1 | Spike: adapt `research/_templates/replicate.ipynb` and Run All headless (promise 2 mechanism) (was 4.1) | ✅ | ✅ 04 | 2026-11-21 · `d366253` | `.agents/project.md` |
+| 4.2 | Add checks to `verify_literature.py`: README sections, unique IDs, `papers.tsv` rows, PDF integrity; fix `--all` (was 5.1) | ✅ | ✅ 04 | 2026-11-21 · `b8693bf` | literature/README.md |
+| 4.3 | Write `scripts/literature/fetch_papers.py`: download every `papers.tsv` row's PDF locally, verify `%PDF` (was 5.1b) | ✅ | ✅ 04 | 2026-11-21 · `b8693bf` | D4 |
+| 4.4 | Smoke: arXiv PDF fetch returns `%PDF`; `gh api` returns stars/license/archived (was 5.2) | ✅ | ✅ 04 | 2026-11-21 · `b8693bf` | plan smokes |
+| 4.5 | Write the `research-scout` agent (output contract, no citation without a fetched source) (was 5.3) | ✅ | ✅ 04 | 2026-11-21 · local (`.claude/`, gitignored) | CLAUDE.md §3–4 |
 | 4.6 | Run the scout on theme 02 (Claude Code and harness engineering) (was 5.4) | ⏸ | ✅ 04 | gate: 4.5 + Sharif's go | literature/README.md |
 | 4.7 | Independent evaluator grades the pilot; tighten the scout prompt if it fails (was 5.5) | ⏸ | ✅ 04 | gate: 4.6 | D13 |
 
@@ -319,6 +319,10 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.6 · 2026-11-21** — Phase 3 closed: post #1 live on LinkedIn (3.7; A2 closed). Phase 4 setup
+  done: notebook template runs headless (4.1, `d366253`; promise 2's mechanism proven), literature
+  checker, fetcher and smokes (4.2–4.4, `b8693bf`), `research-scout` agent (4.5, local). Independent
+  evaluator: C1–C7 PASS. Research (4.6) waits on Sharif's go.
 - **v0.5 · 2026-11-21** — Phases reordered at Sharif's direction: research and testing before any
   kit building (§0.5 map). Old Phase 4 split: 4.1 notebook spike stays; plugin rows 4.2–4.6 move to
   Phase 11 (build) and 9.4 (design decision). Old Phases 5–14 become 4–13. Row 4.6 (first scout run)
