@@ -103,7 +103,8 @@ autonomous/
 ├── ROADMAP.md                   # phase table + status: the canonical execution directive
 ├── PUBLIC_REPOS.md              # (planned, Phase 6) GitHub survey: metadata from gh api, evidence-labeled
 ├── SHARIF_ACTION_ITEMS.md       # escalations and decisions waiting on Sharif
-├── plugin/                      # (planned, Phase 3) THE KIT: .claude-plugin/, agents/, skills/, hooks/
+├── docs/plans/                  # one plan per ROADMAP phase: tree, flowchart, derisking, criteria, scorecard
+├── plugin/                      # (planned, Phase 11) THE KIT: .claude-plugin/, agents/, skills/, hooks/
 ├── benchmark/                   # (planned) task set + graders for `claude plugin eval`; scorecards per version
 ├── showcase/                    # (planned) what the kit made: apps, studies, white paper, post log
 ├── literature/                  # theme READMEs + papers.tsv catalogue + LITERATURE_REVIEW.md (PDFs local only)
@@ -131,7 +132,7 @@ autonomous/
 - When citing a number, cite the paper ID and quote the PDF.
 - Run `python scripts/literature/verify_literature.py --all` after any change to `literature/`.
 - PDFs are gitignored (papers are not redistributed from a public repo); `papers.tsv` holds every
-  link, and `scripts/literature/fetch_papers.py` (Phase 5) re-downloads them locally.
+  link, and `scripts/literature/fetch_papers.py` (Phase 4) re-downloads them locally.
 
 ## 4. Public repos rules
 
@@ -179,7 +180,7 @@ theory, read-only), `data-prober` (prove a data source returns usable data), `de
 the running app and report evidence), `screen-builder` (one UI surface). A `research-scout` (one
 literature theme: papers + repos, fetched and verified) is added in Phase 4.
 
-**The kit's agents** (in `plugin/agents/`, from Phase 3) are designed from the literature review
+**The kit's agents** (in `plugin/agents/`, built in Phase 11) are designed in Phase 9 from the literature review
 (Phase 7) and the v0.1 benchmark, not guessed up front.
 
 ## 7. The kit (plugin) conventions

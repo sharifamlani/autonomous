@@ -5,16 +5,38 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.4 · 2026-11-20
+> v0.5 · 2026-11-21
 
 ---
 
 ## §0 You are here
 
-- **Current phase:** Phase 3 — Rules, roadmap and scaffolds
-- **Current step:** 3.7 post #1 drafted; waiting on Sharif's approval (SHARIF_ACTION_ITEMS A2)
-- **Last update:** 2026-11-20
-- **Next action:** Phase 4: copy the lifted dev skills that belong in the kit into `plugin/`, scrub them, and pass `claude plugin validate plugin --strict`.
+- **Current phase:** Phase 3 — Rules, roadmap and scaffolds (3.7 post #1 with Marketing) · Phase 4 setup rows 4.1–4.5 in flight
+- **Current step:** 4.1 notebook spike; 4.2–4.5 research tooling and the scout agent
+- **Last update:** 2026-11-21
+- **Next action:** finish 4.1–4.5, then Sharif's go before 4.6 (the first scout run, the start of research).
+
+---
+
+## §0.5 Phase renumbering map (v0.5, 2026-11-21)
+
+Sharif, 2026-11-21: research and testing come before any kit building. The old Phase 4 (kit
+skeleton) is split: its notebook spike stays first; its plugin rows move to the design and build phases.
+
+| Old | New | Phase |
+|---|---|---|
+| 4.1 | 4.1 | Notebook spike (promise 2) |
+| 4.2–4.6 | 11.1, 11.2, 11.5, 9.4 | Plugin files, copied skills, validate → build; which skills enter the kit → design |
+| 5 | 4 | Pilot research scout (5.1→4.2, 5.1b→4.3, 5.2→4.4, 5.3→4.5, 5.4→4.6, 5.5→4.7) |
+| 6 | 5 | Research fan-out |
+| 7 | 6 | Public repos survey |
+| 8 | 7 | Literature review |
+| 9 | 8 | Independent evaluation |
+| 10 | 9 | Kit design |
+| 11 | 10 | Benchmark v0.1 |
+| 12 | 11 | Kit build (absorbs old 4.2–4.6) |
+| 13 | 12 | v0.1 release |
+| 14 | 13 | Grow |
 
 ---
 
@@ -126,158 +148,148 @@ Source: CLAUDE.md §7.
 | 3.6 | README.md (one-page overview) and SHARIF_ACTION_ITEMS.md | ✅ | — | 2026-11-20 · this commit | CLAUDE.md §2 |
 | 3.7 | Marketing post #1 drafted (problem + plan, two hooks, shot list) for Sharif's one approval | ⏳ | — | waiting on Sharif (A2) | CLAUDE.md §8 |
 
-### Phase 4 — Kit skeleton: adapt the lifted skills and agents
+### Phase 4 — Research tooling, notebook spike and pilot scout
 
-**Goal:** a valid, installable `plugin/` holding the scrubbed skills and agents the kit needs now.
+**Goal:** prove research can run unattended: the notebook template runs headless, the literature tools work, and one scout fills one theme to the contract.
 **Entry gate:** Phase 3.
-**Exit gate:** `claude plugin validate plugin --strict` exit 0; headless Run All of the notebook template PASS; 0 references to Trading's package in `plugin/`.
+**Exit gate:** headless Run All of the notebook template PASS; folder 02 passes `verify_literature.py --all`; ≥ 8 verified papers; candidates TSV has 0 short rows; independent evaluator scorecard all PASS.
 **Status:** ⏸ planned
+**Plan:** `docs/plans/04_research_tooling_and_pilot.md`
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 4.1 | Smoke: headless Run All of `research/_templates/replicate.ipynb` after adapting it (promise 2 mechanism) | ⏸ | — | gate: Phase 3 | `.agents/project.md` |
-| 4.2 | Create `plugin/.claude-plugin/plugin.json` and root `.claude-plugin/marketplace.json` | ⏸ | — | gate: 4.1 | CLAUDE.md §7 |
-| 4.3 | Copy `research-report` into `plugin/skills/` (path changes only) | ⏸ | — | gate: 4.2 | D9 |
-| 4.4 | Copy `bug-hypothesis`, `data-prober`, `demo-verifier` into `plugin/agents/` | ⏸ | — | gate: 4.2 | CLAUDE.md §6 |
-| 4.5 | Scrub `scheduled-wakeup-loops` and `agent-spec` of personal details; decide which enter the kit | ⏸ | — | gate: 4.2 | D6 |
-| 4.6 | `claude plugin validate plugin --strict` exit 0; install test with `claude --plugin-dir ./plugin` | ⏸ | — | gate: 4.3–4.5 | plugin docs |
+| 4.1 | Spike: adapt `research/_templates/replicate.ipynb` and Run All headless (promise 2 mechanism) (was 4.1) | ⏸ | ✅ 04 | gate: Phase 3 | `.agents/project.md` |
+| 4.2 | Add checks to `verify_literature.py`: README sections, unique IDs, `papers.tsv` rows, PDF integrity; fix `--all` (was 5.1) | ⏸ | ✅ 04 | gate: Phase 3 | literature/README.md |
+| 4.3 | Write `scripts/literature/fetch_papers.py`: download every `papers.tsv` row's PDF locally, verify `%PDF` (was 5.1b) | ⏸ | ✅ 04 | gate: 4.2 | D4 |
+| 4.4 | Smoke: arXiv PDF fetch returns `%PDF`; `gh api` returns stars/license/archived (was 5.2) | ⏸ | ✅ 04 | gate: 4.3 | plan smokes |
+| 4.5 | Write the `research-scout` agent (output contract, no citation without a fetched source) (was 5.3) | ⏸ | ✅ 04 | gate: 4.4 | CLAUDE.md §3–4 |
+| 4.6 | Run the scout on theme 02 (Claude Code and harness engineering) (was 5.4) | ⏸ | ✅ 04 | gate: 4.5 + Sharif's go | literature/README.md |
+| 4.7 | Independent evaluator grades the pilot; tighten the scout prompt if it fails (was 5.5) | ⏸ | ✅ 04 | gate: 4.6 | D13 |
 
-### Phase 5 — Pilot research scout (one theme)
-
-**Goal:** prove one scout produces a literature folder and repo candidates that meet the contract.
-**Entry gate:** Phase 3 (scaffolds), Phase 4.6 not required.
-**Exit gate:** folder 02 passes `verify_literature.py`; ≥ 8 verified papers; candidates TSV has 0 short rows.
-**Status:** ⏸ planned
-
-| # | Action | Status | Plan? | Date · Commit / Plan | Source |
-|---|---|---|---|---|---|
-| 5.1 | Add checks to `verify_literature.py`: README sections, unique IDs, `papers.tsv` rows, PDF integrity | ⏸ | — | gate: Phase 3 | literature/README.md |
-| 5.1b | Write `scripts/literature/fetch_papers.py`: download every `papers.tsv` row's PDF locally, verify `%PDF` | ⏸ | — | gate: 5.1 | D4 |
-| 5.2 | Smoke: arXiv PDF fetch returns `%PDF`; `gh api` returns stars/license/archived | ⏸ | — | gate: 5.1 | derisking smokes 3–4 |
-| 5.3 | Write the `research-scout` agent (output contract, no citation without a fetched source) | ⏸ | — | gate: 5.2 | CLAUDE.md §3–4 |
-| 5.4 | Run the scout on theme 02 (Claude Code and harness engineering) | ⏸ | — | gate: 5.3 | literature/README.md |
-| 5.5 | Verify the pilot; tighten the scout prompt if it fails | ⏸ | — | gate: 5.4 | derisking smoke 6 |
-
-### Phase 6 — Research fan-out (8 scouts)
+### Phase 5 — Research fan-out (8 scouts)
 
 **Goal:** all nine literature folders filled with verified papers and repo candidates.
-**Entry gate:** Phase 5 exit gate.
+**Entry gate:** Phase 4 exit gate.
 **Exit gate:** `verify_literature.py --all` PASS; ≥ 90 papers, ≥ 8 per folder.
 **Status:** ⏸ planned
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 6.1 | Dispatch scouts for themes 01, 03, 04, 05 in parallel (compute-budget limits) | ⏸ | — | gate: Phase 5 | parallel-agent-orchestration skill |
-| 6.2 | Dispatch scouts for themes 06, 07, 08, 09 in parallel | ⏸ | — | gate: Phase 5 | same |
-| 6.3 | Verify each folder; re-dispatch only failing themes | ⏸ | — | gate: 6.1–6.2 | derisking smoke 7 |
-| 6.4 | Update the `literature/README.md` scoreboard | ⏸ | — | gate: 6.3 | literature/README.md |
+| 5.1 | Dispatch scouts for themes 01, 03, 04, 05 in parallel (compute-budget limits) (was 6.1) | ⏸ | — | gate: Phase 4 | parallel-agent-orchestration skill |
+| 5.2 | Dispatch scouts for themes 06, 07, 08, 09 in parallel (was 6.2) | ⏸ | — | gate: Phase 4 | same |
+| 5.3 | Verify each folder; re-dispatch only failing themes (was 6.3) | ⏸ | — | gate: 5.1–5.2 | `verify_literature.py` |
+| 5.4 | Update the `literature/README.md` scoreboard (was 6.4) | ⏸ | — | gate: 5.3 | literature/README.md |
 
-### Phase 7 — Public repos survey and clones
+### Phase 6 — Public repos survey and clones
 
 **Goal:** the GitHub survey written and the shortlist cloned and pinned.
-**Entry gate:** Phase 6.
+**Entry gate:** Phase 5.
 **Exit gate:** `PUBLIC_REPOS.md` ≥ 60 repos with full metadata; `sync_public_repos.sh --verify` exit 0.
 **Status:** ⏸ planned
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 7.1 | Merge `public/_candidates/*.tsv`; de-duplicate | ⏸ | — | gate: Phase 6 | CLAUDE.md §4 |
-| 7.2 | Write `PUBLIC_REPOS.md` (metadata from `gh api`, evidence labels, license notes) | ⏸ | — | gate: 7.1 | Trading `PUBLIC_REPOS.md` format |
-| 7.3 | Shortlist ≤ 20; clone pinned into `public/`; write `manifest.tsv` | ⏸ | — | gate: 7.2 | `sync_public_repos.sh` |
-| 7.4 | One evaluation section per clone in `public/_README.md` | ⏸ | — | gate: 7.3 | public/_README.md |
+| 6.1 | Merge `public/_candidates/*.tsv`; de-duplicate (was 7.1) | ⏸ | — | gate: Phase 5 | CLAUDE.md §4 |
+| 6.2 | Write `PUBLIC_REPOS.md` (metadata from `gh api`, evidence labels, license notes) (was 7.2) | ⏸ | — | gate: 6.1 | Trading `PUBLIC_REPOS.md` format |
+| 6.3 | Shortlist ≤ 20; clone pinned into `public/`; write `manifest.tsv` (was 7.3) | ⏸ | — | gate: 6.2 | `sync_public_repos.sh` |
+| 6.4 | One evaluation section per clone in `public/_README.md` (was 7.4) | ⏸ | — | gate: 6.3 | public/_README.md |
 
-### Phase 8 — Literature review and CLAUDE.md v1
+### Phase 7 — Literature review and CLAUDE.md v1
 
 **Goal:** the synthesis that turns the evidence into the kit's design.
-**Entry gate:** Phases 6–7.
+**Entry gate:** Phases 5–6.
 **Exit gate:** `LITERATURE_REVIEW.md` with 0 dangling citation IDs; CLAUDE.md v1 committed.
 **Status:** ⏸ planned
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 8.1 | Write `literature/LITERATURE_REVIEW.md`: what the evidence says per part, and what it implies for the kit's roster, prompts and gates | ⏸ | — | gate: Phases 6–7 | literature/ |
-| 8.2 | Citation check script: every ID in the review resolves in `papers.tsv` | ⏸ | — | gate: 8.1 | criterion 9 |
-| 8.3 | CLAUDE.md v1: fold in the review's design implications | ⏸ | — | gate: 8.1 | this plan |
+| 7.1 | Write `literature/LITERATURE_REVIEW.md`: what the evidence says per part, and what it implies for the kit's roster, prompts and gates (was 8.1) | ⏸ | — | gate: Phases 5–6 | literature/ |
+| 7.2 | Citation check script: every ID in the review resolves in `papers.tsv` (was 8.2) | ⏸ | — | gate: 7.1 | criterion 9 |
+| 7.3 | CLAUDE.md v1: fold in the review's design implications (was 8.3) | ⏸ | — | gate: 7.1 | this plan |
 
-### Phase 9 — Independent evaluation of the research foundation
+### Phase 8 — Independent evaluation of the research foundation
 
-**Goal:** an evaluator that did none of the work grades Phases 1–8 against the criteria table.
-**Entry gate:** Phase 8.
+**Goal:** an evaluator that did none of the work grades Phases 4–7 against the criteria table.
+**Entry gate:** Phase 7.
 **Exit gate:** every criterion PASS on the evaluator's scorecard; post for the phase goes out.
 **Status:** ⏸ planned
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 9.1 | Evaluator grades criteria 1–11 from a fresh clone (citations and repo metadata re-queried) | ⏸ | — | gate: Phase 8 | D13 |
-| 9.2 | Fix rounds until every criterion passes | ⏸ | — | gate: 9.1 | global CLAUDE.md |
-| 9.3 | Release card from the scorecard; Marketing posts the update | ⏸ | — | gate: 9.2 | CLAUDE.md §8 |
+| 8.1 | Evaluator grades the criteria from a fresh clone (citations and repo metadata re-queried) (was 9.1) | ⏸ | — | gate: Phase 7 | D13 |
+| 8.2 | Fix rounds until every criterion passes (was 9.2) | ⏸ | — | gate: 8.1 | global CLAUDE.md |
+| 8.3 | Release card from the scorecard; Marketing posts the update (was 9.3) | ⏸ | — | gate: 8.2 | CLAUDE.md §8 |
 
-### Phase 10 — Kit v0.1 design
+### Phase 9 — Kit v0.1 design, from the research
 
 **Goal:** the kit's agents, prompts, skills and gates designed from the review, with a plan.
-**Entry gate:** Phase 9.
+**Entry gate:** Phase 8.
 **Exit gate:** plan file with tree, flowchart, derisking and evaluation criteria approved by Sharif.
 **Status:** ⏸ planned
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 10.1 | Design `/autonomous:new-app` (agent-team roles as plugin agents and skills) | ⏸ | ⏸ | gate: Phase 9 | D8 |
-| 10.2 | Design `/autonomous:new-study` (research protocol as plugin agents and skills) | ⏸ | ⏸ | gate: Phase 9 | D9 |
-| 10.3 | Design unattended run settings (permission flags, background caps, CUA walk) | ⏸ | ⏸ | gate: Phase 9 | D7, CLAUDE.md §1 |
+| 9.1 | Design `/autonomous:new-app` (agent-team roles as plugin agents and skills) (was 10.1) | ⏸ | ⏸ 09 | gate: Phase 8 | D8 |
+| 9.2 | Design `/autonomous:new-study` (research protocol as plugin agents and skills) (was 10.2) | ⏸ | ⏸ 09 | gate: Phase 8 | D9 |
+| 9.3 | Design unattended run settings (permission flags, background caps, CUA walk) (was 10.3) | ⏸ | ⏸ 09 | gate: Phase 8 | D7, CLAUDE.md §1 |
+| 9.4 | Decide which lifted dev skills and agents enter the kit (`research-report`, the three dev agents, scrubbed `scheduled-wakeup-loops` and `agent-spec`) (was 4.3–4.5, O5) | ⏸ | ⏸ 09 | gate: Phase 8 | D6 |
 
-### Phase 11 — Benchmark v0.1
+### Phase 10 — Benchmark v0.1: the tests
 
 **Goal:** one app task and one known-answer study, with graders, runnable by `claude plugin eval`.
-**Entry gate:** Phase 10.
+**Entry gate:** Phase 9.
 **Exit gate:** the baseline arm (no plugin) runs end to end and produces a scorecard.
 **Status:** ⏸ planned
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 11.1 | Pick the app task (spec + scripted user walk + pass checks) | ⏸ | ⏸ | gate: Phase 10 | D2 |
-| 11.2 | Pick the known-answer study (a published finding with data we can access) | ⏸ | ⏸ | gate: Phase 10 | D2 |
-| 11.3 | Write graders (deterministic first; LLM judge only with a calibration set) | ⏸ | ⏸ | gate: 11.1–11.2 | literature 05 |
-| 11.4 | Run the no-plugin baseline arm; record the scorecard | ⏸ | ⏸ | gate: 11.3 | D11 |
+| 10.1 | Pick the app task (spec + scripted user walk + pass checks) (was 11.1) | ⏸ | ⏸ 10 | gate: Phase 9 | D2 |
+| 10.2 | Pick the known-answer study (a published finding with data we can access) (was 11.2) | ⏸ | ⏸ 10 | gate: Phase 9 | D2 |
+| 10.3 | Write graders (deterministic first; LLM judge only with a calibration set) (was 11.3) | ⏸ | ⏸ 10 | gate: 10.1–10.2 | literature 05 |
+| 10.4 | Run the no-plugin baseline arm; record the scorecard (was 11.4) | ⏸ | ⏸ 10 | gate: 10.3 | D11 |
 
-### Phase 12 — Kit v0.1 build
+### Phase 11 — Kit v0.1 build
 
-**Goal:** the kit built through the agent-team flywheel.
-**Entry gate:** Phases 10–11.
-**Exit gate:** every PR QA-approved at its sha and walked on staging; plugin validates.
+**Goal:** the kit built through the agent-team flywheel, starting from an empty `plugin/`.
+**Entry gate:** Phases 9–10.
+**Exit gate:** every PR QA-approved at its sha and walked on staging; `claude plugin validate plugin --strict` exit 0; 0 references to Trading's package in `plugin/`.
 **Status:** ⏸ planned
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 12.1 | Build `/autonomous:new-app` | ⏸ | ⏸ | gate: Phase 11 | D8 |
-| 12.2 | Build `/autonomous:new-study` | ⏸ | ⏸ | gate: Phase 11 | D9 |
-| 12.3 | Install test from GitHub on a clean profile | ⏸ | ⏸ | gate: 12.1–12.2 | plugin docs |
+| 11.1 | Create `plugin/.claude-plugin/plugin.json` and root `.claude-plugin/marketplace.json` (was 4.2) | ⏸ | ⏸ 11 | gate: Phase 10 | CLAUDE.md §7 |
+| 11.2 | Copy in the skills and agents chosen in 9.4 (copy-don't-rewrite, scrubbed) (was 4.3–4.5) | ⏸ | ⏸ 11 | gate: 11.1 | D6, D9 |
+| 11.3 | Build `/autonomous:new-app` (was 12.1) | ⏸ | ⏸ 11 | gate: 11.2 | D8 |
+| 11.4 | Build `/autonomous:new-study` (was 12.2) | ⏸ | ⏸ 11 | gate: 11.2 | D9 |
+| 11.5 | `claude plugin validate plugin --strict` exit 0; install test with `claude --plugin-dir ./plugin` (was 4.6) | ⏸ | ⏸ 11 | gate: 11.3–11.4 | plugin docs |
+| 11.6 | Install test from GitHub on a clean profile (was 12.3) | ⏸ | ⏸ 11 | gate: 11.5 | plugin docs |
 
-### Phase 13 — v0.1 release: unattended benchmark run
+### Phase 12 — v0.1 release: unattended benchmark run
 
 **Goal:** the kit runs the v0.1 benchmark unattended and beats the baseline; release ships.
-**Entry gate:** Phase 12.
+**Entry gate:** Phase 11.
 **Exit gate:** evaluator scorecard all PASS; tag `v0.1.0`; post within the hour.
 **Status:** ⏸ planned
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 13.1 | Unattended benchmark run (plugin arm vs baseline), ≥ 3 runs per task | ⏸ | ⏸ | gate: Phase 12 | D11 |
-| 13.2 | Independent evaluator scorecard; fix rounds until all PASS | ⏸ | ⏸ | gate: 13.1 | D13 |
-| 13.3 | Tag `v0.1.0`; release card; Marketing posts | ⏸ | ⏸ | gate: 13.2 | CLAUDE.md §8 |
-| 13.4 | Retro (agent-team Auditor item 8); promote lessons to the skill | ⏸ | ⏸ | gate: 13.3 | agent-team |
+| 12.1 | Unattended benchmark run (plugin arm vs baseline), ≥ 3 runs per task (was 13.1) | ⏸ | ⏸ 12 | gate: Phase 11 | D11 |
+| 12.2 | Independent evaluator scorecard; fix rounds until all PASS (was 13.2) | ⏸ | ⏸ 12 | gate: 12.1 | D13 |
+| 12.3 | Tag `v0.1.0`; release card; Marketing posts (was 13.3) | ⏸ | ⏸ 12 | gate: 12.2 | CLAUDE.md §8 |
+| 12.4 | Retro (agent-team Auditor item 8); promote lessons to the skill (was 13.4) | ⏸ | ⏸ 12 | gate: 12.3 | agent-team |
 
-### Phase 14 — After v0.1: grow the benchmark, improve the kit
+### Phase 13 — After v0.1: grow the benchmark, improve the kit
 
 **Goal:** each version adds tasks and beats the last scorecard.
-**Entry gate:** Phase 13.
+**Entry gate:** Phase 12.
 **Exit gate:** ongoing.
 **Status:** ⏸ planned
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 14.1 | Grow the benchmark to about 5 app tasks and 5 known-answer studies | ⏸ | ⏸ | gate: Phase 13 | CLAUDE.md North Star |
-| 14.2 | Research studies on kit configurations (prereg, ≥ 3 runs per arm) | ⏸ | ⏸ | gate: Phase 13 | D9 |
-| 14.3 | Showcase: the apps and studies the kit made; white paper | ⏸ | ⏸ | gate: Phase 13 | D1 |
+| 13.1 | Grow the benchmark to about 5 app tasks and 5 known-answer studies (was 14.1) | ⏸ | ⏸ | gate: Phase 12 | CLAUDE.md North Star |
+| 13.2 | Research studies on kit configurations (prereg, ≥ 3 runs per arm) (was 14.2) | ⏸ | ⏸ | gate: Phase 12 | D9 |
+| 13.3 | Showcase: the apps and studies the kit made; white paper (was 14.3) | ⏸ | ⏸ | gate: Phase 12 | D1 |
 
 ---
 
@@ -285,11 +297,11 @@ Source: CLAUDE.md §7.
 
 | # | Decision | Deadline / Trigger | Phase impact |
 |---|---|---|---|
-| O1 | Tester desktop: Sharif's machine reserved per walk, or a second Windows user session | before the first app walk | 11, 12 |
-| O2 | Models per role (builder, QA, Tester, scouts, evaluator) | Phase 10 | 10–13 |
-| O3 | Which published finding is the v0.1 known-answer study | Phase 11 | 11 |
-| O4 | Where showcase apps are hosted | Phase 13 | 13, 14 |
-| O5 | Whether the scrubbed `scheduled-wakeup-loops` and `agent-spec` enter the kit | Phase 4 | 4 |
+| O1 | Tester desktop: Sharif's machine reserved per walk, or a second Windows user session | before the first app walk | 10, 11 |
+| O2 | Models per role (builder, QA, Tester, scouts, evaluator) | Phase 9 | 9–12 |
+| O3 | Which published finding is the v0.1 known-answer study | Phase 10 | 10 |
+| O4 | Where showcase apps are hosted | Phase 12 | 12, 13 |
+| O5 | Whether the scrubbed `scheduled-wakeup-loops` and `agent-spec` enter the kit | Phase 9 (row 9.4) | 9, 11 |
 
 ---
 
@@ -307,6 +319,10 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.5 · 2026-11-21** — Phases reordered at Sharif's direction: research and testing before any
+  kit building (§0.5 map). Old Phase 4 split: 4.1 notebook spike stays; plugin rows 4.2–4.6 move to
+  Phase 11 (build) and 9.4 (design decision). Old Phases 5–14 become 4–13. Row 4.6 (first scout run)
+  waits on Sharif's go. Marketing takes posting approval relayed through Main (`.agents/project.md`).
 - **v0.4 · 2026-11-20** — D4 revised by Sharif: paper PDFs are gitignored; the literature index and catalogue stay public; row 5.1b adds `fetch_papers.py`. `.github/` stays tracked (CI secret scan).
 - **v0.3 · 2026-11-20** — MIT license added (D14; action item A3 closed). Post #1 hooks revised at Sharif's request; still waiting on his pick (A2).
 - **v0.2 · 2026-11-20** — First roadmap. Phases 0–2 done (recon and plan; public repo `c9b9638`;
