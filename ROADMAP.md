@@ -5,16 +5,16 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.19 · 2026-11-21
+> v0.20 · 2026-11-21
 
 ---
 
 ## §0 You are here
 
 - **Current phase:** Phase 8 (independent evaluation of the literature review); Phases 7 and 7.5 done
-- **Current step:** review published in the repo (GRADE PASS 7/7); Marketing preparing post + video for Sharif's approval; row 7.3 (CLAUDE.md v1) open
+- **Current step:** review published in the repo (GRADE PASS 7/7); post #4 scheduled by Marketing for 6:00 AM ET Sun 2026-11-22 on LinkedIn + X (Sharif's go in its session; text only, video dropped); row 7.3 (CLAUDE.md v1) open
 - **Last update:** 2026-11-21
-- **Next action:** after QA (incl. the verbatim evidence file) and the grade pass, wait for Sharif's express go before any post (target 6:00 AM Sun 2026-11-22 EST).
+- **Next action:** Marketing confirms post #4 went live at 6:00 AM Sun and drafts commenter replies for Sharif to send (row 8.3 flips ✅); then row 7.3 (CLAUDE.md v1) on Sharif's go, then Phase 9.
 
 ---
 
@@ -245,7 +245,7 @@ Source: CLAUDE.md §7.
 |---|---|---|---|---|---|
 | 8.1 | Evaluator grades the criteria from a fresh clone (citations and repo metadata re-queried) (was 9.1) | ✅ | — | 2026-11-21 · `12940cd` + `88d47b6` (GRADE PASS 7/7; length criterion raised by Sharif) | D13 |
 | 8.2 | Fix rounds until every criterion passes (was 9.2) | ✅ | — | 2026-11-21 · `f05f4a1` (M1 ruflo fairness + 7 minors fixed, re-graded) | global CLAUDE.md |
-| 8.3 | Release card from the scorecard; Marketing posts the review to LinkedIn + X with a video about the paper (`make-video` skill) **only on Sharif's express go order** (target 6:00 AM Sun 2026-11-22 EST) (was 9.3) | ⏳ | — | 2026-11-21 · `88d47b6` release card + PDF live; Marketing preparing post + video for Sharif's approval in its session (Sharif: "green light") | CLAUDE.md §8 |
+| 8.3 | Release card from the scorecard; Marketing posts the review to LinkedIn + X with a video about the paper (`make-video` skill) **only on Sharif's express go order** (target 6:00 AM Sun 2026-11-22 EST) (was 9.3) | ⏳ | — | 2026-11-21 · `88d47b6` release card + PDF live; Marketing preparing post + video for Sharif's approval in its session (Sharif: "green light"); video dropped by Sharif (text + page-1 image); Sharif approved in Marketing's session; scheduled 6:00 AM ET Sun 2026-11-22, LinkedIn + X standalone, PDF link held for commenters (Sharif sends replies) | CLAUDE.md §8 |
 
 ### Phase 9 — Kit v0.1 design, from the research
 
@@ -346,6 +346,10 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.20 · 2026-11-21** — Post #4 (the review) scheduled for 6:00 AM ET Sun 2026-11-22 on LinkedIn
+  and X after Sharif's go in Marketing's session. Video dropped by Sharif; text-only with a page-1 image
+  of the PDF; link held for commenters, replies drafted by Marketing and sent by Sharif. Row 8.3 flips
+  ✅ once the post is confirmed live.
 - **v0.19 · 2026-11-21** — Sharif: "length is acceptable and green light". Review PDF published
   (`88d47b6`, GRADE PASS 7/7) with release card; Marketing preparing the post and video, posting only
   on Sharif's approval in its session. Rows 8.1–8.2 closed.
