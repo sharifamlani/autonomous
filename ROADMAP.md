@@ -147,7 +147,7 @@ Source: CLAUDE.md §7.
 | 3.4 | CLAUDE.md v0 | ✅ | — | 2026-11-20 · `7f9ad76` | this plan |
 | 3.5 | ROADMAP.md v0.2 | ✅ | — | 2026-11-20 · this commit | `writing-roadmaps` skill |
 | 3.6 | README.md (one-page overview) and SHARIF_ACTION_ITEMS.md | ✅ | — | 2026-11-20 · this commit | CLAUDE.md §2 |
-| 3.7 | Marketing post #1 drafted (problem + plan, two hooks, shot list) for Sharif's one approval | ✅ | — | 2026-11-21 · [post](https://www.linkedin.com/feed/update/urn:li:activity:7529775542837882880/) | CLAUDE.md §8 |
+| 3.7 | Marketing post #1 drafted (problem + plan, two hooks, shot list) for Sharif's one approval | ✅ | — | 2026-11-21 · [LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7529775542837882880/) · [X](https://x.com/SharifAmlani/status/2124034377281577170) | CLAUDE.md §8 |
 
 ### Phase 4 — Research tooling, notebook spike and pilot scout
 
