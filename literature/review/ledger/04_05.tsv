@@ -76,6 +76,7 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 §4	MetaGPT's current default team hires	QaEngineer hire commented out		FoundationAgents/MetaGPT	#     company.hire([QaEngineer()])	metagpt/software_company.py line 60
 §4	In paperclip, an agent-company tool,	Open issue: reviewer handoff stalls silently, no retry		paperclipai/paperclip#13532	a reviewer handoff stalls silently with no run and no retry	issue #13532 title (state: open)
 §4	Swarm claims are the least supported	Audit: speedup fabricated with Math.random()		ruvnet/ruflo	fabricated with `Math.random()` at runtime	docs/reviews/intelligence-system-audit-2026-05-29.md line 13
+§4	Swarm claims are the least supported	Same audit records the fabricated telemetry was since removed		ruvnet/ruflo	randomized telemetry removed from both `attention-coordinator` copies	docs/reviews/intelligence-system-audit-2026-05-29.md line 97
 §4	Swarm claims are the least supported	The same audit confirms the core learning loop is real		ruvnet/ruflo	The learning loop is real.	docs/reviews/intelligence-system-audit-2026-05-29.md line 12
 §4	Swarm claims are the least supported	Commenter: only one Claude Code agent doing everything		ruvnet/ruflo#958	i still only have 1 claude code 'agent' doing everything	issue #958 comment by mattpainter701
 §5	A source-level reading of Claude	Core is a simple while-loop		H16	The core of the system is a simple while-loop	p. 1, Abstract

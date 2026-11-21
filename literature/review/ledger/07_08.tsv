@@ -20,7 +20,8 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 7	In a research note in	Merge decisions about 24 points below grader scores	24	C14	maintainer merge decisions are about 24 percentage points lower than SWE-bench scores supplied by the automated grader	https://metr.org/notes/2026-03-10-many-swe-bench-passing-prs-would-not-be-merged-into-main/ (section: Introduction)
 7	On Vibe Code Bench, whose	100 web-application specifications	100	C19	100 web application specifications	p. 1, Abstract
 7	On Vibe Code Bench, whose	964 workflows graded by a browser agent	964	C19	964 browser-based workflows comprising 10,131 substeps, evaluated against deployed applications by an autonomous browser agent	p. 1, Abstract
-7	On Vibe Code Bench, whose	Best of 16 models reaches 61.8%	16; 61.8%	C19	Across 16 frontier models, the best achieves 61.8% accuracy	p. 1, Abstract
+7	On Vibe Code Bench, whose	Best of 16 models reaches 61.8% accuracy on the test split	16; 61.8%	C19	Across 16 frontier models, the best achieves 61.8% accuracy on the test split	p. 1, Abstract
+7	On Vibe Code Bench, whose	The test split is 50 held-out applications	50	C19	50 held-out test	p. 1, Abstract
 7	On Vibe Code Bench, whose	Top model passes 61.8% of workflows	61.8%	C19	passes 61.8% of workflows	p. 1, §1 Introduction
 7	On Vibe Code Bench, whose	All-model average falls from 34.18% to 13.49% with email and Stripe integrations	34.18%; 13.49%	C19	drops from 34.18% to 13.49%	p. 6, §4.3 Integrations
 7	On Vibe Code Bench, whose	Comparison is no-integration apps vs apps needing email and payments		C19	From no-integration apps to apps requiring both email and Stripe	p. 6, §4.3 Integrations
@@ -124,6 +125,7 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 8.3	A follow-up reports 26\% to	26% to 96% of safety gap across ten failures	26%; 96%; 10	S21	Automated research closed 26% to 96% of the safety gap across ten alignment failures	https://www.anthropic.com/research/automated-researchers-mitigate-alignment-failures (figure image alt text and description, section: Successfully mitigating diverse alignment failures; in raw HTML, not in visible caption text)
 8.3	AlphaEvolve's evaluator-scored loop found a	Heuristic for data center scheduling		A25	Improving data center scheduling	p. 13, §3.3.1
 8.3	AlphaEvolve's evaluator-scored loop found a	Recovers on average 0.7% of fleet-wide compute	0.7%	A25	continuously recovers on average 0.7% of Google's fleet-wide	p. 14, §3.3.1
+8.3	AlphaEvolve's evaluator-scored loop found a	0.7% is Google's own post-deployment measurement	0.7%	A25	measurements across Google’s fleet confirmed the simulator results	p. 14, §3.3.1
 8.3	AlphaEvolve's evaluator-scored loop found a	Main limitation: needs an automated evaluator		A25	The main limitation of AlphaEvolve is that it handles problems for which it is possible to	p. 21, §6 Discussion
 8.3	In one study, selecting final	Test-based selection would raise medal rate 9 to 13 points	9; 13	R26	would increase the medal rate by 9 to 13 % (absolute scale)	p. 2, §1 Introduction
 8.3	In another, removing contaminated tasks	Average speedup 3.13x to 1.49x	3.13x; 1.49x	S28	is reduced from 3.13x to 1.49x	p. 4, §3

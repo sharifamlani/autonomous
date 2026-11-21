@@ -167,3 +167,26 @@ PASS   (papers: 286 rows, 0 problems; files: 0 problems, 2 expected warnings)
 
 **Uncommitted edit from round 2:** `literature/review/sections/16_conclusion.tex` (N11: "a generation apart"
 changed to "generations apart").
+
+## 8. Phase 8 fixes
+
+Fixes for the expert-reader findings in `literature/qa/PHASE8_SCORECARD.md`. Word-count cuts (m7) are not
+done: that decision is waiting on the author. Not committed.
+
+| # | section | severity | finding | source checked (ID, page) | fix made | status |
+|---|---|---|---|---|---|---|
+| M1 | §4.4 | major | ruflo's audit records that the fabricated attention metric was removed; the review omitted the fix | ruvnet/ruflo `docs/reviews/intelligence-system-audit-2026-05-29.md` l. 97: "randomized telemetry removed from both `attention-coordinator` copies" | Added "(the same audit records that the ``randomized telemetry'' has since been ``removed'')"; ledger row added (`04_05.tsv`, line 97) | fixed |
+| m1 | Summary Point 1 | minor | Hedge on different models missing | §1.3 (S16, C12) | "The same agent harness, running different models, appears among the successes and the failures" (`17_endmatter.tex`) | fixed |
+| m2 | §6.2 | minor | 49.4% is conditional on a verdict; 22.3% counts missing verdicts | T18 p. 7 ("Counting the 942 missing verdicts as failures lowers the effective false-accept rate from 49.4% to 22.3%"), p. 8 ("should be read as a verdict-quality estimate conditional on a verdict") | Added both, cited `\citep[pp.~7--8]{T18}`; two ledger rows (`06.tsv`), both VERIFIED | fixed |
+| m3 | §7 | minor | 61.8% is on the held-out test split | C19 p. 1 Abstract ("the best achieves 61.8% accuracy on the test split"; "50 held-out test") | "the best of 16 models achieves 61.8% accuracy on the held-out test split of 50 applications"; ledger row updated, one added (`07_08.tsv`) | fixed |
+| m4 | §8.3 | minor | AlphaEvolve 0.7% is Google's own measurement | A25 p. 14 ("Post-deployment measurements across Google's fleet confirmed the simulator results") | Added "by Google's own post-deployment measurement"; ledger row added | fixed |
+| m5 | §15 / Future Issue 8 | minor | Issue 8 had no study in §15 | §11.3 (F14, F30, F32) | Added one sentence to §15 framing an independent third-party measurement of interventions per task and hours unattended; no new citations | fixed |
+| m6a | Table 2 | minor | `frankbria/ralph-claude-code #91` shrunk to ~4.5 pt by `\resizebox` | rendered p. 5 (pymupdf, 200 dpi) | Removed `\resizebox`; new `\repobreak` macro in `main.tex` (breaks after `/` and `-`, current font size) applied locally with `\let\repo\repobreak`; span now 7.97 pt (footnotesize) on two lines | fixed |
+| m6b | Figure 1 | minor | `K-Dense-AI/scientific-agent-skills #152,` overran by 21 pt (also N10) | rendered p. 9 | Same local `\repobreak`; the Figure 1 overfull box is gone from the build log; text stays inside the column | fixed |
+| m8 | §1.2, §11.3 | minor | F30 cited as "p. 77" and "sec. 3.4.2" | F30 PDF p. 78 (quote VERIFIED there) | Both now `\citep[p.~78]{F30}`; all five F30 ledger locations set to "p. 78, §3.4.2 ..." | fixed |
+| m7 | body | minor | Redundancy / word count | | Not done: waiting on the author's word-count decision | open (author decision) |
+
+**Gates after the fixes:** `build_review.sh` builds (only remaining overfull boxes: the intentional full-width
+title and boxes, plus a 0.56 pt one in §13 that predates these fixes); `check_review.py` passes everything except
+the body word count (15,043); `build_evidence.py`: 1,048 rows, VERIFIED 757, MANUAL 291, 0 NOT FOUND, 0 WRONG
+PAGE, 0 cited sources with no ledger row.

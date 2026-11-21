@@ -25,11 +25,12 @@ Signals the builder controls still help.\defn{Verifier}{A check used during a ru
 \footnotesize
 \caption{A typology of verification signals, by who controls the signal and what it observes, with an example from the corpus in each cell.}
 \label{tab:typology}
+\let\repo\repobreak
 \begin{tabularx}{\linewidth}{@{}p{1.3cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
 \toprule
  & Claims & Code & Execution & Outcomes in the running system \\
 \midrule
-Builder & The agent's completion report or ``done'' signal \citep{F20,T23}; \resizebox{\linewidth}{!}{\repo{frankbria/ralph-claude-code}{91}} & Self-review and intrinsic self-correction \citep{A4} & Tests the builder writes, sees or can edit \citep{V3} & The builder's own use of its application during development \citep{C19} \\
+Builder & The agent's completion report or ``done'' signal \citep{F20,T23}; \repo{frankbria/ralph-claude-code}{91} & Self-review and intrinsic self-correction \citep{A4} & Tests the builder writes, sees or can edit \citep{V3} & The builder's own use of its application during development \citep{C19} \\
 \addlinespace
 Outside & A judge reading the agent's trajectory, or a reviewer reading only the paper \citep{V24,S15} & Review of the code and execution logs behind a result \citep{S10} & Tests run in a clean container; a programmatic evaluator \citep{C12,A25} & Checks of the end state of a database, emulator or deployed application \citep{A9,C19,C29} \\
 \bottomrule

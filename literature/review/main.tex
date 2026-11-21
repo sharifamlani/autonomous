@@ -53,6 +53,9 @@
 % Repository evidence: \repo{owner/repo}{issue} and \repofile{owner/repo}{path}
 \newcommand{\repo}[2]{\href{https://github.com/#1/issues/#2}{\texttt{\small\detokenize{#1}}~\##2}}
 \newcommand{\repofile}[2]{\href{https://github.com/#1/blob/HEAD/#2}{\texttt{\small\detokenize{#1}}: \texttt{\small\detokenize{#2}}}}
+% Breakable form for narrow table cells (current font size; may break after / and -).
+% Use inside a float with \let\repo\repobreak so the source still reads \repo{...}{...}.
+\newcommand{\repobreak}[2]{\href{https://github.com/#1/issues/#2}{{\def\UrlBreaks{\do\/\do\-}\nolinkurl{#1}}~\##2}}
 % Summary Points / Future Issues boxes
 \newtcolorbox{arbox}[1]{colback=arshade,colframe=arblue,boxrule=0.6pt,arc=0pt,
   left=8pt,right=8pt,top=6pt,bottom=6pt,fonttitle=\bfseries\MakeUppercase,coltitle=white,
