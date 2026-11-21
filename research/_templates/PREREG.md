@@ -5,18 +5,18 @@ Pre-registration. Commit this file before any result exists (CLAUDE.md §5).
 | Field | Entry |
 |---|---|
 | Hypothesis | |
-| Source paper(s) | (Literature ID, e.g. D6) |
-| Mechanism / counterparty | |
+| Source(s) | (Literature ID, e.g. C4; public repo; prior study) |
+| Why the literature can't answer it | (CLAUDE.md §5 "literature first": which search found no answer) |
+| Mechanism | (why this change should help) |
 | Prior plausibility (before testing) | |
-| Instruments + universe | |
-| Return leg harvested | overnight / intraday / both |
-| Data + date range | |
-| Train / validation / holdout split | (holdout = tail, >= 20%; one look) |
-| Label horizon / embargo (bars) | (embargo >= label horizon; purged CV, trading.factory.cv) |
-| Holdout family | (registry key for trading.factory.holdout; one look per family) |
-| Cost model | (config/costs/..., multiplier 1x; sensitivity 0.5x / 2x) |
-| Metric | |
-| Pass thresholds | t > 3; DSR >= 0.95; PBO < 0.2; survives 2x costs |
-| Break-even screen | (PROCEED or WAIVED: <Sharif's reason>; from `python scripts/screen.py --id <H###>`; required from Study 049) |
+| System under test | (kit version / agents / skills / prompts / model ids) |
+| Comparison arm(s) | (no-plugin baseline, previous kit version, alternative config) |
+| Task set | (benchmark tasks with known answers or scripted walks; source of each) |
+| Dev / held-out split | (held-out tasks never seen while tuning; one look) |
+| Runs per arm | (≥ 3; agent runs vary) |
+| Metric(s) | (success rate, accuracy vs known answer, $/task, wall-clock, human interventions) |
+| Grader | (deterministic check / script / LLM judge with its calibration set) |
+| Pass thresholds | |
+| Cost budget | ($ and tokens; stop when exceeded) |
 | Max trials budgeted | |
 | Abandonment rule | |

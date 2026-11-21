@@ -2,37 +2,32 @@
 
 | Field | Entry |
 |---|---|
-| Verdict | promote / park / kill |
-| Net Sharpe (1x costs) | |
-| Net Sharpe at 0.5x / 2x costs | |
-| t-stat | |
-| Deflated Sharpe (trials = N from TRIAL_LOG) | |
-| PBO | |
-| Recent-data (last 2-3 yrs) result | |
-| Sub-period results (incl. 2008, 2020, 2022) | |
-| Max drawdown / time to recover (bootstrap) | |
-| Capacity at our account size | |
-| Holdout looks | (must be 1) |
+| Verdict | adopt / park / kill |
+| Primary metric per arm (mean, 95% CI) | |
+| Effect vs comparison arm | |
+| Runs per arm | |
+| Cost per task ($) | |
+| Wall-clock per task | |
+| Human interventions per task | |
+| Held-out result | |
+| Held-out looks | (must be 1) |
+| Trials counted (from TRIAL_LOG) | |
 
 ## Bias checklist (CLAUDE.md §5): answer every row
 
 | Bias | How it was handled |
 |---|---|
-| Look-ahead | |
-| Survivorship | |
-| Data snooping / multiple testing | |
-| Overfitting | |
+| Benchmark contamination (model saw the task or answer in training) | |
+| Answer / grader leakage (agent could read the answer key or grader) | |
+| Test tampering / reward hacking (agent edited tests, graders or data) | |
+| Grader bias (LLM-judge self-preference, length, position) | |
+| Run-to-run variance | |
+| Multiple testing / forking paths | |
+| Overfitting to dev tasks | |
+| Task selection (easy or friendly tasks) | |
 | Cost omission | |
-| Fold leakage | |
-| LLM / pretrained leakage | |
-| Period / regime | |
-| Publication | |
-| Repo/README | |
+| Repo / README / paper claims taken on trust | |
 | Confirmation / sunk cost | |
 | Narrative / hindsight | |
-
-## Gate run
-
-Append with `python scripts/factory_gate.py --study NNN_slug --returns <file> --returns-2x <file> --write-result`.
 
 ## What failed
