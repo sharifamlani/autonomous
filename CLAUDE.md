@@ -118,7 +118,7 @@ A folder exists on disk only once it has real content; until then it is listed h
 autonomous/
 ├── CLAUDE.md / README.md        # rules + goals / one-page overview
 ├── ROADMAP.md                   # phase table + status: the canonical execution directive
-├── PUBLIC_REPOS.md              # GitHub survey: 203 repos, metadata from gh api, findings, shortlist
+├── PUBLIC_REPOS.md              # GitHub survey: 237 repos, metadata from gh api, findings, shortlist
 ├── SHARIF_ACTION_ITEMS.md       # escalations and decisions waiting on Sharif
 ├── docs/plans/                  # one plan per ROADMAP phase: tree, flowchart, derisking, criteria, scorecard
 ├── plugin/                      # (planned, Phase 11) THE KIT: .claude-plugin/, agents/, skills/, hooks/

@@ -5,14 +5,14 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.11 · 2026-11-21
+> v0.12 · 2026-11-21
 
 ---
 
 ## §0 You are here
 
-- **Current phase:** Phase 6 done (203 repos surveyed, 20 cloned with process and lessons); Phase 7 next
-- **Current step:** waiting on Sharif for Phase 7 (literature review: what the 288 papers and 20 repos imply for the kit)
+- **Current phase:** Phase 6 done (237 repos surveyed incl. sweep 2, 32 cloned with process and lessons); Phase 7 next
+- **Current step:** waiting on Sharif for Phase 7 (literature review: what the 288 papers and 32 repos imply for the kit)
 - **Last update:** 2026-11-21
 - **Next action:** Phase 7 on Sharif's go.
 
@@ -191,7 +191,7 @@ Source: CLAUDE.md §7.
 **Goal:** the GitHub survey written, the shortlist cloned and pinned, and each kept repo's process and lessons learned written down.
 **Entry gate:** Phase 5.
 **Exit gate:** `PUBLIC_REPOS.md` ≥ 60 repos with full metadata; `sync_public_repos.sh --verify` exit 0.
-**Status:** ✅ done (203 repos surveyed, 20 cloned and written up; no grading per D16)
+**Status:** ✅ done (237 repos surveyed after sweep 2, 32 cloned and written up; no grading per D16)
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
@@ -200,6 +200,8 @@ Source: CLAUDE.md §7.
 | 6.3 | Shortlist ≤ 20; clone pinned into `public/`; write `manifest.tsv` (was 7.3) | ✅ | — | 2026-11-21 · `a3531b4` (20 pinned; `sync_public_repos.sh --verify` exit 0) | `sync_public_repos.sh` |
 | 6.4 | One evaluation section per clone in `public/_README.md` (was 7.4) | ✅ | — | 2026-11-21 · `af194aa` (20 sections in `public/_README.md`) | public/_README.md |
 | 6.5 | Per kept repo: its process (how agents are organised, handed work, tested, reviewed) and lessons learned (contributor guides, design docs, postmortems, recurring issues) in `public/_README.md` | ✅ | — | 2026-11-21 · `af194aa` (process, lessons with file/issue cites, take/avoid per repo) | Sharif 2026-11-21 |
+| 6.6 | Sweep 2: popularity-led search for automated science and automated development repos the paper-led sweep missed (karpathy/autoresearch, alphaXiv/OpenResearch, ...) | ✅ | — | 2026-11-21 · `58f6ef9` (+34 → 237 repos; `--check` PASS) | Sharif 2026-11-21 |
+| 6.7 | Clone the 12 most-starred sweep-2 repos pinned; process-and-lessons write-ups (groups E, F); headline findings | ✅ | — | 2026-11-21 · `1e8d49a`, `d22c29a`, `71e37c1` (32 pinned, `--verify` exit 0; 11 cited issues spot-checked) | Sharif 2026-11-21 |
 
 ### Phase 7 — Literature review and CLAUDE.md v1
 
@@ -326,6 +328,12 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.12 · 2026-11-21** — Phase 6 sweep 2 (Sharif): popularity-led search added 34 automated-science
+  and automated-development repos the paper-led sweep missed (237 total); the 12 most-starred cloned
+  and written up (groups E, F). New findings: autoresearch-style keep/revert loops map onto the study
+  protocol but get gamed when the agent can reach the metric (autoresearch #599); hidden failures
+  (#152, #302, v3 #5) mean skipped checks never count as passes; safety hooks must fail closed and be
+  tested on Windows (#115).
 - **v0.11 · 2026-11-21** — Phase 6 closed: 216 candidates merged to 203 repos with live GitHub
   metadata (`PUBLIC_REPOS.md`, `public/candidates.tsv`); 20 shortlisted, cloned pinned, and written up
   for process and lessons (`public/_README.md`). Found: Anthropic's plugin directory refuses command
