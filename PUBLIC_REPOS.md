@@ -115,17 +115,18 @@ Grouped by the first theme that flagged the repo, sorted by stars. Regenerate wi
 
 <!-- GENERATED: tables start -->
 
-### 01. Agent architectures and orchestration (23)
+### 01. Agent architectures and orchestration (24)
 
 | Repo | Stars | Last push | License | Flags | Papers | What it is |
 |---|---:|---|---|---|---|---|
-| [mem0ai/mem0](https://github.com/mem0ai/mem0) | 69293 | 2026-11-18 | Apache-2.0 |  | A13 | The Memory Layer for AI Agents - Drop-in memory infrastructure for AI agents and apps. Context that persists. Built for production. |
+| [mem0ai/mem0](https://github.com/mem0ai/mem0) | 69294 | 2026-11-18 | Apache-2.0 |  | A13 | The Memory Layer for AI Agents - Drop-in memory infrastructure for AI agents and apps. Context that persists. Built for production. |
 | [microsoft/autogen](https://github.com/microsoft/autogen) | 61955 | 2026-11-12 | CC-BY-4.0 | archived, also 04 | A11 | A programming framework for agentic AI |
 | [anthropics/claude-cookbooks](https://github.com/anthropics/claude-cookbooks) | 54928 | 2026-11-20 | MIT |  | A15 | A collection of notebooks/recipes showcasing some fun and effective ways of using Claude. |
 | [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | 45220 | 2026-11-20 | MIT |  |  | Build resilient agents. |
 | [openai/openai-agents-python](https://github.com/openai/openai-agents-python) | 30794 | 2026-11-21 | MIT |  |  | A lightweight, powerful framework for multi-agent workflows |
 | [letta-ai/letta](https://github.com/letta-ai/letta) | 25506 | 2026-10-18 | Apache-2.0 |  |  | Platform for stateful agents: AI with advanced memory that can learn and self-improve over time. |
 | [openai/swarm](https://github.com/openai/swarm) | 22151 | 2026-04-15 | MIT |  |  | Educational framework exploring ergonomic, lightweight multi-agent orchestration. Managed by OpenAI Solution team. |
+| [lsdefine/GenericAgent](https://github.com/lsdefine/GenericAgent) | 14441 | 2026-11-20 | MIT |  |  | Self-evolving agent: grows skill tree from 3.3K-line seed, achieving full system control with 6x less token consumption |
 | [algorithmicsuperintelligence/openevolve](https://github.com/algorithmicsuperintelligence/openevolve) | 7834 | 2026-11-20 | Apache-2.0 |  | A25 | Open-source implementation of AlphaEvolve |
 | [princeton-nlp/tree-of-thought-llm](https://github.com/princeton-nlp/tree-of-thought-llm) | 6087 | 2025-01-16 | MIT | stale | A3 | [NeurIPS 2023] Tree of Thoughts: Deliberate Problem Solving with Large Language Models |
 | [lm-sys/RouteLLM](https://github.com/lm-sys/RouteLLM) | 5722 | 2024-08-10 | Apache-2.0 | stale | A12 | A framework for serving and evaluating LLM routers - save LLM costs without compromising quality |
@@ -143,26 +144,33 @@ Grouped by the first theme that flagged the repo, sorted by stars. Regenerate wi
 | [google-deepmind/alphaevolve_results](https://github.com/google-deepmind/alphaevolve_results) | 306 | 2026-01-05 | Apache-2.0 |  | A25 | A25 results repository (discovered programs and verification notebooks) from AlphaEvolve; shows what an automated-evaluator loop produces an |
 | [uiuc-kang-lab/agentic-benchmarks](https://github.com/uiuc-kang-lab/agentic-benchmarks) | 66 | 2025-07-31 | NONE | stale, no license | A18 | A18 Agentic Benchmark Checklist (ABC) materials; usable as a pre-flight checklist for the kit's own benchmark tasks; no detected license, so |
 
-### 02. Harnesses, Claude Code and autonomy (31)
+### 02. Harnesses, Claude Code and autonomy (38)
 
 | Repo | Stars | Last push | License | Flags | Papers | What it is |
 |---|---:|---|---|---|---|---|
-| [obra/superpowers](https://github.com/obra/superpowers) | 323038 | 2026-11-03 | MIT | also 04 |  | An agentic skills framework & software development methodology that works. |
-| [anthropics/skills](https://github.com/anthropics/skills) | 198185 | 2026-11-16 | NONE | no license | H6 | Public repository for Agent Skills |
+| [obra/superpowers](https://github.com/obra/superpowers) | 323043 | 2026-11-03 | MIT | also 04 |  | An agentic skills framework & software development methodology that works. |
+| [anthropics/skills](https://github.com/anthropics/skills) | 198191 | 2026-11-16 | NONE | no license | H6 | Public repository for Agent Skills |
 | [anthropics/claude-code](https://github.com/anthropics/claude-code) | 156499 | 2026-11-21 | NONE | no license |  | Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine |
-| [github/spec-kit](https://github.com/github/spec-kit) | 150861 | 2026-11-20 | MIT |  |  | 💫 Toolkit to help you get started with SDD or any other process! |
+| [github/spec-kit](https://github.com/github/spec-kit) | 150862 | 2026-11-20 | MIT |  |  | 💫 Toolkit to help you get started with SDD or any other process! |
 | [openai/codex](https://github.com/openai/codex) | 136017 | 2026-11-21 | Apache-2.0 |  | H27 | Lightweight coding agent that runs in your terminal |
+| [thedotmack/claude-mem](https://github.com/thedotmack/claude-mem) | 118722 | 2026-11-21 | Apache-2.0 |  |  | Persistent Context Across Sessions for Every Agent –  Captures everything your agent does during sessions, compresses it with AI, and inject |
 | [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) | 108961 | 2026-11-21 | Apache-2.0 |  | H32 | An open-source AI agent that brings the power of Gemini directly into your terminal. |
-| [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) | 93937 | 2026-11-21 | MIT | also 03 | C4, H3 | 🙌 OpenHands: AI-Driven Development |
-| [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) | 58486 | 2026-11-21 | NOASSERTION |  |  | A hand-picked collection of the finest of resources for the most awesome of agents, Claude Code, the undisputed champion of coding companion |
+| [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) | 93939 | 2026-11-21 | MIT | also 03 | C4, H3 | 🙌 OpenHands: AI-Driven Development |
+| [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) | 58487 | 2026-11-21 | NOASSERTION |  |  | A hand-picked collection of the finest of resources for the most awesome of agents, Claude Code, the undisputed champion of coding companion |
 | [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) | 47856 | 2026-11-21 | Apache-2.0 | also 05 |  | Official, Anthropic-managed directory of high quality Claude Code Plugins. |
-| [wshobson/agents](https://github.com/wshobson/agents) | 42755 | 2026-11-18 | MIT |  |  | Plugins, agents, skills, and commands for Claude Code, Codex CLI, Cursor, OpenCode, Antigravity CLI, GitHub Copilot, and Pi, written once in |
+| [wshobson/agents](https://github.com/wshobson/agents) | 42756 | 2026-11-18 | MIT |  |  | Plugins, agents, skills, and commands for Claude Code, Codex CLI, Cursor, OpenCode, Antigravity CLI, GitHub Copilot, and Pi, written once in |
+| [OthmanAdi/planning-with-files](https://github.com/OthmanAdi/planning-with-files) | 28165 | 2026-11-21 | MIT |  |  | Persistent file-based planning for AI coding agents and long-running tasks. Crash-proof markdown plans, session recovery after /clear and co |
 | [agentsmd/agents.md](https://github.com/agentsmd/agents.md) | 25629 | 2026-09-10 | MIT |  | H1, H2 | AGENTS.md — a simple, open format for guiding coding agents |
+| [1jehuang/jcode](https://github.com/1jehuang/jcode) | 21960 | 2026-11-21 | MIT |  |  | High performance coding agent harness written in Rust, built for heavy multi-agent dev workflows |
 | [anthropics/claude-quickstarts](https://github.com/anthropics/claude-quickstarts) | 21123 | 2026-11-06 | MIT |  | H13 | A collection of projects designed to help developers quickly get started with building deployable applications using the Claude API |
 | [SWE-agent/SWE-agent](https://github.com/SWE-agent/SWE-agent) | 20841 | 2026-11-16 | MIT | also 03 | H10 | SWE-agent takes a GitHub issue and tries to automatically fix it, using your LM of choice. It can also be employed for offensive cybersecuri |
+| [tigerless-labs/autoharness](https://github.com/tigerless-labs/autoharness) | 11206 | 2026-11-12 | MIT |  |  | Building the self-learning layer next-gen agents will ship with, learning skills from real work. |
 | [anthropics/claude-agent-sdk-python](https://github.com/anthropics/claude-agent-sdk-python) | 8607 | 2026-11-20 | MIT |  |  | Fallback wrapper if a plugin alone cannot stand up the team (row 4.8): programmatic sessions, canUseTool permission callbacks |
 | [harbor-framework/harbor](https://github.com/harbor-framework/harbor) | 7311 | 2026-11-21 | Apache-2.0 | also 03 | H6, V2 | Framework for evaluating and improving agents  |
 | [anthropics/sandbox-runtime](https://github.com/anthropics/sandbox-runtime) | 7207 | 2026-11-13 | Apache-2.0 |  | H24 | A lightweight sandboxing tool for enforcing filesystem and network restrictions on arbitrary processes at the OS level, without requiring a  |
+| [alchaincyf/darwin-skill](https://github.com/alchaincyf/darwin-skill) | 7012 | 2026-11-18 | MIT |  |  | 达尔文.skill —— 一个让你的Skill无限进化的系统：评估→改进→测试→保留或回滚 / Autoresearch-inspired autonomous skill optimization for Claude Code. Evaluate, improve, test |
+| [uditgoenka/autoresearch](https://github.com/uditgoenka/autoresearch) | 6850 | 2026-10-31 | MIT |  |  | Claude Autoresearch Skill — Autonomous goal-directed iteration for Claude Code. Inspired by Karpathy's autoresearch. Modify → Verify → Keep/ |
+| [leo-lilinxiao/codex-autoresearch](https://github.com/leo-lilinxiao/codex-autoresearch) | 3246 | 2026-11-18 | MIT |  |  | Codex Autoresearch Skill — A self-directed iterative system for Codex that continuously cycles through: modify, verify, retain or discard, a |
 | [humanlayer/advanced-context-engineering-for-coding-agents](https://github.com/humanlayer/advanced-context-engineering-for-coding-agents) | 2835 | 2026-10-16 | NONE | no license |  | Practitioner write-up of research/plan/implement phases with intentional compaction; process lessons to test, not evidence (no license) |
 | [VILA-Lab/Dive-into-Claude-Code](https://github.com/VILA-Lab/Dive-into-Claude-Code) | 2248 | 2026-11-10 | NOASSERTION |  | H16 | A Systematic Analysis and Discussion of Claude Code for Designing Today's and Future AI Agent Systems |
 | [benchflow-ai/skillsbench](https://github.com/benchflow-ai/skillsbench) | 1930 | 2026-11-16 | Apache-2.0 |  | H6 | SkillsBench evaluates how well skills work and how effective agents are at using them. |
@@ -184,8 +192,8 @@ Grouped by the first theme that flagged the repo, sorted by stars. Regenerate wi
 | Repo | Stars | Last push | License | Flags | Papers | What it is |
 |---|---:|---|---|---|---|---|
 | [QwenLM/qwen-code](https://github.com/QwenLM/qwen-code) | 30829 | 2026-11-21 | Apache-2.0 |  | C11 | An open-source AI coding agent that lives in your terminal. |
-| [SWE-agent/mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent) | 9912 | 2026-11-16 | MIT | also 04/05 | C12, H11, T8, T9, V1 | The 100 line AI agent that solves GitHub issues or helps you in your command line. Radically simple, no huge configs, no giant monorepo—but  |
-| [SWE-bench/SWE-bench](https://github.com/SWE-bench/SWE-bench) | 6227 | 2026-09-18 | MIT |  |  | SWE-bench: Can Language Models Resolve Real-world Github Issues? |
+| [SWE-agent/mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent) | 9914 | 2026-11-16 | MIT | also 04/05 | C12, H11, T8, T9, V1 | The 100 line AI agent that solves GitHub issues or helps you in your command line. Radically simple, no huge configs, no giant monorepo—but  |
+| [SWE-bench/SWE-bench](https://github.com/SWE-bench/SWE-bench) | 6228 | 2026-09-18 | MIT |  |  | SWE-bench: Can Language Models Resolve Real-world Github Issues? |
 | [mistralai/mistral-vibe](https://github.com/mistralai/mistral-vibe) | 5442 | 2026-11-20 | Apache-2.0 |  | C35 | Minimal CLI coding agent by Mistral |
 | [OpenAutoCoder/Agentless](https://github.com/OpenAutoCoder/Agentless) | 2138 | 2024-12-22 | MIT | stale | C2, C3 | Agentless🐱:  an agentless approach to automatically solve software development problems |
 | [openai/SWELancer-Benchmark](https://github.com/openai/SWELancer-Benchmark) | 1429 | 2025-07-18 | NONE | archived, stale, no license | C16 | This repo contains the dataset and code for the paper "SWE-Lancer: Can Frontier LLMs Earn $1 Million from Real-World Freelance Software Engi |
@@ -212,18 +220,23 @@ Grouped by the first theme that flagged the repo, sorted by stars. Regenerate wi
 | [ScalingIntelligence/codemonkeys](https://github.com/ScalingIntelligence/codemonkeys) | 59 | 2025-01-28 | MIT | stale | C10 | C10's code: pipeline split into context, generation and selection scripts, with a step that reproduces the paper figures and a selector that |
 | [benchjack/benchjack](https://github.com/benchjack/benchjack) | 54 | 2026-05-25 | Apache-2.0 | also 05 | C26, V27 | AI agent benchmark hackability scanner — find evaluation vulnerabilities before they undermine your results    |
 
-### 04. Multi-agent software teams (17)
+### 04. Multi-agent software teams (22)
 
 | Repo | Stars | Last push | License | Flags | Papers | What it is |
 |---|---:|---|---|---|---|---|
+| [paperclipai/paperclip](https://github.com/paperclipai/paperclip) | 115554 | 2026-11-21 | MIT |  |  | The open-source app everyone uses to manage agents at work |
+| [bytedance/deer-flow](https://github.com/bytedance/deer-flow) | 85566 | 2026-11-21 | MIT |  |  | An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, suba |
+| [ruvnet/ruflo](https://github.com/ruvnet/ruflo) | 82187 | 2026-11-21 | MIT |  |  | 🌊 The original agent harness. Deploy intelligent multi-player swarms, coordinate autonomous workflows, and build conversational AI systems.  |
 | [FoundationAgents/MetaGPT](https://github.com/FoundationAgents/MetaGPT) | 71372 | 2026-01-21 | MIT |  | T2 | 🌟 The Multi-Agent Framework: First AI Software Company, Towards Natural Language Programming |
 | [bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) | 55585 | 2026-11-20 | NOASSERTION |  |  | Breakthrough Method for Agile Ai Driven Development |
 | [OpenBMB/ChatDev](https://github.com/OpenBMB/ChatDev) | 34829 | 2026-11-06 | Apache-2.0 |  | T1, T7 | ChatDev 2.0: Dev All through LLM-powered Multi-Agent Collaboration |
+| [google/elephant-goldfish-model](https://github.com/google/elephant-goldfish-model) | 21751 | 2026-11-20 | Apache-2.0 |  |  | Open-source plugin for designing and reviewing software with agents |
 | [gastownhall/gastown](https://github.com/gastownhall/gastown) | 18858 | 2026-11-14 | MIT |  |  | Gas Town - multi-agent workspace manager |
 | [The-PR-Agent/pr-agent](https://github.com/The-PR-Agent/pr-agent) | 16509 | 2026-11-20 | MIT |  | T13 | 🚀 PR Agent: The Original Open-Source PR Reviewer. This project is not the Qodo free tier. |
 | [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action) | 10031 | 2026-11-21 | MIT |  | T17 | Runs Claude Code as a PR reviewer in CI on a fresh runner, so the reviewer starts without the builder's context, the pattern T17 says works  |
 | [OpenBMB/AgentVerse](https://github.com/OpenBMB/AgentVerse) | 5164 | 2024-09-09 | Apache-2.0 | stale | T3, T10 | 🤖 AgentVerse 🪐 is designed to facilitate the deployment of multiple LLM-based agents in various applications, which primarily provides two f |
 | [anthropics/claudes-c-compiler](https://github.com/anthropics/claudes-c-compiler) | 2838 | 2026-02-05 | CC0-1.0 |  | T16 | Claude Opus 4.6 wrote a dependency-free C compiler in Rust, with backends targeting x86 (64- and 32-bit), ARM, and RISC-V, capable of compil |
+| [dzhng/skills](https://github.com/dzhng/skills) | 1514 | 2026-11-13 | MIT |  |  | Reusable AI agent skills for growing software farms: explore ideas, write specs, let agents build unattended, then curate what grew — weed,  |
 | [microsoft/Agensh](https://github.com/microsoft/Agensh) | 935 | 2026-11-03 | MIT |  | T21 | A Decentralized, Scalable Multiagent Harness |
 | [FSoft-AI4Code/AgileCoder](https://github.com/FSoft-AI4Code/AgileCoder) | 467 | 2024-10-15 | MIT | stale | T5 | [FORGE 2025] Incorporating Agile methodology into agents to create complex real-world softwares |
 | [multi-agent-systems-failure-taxonomy/MAST](https://github.com/multi-agent-systems-failure-taxonomy/MAST) | 440 | 2025-07-23 | NONE | stale, no license | T7 | Failure taxonomy (14 modes) plus 1,600+ annotated traces and an LLM-judge annotator (T7). Borrow the taxonomy as the checklist for auditing  |
@@ -262,16 +275,35 @@ Grouped by the first theme that flagged the repo, sorted by stars. Regenerate wi
 | [githubnext/llmorpheus](https://github.com/githubnext/llmorpheus) | 17 | 2025-02-03 | MIT | archived, stale | V18 | LLM-based mutation testing |
 | [ServiceNow/agenthorizon](https://github.com/ServiceNow/agenthorizon) | 6 | 2026-11-14 | NONE | no license | V26 | Process: benchmark of long computer-use trajectories with swapped-instruction negatives for agentic judges (V26); lesson: how to test whethe |
 
-### 06. AI scientists and research agents (22)
+### 06. AI scientists and research agents (41)
 
 | Repo | Stars | Last push | License | Flags | Papers | What it is |
 |---|---:|---|---|---|---|---|
+| [karpathy/autoresearch](https://github.com/karpathy/autoresearch) | 100347 | 2026-03-26 | NONE | no license |  | AI agents running research on single-GPU nanochat training automatically |
+| [K-Dense-AI/scientific-agent-skills](https://github.com/K-Dense-AI/scientific-agent-skills) | 57970 | 2026-11-16 | MIT |  |  | Turn any AI agent into an AI Scientist. The #1 Agent Skills library for science, used by 250,000+ scientists worldwide. 177 ready-to-use val |
+| [stanford-oval/storm](https://github.com/stanford-oval/storm) | 31919 | 2025-09-30 | MIT | stale |  | An LLM-powered knowledge curation system that researches a topic and generates a full-length report with citations. |
+| [Alibaba-NLP/DeepResearch](https://github.com/Alibaba-NLP/DeepResearch) | 20163 | 2026-02-27 | Apache-2.0 |  |  | Tongyi Deep Research, the Leading Open-source Deep Research Agent |
 | [SakanaAI/AI-Scientist](https://github.com/SakanaAI/AI-Scientist) | 15029 | 2025-12-19 | NOASSERTION |  | S1, S9 | The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery 🧑‍🔬 |
+| [aiming-lab/AutoResearchClaw](https://github.com/aiming-lab/AutoResearchClaw) | 14913 | 2026-08-19 | MIT |  |  | Fully autonomous & self-evolving research from idea to paper. Chat an Idea. Get a Paper. 🦞 |
+| [langchain-ai/open_deep_research](https://github.com/langchain-ai/open_deep_research) | 12675 | 2026-08-10 | MIT | archived |  | LangChain open deep-research agent (web research reports) (sweep 2, 2026-11-21) |
+| [alphaXiv/OpenResearch](https://github.com/alphaXiv/OpenResearch) | 8363 | 2026-11-21 | MIT |  |  | Turn your coding agents into research agents |
+| [davebcn87/pi-autoresearch](https://github.com/davebcn87/pi-autoresearch) | 8254 | 2026-10-07 | MIT |  |  | Autonomous experiment loop extension for pi |
 | [SakanaAI/AI-Scientist-v2](https://github.com/SakanaAI/AI-Scientist-v2) | 7537 | 2025-12-19 | NOASSERTION |  | S2, S10 | The AI Scientist-v2: Workshop-Level Automated Scientific Discovery via Agentic Tree Search |
 | [SamuelSchmidgall/AgentLaboratory](https://github.com/SamuelSchmidgall/AgentLaboratory) | 5934 | 2025-08-20 | MIT | stale | S3 | Agent Laboratory is an end-to-end autonomous research workflow meant to assist you as the human researcher toward implementing your research |
 | [HKUDS/AI-Researcher](https://github.com/HKUDS/AI-Researcher) | 5898 | 2025-10-16 | NONE | stale, no license |  | [NeurIPS2025] "AI-Researcher: Autonomous Scientific Innovation" -- A production-ready version: https://novix.science/chat |
+| [EvoScientist/EvoScientist](https://github.com/EvoScientist/EvoScientist) | 5045 | 2026-11-20 | Apache-2.0 |  |  | 🔬 Harness Vibe Research with Self-evolving AI Scientists |
+| [jordan-gibbs/hyperresearch](https://github.com/jordan-gibbs/hyperresearch) | 4953 | 2026-11-17 | MIT |  |  | Convert Claude Code or Codex into the most intelligent Deep Research Agent. Collect, search, and synthesize web research into a persistent,  |
+| [synthetic-sciences/openscience](https://github.com/synthetic-sciences/openscience) | 4405 | 2026-11-20 | Apache-2.0 |  |  | The open-source AI workbench for scientific research |
 | [ResearAI/DeepScientist](https://github.com/ResearAI/DeepScientist) | 3418 | 2026-06-28 | Apache-2.0 |  | S27 | Now, Stronger AI Pushes Frontiers, Stronger Our Shared Future. |
+| [EvoMap/AutoResearch](https://github.com/EvoMap/AutoResearch) | 3107 | 2026-09-16 | Apache-2.0 |  |  | AI/ML research agents from idea to paper-ready evidence. An EvoMap open-source project. |
+| [OpenNSWM-Lab/FAROS](https://github.com/OpenNSWM-Lab/FAROS) | 3048 | 2026-10-21 | MIT |  |  | A blueprint-driven AutoResearch runtime for orchestrating AI research workflows from idea generation and experiments to paper writing and pe |
+| [webfuse-com/awesome-autoresearch](https://github.com/webfuse-com/awesome-autoresearch) | 2601 | 2026-09-21 | NOASSERTION |  |  | A curated list of autonomous improvement loops, research agents, and autoresearch-style systems inspired by Karpathy's autoresearch. |
+| [RightNow-AI/autokernel](https://github.com/RightNow-AI/autokernel) | 1633 | 2026-11-18 | MIT |  |  | Autoresearch for GPU kernels. Give it any PyTorch model, go to sleep, wake up to optimized Triton kernels. |
 | [SakanaAI/ShinkaEvolve](https://github.com/SakanaAI/ShinkaEvolve) | 1529 | 2026-11-20 | Apache-2.0 |  | A25 | ShinkaEvolve: Towards Open-Ended and Sample-Efficient Program Evolution 🧬 |
+| [evo-hq/evo](https://github.com/evo-hq/evo) | 1504 | 2026-11-17 | Apache-2.0 |  |  | turns your codebase into an autoresearch loop — discovers what to measure, instruments the benchmark, then runs tree search with parallel su |
+| [TIGER-AI-Lab/OpenResearcher](https://github.com/TIGER-AI-Lab/OpenResearcher) | 1269 | 2026-06-10 | NONE | no license |  | OpenResearcher: A Fully Open Pipeline for Long-Horizon Deep Research Trajectory Synthesis |
+| [RUC-NLPIR/Arbor](https://github.com/RUC-NLPIR/Arbor) | 1154 | 2026-11-03 | Apache-2.0 |  |  | A generalist autonomous research agent — runs experiments, researches, and iteratively optimizes, autonomously. |
+| [SakanaAI/AI-Scientist-v3](https://github.com/SakanaAI/AI-Scientist-v3) | 735 | 2026-11-20 | Apache-2.0 |  |  | The Agentic Scientist: Orchestrating Coding Agents for Automated Scientific (Co-)Discovery |
 | [facebookresearch/MLGym](https://github.com/facebookresearch/MLGym) | 625 | 2025-08-10 | NOASSERTION | archived, stale | S30 | MLGym A New Framework and Benchmark for Advancing AI Research Agents |
 | [jimmc414/Kosmos](https://github.com/jimmc414/Kosmos) | 607 | 2026-10-09 | NONE | no license | S13 | Kosmos: An AI Scientist for Autonomous Discovery - An implementation and adaptation to be driven by Claude Code or API - Based on the Kosmos |
 | [NoviScl/AI-Researcher](https://github.com/NoviScl/AI-Researcher) | 416 | 2025-08-07 | MIT | stale | S5, S6 | Ideation agent and all data from S5 and S6 (ideas, 79 reviewers' blind reviews, 43 executed projects with reviews). Borrow: a ready ground t |
@@ -289,12 +321,13 @@ Grouped by the first theme that flagged the repo, sorted by stars. Regenerate wi
 | [Christine8888/replicationbench-release](https://github.com/Christine8888/replicationbench-release) | 11 | 2025-11-25 | MIT |  | S26 | Release of S26: 111 astrophysics replication tasks across 20 papers, run in sandboxes and scored against original results; a model for known |
 | [Bad-Scientist/BadScientist](https://github.com/Bad-Scientist/BadScientist) | 2 | 2026-04-23 | MIT |  | S23 | Official repo for "BadScientist: Can a Research Agent Write Convincing but Unsound Papers that Fool LLM Reviewers?" |
 
-### 07. Data science agents and benchmarks (26)
+### 07. Data science agents and benchmarks (27)
 
 | Repo | Stars | Last push | License | Flags | Papers | What it is |
 |---|---:|---|---|---|---|---|
 | [huggingface/smolagents](https://github.com/huggingface/smolagents) | 30464 | 2026-11-20 | Apache-2.0 |  | D10, D12 | 🤗 smolagents: a barebones library for agents that think in code. |
 | [microsoft/RD-Agent](https://github.com/microsoft/RD-Agent) | 15440 | 2026-10-21 | MIT |  | D28 | Research and development (R&D) is crucial for the enhancement of industrial productivity, especially in the AI era, where the core aspects o |
+| [ruc-datalab/DeepAnalyze](https://github.com/ruc-datalab/DeepAnalyze) | 4832 | 2026-11-02 | MIT |  |  | DeepAnalyze is the first agentic LLM for autonomous data science. 🎈你的AI数据分析师，自动分析大量数据，一键生成专业分析报告！ |
 | [openai/mle-bench](https://github.com/openai/mle-bench) | 1801 | 2026-04-24 | NOASSERTION |  | D4 | MLE-bench is a benchmark for measuring how well AI agents perform at machine learning engineering |
 | [WecoAI/aideml](https://github.com/WecoAI/aideml) | 1627 | 2026-10-16 | MIT |  | D4 | AIDE: an LLM agent for machine learning engineering - the research Weco grew out of. Referenced in OpenAI MLE-bench. |
 | [google-research/era](https://github.com/google-research/era) | 371 | 2026-10-13 | Apache-2.0 |  |  | Code associated with the paper An AI system to help scientists write expert-level empirical software |
@@ -340,16 +373,17 @@ Grouped by the first theme that flagged the repo, sorted by stars. Regenerate wi
 | [zachrewolinski/stat-genie](https://github.com/zachrewolinski/stat-genie) | 3 | 2026-05-26 | NONE | no license | R4 | Evaluating and supplementing the stability of AI-performed data science. |
 | [ml-preregister/preregistration-template](https://github.com/ml-preregister/preregistration-template) | 3 | 2023-12-06 | MIT | stale |  | Preregistration template for predictive modeling. A quick starter kit for new ML projects. Fork this repo to get started. |
 
-### 09. Evaluation, reliability and cost (18)
+### 09. Evaluation, reliability and cost (19)
 
 | Repo | Stars | Last push | License | Flags | Papers | What it is |
 |---|---:|---|---|---|---|---|
-| [headroomlabs-ai/headroom](https://github.com/headroomlabs-ai/headroom) | 80227 | 2026-11-20 | Apache-2.0 |  | F23 | Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20% fewer tokens for coding agents, 60-95% fewer tokens for JS |
+| [headroomlabs-ai/headroom](https://github.com/headroomlabs-ai/headroom) | 80228 | 2026-11-20 | Apache-2.0 |  | F23 | Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20% fewer tokens for coding agents, 60-95% fewer tokens for JS |
 | [BerriAI/litellm](https://github.com/BerriAI/litellm) | 63640 | 2026-11-21 | NOASSERTION |  | F7, F15 | The fastest, litest AI Gateway. Rust core with Python SDK. Call 100+ LLM APIs in OpenAI (or native) format with cost tracking, guardrails, l |
-| [langfuse/langfuse](https://github.com/langfuse/langfuse) | 37688 | 2026-11-21 | NOASSERTION |  |  | 🪢 Open source AI engineering platform: AI Gateway, agent observability, evals, and prompt/skill management, built on OpenTelemetry. One open |
+| [langfuse/langfuse](https://github.com/langfuse/langfuse) | 37690 | 2026-11-21 | NOASSERTION |  |  | 🪢 Open source AI engineering platform: AI Gateway, agent observability, evals, and prompt/skill management, built on OpenTelemetry. One open |
 | [snarktank/ralph](https://github.com/snarktank/ralph) | 22313 | 2026-02-02 | MIT |  | F3, F4 | Ralph is an autonomous AI agent loop that runs repeatedly until all PRD items are complete.  |
 | [ccusage/ccusage](https://github.com/ccusage/ccusage) | 19531 | 2026-11-21 | MIT |  | F12, F15 | npx ccusage |
 | [frankbria/ralph-claude-code](https://github.com/frankbria/ralph-claude-code) | 9738 | 2026-11-14 | MIT |  |  | Autonomous AI development loop for Claude Code with intelligent exit detection |
+| [harbor-framework/terminal-bench-science](https://github.com/harbor-framework/terminal-bench-science) | 956 | 2026-11-19 | Apache-2.0 |  |  | Terminal-Bench-Science: Evaluating AI agents on research workflows across scientific domains |
 | [facebookresearch/meta-agents-research-environments](https://github.com/facebookresearch/meta-agents-research-environments) | 581 | 2026-09-30 | MIT |  | F26 | Meta Agents Research Environments is a comprehensive platform designed to evaluate AI agents in dynamic, realistic scenarios. Unlike static  |
 | [METR/eval-analysis-public](https://github.com/METR/eval-analysis-public) | 348 | 2026-03-06 | NONE | no license | F1 | Public repository containing METR's DVC pipeline for eval data analysis |
 | [chroma-core/context-rot](https://github.com/chroma-core/context-rot) | 323 | 2025-09-03 | MIT | stale |  | This repository contains the toolkit for replicating results from our technical report. |
