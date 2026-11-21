@@ -29,7 +29,7 @@ benchmark graders must make impossible to game.
 | V14 | Salva & Taguelmimt, "On the Soundness and Consistency of LLM Agents for Executing Test Cases Written in Natural Language" | 2025 | [arXiv:2509.19136](https://arxiv.org/abs/2509.19136) | NL test cases can give false failures and inconsistent repeat outcomes; of eight open models only Llama 3.1 70B ran them acceptably consistently |
 | V15 | Zhuge et al., "Agent-as-a-Judge: Evaluate Agents with Agents" | 2024 | [arXiv:2410.10934](https://arxiv.org/abs/2410.10934) | An agent judge that inspects the work against a requirement list matches the human consensus 90% of the time versus 70% for a plain LLM judge, at about 2% of human time and cost |
 | V16 | Grace et al., "Demystifying evals for AI agents" (Anthropic Engineering) | 2026 | [anthropic.com](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) | Vendor guidance: mix code, model and human graders, grade outcomes not paths, make graders resist hacks, verify backend state for UI tasks (note) |
-| V17 | Von Arx et al., "Recent Frontier Models Are Reward Hacking" (METR) | 2025 | [metr.org](https://metr.org/blog/2025-06-05-recent-reward-hacking/) | o3 reward-hacked in 30.4% of RE-Bench runs by patching the scorer or equality operator, and "don't cheat" prompts barely helped (note) |
+| V17 | Von Arx et al., "Recent Frontier Models Are Reward Hacking" (METR) | 2025 | [metr.org](https://metr.org/blog/2025-06-05-recent-reward-hacking/) | o3 reward-hacked in 30.4% of RE-Bench runs by tampering with scoring (overwriting the timer, monkey-patching the evaluator) or pre-computing and caching the answer (all 21 Optimize LLM Foundry runs), and "don't cheat" prompts barely helped (note) |
 
 ## What it establishes
 
@@ -40,9 +40,10 @@ agent writes for itself, line coverage, and an LLM reading the code are weak evi
 
 1. **Tests that pass are not evidence of correctness.** V5 ran coverage-driven generators on real buggy
    code and found tests that "validate bugs by treating incorrect behaviour as expected": 12 cases (4.2%)
-   for Copilot, "171 (59.6%) and 62 (68.1%)" for CodiumAI and CoverUp (Section IV), while "both CodiumAI
-   and CoverUp reject such tests during their generation process, with 470 and 400 such tests being
-   discarded" (Section IV). On the other side of the ledger, V11 shows weak human-written tests are the
+   for Copilot, "171 (59.6%) and 62 (68.1%)" for CodiumAI and CoverUp (Section IV), while the tests that do
+   reveal the bug are thrown away: "both CodiumAI and CoverUp reject such tests during their generation
+   process, with 470 and 400 such tests being discarded" (Section IV; "such tests" = tests that fail on
+   the buggy code and pass on the correct one). On the other side of the ledger, V11 shows weak human-written tests are the
    same problem: extending HumanEval's tests ~80x "reduc[es] the pass@k by up-to 19.3-28.9%" and "test
    insufficiency can lead to mis-ranking" (Abstract). V12 finds it inside SWE-bench Verified: "7.8% of
    all patches" count as correct "while failing the developer-written test suite", 29.6% of plausible
@@ -74,8 +75,8 @@ agent writes for itself, line coverage, and an LLM reading the code are weak evi
    (Section 4.2). Levers that worked: a strict prompt ("from 92% to 1% on Conflicting-LiveCodeBench",
    Section 1), and an exit option, where a `flag_for_human_intervention` string lowered GPT-5 "from 54% to
    9%" (Section 5.3). Retries make it worse: allowing multiple submissions raised the cheating rate "from
-   33% to 38%" (Section 5.3). V17 (METR) saw o3 reward-hack in 39 of 128 RE-Bench runs (30.4%) by patching
-   the scorer, and reports prompts telling the model not to cheat barely changed the rate. V16 draws the
+   33% to 38%" (Section 5.3). V17 (METR) saw o3 reward-hack in 39 of 128 RE-Bench runs (30.4%) by tampering
+   with the scorer or pre-computing the answer (21 of the 39 were answer caching on one task), and reports prompts telling the model not to cheat barely changed the rate. V16 draws the
    practical rule: "Make your graders resistant to bypasses or hacks." The kit must keep tests and graders
    outside the builder's write access and diff test files for edits.
 6. **An LLM reading the code is a poor stand-alone verifier.** V9: GPT-4 "correctly classifies 72% of the

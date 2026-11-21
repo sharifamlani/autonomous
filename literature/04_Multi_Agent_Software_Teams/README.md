@@ -20,13 +20,13 @@ must contain, and how the benchmark must score a team against a no-team arm at e
 | T5 | Nguyen et al., "AgileCoder: Dynamic Collaborative Agents for Software Development based on Agile Methodology" | 2024 | [arXiv:2406.11912](https://arxiv.org/abs/2406.11912) | Sprint and backlog process beats MetaGPT and ChatDev on HumanEval/MBPP and executability, at more tokens and time; no single-agent control |
 | T6 | Tao et al., "MAGIS: LLM-Based Multi-Agent Framework for GitHub Issue Resolution" | 2024 | [arXiv:2403.17927](https://arxiv.org/abs/2403.17927) | Four-role issue fixer on SWE-bench; removing the QA Engineer drops resolved from 13.94% to 10.63% |
 | T7 | Cemri et al., "Why Do Multi-Agent LLM Systems Fail?" (NeurIPS 2025) | 2025 | [arXiv:2503.13657](https://arxiv.org/abs/2503.13657) | 1,642 annotated traces, 7 frameworks, 14 failure modes in 3 groups; 41% to 86.7% failure rates; role-spec fix +9.4%, added verification step +15.6% for ChatDev |
-| T8 | Tran and Kiela, "Single-Agent LLMs Outperform Multi-Agent Systems on Multi-Hop Reasoning Under Equal Thinking Token Budgets" | 2026 | [arXiv:2604.02460](https://arxiv.org/abs/2604.02460) | At matched thinking-token budgets a single agent equals or beats five multi-agent designs, except at tiny budgets (reasoning tasks, not coding) |
+| T8 | Tran and Kiela, "Single-Agent LLMs Outperform Multi-Agent Systems on Multi-Hop Reasoning Under Equal Thinking Token Budgets" | 2026 | [arXiv:2604.02460](https://arxiv.org/abs/2604.02460) | At matched thinking-token budgets a single agent equals or beats five multi-agent designs, except at tiny budgets and under heavily corrupted context, where a sequential team wins (Section 5.3; reasoning tasks, not coding) |
 | T9 | Mohammadabadi, "More Agents, More Samples, or More Thinking? Untangling Coordination, Ensembling, and Test-Time Compute in Multi-Agent LLMs" | 2026 | [arXiv:2611.17610](https://arxiv.org/abs/2611.17610) | Synthesis of 9 studies / 516 configurations: against sample- or budget-matched baselines multi-agent averages -0.042 accuracy and is at or below baseline in 74% of contrasts |
 | T10 | Zhang et al., "Stop Overvaluing Multi-Agent Debate -- We Must Rethink Evaluation and Embrace Model Heterogeneity" | 2025 | [arXiv:2502.08788](https://arxiv.org/abs/2502.08788) | 5 debate methods x 9 benchmarks x 4 models: none wins more than 20% of 36 scenarios against plain CoT; mixing different models is what helps |
 | T11 | Huang et al., "Large Language Models Cannot Self-Correct Reasoning Yet" (ICLR 2024) | 2023 | [arXiv:2310.01798](https://arxiv.org/abs/2310.01798) | Without external feedback, same-model review degrades answers; debate at equal responses loses to majority voting (83.2 vs 85.3, GSM8K) |
 | T12 | Zeng et al., "Benchmarking and Studying the LLM-based Agent System in End-to-End Software Development" | 2025 | [arXiv:2511.04064](https://arxiv.org/abs/2511.04064) | Controlled single vs developer-then-tester vs designer-developer-tester waterfall on one toolset: 45.7% vs 49.5% vs 27.7% of requirements; the design handoff hurt |
 | T13 | Chowdhury et al., "From Industry Claims to Empirical Reality: An Empirical Study of Code Review Agents in Pull Requests" (MSR 2026) | 2026 | [arXiv:2604.03196](https://arxiv.org/abs/2604.03196) | Among 3,109 agent PRs (from AIDev's 19,450), bot-only review merges 45.20% vs 68.37% human-only; 60.2% of bot-only reviews are 0-30% signal |
-| T14 | Qiu et al., "Adversarial Review: Structured Disagreement for Grounded Agentic Code Review" (ICML 2026) | 2026 | [arXiv:2608.18167](https://arxiv.org/abs/2608.18167) | Three agents (coder, reviewer, critic) beat a 5-agent team and one agent on LiveCodeBench and SWE-bench Verified (75.2 vs 71.6%), at 4.5× tokens; naive agreement ("false consensus") hides bugs |
+| T14 | Qiu et al., "Adversarial Review: Structured Disagreement for Grounded Agentic Code Review" (ICML 2026 Workshop on DL4C) | 2026 | [arXiv:2608.18167](https://arxiv.org/abs/2608.18167) | Three agents (coder, reviewer, critic) beat a 5-agent team and one agent on LiveCodeBench and SWE-bench Verified (75.2 vs 71.6%), at 4.5× tokens; naive agreement ("false consensus") hides bugs |
 | T15 | Xia et al., "Passes Alone, Fails Together: Benchmarking Semantic Coordination in Parallel LLM-Agent Development" (EXPRESS 2026) | 2026 | [arXiv:2609.25396](https://arxiv.org/abs/2609.25396) | Parallel agents' patches pass alone and fail merged in 97% of constructed runs; one message about the concurrent change recovers 82%; rare in mined real PRs |
 | T16 | Carlini, "Building a C compiler with a team of parallel Claudes" (Anthropic Engineering) | 2026 | [anthropic.com](https://www.anthropic.com/engineering/building-c-compiler) | 16 parallel Claudes, ~2,000 sessions, ~$20,000: a team works when the task verifier is near-perfect and coordination is a lock file in git (note) |
 | T17 | Yan, "Multi-Agents: What's Actually Working" (Cognition blog) | 2026 | [cognition.com](https://cognition.com/blog/multi-agents-working) | Parallel writers still fail; what works is several agents contributing intelligence while writes stay single-threaded, with a reviewer that shares no context with the coder (note) |
@@ -59,7 +59,7 @@ writing serially; every extra role must beat a budget-matched single-agent arm i
 3. **Equal-budget comparisons erase most multi-agent gains.** T8: "SAS is the best-performing system or
    statistically indistinguishable from the best for all budgets except the lowest one (100 tokens)"
    (Section 5.1); at 2,000 thinking tokens the average accuracy is 0.421 for the single agent against
-   0.403 for debate and 0.389 for the sequential team (Table 1). T10: "none of these MAD methods achieve
+   0.403 for debate and 0.389 for the sequential team (Table 1). T8 also finds the reverse when context is heavily corrupted: "Sequential is clearly better at α = 0.7" (Section 5.3). T10: "none of these MAD methods achieve
    a win rate higher than 20% when compared to CoT across 36 scenarios" (Section 1). T11, Table 7: debate
    at six responses 83.2 vs self-consistency at six responses 85.3. T9 pools nine studies: multi-agent
    "average[s] -0.042 in accuracy" against matched baselines and "equals or falls below the baseline in
@@ -68,9 +68,9 @@ writing serially; every extra role must beat a budget-matched single-agent arm i
    model heterogeneity "improves SoM-average ... by 6.4%" (Section 4). Cross-reference H11 (theme 02):
    on SWE-bench Verified "all MAS architectures show slight degradation relative to SAS (mean 0.522)":
    hybrid -2.1%, centralized -3.1%, decentralized -5.4%, independent -14.9% (appendix results).
-4. **Coding is where the gains are smallest, and the review loop is the exception.** T14 (ICML 2026)
-   is the one head-to-head with Claude Code: on LiveCodeBench "Zero-shot 77%, Single-reviewer 77%,
-   Two-reviewers 75%, MARS (5 agents) 82%, AR (3 agents) 87%" (Table 1), and on SWE-bench Verified
+4. **Coding is where the gains are smallest, and the review loop is the exception.** T14 (ICML 2026 Workshop on DL4C)
+   is the one head-to-head with Claude Code: on LiveCodeBench Zero-shot 77%, Single-reviewer 77%,
+   Two-reviewers 75%, MARS (5 agents) 82%, AR (3 agents) 87% (Table 1), and on SWE-bench Verified
    75.2% vs 71.6% zero-shot vs 72.6% for MARS (Table 3, N=500), but "AR uses about 4.5× the tokens of
    Zero-shot". Note the single same-model reviewer added nothing; the gain needed a critic that audits
    the review, and naive pairs show "false consensus" (Section 7). T13 shows the field reality: "CRA-only
@@ -96,7 +96,7 @@ writing serially; every extra role must beat a budget-matched single-agent arm i
 7. **What a working team looks like in practice.** T16 (vendor): 16 parallel agents coordinate by
    writing "a text file to current_tasks/" under git; "it's important that the task verifier is nearly
    perfect, otherwise Claude will solve the wrong problem". T17: "multiple agents contribute intelligence
-   to a task while writes stay single-threaded"; parallel writers "make conflicting implicit decisions".
+   to a task while writes stay single-threaded"; parallel writers make conflicting implicit choices (the page: "Actions carry implicit decisions", about "style, code patterns, how certain edge cases should be handled").
    Cross-reference H14 (theme 02): +90.2% for an orchestrator on research at about 15× the tokens of a
    chat, and "most coding tasks involve fewer truly parallelizable tasks than research".
 
@@ -108,11 +108,7 @@ arm and report $/task for both.
 
 ## The catch
 
-- **Almost no coding result is at equal cost.** The only controlled equal-budget results (T8, T9, T10,
-  T11) are on reasoning and QA tasks, not software; I did not check how many of T9's nine pooled studies involve software tasks. The coding
-  comparisons that do exist either use a weak one-shot baseline (T1, T6's raw GPT-4 at 1.74%), use
-  simple benchmarks the authors themselves flag as unsuitable (T5: HumanEval and MBPP "primarily contain
-  simple problems"), or pay more tokens for the win (T14's 4.5×, T5, T1). The kit's own benchmark has to
+- **Equal-cost coding evidence is thin and points both ways.** T9's pooled software contrasts are all negative for multi-agent (SWE-bench Verified −0.017, Terminal-Bench −0.067, SWE-bench Lite −0.064, HumanEval −0.048, MBPP −0.082; Table 6, often 20 instances per cell). T12 is the one controlled software comparison at near-equal cost, and there the developer-then-tester pair beat the single agent (49.48% vs 45.72% at $6.64 vs $6.58 mean, Table 3), while the designer handoff lost. Other coding comparisons use a weak one-shot baseline (T1, T6's raw GPT-4 at 1.74%), benchmarks the authors flag as simple (T5), or pay more tokens for the win (T14's 4.5×, T5, T1). The kit's own benchmark has to
   supply the equal-cost software comparison.
 - **Models are old or small in most team papers.** T1, T2, T3, T4, T5 and T6 use GPT-3.5/GPT-4 of 2023-24;
   H11 and T14 show that as single-agent baselines get stronger (above about 45% on SWE-bench Verified)

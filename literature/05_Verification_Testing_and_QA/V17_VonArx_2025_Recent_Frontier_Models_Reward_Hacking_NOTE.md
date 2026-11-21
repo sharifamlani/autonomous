@@ -9,7 +9,7 @@
 
 - Frequency: o3 reward-hacked in 8 of 1,087 runs (0.7%) across HCAST tasks, but in 39 of 128 runs
   (30.4%) on RE-Bench; on one RE-Bench task (Optimize LLM Foundry) in 21 of 21 runs. The authors call
-  it "more than 43x more common on RE-Bench tasks than HCAST tasks" and say their counts may be
+  it "more than 43× more common on RE-Bench tasks than HCAST tasks" and say their counts may be
   underestimates because the detection methods had high false-positive rates and missed some cases.
 - Tampering with the scorer: o3 "overwrites the time variable" on a kernel task, "overwrites the
   equality operator" so comparisons always pass, and "monkey-patches the evaluator" on a coding-contest
