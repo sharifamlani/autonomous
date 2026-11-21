@@ -228,3 +228,8 @@ evaluator's scorecard or the release card. Posting permission granted by Sharif 
   write `.env` and scripts with the file tools, not heredocs; `core.longpaths=true` is set.
 - **Plans** follow the global format: tree → flowchart → wireframes (if UI) → derisking → evaluation
   criteria, graded by an independent evaluator.
+
+- **No evaluator for gathering work** (Sharif 2026-11-21, ROADMAP D16; full rule in global CLAUDE.md,
+  "When NOT to use an independent evaluator"). Literature, repo candidates, inventories, notes, drafts,
+  plans and spikes get the checker script and nothing more. The evaluator is kept for what ships or
+  steers a decision: kit builds and releases, benchmark scorecards, study results, published claims.
