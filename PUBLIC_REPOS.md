@@ -4,8 +4,11 @@ Open-source projects relevant to the kit: Claude Code plugins and harnesses, age
 autonomous loops, coding agents and their benchmarks, verification and testing tools, research and
 data-science agents, reproducibility tooling, and evaluation and cost tracking.
 
-- **Surveyed:** 2026-11-21. 216 candidates from the nine literature scouts (`public/_candidates/`),
-  merged to **203 unique repos** by `scripts/public/merge_candidates.py`. Stars, last push, license
+- **Surveyed:** 2026-11-21. 216 candidates from the nine literature scouts, plus 34 from a second,
+  popularity-led sweep for automated science and automated development (GitHub search and topics,
+  sorted by stars; `public/_candidates/10_sweep2.tsv`), merged to **237 unique repos** by
+  `scripts/public/merge_candidates.py`. The first sweep followed the papers, so it missed popular
+  projects with no paper (karpathy/autoresearch, alphaXiv/OpenResearch); sweep 2 closes that gap. Stars, last push, license
   and archived status come from the GitHub API (`gh api repos/OWNER/REPO`) on that date, never from
   memory. The data is `public/candidates.tsv`.
 - **Nothing here was run by us.** Feature claims come from READMEs and source files. A repo's stars
@@ -14,7 +17,7 @@ data-science agents, reproducibility tooling, and evaluation and cost tracking.
 - **Flags:** `stale` = no push in the 12 months before the survey; `archived` = read-only upstream;
   `no license` = no LICENSE GitHub recognises, so **no copying** (read only); `also NN` = flagged by
   more than one theme. **Papers** = the `papers.tsv` IDs the scout linked the repo to.
-- **Cloned:** the 20-repo shortlist below, pinned in `public/manifest.tsv`
+- **Cloned:** the 32-repo shortlist below, pinned in `public/manifest.tsv`
   (`bash scripts/sync_public_repos.sh` refills them). Each has a process-and-lessons write-up in
   [`public/_README.md`](public/_README.md).
 
@@ -23,13 +26,13 @@ data-science agents, reproducibility tooling, and evaluation and cost tracking.
 1. [Headline findings](#1-headline-findings)
 2. [The shortlist](#2-the-shortlist)
 3. [License notes](#3-license-notes)
-4. [All 203 repos, by theme](#4-all-203-repos-by-theme)
+4. [All 237 repos, by theme](#4-all-237-repos-by-theme)
 
 ---
 
 ## 1. Headline findings
 
-From the 20 process-and-lessons write-ups in [`public/_README.md`](public/_README.md). Each point
+From the 32 process-and-lessons write-ups in [`public/_README.md`](public/_README.md). Each point
 cites the repo; the write-up has the file path or issue number.
 
 - **No repo measures how often its agents actually finish the job.** Team methods (BMAD, gastown,
@@ -69,10 +72,42 @@ cites the repo; the write-up has the file path or issue number.
 - **InfiAgent-DABench is usable for the v0.1 study with a fixed grader.** 257 known-answer questions;
   its scorer drops unanswered questions from the denominator (skipping raises the score), some labels
   are disputed, and the data is CC BY-NC 4.0, so it is fetched at run time, not committed.
+- **Sweep 2: the popular automated-science loops share one recipe, and it can be gamed.** karpathy/
+  autoresearch, OpenResearch, AI-Scientist-v3 and the Claude Code and Codex autoresearch skills all
+  run edit, run for a fixed budget, measure one metric, then keep or revert, with one log row per trial.
+  That maps onto the study protocol. But when the agent can reach the metric, it games it: it can skip
+  training or shrink the eval set, because "do not modify `prepare.py`" is only a sentence in a prompt
+  (autoresearch #599). The metric must be computed by code the agent cannot write to.
+- **Sweep 2: failures that hide themselves.** K-Dense's reviewer silently scored every failed review
+  7.5 (scientific-agent-skills #152). AutoResearchClaw's own audit found its anti-fabrication checks
+  switched off when the network was down, giving a perfect integrity score while 2,831 tests passed
+  (its fix is #302). AI-Scientist-v3's repair agent quietly made the evaluator non-repeatable, so
+  keep/revert became a coin flip (#5). The kit's rules: a skipped or failed check never counts as a
+  pass, every caught error goes into a `degradations` list, and the baseline is scored twice before
+  a run starts.
+- **Sweep 2: held-out data and stop rules enforced in code.** AI-Scientist-v3 keeps search and
+  final seeds apart in code (`task_contract.py`). OpenResearch freezes a trial once a run answers it,
+  fixes the run command, stops after about 3 failed runs in a row, and asks after 2 repairs. That
+  matches PREREG's one held-out look and abandonment rule.
+- **Sweep 2: handoffs that stall silently are the top complaint in agent-company tools.** paperclip's
+  most-discussed issues are reviewer handoffs that stall with no run (#13532) and pauses that never
+  finish. deer-flow's RFC #4651 answers a sub-agent's "done" with checks run in code. The kit gives
+  every handoff a deadline and a check run outside the worker. Work that can't be checked is marked
+  unverified, never passed.
+- **Sweep 2: the kit's safety hooks must fail closed and be tested on Windows.** The Claude Code
+  autoresearch skill's hooks did nothing on Windows without any error (uditgoenka/autoresearch #115).
+  planning-with-files' green test suite hid Windows scripts that did nothing, and a shared "active
+  plan" pointer let parallel sessions load each other's plan (#240).
+- **Sweep 2: don't take popular repos' numbers on trust.** ruflo (82k stars): its own audit found a
+  claimed speed-up was generated with `Math.random()` and another claimed 150x measured 1.48x
+  (`docs/reviews/intelligence-system-audit-2026-05-29.md`). Its multi-agent benchmark ran against a
+  mock, and users report one Claude doing all the work (ruflo #958). Stars measure attention, not results.
 
 ## 2. The shortlist
 
-Twenty repos, chosen for what their **process and lessons** can teach the kit, not for stars alone.
+Thirty-two repos, chosen for what their **process and lessons** can teach the kit. The first twenty
+were picked by relevance; the twelve from sweep 2 are the most-starred automated-science and
+automated-development projects.
 
 | Group | Repo | Why it is on the list |
 |---|---|---|
@@ -96,19 +131,31 @@ Twenty repos, chosen for what their **process and lessons** can teach the kit, n
 | | [allenai/codescientist](https://github.com/allenai/codescientist) | Ai2's code-based discovery system with reviewed experiments |
 | | [microsoft/RD-Agent](https://github.com/microsoft/RD-Agent) | Data-science and R&D agent loop (propose, implement, evaluate) |
 | | [InfiAgent/InfiAgent](https://github.com/InfiAgent/InfiAgent) | InfiAgent-DABench (D1): known-answer data-analysis tasks, v0.1 study candidate |
+| Automated science (sweep 2) | [karpathy/autoresearch](https://github.com/karpathy/autoresearch) | Most-starred autoresearch loop: edit, run 5 minutes, keep or revert by one metric |
+| | [alphaXiv/OpenResearch](https://github.com/alphaXiv/OpenResearch) | Turns Claude Code/Codex into a research agent with an experiment tree |
+| | [K-Dense-AI/scientific-agent-skills](https://github.com/K-Dense-AI/scientific-agent-skills) | Largest science skills library for agents, incl. hypothesis and review skills |
+| | [aiming-lab/AutoResearchClaw](https://github.com/aiming-lab/AutoResearchClaw) | Idea-to-paper pipeline with its own anti-fabrication audit |
+| | [SakanaAI/AI-Scientist-v3](https://github.com/SakanaAI/AI-Scientist-v3) | Sakana's v3: orchestrates coding agents, evaluator owns the numbers |
+| | [EvoScientist/EvoScientist](https://github.com/EvoScientist/EvoScientist) | Self-evolving AI-scientist harness with rubric grading |
+| Automated development (sweep 2) | [uditgoenka/autoresearch](https://github.com/uditgoenka/autoresearch) | The autoresearch loop as a Claude Code skill, applied to any goal |
+| | [alchaincyf/darwin-skill](https://github.com/alchaincyf/darwin-skill) | Evolves agent skills: evaluate, improve, test, keep or roll back |
+| | [OthmanAdi/planning-with-files](https://github.com/OthmanAdi/planning-with-files) | File-based plans that survive context resets in long runs |
+| | [bytedance/deer-flow](https://github.com/bytedance/deer-flow) | ByteDance's long-horizon harness: sub-agents, sandbox, memory |
+| | [paperclipai/paperclip](https://github.com/paperclipai/paperclip) | Runs a "company" of agents: org chart, budgets, heartbeats |
+| | [ruvnet/ruflo](https://github.com/ruvnet/ruflo) | Agent-swarm harness for Claude Code (formerly claude-flow) |
 
 ## 3. License notes
 
-- **38 repos have no license** GitHub recognises (`NONE`), among them `anthropics/skills` and
-  `anthropics/claude-code`. They are read for ideas only; nothing is copied from them.
-- **21 are `NOASSERTION`**: a LICENSE file exists but is not a standard one (custom, dual, or
+- **40 repos have no license** GitHub recognises (`NONE`), among them `anthropics/skills`,
+  `anthropics/claude-code` and `karpathy/autoresearch` (its README says MIT but it ships no LICENSE file). They are read for ideas only; nothing is copied from them.
+- **22 are `NOASSERTION`**: a LICENSE file exists but is not a standard one (custom, dual, or
   modified). The raw file is read before any copying (CLAUDE.md §4).
 - **Copyleft:** 4 GPL-3.0 and 1 AGPL-3.0 (`qodo-ai/qodo-cover`). Copying their code would put the
   kit under the same terms; borrow ideas, not code.
-- **8 are archived**, including `microsoft/autogen`, `METR/vivaria` and `METR/RE-Bench`: still
-  readable, no longer maintained. **46 are stale** (no push in 12 months), mostly paper code.
+- **9 are archived**, including `microsoft/autogen`, `langchain-ai/open_deep_research`, `METR/vivaria` and `METR/RE-Bench`: still
+  readable, no longer maintained. **47 are stale** (no push in 12 months), mostly paper code.
 
-## 4. All 203 repos, by theme
+## 4. All 237 repos, by theme
 
 Grouped by the first theme that flagged the repo, sorted by stars. Regenerate with
 `python scripts/public/merge_candidates.py`.
