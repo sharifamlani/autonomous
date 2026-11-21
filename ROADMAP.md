@@ -5,14 +5,14 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.9 · 2026-11-21
+> v0.10 · 2026-11-21
 
 ---
 
 ## §0 You are here
 
-- **Current phase:** Phase 5 done (literature: 9 folders, 141 papers); Phase 6 next
-- **Current step:** waiting on Sharif for Phase 6 (GitHub survey: 137 candidates → shortlist, their process and lessons)
+- **Current phase:** Phase 5 done (literature: 9 folders, 288 papers, 216 repo candidates); Phase 6 next
+- **Current step:** waiting on Sharif for Phase 6 (GitHub survey: 216 candidates → shortlist, their process and lessons)
 - **Last update:** 2026-11-21
 - **Next action:** Phase 6 on Sharif's go.
 
@@ -175,7 +175,7 @@ Source: CLAUDE.md §7.
 **Goal:** all nine literature folders filled with verified papers and repo candidates.
 **Entry gate:** Phase 4 exit gate.
 **Exit gate:** `verify_literature.py --all` PASS; ≥ 90 papers, ≥ 8 per folder.
-**Status:** ✅ done (141 papers, 137 repo candidates; no grading rounds per D16)
+**Status:** ✅ done (288 papers, 216 repo candidates after round 2 and the lab sweep; no grading per D16)
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
@@ -183,6 +183,8 @@ Source: CLAUDE.md §7.
 | 5.2 | Dispatch scouts for themes 06, 07, 08, 09 in parallel (was 6.2) | ✅ | — | 2026-11-21 · `501df84` (themes 06–09: 62 sources) | same |
 | 5.3 | Verify each folder; re-dispatch only failing themes (was 6.3) | ✅ | — | 2026-11-21 · `b711e02` (checker PASS, 9 folders, 141 papers, 137 repos) | `verify_literature.py` |
 | 5.4 | Update the `literature/README.md` scoreboard (was 6.4) | ~ | — | parked: scoreboard rows 01, 03–09 not filled (Sharif: no extra work on literature) | literature/README.md |
+| 5.5 | Round 2: 9 scouts add 10–15 papers per theme, lab-first (Sharif: leading labs and funded startups only) | ✅ | — | 2026-11-21 · `1fff37e` (+115, 12 cross-theme duplicates removed) | Sharif 2026-11-21 |
+| 5.6 | Lab sweep: fill gaps lab by lab (OpenAI, Anthropic, Google DeepMind, Meta, Microsoft, Cognition, Cursor, Sakana, Ai2, METR, Epoch, Mistral, Cohere, Replit) | ✅ | — | 2026-11-21 · `60dc6aa` (+32) | Sharif 2026-11-21 |
 
 ### Phase 6 — Public repos survey and clones
 
@@ -324,6 +326,10 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.10 · 2026-11-21** — Literature round 2 (`1fff37e`, +115, lab-first per Sharif) and a lab-by-lab
+  sweep (`60dc6aa`, +32): 288 papers, 216 repo candidates. 12 cross-theme duplicates removed; ERA and
+  REPRO-Bench re-added (S31, S32) after both scouts dropped them. "When not to use an evaluator" rule
+  written to global and project CLAUDE.md.
 - **v0.9 · 2026-11-21** — Phase 5 closed: all 9 literature folders filled (141 papers, 137 repo
   candidates), checker PASS. D16: Sharif dropped independent grading of literature collection; the
   partly applied batch-2 wording fixes were committed as they stood. Plugin answer locked as D15.
