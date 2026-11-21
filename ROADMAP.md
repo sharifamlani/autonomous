@@ -79,6 +79,7 @@ Source: CLAUDE.md §7.
 | D12 | Evidence decides; only a graded run of the real task counts as proof the kit works | CLAUDE.md §0 |
 | D13 | Evaluation criteria are graded by an independent evaluator agent, never the builder | Global CLAUDE.md, 2026-10-28 |
 | D14 | License: MIT (repo and plugin) | Sharif, 2026-11-20 |
+| D15 | The kit is a plugin plus a launcher script that starts each role as its own `claude -p` session (not built-in agent teams, not a separate framework); its permission hook is scoped to the project folder and an allow-list | Spike 4.8, 2026-11-21 · `4261c62` |
 
 ---
 

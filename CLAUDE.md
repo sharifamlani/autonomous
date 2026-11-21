@@ -93,6 +93,20 @@ plain sentence ("this means you still can't X") the same day. Never only a ROADM
 - Background subagents under `-p` stop at 10 minutes unless `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0`.
 - Plugin commands and agents are namespaced: `/autonomous:<name>`, `autonomous:<agent>`.
 
+**The team question, answered** (spike 4.8, 2026-11-21, `research/spikes/plugin_team.md`): a plugin
+**plus a small launcher script** stands up the whole team. One command creates the team folder
+(registry, project file, one prompt per role) and starts Main, builder, QA and tester as separate
+unattended `claude -p` sessions; the handoff passed in every run. The kit designs around this:
+- Built-in agent teams never start under `-p`, and `claude --bg` stops at the folder-trust prompt;
+  the launcher script is the way to separate sessions.
+- Sessions hand off through files and through cross-session messages; a `-p` session ends with its
+  task, so long-lived roles are resumed with `--resume <session_id>` kept in the registry.
+- Unattended permissions come from a plugin `PermissionRequest` hook. **Before it ships it must be
+  scoped** to the project folder and an allow-list of commands, never a blanket approve.
+- Model, budget and the background-wait cap come from the command that starts Main, so the kit
+  documents one launch line. A parent session's cost omits its children: the launcher sums them.
+- Keep run folders short on Windows (very long paths stop Git Bash starting programs).
+
 ## 2. Repo structure (canonical)
 
 A folder exists on disk only once it has real content; until then it is listed here as *(planned)*.

@@ -191,7 +191,17 @@ def read_papers():
         return None
     lines = path.read_text(encoding="utf-8").splitlines()
     header = lines[0].split("\t") if lines else []
-    return header, [(i, ln.split("\t")) for i, ln in enumerate(lines[1:], 2) if ln.strip()]
+    rows = [(i, ln.split("\t")) for i, ln in enumerate(lines[1:], 2) if ln.strip()]
+    # Parallel scouts stage rows in literature/_incoming/NN_papers.tsv (merge_incoming.py folds them
+    # in); check them as if they were already in papers.tsv, so duplicates across scouts show up.
+    for inc in sorted((LIT / "_incoming").glob("*.tsv")):
+        inc_lines = inc.read_text(encoding="utf-8").splitlines()
+        tag = f"_incoming/{inc.name}"
+        if not inc_lines or inc_lines[0].split("\t") != PAPER_COLS:
+            rows.append((f"{tag}:1", ["(header is not the 10 papers.tsv columns)"]))
+            continue
+        rows += [(f"{tag}:{i}", ln.split("\t")) for i, ln in enumerate(inc_lines[1:], 2) if ln.strip()]
+    return header, rows
 
 
 def paper_rows():
