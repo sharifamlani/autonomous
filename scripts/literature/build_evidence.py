@@ -13,7 +13,7 @@ the page number and exactly where in the source it is. This script:
   4. writes the evidence file, grouped by section, one entry per claim.
 
 Status per row: VERIFIED (found on the stated page), WRONG PAGE (found, on another page; the true
-page is shown), NOT FOUND (not in the PDF), MANUAL (web or repo source: QA checks by hand),
+page is shown), NOT FOUND (not in the PDF), MANUAL (web, GitHub or this repo's own files: QA checks by hand),
 NO PDF (paper with no local file).
 
 Usage:
@@ -29,6 +29,8 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 import fitz  # pymupdf
+
+fitz.TOOLS.mupdf_display_errors(False)
 
 ROOT = Path(__file__).resolve().parents[2]
 LIT = ROOT / "literature"
@@ -84,8 +86,8 @@ class Pdfs:
 
 def check(row, pdfs):
     sid = row["source_id"].strip()
-    if "/" in sid or "#" in sid:
-        return "MANUAL", ""
+    if "/" in sid or "#" in sid or sid.endswith((".md", ".tsv")):
+        return "MANUAL", ""  # web, GitHub, or this repo's own files (corpus counts)
     pages = pdfs.pages(sid)
     if sid not in pdfs.papers:
         return "UNKNOWN ID", ""

@@ -1,0 +1,37 @@
+\section{Concepts: What Autonomous Means and How It Is Measured}\label{sec:concepts}
+
+\subsection{Agents, Loops and Harnesses}
+
+We use ``agent'' as a developer guide from Anthropic does: a system in which language models ``dynamically direct their own processes and tool usage'', as opposed to a workflow that follows predefined code paths \citep{A15}.\defn{Agent loop}{A model reasons, calls a tool, reads the result and repeats until it stops or is stopped.} An agent runs a loop that interleaves reasoning with actions and reads each result before choosing the next \citep{A1}. Everything configured around the model is its harness, a term that broadens attention ``from a model's context to the full set of mechanisms configured around it'' \citep[p.~1]{H2}. An agent's autonomy is then how long its loop runs, and how far it gets, before a person must step in.\defn{Harness}{Everything configured around a model: tools, context files, skills, permissions, hooks and stop rules.}
+
+\subsection{Autonomy as a Measurable Quantity}
+
+Three quantities make that idea measurable. The first is duration. METR's time horizon is ``the time humans typically take to complete tasks that AI models can complete with 50\% success rate'' \citep[p.~1]{F1}. In use, the 99.9th percentile turn in Claude Code ``nearly doubled, from under 25 minutes to over 45 minutes'' \citep{F14}. The second is intervention.\defn{Intervention}{A human action that changes a run's course: a correction, approval, restart or takeover.} The same developer reports that its internal users' interventions per session fell from 5.4 to 3.3 \citep{F14}, and OpenAI's own telemetry puts zero-intervention success on tasks estimated at four to eight hours of human work at 35\% in October, up from 13\% in March, while cautioning that the change may also reflect ``researchers' changing choices about when and how to use agents'' \citep{F32}. An unattended run is the limiting case of zero interventions.\defn{Unattended run}{A run that no person approves, corrects or restarts between launch and the final check.}
+
+The third quantity is consistency. The standard coding metric, pass@k, is the chance that at least one of $k$ independent trials of a task succeeds. For agents that must act reliably, \citet{A9} propose the opposite, pass\textasciicircum{}k, the chance that all $k$ trials succeed. In $\tau$-bench, function-calling agents built on gpt-4o succeed on fewer than half of the tasks, and pass\textasciicircum{}8 falls below 25\% in the retail domain \citep{A9}. Across six generation tasks, models lose an average of 39\% when a request is spread over several conversational turns, mostly through lost reliability rather than lost aptitude \citep{F16}.\defn{pass@k, pass\textasciicircum{}k}{The chance that at least one (pass@k) or every one (pass\textasciicircum{}k) of $k$ independent attempts succeeds.}
+
+\subsection{Why Solved Is Not Done}
+
+A benchmark run receives a complete specification, is scored once, and is graded by an instrument that may accept wrong work (Section 2). Use brings underspecified requests, many turns and a need for every run to succeed. The agent's own report is a poor substitute for a check: in one study, GPT-5 submitted a patch on 100\% of runs but resolved only 44\% \citep{F20}.
+
+\subsection{A Typology of Verification Signals}
+
+An external signal is evidence that work is done which comes from outside the builder's own account and which the builder cannot edit.\defn{External signal}{Evidence of success from outside the builder's own account, which the builder cannot edit.} A verifier is a check consulted during a run to accept or reject work; a grader is the instrument that scores the final outcome for evaluation. Both vary along two dimensions (Table~\ref{tab:typology}): who controls the signal, the builder or an outsider, and what it observes: claims, code, execution, or outcomes in the running system.
+
+Signals the builder controls still help.\defn{Verifier}{A check used during a run to accept or reject work: a test suite, script, model or person.} Across 16 models in Vibe Code Bench, how often a model tested its own application in a browser correlated with its final accuracy (Pearson $r = 0.72$) \citep{C19}. But they do not certify the work. The weakest cell for certification is an outside party that reads only claims: rewriting an agent's reasoning while holding its actions fixed inflated the false positive rates of vision-language judges by up to 90\% \citep{V24}. The evidence in the sections that follow fits the thesis: success concentrates where an outside party observes execution or the running system.\defn{Grader}{The instrument that scores a run's final outcome, such as a benchmark's test harness.}
+
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{A typology of verification signals, by who controls the signal and what it observes, with an example from the corpus in each cell.}
+\label{tab:typology}
+\begin{tabularx}{\linewidth}{@{}p{1.3cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+ & Claims & Code & Execution & Outcomes in the running system \\
+\midrule
+Builder & The agent's completion report or ``done'' signal \citep{F20,T23}; \resizebox{\linewidth}{!}{\repo{frankbria/ralph-claude-code}{91}} & Self-review and intrinsic self-correction \citep{A4} & Tests the builder writes, sees or can edit \citep{V3} & The builder's own use of its application during development \citep{C19} \\
+\addlinespace
+Outside & A judge reading the agent's trajectory, or a reviewer reading only the paper \citep{V24,S15} & Review of the code and execution logs behind a result \citep{S10} & Tests run in a clean container; a programmatic evaluator \citep{C12,A25} & Checks of the end state of a database, emulator or deployed application \citep{A9,C19,C29} \\
+\bottomrule
+\end{tabularx}
+\end{table}

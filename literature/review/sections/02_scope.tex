@@ -1,0 +1,46 @@
+\section{Scope, Sources and How Evidence Is Weighed}\label{sec:scope}
+
+\subsection{Corpus Construction}
+
+The review rests on 288 papers and reports dated 2013 to 2026, 219 of them from 2025 or 2026, and on 237 open-source repositories (Table~\ref{tab:corpus}). The papers fall into nine themes, from how agents are built to how they fail and what they cost. Each theme was filled by a scouting agent working under one rule: nothing enters the corpus without a fetched source, and each entry's title, first author and year were checked against that source. A first round of nine theme scouts produced 141 entries. A second, lab-first round restricted to leading laboratories and funded start-ups added 115, after cross-theme duplicates were removed, and a lab-by-lab sweep filled the remaining gaps with 32 more, covering OpenAI, Anthropic, Google DeepMind, Meta, Microsoft, Cognition, Cursor, Sakana, Ai2, METR, Epoch, Mistral, Cohere and Replit. Fifty-five sources have no PDF edition, mostly blog posts by developers and research groups, documentation and web reports, and were read from the fetched page.
+
+The repositories came from two GitHub sweeps. The first was paper-led: the theme scouts recorded 216 candidates linked to the papers they read. Because that route misses popular projects with no paper, a second, popularity-led sweep searched GitHub by topic and star count and added 34 candidates. Merged, the sweeps give 237 unique repositories, whose stars, last push, license and archive status were taken from the GitHub API on 21 November 2026. Thirty-two were cloned, pinned to a commit and written up for their process and the lessons recorded in their issues and audits. None was run for this review.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{The corpus. Papers by theme and year, and the repository survey. ``No PDF'' counts sources read from a fetched web page (blog posts, documentation, web reports). Counts are from \texttt{literature/papers.tsv} and \texttt{PUBLIC\_REPOS.md} as of 21 November 2026.}
+\label{tab:corpus}
+\begin{tabular}{lrrrrrr}
+\toprule
+Theme & $\leq$2023 & 2024 & 2025 & 2026 & Total & No PDF \\
+\midrule
+01 Architectures and orchestration & 6 & 10 & 8 & 0 & 24 & 2 \\
+02 Claude Code and harnesses & 1 & 1 & 17 & 15 & 34 & 15 \\
+03 Coding agents and SWE benchmarks & 1 & 4 & 17 & 12 & 34 & 8 \\
+04 Multi-agent software teams & 5 & 2 & 3 & 20 & 30 & 5 \\
+05 Verification, testing and QA & 3 & 6 & 15 & 12 & 36 & 8 \\
+06 AI scientists and automated research & 0 & 4 & 24 & 7 & 35 & 4 \\
+07 Data-analysis agents & 0 & 9 & 7 & 12 & 28 & 1 \\
+08 Research integrity & 12 & 5 & 4 & 8 & 29 & 0 \\
+09 Reliability, horizons and cost & 0 & 0 & 14 & 24 & 38 & 12 \\
+\midrule
+All papers & 28 & 41 & 109 & 110 & 288 & 55 \\
+\midrule
+\multicolumn{7}{l}{\textit{Repositories}} \\
+\multicolumn{5}{l}{Candidates from the paper-led sweep (nine theme scouts)} & 216 & \\
+\multicolumn{5}{l}{Candidates from the popularity-led sweep} & 34 & \\
+\multicolumn{5}{l}{Unique repositories surveyed, after merging} & 237 & \\
+\multicolumn{5}{l}{Cloned and written up for process and lessons} & 32 & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{A Hierarchy of Evidence}
+
+The review gives most weight to controlled comparisons that match cost or budget across arms and to independent audits of systems built by others. Benchmark results come next: they are measured, but on tasks chosen by the benchmark's authors and scored by graders that may be wrong. Laboratory telemetry and system cards follow; they describe real use at scale, but they are written by the developer about its own product and are rarely open to replication. Demonstrations, README files and launch posts come last. Practitioner repositories enter as evidence of failure modes in use, the way a political-science review treats practitioner reports: an issue thread can show that a failure happens, but not how often. Where a number in this review comes from a developer about its own system, or is asserted rather than measured, the text says so.
+
+\subsection{Known Biases}
+
+Four biases run through the corpus. First, much of the 2025--2026 evidence is written by laboratories about their own models, so the strongest positive results are also the least independent. Second, the instruments are themselves unreliable. OpenAI stopped reporting SWE-bench Verified after an audit of a subset of problems that models often failed found that at least 59.4\% had flawed test cases, and after frontier models proved able to reproduce the original human-written fixes \citep{C15}. In July 2026 the same laboratory estimated that about 30\% of SWE-bench Pro tasks were broken and retracted its recommendation to adopt it \citep{V31}. An independent study found that weaknesses in SWE-bench's patch validation inflated reported resolution rates by 6.4 percentage points \citep{V12}. Third, results decay quickly: many numbers in this review describe a specific model version, and they may not hold for the next one. Fourth, failure is under-reported. Systems that did not work are seldom written up, and our repositories were drawn by paper links and star counts, which favor projects that attracted attention. A further caution concerns the review itself: its corpus was assembled with the help of language-model agents, which is why every entry was checked against its fetched source.
