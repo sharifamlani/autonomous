@@ -29,7 +29,46 @@ data-science agents, reproducibility tooling, and evaluation and cost tracking.
 
 ## 1. Headline findings
 
-<!-- filled in after the shortlist write-ups (6.4, 6.5) -->
+From the 20 process-and-lessons write-ups in [`public/_README.md`](public/_README.md). Each point
+cites the repo; the write-up has the file path or issue number.
+
+- **No repo measures how often its agents actually finish the job.** Team methods (BMAD, gastown,
+  spec-kit, MetaGPT) and loops (ralph) report speed or tokens, not success rates. Every number is
+  UNVERIFIED; the kit's benchmark has to measure this itself.
+- **The agent's own "done" is never trusted by the repos that learned the hard way.** ralph's agent
+  claimed a project complete when it wasn't (ralph #91); the official `ralph-loop` plugin stops on a
+  phrase the builder prints. BMAD and mini-swe-agent only count "done" from an outside check. The
+  kit's stop signal is a QA or Tester verdict file.
+- **Builders must not be able to edit the checks they are graded by.** claude-code-action restores
+  `.claude/`, settings and hooks from the base branch before each run; OpenHands' CI rejects a PR that
+  changes walk scripts alongside product code; harbor and RD-Agent copy hidden tests and graders in
+  only at grading time; commit0's grader still scores test-file edits (its fix was never merged).
+  This matches the literature (checks the builder can't edit are the ones that catch bugs).
+- **From-scratch tasks leak their answers.** commit0's agents copied the removed code out of git
+  history (commit0 #113). Benchmark tasks ship with no history, and every task is proven with an
+  oracle run (must pass) and an empty run (must fail), as harbor does.
+- **Self-checks silently not running is common.** AI-Scientist-v2's figure review rejected the
+  configured model on every run (AI-Scientist-v2 #133); AgentLaboratory grades code with an LLM and
+  tunes on the test set; codescientist names faked steps as its most common failure. The study
+  protocol uses hard checks, a pilot ladder, and re-runs before a result counts.
+- **Unattended runs need several separate kill switches.** Turn cap, dollar cap, wall-clock cap and
+  repeated-error cap (mini-swe-agent, MetaGPT, inspect_ai); users report 6-hour hangs and silent
+  crashes without them (claude-code-action #674, #853). Watchdogs need a second independent sign
+  before killing a session (gastown #2707: 22 healthy sessions killed).
+- **Sandboxes the agent can switch off don't help.** sandbox-runtime lets Claude set
+  `dangerouslyDisableSandbox` in auto-allow mode (sandbox-runtime #97). The kit's permission hook
+  denies that and blocks writes to agent definitions, git hooks and QA test folders. The Windows
+  sandbox is alpha, so v0.1 does not depend on it.
+- **Small rosters, small rule files.** Installing many narrow agents loaded about 404k tokens of
+  descriptions (wshobson/agents #93); a long skill was truncated after compaction and lost its fix
+  cap (superpowers #2481). The kit keeps few roles and keeps rules in short files read at the step.
+- **Distribution: our own marketplace, not Anthropic's directory.** Since about 2026-11-05 the plugin
+  directory accepts command hooks and local MCP servers only from Verified organisations, with no
+  published way to apply (claude-plugins-official #7024). Users install with
+  `/plugin marketplace add sharifamlani/autonomous`.
+- **InfiAgent-DABench is usable for the v0.1 study with a fixed grader.** 257 known-answer questions;
+  its scorer drops unanswered questions from the denominator (skipping raises the score), some labels
+  are disputed, and the data is CC BY-NC 4.0, so it is fetched at run time, not committed.
 
 ## 2. The shortlist
 
