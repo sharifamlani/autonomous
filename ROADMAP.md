@@ -5,7 +5,7 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.2 · 2026-11-20
+> v0.3 · 2026-11-20
 
 ---
 
@@ -56,6 +56,7 @@ Source: CLAUDE.md §7.
 | D11 | The benchmark runs on `claude plugin eval` with a no-plugin baseline arm | Plugin docs check, 2026-11-20 |
 | D12 | Evidence decides; only a graded run of the real task counts as proof the kit works | CLAUDE.md §0 |
 | D13 | Evaluation criteria are graded by an independent evaluator agent, never the builder | Global CLAUDE.md, 2026-10-28 |
+| D14 | License: MIT (repo and plugin) | Sharif, 2026-11-20 |
 
 ---
 
@@ -305,6 +306,7 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.3 · 2026-11-20** — MIT license added (D14; action item A3 closed). Post #1 hooks revised at Sharif's request; still waiting on his pick (A2).
 - **v0.2 · 2026-11-20** — First roadmap. Phases 0–2 done (recon and plan; public repo `c9b9638`;
   day-1 setup and spikes `dcc04a0`); Phase 3 in flight (scripts `4b27ac1`, templates `fdcc5d5`,
   scaffolds `feed376`, CLAUDE.md `7f9ad76`). The chat tracker's "Phase 1.5" is Phase 2 here, and

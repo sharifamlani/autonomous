@@ -50,4 +50,4 @@ python scripts/new_study.py <slug> --title "<title>"  # start a study
 
 ## License
 
-To be chosen before the first plugin release.
+[MIT](LICENSE). Third-party code in `public/` keeps its own license.
