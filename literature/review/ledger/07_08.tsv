@@ -8,7 +8,7 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 7	A manual audit of passed	31.08% of passed patches passed due to weak tests	31.08%	C5	31.08% of the passed patches are suspicious patches due to weak test	p. 1, Abstract
 7	Differential testing found that	Method is differential patch testing		V12	a novel technique for differential patch testing, called PatchDiff	p. 1, Abstract
 7	Differential testing found that	29.6% of plausible patches behave differently from the developer fix	29.6%	V12	(29.6%) plausible patches induce different behavior	p. 1, Abstract
-7	Differential testing found that	Reported resolution rates inflated by 6.4 points	6.4	V12	rates by 6.4 absolute percent points	p. 1, Abstract
+7	Differential testing found that	Combined weaknesses inflate reported resolution rates by 6.4 points	6.4	V12	Combined, the different weaknesses lead to an inflation of reported resolution rates by 6.4 absolute percent points	p. 1, Abstract
 7	OpenAI stopped reporting SWE-bench Verified	OpenAI stopped reporting SWE-bench Verified		C15	This is why we have stopped reporting SWE-bench Verified scores, and we recommend that other model developers do so too.	https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ (introduction, under the page title)
 7	OpenAI stopped reporting SWE-bench Verified	At least 59.4% of audited problems have flawed tests	59.4%	C15	at least 59.4% of the audited problems have flawed test cases that reject functionally correct submissions	https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ (introduction, under the page title)
 7	OpenAI stopped reporting SWE-bench Verified	Audited subset of 138 problems chosen because o3 did not consistently solve them	138	C15	We conducted an audit of 138 SWE-bench Verified problems that OpenAI o3 did not consistently solve over 64 independent runs.	https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ (section: Too narrow and too wide tests)
@@ -38,11 +38,11 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 7	On 1,488 paid freelance tasks	Study is by OpenAI	2025	C16	samuelgm@openai.com	p. 1, author correspondence footnote
 7	In Android Bench, moving from	Closed variant: acceptance criteria, hidden tests		C29	The agent gets high-level requirements and acceptance criteria	p. 11, §5.2 Closed and open variants
 7	In Android Bench, moving from	Open variant: detailed requirements plus failing tests		C29	The agent gets detailed requirements and the failing verification tests	p. 11, §5.2 Closed and open variants
-7	In Android Bench, moving from	Best agent closed-variant pass rate 22.7% (claude-fable-5-1)	22.7%	C29	22.7%	p. 12, §5.2 table, row claude-fable-5-1 (claude-code), column Closed pass@1
-7	In Android Bench, moving from	Best agent open-variant pass rate 84.0%	84.0%	C29	84.0%	p. 12, §5.2 table, row claude-fable-5-1 (claude-code), column Open pass@1
+7	In Android Bench, moving from	Closed-variant pass rate 22.7% for the agent best with tests (claude-fable-5-1)	22.7%	C29	22.7%	p. 12, §5.2 table, row claude-fable-5-1 (claude-code), column Closed pass@1
+7	In Android Bench, moving from	Open-variant pass rate 84.0% for the same agent	84.0%	C29	84.0%	p. 12, §5.2 table, row claude-fable-5-1 (claude-code), column Open pass@1
 7	In Android Bench, moving from	Best open-variant pass rate 84%	84%	C29	With tests available, the best pass rate is 84% (claude-fable-5-1)	p. 1, Abstract
 7	In Android Bench, moving from	Largest multiplier 6.7x	6.7x	C29	6.7x	p. 12, §5.2 table, row kimi-k3 (kimi-code), column pass@1 Multiplier
-7	In Android Bench, moving from	Smallest multiplier 2.6x	2.6x	C29	2.6x	p. 12, §5.2 table, row gemini-3.7-flash (antigravity-sdk), column pass@1 Multiplier
+7	In Android Bench, moving from	Smallest multiplier 2.6x	2.6x	C29	2.6x	p. 12, §5.2 table, row gpt-6-astra (codex), column pass@1 Multiplier
 7	Removing the human-written requirements and	GPT-5 with requirements and interface 25.9%	25.9%	C9	25.9%	p. 8, Table 3, row OPENAI GPT-5 (HIGH), column PROBLEM STATEMENT, REQUIREMENTS, INTERFACE
 7	Removing the human-written requirements and	GPT-5 without human augmentation 8.4%	8.4%	C9	8.40%	p. 8, Table 3, row OPENAI GPT-5 (HIGH), column PROBLEM STATEMENT ONLY
 7	Removing the human-written requirements and	Problem-statement-only setting removes human augmentation		C9	The setting PROBLEM STATEMENT ONLY is without human augmentation.	p. 8, Table 3 caption
@@ -66,7 +66,7 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 7	Terminal-Bench requires an oracle solution	No-op agent should fail		C18	agent should fail the task	p. 4, §2.2
 7	The harbor harness from the	Harbor is from the Terminal-Bench team		harbor-framework/harbor	Harbor is a framework from the creators of [Terminal-Bench](https://www.tbench.ai) for evaluating and optimizing agents and language models.	README.md line 10 (@96c86af)
 7	The harbor harness from the	Adapters must reach 100% oracle reward	100%	harbor-framework/harbor	Run your adapter with the oracle agent and confirm **100% reward on all tasks**.	adapters/ADAPTER_CONTRIBUTING.md line 251 (@96c86af)
-7	The harbor harness from the	Tests copied in only after the agent runs		harbor-framework/harbor	The /tests folder is automatically copied over by the harness after the agent runs	src/harbor/cli/quality_checker/default-rubric.toml line 38 (@96c86af)
+7	The harbor harness from the	Task-quality rubric states tests are copied in only after the agent runs		harbor-framework/harbor	The /tests folder is automatically copied over by the harness after the agent runs	src/harbor/cli/quality_checker/default-rubric.toml line 38 (@96c86af)
 8.1	The founding system, The AI	Pipeline: ideas, code, experiments, paper, simulated review		S1	generates novel research ideas, writes code, executes experiments, visualizes results	p. 1, Abstract
 8.1	The founding system, The AI	Simulated review step		S1	then runs a simulated review process for evaluation	p. 1, Abstract
 8.1	The founding system, The AI	Less than $15 per paper	$15	S1	at a meager cost of less than $15 per paper	p. 1, Abstract
@@ -78,7 +78,7 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 8.1	One of three fully AI-written	Review was blind		S33	Reviewers were informed that some of the submissions were AI-generated, but not which ones	p. 5, Results (workshop submission)
 8.1	One of three fully AI-written	Above the workshop's average acceptance threshold		S33	placing it above the workshop's average acceptance threshold	p. 5, Results (workshop submission)
 8.1	One of three fully AI-written	Withdrawn after review as agreed in advance		S33	would be withdrawn after peer review	p. 7, Methods
-8.1	Agent Laboratory reports a full	About $2.33 per paper	$2.33	S3	only $2.33 USD per	p. 3, §1 Introduction (contributions)
+8.1	Agent Laboratory reports a full	About $2.33 per paper with a GPT-4o backend	$2.33	S3	only $2.33 USD per paper with a gpt-4o backend	p. 3, §1 Introduction (contributions)
 8.1	Agent Laboratory reports a full	Kosmos runs up to 12 hours of data-analysis cycles	12	S13	Kosmos runs for up to 12 hours performing cycles of parallel data analysis	p. 1, Abstract
 8.1	Agent Laboratory reports a full	CodeScientist runs genetic search over research articles and codeblocks		S34	a form of genetic search jointly over ... research articles and codeblocks defining common actions in a domain	p. 1, Abstract
 8.1	In karpathy/autoresearch, an agent edits	Agent edits only train.py		karpathy/autoresearch	- Modify `train.py` — this is the only file you edit.	program.md line 26 (@228791f)
@@ -121,7 +121,7 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 8.3	In a blog post by Anthropic	Cost about $18,000	$18,000	S20	This cost about $18,000 in tokens and model training expenses	https://www.anthropic.com/research/automated-alignment-researchers (section: Results)
 8.3	The method gave no statistically	No significant gain on production model		S20	didn’t lead to a statistically significant improvement	https://www.anthropic.com/research/automated-alignment-researchers (section: Results)
 8.3	The method gave no statistically	Problem chosen as unusually well-suited to automation		S20	We deliberately chose a problem that is unusually well-suited to automation	https://www.anthropic.com/research/automated-alignment-researchers (section: Implications)
-8.3	A follow-up reports 26\% to	26% to 96% of safety gap across ten failures	26%; 96%; 10	S21	Automated research closed 26% to 96% of the safety gap across ten alignment failures	https://www.anthropic.com/research/automated-researchers-mitigate-alignment-failures (figure caption, section: Successfully mitigating diverse alignment failures)
+8.3	A follow-up reports 26\% to	26% to 96% of safety gap across ten failures	26%; 96%; 10	S21	Automated research closed 26% to 96% of the safety gap across ten alignment failures	https://www.anthropic.com/research/automated-researchers-mitigate-alignment-failures (figure image alt text and description, section: Successfully mitigating diverse alignment failures; in raw HTML, not in visible caption text)
 8.3	AlphaEvolve's evaluator-scored loop found a	Heuristic for data center scheduling		A25	Improving data center scheduling	p. 13, §3.3.1
 8.3	AlphaEvolve's evaluator-scored loop found a	Recovers on average 0.7% of fleet-wide compute	0.7%	A25	continuously recovers on average 0.7% of Google's fleet-wide	p. 14, §3.3.1
 8.3	AlphaEvolve's evaluator-scored loop found a	Main limitation: needs an automated evaluator		A25	The main limitation of AlphaEvolve is that it handles problems for which it is possible to	p. 21, §6 Discussion
@@ -156,3 +156,11 @@ section	sentence_start	claim	number	source_id	exact_quote	location
 8.4	On AstaBench, step scores reach	Step scores up to about 70%	70%	S19	the average research step completion scores appear reasonable (scores up to	p. 10, §5 End-to-End Discovery
 8.4	On AstaBench, step scores reach	Completing all steps near zero		S19	likelihood of completing all experiment steps remains near zero	p. 10, §5 End-to-End Discovery
 8.4	On AstaBench, step scores reach	Maximum 5%	5%	S19	reaching a maximum of 5%	p. 10, §5 End-to-End Discovery
+7	Differential testing found that 29.6%	Patches that fail developer tests (part of the combined 6.4)	7.8%	V12	causes 7.8% of all patches to count as “correct” while failing the developer-written test suite	p. 1, Abstract
+7	A manual audit of one leading agent's passed patches	Audited patches are SWE-Agent + GPT-4's		C5	We conducted a manual screening of instances where SWE-Agent + GPT-4 successfully resolved issues	p. 1, Abstract
+7	OpenAI stopped reporting SWE-bench Verified	Contamination was also a reason		C15	We also found evidence that models that have seen the problems during training are more likely to succeed, because they have additional information needed to pass the underspecified tests.	https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ (introduction, under the page title)
+7	On SWE-Lancer, built from 1,488	Best model is Claude 3.5 Sonnet		C16	We find that the best performing model – Claude 3.5 Sonnet – scores 26.2% on IC SWE tasks	p. 3, §1 Introduction
+7	On SWE-Lancer, built from 1,488	Diamond is the public split	$500,800	C16	we release a public evaluation split – SWE-Lancer Diamond – containing $500,800 worth of tasks	p. 3, §1 Introduction
+7	An issue, since closed as completed	commit0 issue #113 closed as completed		commit-0/commit0#113	Reward hacking vulnerability: git history exposes original implementations	issue #113 title; state closed, state_reason completed, closed 2026-02-24 (GitHub API, checked 2026-11-21)
+7	An issue, since closed as completed	PR closed because a maintainer said it was not yet correct		commit-0/commit0#100	This PR isn't correct yet. Sometimes src dir and test dir are the same dir	PR #100 comment by wenting-zhao; state closed, merged = false (GitHub API, checked 2026-11-21)
+7	An issue, since closed as completed	PR would restrict the graded patch to the source directory		commit-0/commit0#100	right now only apply agent's edits on `src_dir` in case they also edit test file	PR #100 body
