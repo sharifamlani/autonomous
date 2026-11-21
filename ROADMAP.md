@@ -5,14 +5,14 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.16 · 2026-11-21
+> v0.17 · 2026-11-21
 
 ---
 
 ## §0 You are here
 
-- **Current phase:** Phase 7 in progress (literature review, Annual Review-style article; outline approved)
-- **Current step:** Phase 7.5 QA: 5 QA passes done (135 findings, all fixed, `739bdef`..`dbdf44a`); independent re-check of every fix running
+- **Current phase:** Phase 8 (independent evaluation of the literature review); Phases 7 and 7.5 done
+- **Current step:** independent evaluator grading the review against the plan's criteria; word-count criterion awaits Sharif's decision
 - **Last update:** 2026-11-21
 - **Next action:** after QA (incl. the verbatim evidence file) and the grade pass, wait for Sharif's express go before any post (target 6:00 AM Sun 2026-11-22 EST).
 
@@ -213,7 +213,7 @@ Source: CLAUDE.md §7.
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 7.1 | Write `literature/LITERATURE_REVIEW.md`: what the evidence and the repo lessons say per part, and what they imply for the kit's roster, prompts and gates (was 8.1) | ⏳ | — | 2026-11-21 · `ff08499` full draft in LaTeX (16 sections, 162 papers + 27 repos, 991-row evidence ledger); in QA | literature/ |
+| 7.1 | Write `literature/LITERATURE_REVIEW.md`: what the evidence and the repo lessons say per part, and what they imply for the kit's roster, prompts and gates (was 8.1) | ✅ | — | 2026-11-21 · `ff08499` draft → `257dd35` QA'd (16 sections, 162 papers + 28 repos, 35 pp.) | literature/ |
 | 7.2 | Citation check script: every ID in the review resolves in `papers.tsv` (was 8.2) | ✅ | — | 2026-11-21 · `de3f956` `check_review.py` (0 dangling; smoke: fake ID caught) + `build_evidence.py` (`c733ac8`) | criterion 9 |
 | 7.3 | CLAUDE.md v1: fold in the review's design implications (was 8.3) | ⏸ | — | gate: 7.1 | this plan |
 
@@ -222,17 +222,17 @@ Source: CLAUDE.md §7.
 **Goal:** a QA team that did not write the review checks every number, citation and fact before anything is graded or published (Sharif 2026-11-21: "very thorough ... for public release").
 **Entry gate:** Phase 7 (full draft, `render_review.py --check` PASS).
 **Exit gate:** `literature/qa/LITERATURE_REVIEW_qa.md` shows 0 open blockers and 0 open majors, every fix re-checked.
-**Status:** ⏳ in progress (5 QA agents, 2026-11-21)
+**Status:** ✅ done (QA PASS 2026-11-21: 135 findings fixed and re-checked)
 **Plan:** `docs/plans/07_literature_review.md` § Phase 7.5
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 7.5.1 | Number check: 100% of numbers matched to the PDF or source page | ⏸ | ✅ 07- | gate: Phase 7 | Sharif 2026-11-21 |
-| 7.5.2 | Citation check: every ID resolves; every cited source says what the sentence claims; Literature Cited metadata matches arXiv/Crossref; every repo issue re-checked via `gh api` | ⏸ | ✅ 07- | gate: Phase 7 | Sharif 2026-11-21 |
-| 7.5.3 | Fact, fairness and tone check (labs, dates, names; no claims beyond a source; no absolutes without backing) | ⏸ | ✅ 07- | gate: Phase 7 | Sharif 2026-11-21 |
-| 7.5.4 | Copy, format and privacy pass | ⏸ | ✅ 07- | gate: Phase 7 | CLAUDE.md §9 |
-| 7.5.6 | Evidence file `literature/LITERATURE_REVIEW_EVIDENCE.md`: every claim and citation with its verbatim quote, page and location; quotes checked against the PDF by `build_evidence.py`, support checked by QA | ⏸ | ✅ 07- | gate: Phase 7 | Sharif 2026-11-21 |
-| 7.5.5 | Fix round, then QA re-checks every fix | ⏸ | ✅ 07- | gate: 7.5.1–7.5.4 | global CLAUDE.md |
+| 7.5.1 | Number check: 100% of numbers matched to the PDF or source page | ✅ | — | 2026-11-21 · `257dd35` (753 quotes verified on the PDF page by script; all numbers checked by 5 QA passes) | Sharif 2026-11-21 |
+| 7.5.2 | Citation check: every ID resolves; every cited source says what the sentence claims; Literature Cited metadata matches arXiv/Crossref; every repo issue re-checked via `gh api` | ✅ | — | 2026-11-21 · `257dd35` (162 entries' metadata checked; 0 dangling; repo issues re-checked via gh) | Sharif 2026-11-21 |
+| 7.5.3 | Fact, fairness and tone check (labs, dates, names; no claims beyond a source; no absolutes without backing) | ✅ | — | 2026-11-21 · `257dd35` (fairness/absolutes pass; 11 blockers found and fixed) | Sharif 2026-11-21 |
+| 7.5.4 | Copy, format and privacy pass | ✅ | — | 2026-11-21 · `257dd35` (copy, layout, privacy pass) | CLAUDE.md §9 |
+| 7.5.6 | Evidence file `literature/LITERATURE_REVIEW_EVIDENCE.md`: every claim and citation with its verbatim quote, page and location; quotes checked against the PDF by `build_evidence.py`, support checked by QA | ✅ | — | 2026-11-21 · `257dd35` (`LITERATURE_REVIEW_EVIDENCE.md`: 1,043 rows, 753 VERIFIED, 290 checked by hand, 0 failing) | Sharif 2026-11-21 |
+| 7.5.5 | Fix round, then QA re-checks every fix | ✅ | — | 2026-11-21 · `257dd35` (re-check confirmed 135/135 fixes; `literature/qa/LITERATURE_REVIEW_qa.md` QA PASS) | global CLAUDE.md |
 
 ### Phase 8 — Independent evaluation of the research foundation
 
@@ -346,6 +346,8 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.17 · 2026-11-21** — Phase 7.5 closed: QA PASS (`257dd35`), 135/135 findings confirmed fixed by a
+  re-checker that touched none of the work. Phase 8 (independent evaluator) started.
 - **v0.16 · 2026-11-21** — Phase 7.5: five QA passes found 135 issues (11 blockers) and all are fixed,
   e.g. a +0.5-point non-significant result stated as "beat", a quote stitched from figure axis labels, a
   claim cited to an OpenAI post outside the corpus, an unmerged PR called a fix (also corrected in
