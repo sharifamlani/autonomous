@@ -2,3 +2,23 @@
 # The clones themselves are gitignored; this manifest is the committed record.
 #
 # name	url	pinned_commit
+superpowers	https://github.com/obra/superpowers	22f0b463e7a5e579904dd6211a520321035526f7
+claude-plugins-official	https://github.com/anthropics/claude-plugins-official	73c8cf3ea7e296057b467990f2f5d61b4c922260
+wshobson-agents	https://github.com/wshobson/agents	42203085cfc5736204bf0f6d436dff7e1da0bf3f
+BMAD-METHOD	https://github.com/bmad-code-org/BMAD-METHOD	e435a22574fe55722841086e5566420178b98df3
+gastown	https://github.com/gastownhall/gastown	94cc82289d2ead275a62e1db4ef1d4ada4a1f98e
+spec-kit	https://github.com/github/spec-kit	a4d571229e164e440f8950cac034607bae7b7518
+ralph-claude-code	https://github.com/frankbria/ralph-claude-code	11f9df5becc8093ff2265542107e8e53a42e9970
+claude-code-action	https://github.com/anthropics/claude-code-action	acfe7992852970efb4fee683d63d628e3e52df67
+sandbox-runtime	https://github.com/anthropics/sandbox-runtime	0bbebed0aa9a8e628dc4df8bc30293550a1988eb
+MetaGPT	https://github.com/FoundationAgents/MetaGPT	11cdf466d042aece04fc6cfd13b28e1a70341b1f
+OpenHands	https://github.com/OpenHands/OpenHands	bb526a3bd9fa96518c00f4a426e2a4982dfbe6dc
+mini-swe-agent	https://github.com/SWE-agent/mini-swe-agent	04d809ceab9df28f9adaed044884180159172930
+inspect_ai	https://github.com/UKGovernmentBEIS/inspect_ai	cf72dbc041f9311d12d8e4b0aeef9208bca276ef
+harbor	https://github.com/harbor-framework/harbor	96c86af3bc6d7e92f21fc771d21273be4714c8e9
+commit0	https://github.com/commit-0/commit0	1123db33219ee1bfcc735304cb4308663e329aeb
+AI-Scientist-v2	https://github.com/SakanaAI/AI-Scientist-v2	96bd51617cfdbb494a9fc283af00fe090edfae48
+AgentLaboratory	https://github.com/SamuelSchmidgall/AgentLaboratory	d9017d90e329112d2a80b7712f37ee9094d2cd27
+codescientist	https://github.com/allenai/codescientist	778b146acf454d9400ed09fc1eb95d3d5cbb6a14
+RD-Agent	https://github.com/microsoft/RD-Agent	484776c211e4fbbeef03e0ec00d6bbee7362a4f4
+InfiAgent	https://github.com/InfiAgent/InfiAgent	3d6c4a70198e0a41fadf539f5b43c88b8c1a2d9c

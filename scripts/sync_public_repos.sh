@@ -56,7 +56,7 @@ while IFS=$'\t' read -r name url pin; do
 
   if [ ! -d "$path/.git" ]; then
     echo "CLONE    $name  <- $url"
-    git clone --quiet "$url" "$path" || { echo "FAILED to clone $name" >&2; fail=1; continue; }
+    git clone --quiet --filter=blob:none "$url" "$path" || { echo "FAILED to clone $name" >&2; fail=1; continue; }
   fi
 
   if [ "$MODE" = latest ]; then
