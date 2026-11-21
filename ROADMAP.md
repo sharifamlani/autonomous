@@ -5,16 +5,16 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.6 · 2026-11-21
+> v0.7 · 2026-11-21
 
 ---
 
 ## §0 You are here
 
 - **Current phase:** Phase 4 — Research tooling, notebook spike and pilot scout
-- **Current step:** setup rows 4.1–4.5 done and graded (C1–C7 PASS); 4.6 waits on Sharif's go
+- **Current step:** 4.6 pilot scout on theme 02 and 4.8 plugin-team spike, in parallel
 - **Last update:** 2026-11-21
-- **Next action:** on Sharif's go, run the `research-scout` on theme 02 (row 4.6), then the evaluator grades C8 (row 4.7).
+- **Next action:** evaluator grades the pilot (4.7); report the pilot and the plugin answer to Sharif before Phase 5.
 
 ---
 
@@ -153,8 +153,8 @@ Source: CLAUDE.md §7.
 **Goal:** prove research can run unattended: the notebook template runs headless, the literature tools work, and one scout fills one theme to the contract.
 **Entry gate:** Phase 3.
 **Exit gate:** headless Run All of the notebook template PASS; folder 02 passes `verify_literature.py --all`; ≥ 8 verified papers; candidates TSV has 0 short rows; independent evaluator scorecard all PASS.
-**Status:** ⏳ setup done (4.1–4.5); 4.6 waits on Sharif's go
-**Plan:** `docs/plans/04_research_tooling_and_pilot.md` · setup C1–C7 PASS (independent evaluator, 2026-11-21)
+**Status:** ⏳ 4.6 pilot scout and 4.8 plugin-team spike in flight
+**Plan:** `docs/plans/04_research_tooling_and_pilot.md` · setup C1–C7 PASS (independent evaluator, 2026-11-21) · research: `docs/plans/research_plan.md`
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
@@ -163,8 +163,10 @@ Source: CLAUDE.md §7.
 | 4.3 | Write `scripts/literature/fetch_papers.py`: download every `papers.tsv` row's PDF locally, verify `%PDF` (was 5.1b) | ✅ | ✅ 04 | 2026-11-21 · `b8693bf` | D4 |
 | 4.4 | Smoke: arXiv PDF fetch returns `%PDF`; `gh api` returns stars/license/archived (was 5.2) | ✅ | ✅ 04 | 2026-11-21 · `b8693bf` | plan smokes |
 | 4.5 | Write the `research-scout` agent (output contract, no citation without a fetched source) (was 5.3) | ✅ | ✅ 04 | 2026-11-21 · local (`.claude/`, gitignored) | CLAUDE.md §3–4 |
-| 4.6 | Run the scout on theme 02 (Claude Code and harness engineering) (was 5.4) | ⏸ | ✅ 04 | gate: 4.5 + Sharif's go | literature/README.md |
+| 4.6 | Run the scout on theme 02 (Claude Code and harness engineering) (was 5.4) | ⏳ | ✅ 04 | 2026-11-21 (in flight; Sharif's go) | literature/README.md |
 | 4.7 | Independent evaluator grades the pilot; tighten the scout prompt if it fails (was 5.5) | ⏸ | ✅ 04 | gate: 4.6 | D13 |
+| 4.8 | Spike: can a plugin stand up the team (Main, builder, QA, tester + registry and prompts) from one command, unattended? Docs + hands-on test plugin; answer: plugin alone / plugin + launcher / other framework | ⏳ | ✅ research | 2026-11-21 (in flight) | Sharif 2026-11-21; D1 |
+| 4.9 | Inventory our own skills (agent-team, shipping/development flywheel incl. hackathon mode, pm-lead-session, parallel-agent-orchestration, ...): purpose, kit part, lessons (local `.agents/playbook_inventory.md`) | ⏳ | ✅ research | 2026-11-21 (in flight) | Sharif 2026-11-21 |
 
 ### Phase 5 — Research fan-out (8 scouts)
 
@@ -182,7 +184,7 @@ Source: CLAUDE.md §7.
 
 ### Phase 6 — Public repos survey and clones
 
-**Goal:** the GitHub survey written and the shortlist cloned and pinned.
+**Goal:** the GitHub survey written, the shortlist cloned and pinned, and each kept repo's process and lessons learned written down.
 **Entry gate:** Phase 5.
 **Exit gate:** `PUBLIC_REPOS.md` ≥ 60 repos with full metadata; `sync_public_repos.sh --verify` exit 0.
 **Status:** ⏸ planned
@@ -193,6 +195,7 @@ Source: CLAUDE.md §7.
 | 6.2 | Write `PUBLIC_REPOS.md` (metadata from `gh api`, evidence labels, license notes) (was 7.2) | ⏸ | — | gate: 6.1 | Trading `PUBLIC_REPOS.md` format |
 | 6.3 | Shortlist ≤ 20; clone pinned into `public/`; write `manifest.tsv` (was 7.3) | ⏸ | — | gate: 6.2 | `sync_public_repos.sh` |
 | 6.4 | One evaluation section per clone in `public/_README.md` (was 7.4) | ⏸ | — | gate: 6.3 | public/_README.md |
+| 6.5 | Per kept repo: its process (how agents are organised, handed work, tested, reviewed) and lessons learned (contributor guides, design docs, postmortems, recurring issues) in `public/_README.md` | ⏸ | ✅ research | gate: 6.3 | Sharif 2026-11-21 |
 
 ### Phase 7 — Literature review and CLAUDE.md v1
 
@@ -203,7 +206,7 @@ Source: CLAUDE.md §7.
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 7.1 | Write `literature/LITERATURE_REVIEW.md`: what the evidence says per part, and what it implies for the kit's roster, prompts and gates (was 8.1) | ⏸ | — | gate: Phases 5–6 | literature/ |
+| 7.1 | Write `literature/LITERATURE_REVIEW.md`: what the evidence and the repo lessons say per part, and what they imply for the kit's roster, prompts and gates (was 8.1) | ⏸ | — | gate: Phases 5–6 | literature/ |
 | 7.2 | Citation check script: every ID in the review resolves in `papers.tsv` (was 8.2) | ⏸ | — | gate: 7.1 | criterion 9 |
 | 7.3 | CLAUDE.md v1: fold in the review's design implications (was 8.3) | ⏸ | — | gate: 7.1 | this plan |
 
@@ -319,6 +322,9 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.7 · 2026-11-21** — Sharif approved the research plan (`docs/plans/research_plan.md`) and added
+  three things: row 4.9, an inventory of our own skills as the starting point; row 4.8, a spike on whether a plugin can stand up the whole agent team (changes D1 if
+  not), and row 6.5, each kept repo's process and lessons learned. 4.6 pilot scout started.
 - **v0.6 · 2026-11-21** — Phase 3 closed: post #1 live on LinkedIn (3.7; A2 closed). Phase 4 setup
   done: notebook template runs headless (4.1, `d366253`; promise 2's mechanism proven), literature
   checker, fetcher and smokes (4.2–4.4, `b8693bf`), `research-scout` agent (4.5, local). Independent
