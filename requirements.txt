@@ -1,0 +1,10 @@
+# Python dependencies for scripts/ and the research notebooks (Python 3.13).
+# Install from the repo root:  python -m pip install -r requirements.txt
+numpy>=1.26
+pandas>=2.1
+matplotlib>=3.8
+nbformat>=5.9
+nbclient>=0.9
+ipykernel>=6.25
+requests>=2.31
+pytest>=8.0
