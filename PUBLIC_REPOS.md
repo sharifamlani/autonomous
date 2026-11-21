@@ -101,7 +101,8 @@ cites the repo; the write-up has the file path or issue number.
   plan" pointer let parallel sessions load each other's plan (#240).
 - **Sweep 2: don't take popular repos' numbers on trust.** ruflo (82k stars): its own audit found a
   claimed speed-up was generated with `Math.random()` and another claimed 150x measured 1.48x
-  (`docs/reviews/intelligence-system-audit-2026-05-29.md`). Its multi-agent benchmark ran against a
+  (`docs/reviews/intelligence-system-audit-2026-05-29.md`; the same audit records the randomized
+  figure as since removed, in v3.10.7). Its multi-agent benchmark ran against a
   mock, and users report one Claude doing all the work (ruflo #958). Stars measure attention, not results.
 
 ## 2. The shortlist

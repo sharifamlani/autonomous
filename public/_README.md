@@ -1540,7 +1540,7 @@ and many plugins. **License:** MIT (`LICENSE`). Copying allowed? yes, keep the n
 **Lessons learned** (measured vs asserted)
 - **Their own audit found headline numbers fabricated** (`docs/reviews/intelligence-system-audit-2026-05-29.md`). "HNSW
   150x–12,500x" measured a **1.48×** peak. "Flash Attention 2.49–7.47×" was "**fabricated with `Math.random()` at
-  runtime**" (`attention-coordinator.ts:972`). "75× embeddings" had no benchmark. The CLI "**silently inverts negative
+  runtime**" (`attention-coordinator.ts:972`); the same audit lists this as fixed in v3.10.7 ("randomized telemetry removed"). "75× embeddings" had no benchmark. The CLI "**silently inverts negative
   reward**", so training against a bad agent reinforces it. ONNX failure fell back silently to mock embeddings still
   labelled as the real model. Yet `CLAUDE.local.md` still states "HNSW (150x-12,500x), Flash Attention (2.49x-7.47x)".
 - **The "multi-agent benchmark" is a mock**: `docs/benchmarks/multi-agent/multiagent-mock-…json` has `"backend": "mock"`
