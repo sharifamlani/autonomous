@@ -12,7 +12,7 @@
 ## §0 You are here
 
 - **Current phase:** Phase 3 — Rules, roadmap and scaffolds
-- **Current step:** 3.6 README.md + SHARIF_ACTION_ITEMS.md
+- **Current step:** 3.7 post #1 drafted; waiting on Sharif's approval (SHARIF_ACTION_ITEMS A2)
 - **Last update:** 2026-11-20
 - **Next action:** Phase 4: copy the lifted dev skills that belong in the kit into `plugin/`, scrub them, and pass `claude plugin validate plugin --strict`.
 
@@ -122,8 +122,8 @@ Source: CLAUDE.md §7.
 | 3.3 | `literature/README.md` index (9 themes), `papers.tsv`; `public/_README.md`, `manifest.tsv` | ✅ | — | 2026-11-20 · `feed376` | Trading `literature/`, `public_repos/` |
 | 3.4 | CLAUDE.md v0 | ✅ | — | 2026-11-20 · `7f9ad76` | this plan |
 | 3.5 | ROADMAP.md v0.2 | ✅ | — | 2026-11-20 · this commit | `writing-roadmaps` skill |
-| 3.6 | README.md (one-page overview) and SHARIF_ACTION_ITEMS.md | ⏳ | — | in flight | CLAUDE.md §2 |
-| 3.7 | Marketing post #1 drafted (problem + plan, two hooks, shot list) for Sharif's one approval | ⏸ | — | gate: 3.6 | CLAUDE.md §8 |
+| 3.6 | README.md (one-page overview) and SHARIF_ACTION_ITEMS.md | ✅ | — | 2026-11-20 · this commit | CLAUDE.md §2 |
+| 3.7 | Marketing post #1 drafted (problem + plan, two hooks, shot list) for Sharif's one approval | ⏳ | — | waiting on Sharif (A2) | CLAUDE.md §8 |
 
 ### Phase 4 — Kit skeleton: adapt the lifted skills and agents
 
