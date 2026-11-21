@@ -5,7 +5,7 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.13 · 2026-11-21
+> v0.14 · 2026-11-21
 
 ---
 
@@ -14,7 +14,7 @@
 - **Current phase:** Phase 7 in progress (literature review, Annual Review-style article; outline approved)
 - **Current step:** drafting sections in parallel; then Phase 7.5 QA (100% number, citation and fact checks), then Phase 8 independent grade
 - **Last update:** 2026-11-21
-- **Next action:** release to LinkedIn + X with a video at 6:00 AM Sun 2026-11-22 (EST), only if QA and the grade pass.
+- **Next action:** after QA (incl. the verbatim evidence file) and the grade pass, wait for Sharif's express go before any post (target 6:00 AM Sun 2026-11-22 EST).
 
 ---
 
@@ -231,6 +231,7 @@ Source: CLAUDE.md §7.
 | 7.5.2 | Citation check: every ID resolves; every cited source says what the sentence claims; Literature Cited metadata matches arXiv/Crossref; every repo issue re-checked via `gh api` | ⏸ | ✅ 07- | gate: Phase 7 | Sharif 2026-11-21 |
 | 7.5.3 | Fact, fairness and tone check (labs, dates, names; no claims beyond a source; no absolutes without backing) | ⏸ | ✅ 07- | gate: Phase 7 | Sharif 2026-11-21 |
 | 7.5.4 | Copy, format and privacy pass | ⏸ | ✅ 07- | gate: Phase 7 | CLAUDE.md §9 |
+| 7.5.6 | Evidence file `literature/LITERATURE_REVIEW_EVIDENCE.md`: every claim and citation with its verbatim quote, page and location; quotes checked against the PDF by `build_evidence.py`, support checked by QA | ⏸ | ✅ 07- | gate: Phase 7 | Sharif 2026-11-21 |
 | 7.5.5 | Fix round, then QA re-checks every fix | ⏸ | ✅ 07- | gate: 7.5.1–7.5.4 | global CLAUDE.md |
 
 ### Phase 8 — Independent evaluation of the research foundation
@@ -244,7 +245,7 @@ Source: CLAUDE.md §7.
 |---|---|---|---|---|---|
 | 8.1 | Evaluator grades the criteria from a fresh clone (citations and repo metadata re-queried) (was 9.1) | ⏸ | — | gate: Phase 7 | D13 |
 | 8.2 | Fix rounds until every criterion passes (was 9.2) | ⏸ | — | gate: 8.1 | global CLAUDE.md |
-| 8.3 | Release card from the scorecard; Marketing posts the review to LinkedIn + X at 6:00 AM Sun 2026-11-22 (EST) with a video about the paper (`make-video` skill) (was 9.3) | ⏸ | — | gate: 8.2 | CLAUDE.md §8 |
+| 8.3 | Release card from the scorecard; Marketing posts the review to LinkedIn + X with a video about the paper (`make-video` skill) **only on Sharif's express go order** (target 6:00 AM Sun 2026-11-22 EST) (was 9.3) | ⏸ | — | gate: 8.2 | CLAUDE.md §8 |
 
 ### Phase 9 — Kit v0.1 design, from the research
 
@@ -345,6 +346,9 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.14 · 2026-11-21** — Sharif: an evidence file with every claim's verbatim quote, page and
+  location (row 7.5.6, `build_evidence.py` checks quotes against the PDFs), and no social post of the
+  paper until his express go order.
 - **v0.13 · 2026-11-21** — Phase 7 outline approved by Sharif (Annual Review-style article, thesis
   "verification, not capability"). New Phase 7.5: a thorough QA (100% number, citation, fact and tone
   checks) before the independent grade. Release set for 6:00 AM Sun 2026-11-22 with a video.

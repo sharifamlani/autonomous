@@ -1,8 +1,8 @@
 # Phase 7 plan: the literature review (outline for approval)
 
 > ROADMAP Phase 7 (rows 7.1–7.3), Phase 7.5 (QA) and Phase 8 (independent grade, then release).
-> Status: **approved by Sharif 2026-11-21 ("perfect ... go").** Target release: LinkedIn + X at
-> **6:00 AM Sunday 2026-11-22** (machine time, EST), only if QA and the independent grade both pass.
+> Status: **approved by Sharif 2026-11-21 ("perfect ... go").** Target release: 6:00 AM Sunday
+> 2026-11-22 (EST), **only on Sharif's express go order**, after QA and the independent grade pass.
 
 **What it is.** A full review article in the style of the *Annual Review of Political Science*: an
 argued synthesis of a field, organised around its central questions and debates, not a list of
@@ -306,10 +306,10 @@ autonomous/
          | every finding fixed, QA re-checks the fixes
          v
 +-------------------+    +---------------------+    +----------------------+
-| Phase 8: indep.   |--> | Marketing: LinkedIn |--> | video about the      |
-| evaluator grades  |    | + X at 6:00 AM Sun  |    | paper (make-video    |
-| (criteria below)  |    | 2026-11-22, repo    |    | skill), posted with  |
-| loop until PASS   |    | link in 1st comment |    | or under the post    |
+| Phase 8: indep.   |--> | Sharif's express go |--> | video about the      |
+| evaluator grades  |    | -> Marketing posts  |    | paper (make-video    |
+| (criteria below)  |    | LinkedIn + X (target|    | skill), posted with  |
+| loop until PASS   |    | 6 AM Sun 11-22)     |    | or under the post    |
 +-------------------+    +---------------------+    +----------------------+
 ```
 
@@ -343,14 +343,29 @@ evaluator, and it checks everything, not a sample:
    terms, the abstract at 150 words or fewer, and no personal or private details (public repo,
    CLAUDE.md §9).
 
+7. **Evidence file (Sharif 2026-11-21).** `literature/LITERATURE_REVIEW_EVIDENCE.md` holds every
+   claim, item and citation in the paper, one entry each. An entry gives:
+   - the claim as written in the paper;
+   - the source (author, year, ID, title);
+   - exactly where the quote is (PDF page, section, table or figure; URL and heading; or issue and
+     comment);
+   - the **verbatim quote**.
+   `scripts/literature/build_evidence.py` builds the file from the writers' ledgers. It checks that
+   every `\cite` and `\repo` in each section has an entry, and that every paper quote appears
+   verbatim on the stated page of the local PDF. Web and repo quotes are checked by hand. QA also
+   reads every entry to confirm that the quote actually supports the claim as written, not just that
+   the quote exists. **Gate:** 0 cited sources without an entry, 0 NOT FOUND, 0 WRONG PAGE, and every
+   MANUAL row marked checked in the QA file.
+
 QA writes `literature/qa/LITERATURE_REVIEW_qa.md`: one row per finding, with its severity
 (blocker / major / minor), the fix, and the re-check result. **Exit gate: 0 open blockers and 0 open
 majors, with every fix re-checked by QA.** Only then does the independent evaluator (Phase 8) start.
 
 ### Release (after Phase 8 passes)
 
-Marketing posts the paper to LinkedIn and X at **6:00 AM Sunday 2026-11-22**, with the repo link in
-the first comment. The numbers in the post come only from the QA'd review. Marketing also makes a
+**Nothing is posted until Sharif gives an express go order** (Sharif 2026-11-21). QA PASS and the
+independent grade are necessary but do not release anything. The target is 6:00 AM Sunday 2026-11-22
+if the go comes in time. Marketing posts to LinkedIn and X with the repo link in the first comment. The numbers in the post come only from the QA'd review. Marketing also makes a
 short video about the paper with the `make-video` skill and video tool. If QA or the evaluator has
 not passed by then, the post waits, and Sharif is told why in one sentence.
 
@@ -367,6 +382,7 @@ not passed by then, the post waits, and Sharif is told why in one sentence.
 | Criterion | Metric + threshold | How measured | Evidence |
 |---|---|---|---|
 | Every citation is real | 0 IDs missing from `papers.tsv` | `render_review.py --check` | script output |
+| Every claim has verbatim evidence | 0 cited sources without an entry in `LITERATURE_REVIEW_EVIDENCE.md`; 0 NOT FOUND / WRONG PAGE | `build_evidence.py` exit 0 + QA row per MANUAL entry | evidence file + QA file |
 | Numbers match their sources | ≥ 20 of 20 randomly sampled quoted numbers match the PDF or README quote | evaluator re-fetches and compares | scorecard rows |
 | It is a review article, structured as one | abstract ≤ 150 words; Summary Points and Future Issues present; 9,000–11,000 words; ≥ 150 works cited | script counts | script output |
 | Covers the corpus | each of the 9 themes cited ≥ 8 times; ≥ 15 repo citations | script counts by ID prefix | script output |
