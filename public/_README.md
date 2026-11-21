@@ -939,3 +939,643 @@ numbers in the repo. UNVERIFIED until we test it on our runner.
 - Treating the README's 400-question statistics or leaderboard as describing the file we actually use.
 
 **Evidence level.** `README_eval.md` reports results on the validation set at temperature 0.2 (e.g. gpt-4-0613: 65.26 / 59.75 / 66.05 % for PSAQ / ABQ / UASQ). Those tables describe a 400-question version, not the 257-question file shipped. UNVERIFIED, and not comparable to our runs. The grader code itself is fully inspectable and deterministic.
+
+## E. Automated science and autoresearch loops (sweep 2)
+
+### autoresearch (`karpathy/autoresearch` @ 228791f)
+
+**What it is.** A deliberately tiny overnight research loop: an agent edits one training file, trains for exactly 5 minutes, keeps the change if one number (`val_bpb`) went down, reverts it if not, and repeats. Three files matter: `prepare.py`, `train.py`, `program.md`. **License:** no LICENSE file in the clone. `README.md` ends with a "License: MIT" heading, and `gh api` reports no license. PR #575 "Add MIT license file matching README" was closed without merging, and #605 (which also adds a LICENSE) is still open. Copying allowed? **With conditions.** The README states MIT, but no license text or copyright line exists. Copy the *pattern* (an idea, so no license needed). Do not copy files verbatim until a LICENSE lands.
+
+**Process: how the work is organised**
+- One agent, no roles. The human writes `program.md`, a short "skill" (README.md: "The `program.md` file is essentially a super lightweight 'skill'"). The agent only edits `train.py` (`program.md`, "What you CAN do").
+- **Who measures, and what counts as worked:** the fixed metric is `evaluate_bpb` in `prepare.py:344`. Validation uses a pinned shard (`prepare.py:43`, `VAL_SHARD = MAX_SHARD`) and a fixed token count (`EVAL_TOKENS`, `prepare.py:32`). The keep/revert rule is strict and binary: "If val_bpb improved (lower), you advance the branch … If val_bpb is equal or worse, you git reset" (`program.md`, loop steps 8-9). A "simplicity criterion" lets the agent weigh code complexity against tiny gains.
+- **Budget and stop rules:** `TIME_BUDGET = 300` seconds of training (`prepare.py:31`). A run over 10 minutes is killed and discarded. If a crash can't be fixed after "a few attempts", the agent logs it and moves on. There is no overall stop rule: "NEVER STOP … The loop runs until the human interrupts you, period" (`program.md`).
+- **Trial log:** every run is a row in an untracked `results.tsv` with columns `commit, val_bpb, memory_gb, status (keep|discard|crash), description` (`program.md`, "Logging results"). Each experiment is a git commit on a dedicated `autoresearch/<tag>` branch. `analysis.ipynb` plots the TSV.
+- **Unattended:** "spin up your Claude/Codex … (and disable all permissions)" (README.md). Output goes to `run.log`, and only one line is read back (`grep "^val_bpb:"`), so logs never flood the context.
+
+**Lessons learned**
+- Issue #599 "Agent can lower val_bpb without improving the model": the agent owns `train.py`, which calls the evaluator and prints the result (`train.py:613,622`). So the agent can skip training, wrap the metric, or shrink `EVAL_TOKENS`. "Read-only" is enforced only by prose in `program.md`. The thread proposes hashed "experiment receipts" and concludes that a receipt written by the same process is still self-attested. Only an outside re-run is independent.
+- Issue #57 "Codex doesn't seem to work?" (41 comments): Codex ignores "never stop", while Claude keeps looping. Whether a loop keeps running depends on the harness, not the prompt.
+- Issue #22 "Low creativity" and #80 "encourage experiment diversity": agents settle into small hyperparameter sweeps.
+- Issue #307 "0/N experiments kept" (a fork): 400-560 attempts a night with zero kept, because the drafting model was too weak for the reviewer.
+- The selection set is also the reporting set. The loop keeps whatever beats the best `val_bpb` on the same pinned shard, with no held-out check. Over ~100 tries a night, some "wins" will be noise. Taken from `program.md` (no second split exists in `prepare.py:283`, `assert split in ["train", "val"]`).
+
+**What the kit should take**
+- **Study protocol:** the trial-log schema (`commit, metric, cost, status, description`) maps directly onto our `TRIAL_LOG.tsv`. Add a `keep|discard|crash` status column and the commit SHA per trial.
+- **Study protocol:** "one commit per trial, reset on discard" is the cheapest possible provenance. Every logged number points to exact code.
+- **Study protocol:** a fixed compute budget per trial makes trials comparable, plus a hard kill at 2x the budget.
+- **Roles/prompts:** the "redirect output to a file, grep one line" rule keeps long unattended loops inside the context window.
+- **Benchmark:** use it as a known-answer task family. Have the kit tune a tiny model on a fixed budget, then grade by an independent re-run of the winning commit.
+
+**What to avoid**
+- An evaluator the agent can reach (the literature and #599 agree). In the kit, the metric must be computed by a process outside the agent's writable tree, then re-run by the evaluator.
+- "Never stop" with no budget or stop rule. Our PREREG needs a trial budget and an abandonment rule.
+- Selecting and reporting on the same split. The kit keeps one held-out look.
+
+**Evidence level.** No measured results ship in the repo, except `progress.png` (an unlabeled image). "~12 experiments/hour, ~100 overnight" is arithmetic from the 5-minute budget, not a measurement. The exploits in #599 come with a public reproducer gist (UNVERIFIED by us).
+
+### OpenResearch (`alphaXiv/OpenResearch` @ 48f42c4)
+
+**What it is.** A local-first desktop app plus CLI (`orx`, written in Rust) that turns Claude Code, Codex, OpenCode, Cursor or Antigravity into research agents. Each idea becomes a committed experiment node, run on local or cloud compute, with results stored in a local SQLite database. **License:** MIT (`LICENSE`, "Copyright (c) 2026 alphaXiv"). Copying allowed? **Yes**, keeping the notice.
+
+**Process: how the work is organised**
+- One chat runs one agent in its own git worktree. orx injects a playbook (`SYSTEM_PROMPT.md`), through `--append-system-prompt-file` for Claude Code, and installs native skills from `agent-skills/` (`SYSTEM_PROMPT.md`, header comment).
+- Sub-agents: orx's own MCP server (`delegate`, `wait`, `subscribe`, `send`) replaces the harness's sub-agent tools. A delegate's permission mode is "no broader than its delegator's" (`arc/agents.md:289`, issue #885).
+- **The experiment tree is the protocol** (`SKILL.md`, "Cardinal rules"; `agent-skills/orx-experiment-tree/SKILL.md`):
+  1. A node is frozen once a run answers it, and a "disappointing result is still a result".
+  2. The run command and environment are a fixed contract, identical on every node.
+  3. Vary code, not command-line knobs.
+  4. Grow "stacked bushes": a small fan of options per round, then descend onto the winner.
+- **What counts as worked:** each finished run is a decision point with four moves: repair, refill, promote or stop. **Stop rules:** "Stop when the goal is met, or after ~3 consecutive failed or regressed runs". The repair cap is "two runs in a row that answer nothing on one node, then ask the user" (`orx-experiment-tree/SKILL.md`).
+- **Who measures:** a run is an immutable snapshot. The commit is archived by SHA-256, and the backend never sees uncommitted edits (`arc/experiments.md`, "A run is an immutable snapshot"). Stop rules such as `nonFinite` and `worseThanParent` are declared in config and stop a run without the agent (`orx-experiment-runs/SKILL.md` §9). A cheap watcher model reads only a digest, "never the chat, the repository or the whole log" (§10). Logs from frozen harness code are parsed with patterns the agent can't edit (§6).
+- **Reporting:** "Never infer a result from run status or memory" (`orx-results/SKILL.md`). Every claimed number carries a `<run id>` tag, and the run log must be read first (`SYSTEM_PROMPT.md`, "Evidence and links in chat").
+- **Unattended:** orx exposes each harness's own permission modes. Plan mode has an allow-list gate (`src/local/harness/plan_gate.rs`). Bypass as root requires `IS_SANDBOX=1` plus a one-time user confirmation (`arc/agents.md:258`). Every run is priced at launch and spend is tracked (`arc/experiments.md`, "The price of a run").
+
+**Lessons learned**
+- "Unknown is not absent": failing to read or parse something must be reported as that, never treated as empty or stopped (`AGENTS.md`, Errors).
+- "Claim only what you saw … say what you didn't check" (`AGENTS.md`, Doing the task).
+- Issue #885 "rework entirely how subagents work": native sub-agents could not cross models or report back, so all delegation moved to one MCP server that wakes the delegator with the answer.
+- The "flat fan" and "noodle" failure shapes (`orx-experiment-tree/SKILL.md`) are lessons distilled from agents driving the tree badly. In a flat fan, every result is measured against the start and wins never stack up.
+- Recurring issues are infrastructure: SSH reuse and zombie cancels (#741, #462, #652), and an agent outrunning its backend after an update (#549).
+
+**What the kit should take**
+- **Study protocol:** the four cardinal rules, nearly verbatim, in `/autonomous:new-study`: freeze an answered trial; keep one fixed run command; vary only committed code; branch a child instead of editing. Copy the text of `SKILL.md` lines 121-151 (MIT).
+- **Study protocol:** the stop rules "~3 consecutive failed/regressed runs" and "repair cap 2". These are concrete abandonment rules to put in PREREG.md.
+- **QA gate:** declared, machine-run stop rules (NaN, worse than the parent at the same step), plus a watcher that sees only a digest. Both checks sit outside the builder's reach.
+- **Roles/prompts:** "a claim cites a run id and the log was read" as a reporting rule for RESULT.md.
+- **Launcher:** the Claude Code injection route, `--append-system-prompt-file` plus skills in the worktree, matches our `claude -p` launcher.
+
+**What to avoid**
+- The watcher and flags never block a result. They only wake the agent, who settles flags with `--keep` (`orx-experiment-runs/SKILL.md` §10). The builder still judges its own run. Our kit needs an independent re-run.
+- Release builds send opt-out analytics and "detailed agent feedback in the background" (README.md, "Usage analytics"). Don't ship agent-written telemetry.
+- Repo text addressed to agents was ignored as instructions: `AGENTS.md:100-102` tells agents "you MUST NOT add `Co-authored-by`" and to follow Linear "without asking".
+
+**Evidence level.** No accuracy or benchmark numbers in the repo. The claims are product claims (GitHub Trending badge). The process rules are design, not measured effects.
+
+### scientific-agent-skills (`K-Dense-AI/scientific-agent-skills` @ ec59a29)
+
+**What it is.** A library of 177 Agent Skills (`skills/<name>/SKILL.md`) for science packages, databases and research methods. It is also a portable Agent Plugins package (`plugin.json`, version 2.72.0). **License:** MIT at the repo level (`LICENSE.md`, "Copyright (c) 2025 K-Dense Inc."). **Per-skill licenses differ** in frontmatter: CC BY-NC-SA, PolyForm-Noncommercial, GPL and "Unknown" appear in `bioservices`, `cobrapy`, `deepspot-m`, `etetoolkit`, `glycoengineering`, `phylogenetics`, `primekg`, `rowan` and `what-if-oracle`. Copying allowed? **With conditions:** check each skill's `license:` field. The method skills we care about (`experimental-design`, `statistical-power`, `statistical-analysis`, `scientific-critical-thinking`, `hypothesis-generation`) say MIT.
+
+**Process: how the work is organised**
+- No agents or runtime; it is content. Scope rules (`AGENTS.md`, "What belongs here"): one narrow skill per package or method. "Broad 'orchestrator' skills that route to other skills" and general coding skills are declined because "they compete for selection on every task".
+- **Gates:** `tests/_meta` checks the manifest schema, version sync, personal paths and structure (`CONTRIBUTING.md`). A skill with `scripts/` must have tests in `tests/<skill>/`, never inside the skill (`AGENTS.md`, Layout). An LLM security scan runs on every skill, with a cache keyed on content (`scan_skills.py` header; workflows in `.github/workflows/security-scan.yml` and `pr-skill-scan.yml`).
+- **Authoring rule:** "Run the commands and code you document. Scope claims to the release you actually tested … mark anything untested as illustrative" (`AGENTS.md`, step 4). Bump `metadata.version` on every change.
+- The research-method content is strong. `hypothesis-generation` keeps observation, hypothesis, prediction, evidence and analysis plan distinct, "Freeze the observation" before interpreting, and never "fabricate sources … results, approvals, or preregistration" (`skills/hypothesis-generation/SKILL.md`). It ships deterministic local checkers: `generate_preregistration_scaffold.py`, `check_falsification_controls.py`, `lint_causal_claims.py` and `audit_evidence_ledger.py`, plus `assets/preregistration_scaffold_template.md`.
+
+**Lessons learned**
+- Issue #152 "Infographics skill auto-reviewer is broken": a wrong model ID made every review call fail. A broad `except` returned a hard-coded score of 7.5 and "review skipped", so the quality gate silently stopped working. This is the same failure class as AI-Scientist-v2 #133.
+- Issue #260 "Fix dead endpoints, broken install commands and stale compatibility floors across 14 skills": running every documented URL and example found 43 dead URLs and 7 functional defects. Prose skills rot unless they are executed.
+- Issue #250 "statsmodels skill: fix invalid causal inference example": an example imported a module that does not exist and mislabeled a method. Documentation written from memory gets things wrong.
+- Issue #9 "Consider including license information in the skill details": led to the per-skill `license:` field.
+- Issue #368: several skill cross-references were removed between v2.65.0 and v2.72.0. Description overlap hurts skill selection.
+
+**What the kit should take**
+- **Study protocol:** adapt (MIT) `hypothesis-generation/assets/preregistration_scaffold_template.md` and its scripts `check_falsification_controls.py` and `lint_causal_claims.py` as deterministic PREREG/RESULT checkers for `/autonomous:new-study`.
+- **Study protocol:** the bias and multiple-comparison checklists in `scientific-critical-thinking/references/common_biases.md` and `statistical-analysis/references/reporting_standards.md` can feed our RESULT.md bias checklist.
+- **Plugin conventions:** skill tests live outside the skill folder; a meta-test checks manifest and version sync; a personal-path test (`tests/_meta/test_personal_paths.py`). This mirrors our public-repo privacy rule.
+- **Benchmark:** "scope claims to the tested release; mark untested as illustrative" as a rule for every kit skill.
+
+**What to avoid**
+- A fallback score when the reviewer fails (#152). A failed check must fail or be recorded as missing, never scored.
+- Pulling in the whole library: 177 skills compete for selection. Copy the 3-5 method skills we need.
+- Copying a non-MIT skill into our MIT plugin.
+
+**Evidence level.** "Significantly stronger and more reliable" (README.md) is not measured in the repo. A paper exists (arXiv:2609.00065, not read here). The tests cover bundled scripts, not whether agents do better science.
+
+### AutoResearchClaw (`aiming-lab/AutoResearchClaw` @ be4ba47)
+
+**What it is.** A 23-stage, 8-phase Python pipeline that goes from a topic to a LaTeX paper. Stages: literature, hypothesis debate, code generation, sandbox experiments, PROCEED/REFINE/PIVOT decision, writing, peer review, citation check. It runs fully automatic or in "co-pilot" mode. **License:** MIT (`LICENSE`, "Copyright (c) 2026 Aiming Lab"). Copying allowed? **Yes**, keeping the notice. Vendored agents in `external/agents/` (ColliderAgent, Biology-Agent, stat_research_agent) carry no LICENSE files, so do not copy those.
+
+**Process: how the work is organised**
+- A state machine: `researchclaw/pipeline/stages.py`, `contracts.py` (required/produced keys per stage), `executor.py` and `runner.py` (`RESEARCHCLAW_CLAUDE.md`). Gates at stages 5, 9 and 20 pause for a human or are skipped with `--auto-approve` (README.md, "Pipeline").
+- **What counts as worked:** stage 15 decides PROCEED, REFINE (back to 13) or PIVOT (back to 8), with versioned artifacts (README.md). Up to 10 refine rounds (README.md, "Key Features").
+- **Anti-fabrication:**
+  - `pipeline/verified_registry.py` builds a whitelist of numbers from `experiment_summary.json`, and `paper_verifier.py` rejects paper numbers not on it.
+  - An "immutable" harness, `experiment/harness_template.py` ("inspired by karpathy/autoresearch's immutable prepare.py"), is injected into the sandbox, and a project's own copy is skipped (`experiment/sandbox.py:384-393`).
+  - Citations are checked in 4 layers: arXiv, CrossRef/DataCite, Semantic Scholar, then an LLM.
+- **Independent reviewer** (#316): the author model used to review its own paper and judge its own quality gate. Now an opt-in `llm.reviewer_model` "never falls back to the author model", and `review_provenance.json` records author versus judge. It is off by default.
+- **Unattended:** `sentinel.sh` restarts on a stale heartbeat (>5 min, max 5 retries). Cost guardrails pause at 50%, 80% and 100% of budget. Claude Code runs as a sub-agent with `--dangerously-skip-permissions` by default (`researchclaw/config.py:364,411,446`). A Claude Code skill launches the pipeline (`.claude/skills/researchclaw/SKILL.md`).
+
+**Lessons learned** (mainly their own audit, `docs/CODE_REVIEW_2026-07-03.md`, in Chinese)
+- Headline: "multiple anti-fabrication / anti-hallucination defenses switch themselves off or are bypassed exactly when they are most needed … 'configured but not effective' or 'failed but reported as success'." The suite was "2831 passed" and green, and "all issues below are in test blind spots".
+- P0 examples:
+  - A fake citation with a double-quoted BibTeX title skips verification (`literature/verify.py:128`).
+  - An escaped `\%` hides numbers from the paper verifier (`paper_verifier.py:63`).
+  - A failure in the human-approval callback silently auto-approves after 60 seconds (`hitl/session.py:199`).
+  - The default sandbox runs LLM code on the host.
+- P1 examples:
+  - With the network down, every citation is SKIPPED and the integrity score comes out as **1.0** (`verify.py:97`).
+  - When code generation fails, synthetic noise is created under real metric names (`_code_generation.py:776`).
+  - "Best" refinement is hard-coded to maximize, so loss tasks pick the worst run (`_paper_writing.py:241`).
+  - An unapproved quality gate is skipped in the iterative runner (`runner.py:845`).
+- Issue #301: the experiment-spec validation hooks imported a module that does not exist and were wrapped in `except: debug`, so "spec compliance has effectively been dead code". The fix added `PreregisteredPrediction` (statement, metric, baseline, minimum effect size) and `seeds` to the plan schema.
+- Issue #302 "Fail-open audit": every catch-all on the experiment path was assigned "converted-surface" or "converted-record" (one WARNING plus a `degradations` entry in `pipeline_summary.json`).
+- Issue #316: self-review "rarely produces the kind of objection that would actually block a run".
+
+**What the kit should take**
+- **QA gate:** the #302 rule. Every caught exception either fails the stage or writes a `degradations[]` entry to the run summary. "Skipped" must never count toward a score (`verify.py:97`).
+- **Study protocol:** a `VerifiedRegistry`-style check for RESULT.md. Every number in the report must trace to a saved output file. This feeds our "every number generated from saved outputs" rule.
+- **Study protocol:** the #301 `PreregisteredPrediction` fields as a machine-readable block in PREREG.md.
+- **Roles/prompts:** `review_provenance.json` (author model versus judge model) as the evaluator's independence receipt.
+- **Benchmark:** ARC-Bench (`experiments/arc_bench/`, 55 topics with manifests and rubrics) as a candidate source of study tasks (check per-topic licenses first).
+
+**What to avoid**
+- A 23-stage design with dead and half-built modules (audit: `mcp/` is a stub, half of `hitl/` is fed only by tests, the `stages.py` transition map is unused). Fewer moving parts.
+- An "immutable" harness that the agent's code merely *calls*. The code can skip it or feed it fake values, just as in autoresearch #599.
+- `--dangerously-skip-permissions` as a default. Our permission hook must be scoped.
+
+**Evidence level.** The "2699 Tests Passed" badge meant little, as their own audit showed. MetaClaw "+18.3% robustness" is a composite of retry and refine counts, "same topic, same LLM", with n not stated (README.md). The ARC-Bench scores are local-only (`experiments/arc_bench/README.md`: results and analysis are gitignored). All UNVERIFIED.
+
+### AI-Scientist-v3 (`SakanaAI/AI-Scientist-v3` @ f8ae47d)
+
+**What it is.** "The Agentic Scientist": a pipeline that drives coding-agent CLIs (claude, codex, cursor, opencode, gemini, pi) through Headless CLI. It goes from a `task.md` plus an evaluator, through search, ablations, a **sealed final evaluation** and post-hoc analysis, to a paper. **License:** Apache-2.0 (`LICENSE`; `pyproject.toml:11`). Copying allowed? **Yes**, with the Apache notice and a statement of changes.
+
+**Process: how the work is organised**
+- Six default phases, all under one run directory: task_drafting → investigation → ablations → final_evaluation → posthoc → paper, plus optional review and revision (`docs/pipeline.md`). The task is copied into an immutable run-local snapshot (`<run_dir>/task`, `docs/pipeline.md`, "Run layout").
+- **Who measures:** the evaluator, never the candidate. Candidates return inline JSON through a broker. They "cannot write into evaluator output directories". The evaluator "must compute score/correctness and measure duration itself". Candidate diagnostics stay explicitly "**unverified**" (`docs/evaluation_evidence.md`).
+- **Held-out:** the task contract requires `search_seeds` and `final_seeds` and raises "protocol search and final seeds must be disjoint" (`src/investigation/task_contract.py:628`; also linted in `task_contract_lint.py:455`). Feedback is split into `search_visible` and `final_sealed`, and overlap is an error (`task_contract.py:630-638`).
+- **What counts as worked:** promotion needs `correct=true` plus a finite score, ranked by score, then by attempt order (`docs/no_winner_studies.md`). Rubrics mix implementation checks with metric checks (`examples/circpack/rubrics_example.json`, e.g. `score_exceeds_2_1`).
+- **Negative results are first-class:** `completed_no_winner` and a verified `not_qualified` final may still produce a paper that "must report the qualification failure". Missing, failed or unverifiable finals block publication (`docs/paper_final_outcomes.md`).
+- **Evidence sealing:** final manifest schema 3 seals `results_tree_sha256` and host-measured `compute_usage`. "Missing broker measurements are `null`, never fabricated zeroes" (`docs/evaluation_evidence.md`). Cost goes to `metrics/cost_events.jsonl`, with provider charges kept apart from list-price estimates (`docs/pipeline.md`).
+- **Unattended:** agents run with "full tool permissions (Headless `--allow yolo`)", so the README says to keep runs in Docker (README.md, Security note). Budgets: `max_idea_cycles` (3 by default, 20 in `preset=paper`) and 5 ablation replications. `skills/run-campaign/SKILL.md` asks once for consent on agent, environment, budget and launch, then monitors.
+
+**Lessons learned**
+- Issue #5 "Repair agent can make the evaluator non-deterministic, and nothing detects it": a repair seeded the evaluator from `secrets.token_bytes(32)` on every call. Two scores of the *same* program differed by ~0.2, more than the real gains (~0.15), so "the improvement-over-baseline check was effectively a coin flip". The fix (#9): "Determinism was only requested in prompts and judged by reading code". Smoke now runs the unchanged baseline twice and fails on any mismatch beyond float noise (`src/investigation/evaluator_replay.py`).
+- Compared with v2: in v2 the VLM figure-review step was rejected by a whitelist check in every run (AI-Scientist-v2 #133, "F11 VLM whitelist rejection", 24/24 write-ups). In v3 an optional phase that fails "is reported as degraded" and "does not discard a publishable paper" (`docs/pipeline.md`; README.md). Failures are now recorded rather than silent, but the external review is still non-gating.
+- Fail closed on a partial state: "a partially copied tree is never a valid selection", and a resume "will not silently repair changed evidence or choose another program after final evaluation" (`docs/no_winner_studies.md`).
+- "Drafted tasks create their own task harness. This measures full-run variation, but generated evaluators can differ between model rows" (`docs/pipeline.md`). An evaluator written by the agent weakens comparisons across models.
+
+**What the kit should take**
+- **Study protocol (top pick):** disjoint `search_seeds`/`final_seeds` plus `search_visible`/`final_sealed` declared in PREREG.md and checked by a script before any run. This is our "one held-out look", enforced by code.
+- **Study protocol:** the evaluator replay smoke. Score the unchanged baseline twice before the study starts and abort on mismatch. Cheap, and it catches a whole class of bugs.
+- **QA/evaluator gate:** the evaluator owns measurement (score, correctness, duration). Builder-reported numbers are labeled unverified. Missing measurements are `null`, never zero.
+- **Study protocol:** a "no winner" or "not qualified" outcome gets a written-up result, like our kill/park verdicts in RESULT.md.
+- **Launcher/benchmark:** `cost_events.jsonl` keeping provider charges apart from estimates, plus `--dry-run` that prints every phase command.
+
+**What to avoid**
+- Letting the agent draft its own evaluator for a benchmark row. Our benchmark tasks ship fixed graders.
+- `--allow yolo` outside a container. Our hook is scoped instead.
+- A non-gating external review that is easy to skip. If the kit's evaluator fails, the run is not graded, and it never passes by default.
+
+**Evidence level.** The README points to a paper (arXiv:2610.18933, not read here) and gives no result numbers. The issue #5 numbers (0.2 spread versus 0.15 gains) come from one user report. The fix is backed by tests named in #9. UNVERIFIED by us.
+
+### EvoScientist (`EvoScientist/EvoScientist` @ 3b6ce26)
+
+**What it is.** A LangChain DeepAgents-based "self-evolving AI scientist" with its own CLI, TUI, WebUI and chat channels. It has 6 sub-agents (planner, research, code, debug, data-analysis, writing), persistent memory, and "AutoSkills" distilled from memory. **License:** Apache-2.0 (`LICENSE`; `pyproject.toml:7`). Copying allowed? **Yes**, with the Apache notice.
+
+**Process: how the work is organised**
+- Sub-agents are YAML definitions (`EvoScientist/subagents/*.yaml`, e.g. `debug.yaml`: "Reproduce failures … Provide how to reproduce and how to verify the fix"). The workflow prompt runs intake → plan → execute → evaluate → write → verify (`EvoScientist/prompts.py`, `EXPERIMENT_WORKFLOW`).
+- **What counts as worked:** stages carry soft "success signals (flexible, not rigid)". "Iterate until a critical reviewer would accept the results — not for a fixed number of rounds" (`prompts.py:363`). Run logging is "Optionally log runs to `experiment_log.md`" (`prompts.py:128`).
+- **Acceptance grading:** `--rubric` / `/rubric` / `/goal` (`docs/guides/rubric.md`; `middleware/rubric.py`). When the agent stops, a separate grader checks a written checklist, up to 3 passes, then exit code 3. The grader gets only `ls` and `read_file`. "It cannot run commands, so a criterion such as 'the tests pass' is judged from what the conversation shows". It "uses the auxiliary model when one is configured, otherwise the main model".
+- **Unattended:** `auto_mode` implies `auto_approve` and turns off `ask_user`. `dangerous_mode` removes workspace confinement. `shell_allow_list` sets prefixes to auto-approve, and a privileged-command blocklist still applies (`EvoScientist/config/settings.py:541-553`). Scheduled cron tasks can carry a `--rubric` (README.md, `/schedule add … --rubric`).
+
+**Lessons learned**
+- Issue #229: "PR #202 introduced regression by auto approving all sub-agent's tool calls". The fix restored confirmation and added heuristics that refuse to auto-approve dangerous commands.
+- Issue #841 "check variable cd targets and rm after a cd": "following variables and folder changes through every shell construct does not converge: each new rule opened new gaps … A static check of the command text cannot close them all … making the protected folders read-only to the agent's shell would."
+- Issue #708: the sandbox rewrote `/` everywhere in commands with regexes. That broke data (`print(6 / 3)` became `print(6 . 3)`) and silently wrote corrupted files that "exited 0".
+- `docs/guides/rubric.md`, Limits: a run stopping early to wait for background jobs burns grader passes; a sub-agent status that can't be read "never holds a grading back". Grading can run before the work has finished.
+
+**What the kit should take**
+- **QA gate:** a rubric file plus a separate grader plus a pass limit plus a distinct exit code (`0` satisfied, `3` not satisfied, `1` failed). This is a clean contract for a `claude -p` Tester or Evaluator role that the launcher can read.
+- **Permissions hook:** the #841 conclusion is direct design input. Don't try to make a command-text allow-list complete. Pair a short allow-list with real filesystem confinement (read-only protected folders or worktree-only writes).
+- **Roles/prompts:** the debug sub-agent's output contract (root cause, fix summary, repro, verification steps) for our builder's bug reports.
+
+**What to avoid**
+- A grader that can't run commands and judges "tests pass" from the transcript. The literature says LLM verifiers approve work that real tests reject. Our evaluator executes.
+- A grader that can default to the main model, so builder and judge are the same.
+- "Iterate until a reviewer would accept, not a fixed number of rounds" with optional logging. That invites forking paths and untracked trials. Our PREREG fixes the trial budget, and every trial is logged.
+- Blanket auto-approve for sub-agents (#202 regression).
+
+**Evidence level.** The README claims "#1 on DeepResearch Bench II", "#1 on AstaBench" and "6/6 accepted at ICAIS 2025 … Best Paper" (README.md, News). These are leaderboard and venue claims at submission time, with a technical report (arXiv:2603.08127, not read here). None are reproduced in the repo. UNVERIFIED.
+
+## F. Automated development: loops, harnesses and agent companies (sweep 2)
+
+### uditgoenka-autoresearch (`uditgoenka/autoresearch` @ 7bddd05)
+
+**What it is.** A Claude Code skill and plugin (v2.3.0) that turns Karpathy's autoresearch loop into general commands:
+change one thing, run a metric command, keep the commit if the number improved, revert it if not. It also adds 13 helper
+commands (debug, fix, security, ship, and others) and an "orchestrator" that routes a plain-language goal among them.
+**License:** MIT (`LICENSE`). Copying allowed? yes, keep the notice.
+
+**Process: how the work is organised**
+- One agent, no team. The classic loop (`.claude/commands/autoresearch.md`) runs Review (last TSV rows plus `git log` as
+  memory), Modify (one atomic change), Commit (`experiment:` prefix), Verify (a shell command that prints a number),
+  Guard (an optional command such as `npm test` that must pass), then Decide: keep, or `git revert HEAD --no-edit` on
+  discard, crash, or a metric that isn't a number. Every iteration is one row in
+  `autoresearch/<cmd>-<date>/…-results.tsv`.
+- Commands hand off to each other through `handoff.json` (`.claude/skills/autoresearch/SKILL.md`, "Chain"). The
+  orchestrator keeps its own `orchestrator-state.json` and all routing logic lives in a script, not in the prompt
+  (`scripts/orchestrate.sh`: `classify`, `next-hop`, `plateau`, `screen-cmd`, `validate-state`).
+- "Done" is a **Success predicate**: an exact shell command plus its expected output, confirmed once with the user, then
+  pinned verbatim in the state file so every cycle and every resume uses the same string (`SKILL.md`, "Predicate pinned,
+  not re-derived"; `CONTEXT.md`).
+- Stop conditions are written down: a cycle ceiling (default 50, `--max-cycles`); a plateau (goal distance flat for 5
+  computed cycles, triggering at most 2 fork rounds, then stop); BLOCKED; bounded iteration defaults per command (25 for
+  the loop). Cycles where progress couldn't be measured don't count as zero progress (`SKILL.md`, "Orchestrator Safety
+  Invariants").
+- Getting unstuck ("fork-and-flush", `references/fork-and-flush.md`): at 33% and 66% of the budget, or after 5
+  iterations with no keep, it starts K fresh-context branches from the best commit. Each branch sees only the files and
+  the results log, none of the leader's chat. The best branch wins.
+- Unattended safety: hooks in `.claude/hooks/autoresearch/hooks.json` (block dangerous commands, block private files, a
+  scout-block, a session-end notify). Push, deploy and publish always need a human ("Never auto-approve
+  ship/deploy/push"). Commands read back from a saved state file are re-screened on resume, because "persisted commands
+  are never trusted".
+- Their own repo gates releases with a "preprgate" phase checklist in CI (`.github/preprgate/hard-phases.json`, phases
+  0–11 need PASS/SKIP) and bash tests of the deterministic parts (`tests/test-orchestrator.sh`, `tests/test-hooks.sh`).
+
+**Lessons learned**
+- **Hooks fail open, and silently on Windows.** `/dev/stdin` doesn't exist in native Windows Node, so every hook read
+  nothing and exited 0. The guardrails "appear installed and simply never fire" (issue #115, "Hooks are silently no-ops
+  on Windows"). The hook code says so by design: "Fails open on any error" (`dangerous-cmd-block.cjs`, header).
+- **Global hooks leak into unrelated sessions.** scout-block blocked `node_modules/.bin/biome` 7 times and `*.log` reads
+  in ordinary sessions, which pushed agents into "29-minute blind `sleep` timers" (issue #123). dangerous-cmd-block also
+  ran everywhere and blocked `--force-with-lease` (issue #125). The fix is to gate a hook on run state
+  (`run-marker.cjs`, `loadSessionState`).
+- "Git is memory" didn't work well for a user (issue #29). `/loop 5 /autoresearch` was read as "every 5 minutes", not "5
+  iterations" (issue #24), so the iteration count must be an explicit, unambiguous field.
+- Token cost forced a split: the 813-line SKILL.md (~100K tokens per call) became a thin router plus 12 command files
+  (~5–8K each) (`README.md`, v2.1.0 note).
+- A single loop gets stuck in one "idea basin", and compaction doesn't fix it; fresh-context forks do
+  (`references/fork-and-flush.md`, "Why"). The numbers come from a cited paper, not from this repo.
+
+**What the kit should take**
+- **Pinned success predicate** (command plus expected output, written into the state file at round 0 and re-used on
+  resume) → the definition of done for the builder and Main in `/autonomous:new-app` and `new-study`.
+- **The keep/revert TSV schema** (`iteration, timestamp, commit, metric, delta, guard, status, description`, with metric
+  direction on line 1) → the TRIAL_LOG for `new-study` and per-PR attempt logs for the builder.
+- **Deterministic routing seam:** stop/plateau/next-hop logic lives in a tested script, not in the prompt
+  (`scripts/orchestrate.sh` + `tests/test-orchestrator.sh`) → the launcher's stop and plateau rules.
+- **Re-screen persisted commands on resume** → the PermissionRequest hook should never trust a command just because it
+  came from the registry or a handoff file.
+- **Flush (fresh context from files only) as the plateau move** → when a builder session stalls, the launcher restarts
+  it from the handoff files rather than resuming the bloated session.
+
+**What to avoid**
+- Fail-open hooks. Our permission hook must fail **closed** and must be tested on Windows (our machine), or the run is
+  unprotected without anyone knowing (#115).
+- Hooks registered globally. Scope every kit hook to the run folder and active-run marker (#123, #125).
+- **The builder can edit its own check.** The Verify and Guard commands are user-supplied, but nothing stops the loop
+  editing the files they run when those files sit inside `Scope:`. The "independent verify hop" before DONE is an LLM
+  persona debate (`references/orchestrator-routing.md`, routed to `reason`/`predict`), which the literature says
+  approves work that real tests reject. The kit's QA/Tester checks must live outside the builder's write scope.
+- The persona-debate commands (predict: 5 experts; probe: 8 personas; reason: blind judges) are role-play, not tests.
+  Don't import them as gates.
+
+**Evidence level.** Low for its own claims. The fork-and-flush table (0.47 → 0.78 normalized score) is quoted from cited
+papers (arXiv:2610.07447, 2610.07625), not measured here. The "95% token reduction" counts prompt size, not task
+results. No benchmark of the loop's success rate exists in the repo. Measured facts are the bug reports (#115, #123).
+UNVERIFIED until re-run.
+
+### darwin-skill (`alchaincyf/darwin-skill` @ 5a8e633)
+
+**What it is.** A skill (v3.0.2) that evolves other skills with an autoresearch-style ratchet: evaluate, propose one
+edit, test it with real runs, keep or `git revert`, and get a human check after each skill. Docs are in Chinese, with an
+English README (`README_EN.md`). The quotes below are translated. **License:** MIT (`LICENSE`). Copying allowed? yes,
+keep the notice.
+
+**Process: how the work is organised**
+- Roles are separate subagents: **executors** do real tasks with the old skill, the new skill, or no skill ("bare").
+  **Judges** blind-compare pairs of outputs. A script, not the main agent, counts votes and gives the verdict
+  (`README_EN.md`, "Five Core Principles" #4; `scripts/darwin.py tally`).
+- Isolation is designed into the folders (`references/eval-protocol.md`, "Working directory layout"). Each executor gets
+  a **snapshot** of the skill (`W/s0`, `W/s1`…), never the live skill folder, because "there are test files there and
+  the executor will read the checks". Tests, checks and answers are never put in a snapshot or an output folder. A/B
+  keys sit in `W/keys/`, which judges can't see.
+- Executor prompt rules (eval-protocol.md, "Executor prompt"): don't say "this is a test", don't mention darwin or the
+  other arm. Include "nobody can answer your questions; write your assumptions down and finish". Don't read or list any
+  folder except the skill, inputs and your output folder. Don't spawn subagents. Write `answer.md` plus `transcript.md`.
+- Verdict rules (`README_EN.md`, "How the Ratchet Decides"): keep if more wins than losses and no check regressed. On a
+  tie, keep only if the new version is **shorter**. Otherwise revert. A one-test margin with split judges triggers one
+  rerun of both versions.
+- Gates: tests split into dev and held-out halves. Edits are driven only by dev, and held-out is run once at the end
+  (original vs final). If held-out is net negative, recommend rollback. Three human checkpoints: confirm tests, confirm
+  baseline, review the diff after each skill (`SKILL.md` lines ~222–227).
+- Limits (`SKILL.md`): at most 3 rounds per skill, one hypothesis per round. Stop after 2 reverts in a row. Body ≤500
+  lines, and any round that grows the body >10% needs a failing check as evidence. An agent-count formula sets the
+  budget ("baseline 2D+2, each round D+3, acceptance 2H+5").
+- Every claim carries an evidence level: E0 static check, E1 read, E2 real run, E3 real environment. Reports list
+  "verified" and "not verified" separately (`README_EN.md`, item 7).
+
+**Lessons learned**
+- **Judging the document measured the wrong thing.** In 2.x, judges read before/after SKILL.md and voted. An edit
+  approved 3–0 "cost 33 extra tool calls on a real device" (`README_EN.md`, "What's New in 3.0", citing their own
+  2026-09 logs). A user saw the rubric score climb 62.9 → 85.3 over 5 rounds while the live-performance dimension
+  "didn't move", until an end-to-end test exposed 5 real gaps (issue #18, "增加端到端评估" / add end-to-end evaluation).
+- Their first 3.0 run exposed three holes in their own protocol (`README_EN.md`, "A Real Run"). Test files in the skill
+  folder let executors **read the checks**. Paths and transcripts let judges tell which output was which. A skill with
+  checkpoints **stops and waits for a user who isn't there**.
+- "Six traps that flip the conclusion" (`references/eval-protocol.md`): control output visible to the tested agent (it
+  copies it); a "bare" arm that isn't bare (built-in skills stand in); fixed A/B order (position bias); provenance clues
+  left in outputs; and treating one run as final ("rerunning the same task changes results").
+- **No wall-clock or agent-count cap.** One skill needed 39+ subagents and ran for 5+ hours. A hung judge was never
+  re-dispatched, so the main agent "polled and waited" 55 minutes (issue #31). Token cost averaged ~1.3M tokens per
+  skill evaluation, 89% of it cache reads (issue #25).
+- Absolute scores swing about ±8 when the judge changes, so only paired win/loss decides (`SKILL.md`, pitfall 3). A
+  hard-coded author path leaked in `scripts/screenshot.mjs` (issues #4, #19).
+
+**What the kit should take**
+- **Snapshot isolation for the Tester and QA**: the thing under test runs from a copy that holds no tests, checks or
+  expected answers. The checks live where the builder can't read or write them → QA/Tester gates (directly answers "can
+  the builder edit its own checks?").
+- **The "nobody can answer you; write assumptions and finish" line** → every unattended role prompt in
+  `/autonomous:new-app`, so no session blocks on a question.
+- **The scripted verdict** (`darwin.py tally`: random A/B order, scrubbing of paths and group names, fixed rules, facts
+  before votes) → the benchmark grader and any LLM-judged comparison in `new-study`.
+- **Dev/held-out split with one held-out look** → matches our study protocol; reuse its wording in the benchmark
+  task-set README.
+- **Tie goes to the shorter version; growth needs a failing check** → kit prompt and skill maintenance policy.
+- **E0–E3 evidence levels with verified / not-verified lists** → the release card and the QA verdict format.
+- **Its exception table** (`SKILL.md` ~line 299: rerun only the broken executor; re-dispatch late judges instead of
+  waiting) → launcher retry rules.
+
+**What to avoid**
+- Running without a subagent and wall-clock budget (#31). The kit's launcher needs hard caps per phase plus a timeout
+  and re-dispatch for any worker that goes quiet.
+- LLM judges as the only gate. darwin itself demotes the rubric to "diagnosis only". For apps, the Tester's live walk
+  and real tests must decide, with judges only for taste.
+- Three human checkpoints per skill don't fit an unattended kit. Replace them with recorded decisions plus a morning
+  review.
+
+**Evidence level.** Medium-low. The real run is n=1 skill, 2 dev tasks, synthetic data, held-out not run, and they label
+it "not verified" themselves (`README_EN.md`, "A Real Run"). The literature correlations (ρ ≈ −0.02) are quoted from
+cited papers. The cost figures in #25 and #31 are users' measurements. All UNVERIFIED until re-run.
+
+### planning-with-files (`OthmanAdi/planning-with-files` @ 6f453ee)
+
+**What it is.** A skill and plugin (v3.29.0) that makes the agent keep three files on disk (`task_plan.md`,
+`findings.md`, `progress.md`) and uses lifecycle hooks to re-inject the plan, so work survives `/clear`, compaction and
+session death. It runs on many hosts (Claude Code, Codex, Cursor, Gemini, and others). **License:** MIT (`LICENSE`).
+Copying allowed? yes, keep the notice.
+
+**Process: how the work is organised**
+- One agent with a file protocol (`skills/planning-with-files/SKILL.md`). Restore before creating. Phases are written as
+  `### Phase N` with exactly one `**Status:** pending|in_progress|complete` line. The "2-Action Rule" says save findings
+  after every 2 view or search operations. Log every error. Keep a single `## Next Step`.
+- Multi-agent rule: "Assign one plan owner. The orchestrator owns `task_plan.md`… Workers report through their own
+  ledgers or assigned files; they do not independently rewrite the shared planning files" (SKILL.md, Quick Start #4).
+  Parallel tasks use `.planning/<id>/` with a pinned `PLAN_ID` or separate worktrees.
+- Hooks (`hooks/hooks.json`): SessionStart on `startup|resume|clear|compact` restores context; UserPromptSubmit and
+  PreToolUse re-inject the plan; PostToolUse nudges a progress update; PreCompact saves; Stop runs a completion check.
+- Unattended "gated" mode (`docs/long-running-agent-tasks.md`, "Gated mode and the completion gate"): a Stop hook
+  "judges the plan artifact on disk, not the conversation transcript, so a session cannot talk itself into being
+  finished". It blocks a stop only when every condition holds: mode is gate, the plan is incomplete, `stop_hook_active`
+  is false, the block count is under a cap (default 20, `PWF_GATE_CAP`), and the ledger has a new line since the last
+  block. Any single failure lets the session stop.
+- Machine record: append-only `.planning/<id>/ledger-<agent>.jsonl`. The model gets only a fixed-shape summary (ticks,
+  phases done/total, current phase), with "no free text from disk", so prompt-cache prefixes stay stable (same doc).
+- Tamper check: `attest-plan.sh` stores a SHA-256 of `task_plan.md`, and hooks refuse to inject a changed plan until it
+  is re-attested (`docs/attestation-locking.md`).
+- Their own testing: about 120 pytest files, one per mechanism and per host (`tests/`), plus a skill-creator eval and a
+  7-arm competitive benchmark (`docs/evals.md`).
+
+**Lessons learned**
+- **Silent breakage on Windows behind a green suite.** 2 of 6 mechanisms did nothing on Windows: path sanitising only
+  handled `/`, and missing `encoding=` meant cp1252 decode errors were swallowed. `tests/test_path_fix.py` "never
+  imported or exercised the actual shipped script, so the test suite reported green the entire time" (`docs/evals.md`,
+  Test 4). A hook containment check also failed under 8.3 short-name TEMP paths, with "zero output: no plan
+  re-injection, no tamper warning" (same section).
+- **Shared pointers cross-bind sessions in one folder.** A repo-global `.planning/.active_plan` let Session B overwrite
+  Session A's pointer, so after compaction A loaded B's plan (issue #240, "named gated plans can cross-bind same-cwd
+  Codex sessions after compaction"; also #146, "hooks can leak active plan context across sessions in the same cwd").
+- **A Stop gate that forces continuation surprises users.** An incomplete plan is a normal state, so blocking the stop
+  made the agent start unrequested phases (issue #178). This is why the gate now needs an explicit mode, a cap and stall
+  detection.
+- **The hook re-injects the plan on every call, which amplifies prompt injection.** Removing WebFetch/WebSearch from
+  `allowed-tools` was the v2.21.0 fix (`docs/evals.md`, "Why We Did This").
+- **"A checked box is a progress claim, not evidence of completed work"**. The attestation digest isn't a signature: "A
+  process that can replace both `task_plan.md` and its attestation can make new content pass"
+  (`docs/attestation-locking.md`, "Trust boundary").
+- A skill may not trigger on its own: it engaged unprompted in 5 of 8 runs, while always-loaded rules engaged 8/8
+  (`docs/evals.md`, Test 5, Result 2).
+
+**What the kit should take**
+- **The Stop-gate design** (judge the file on disk, cap the blocks, detect stalls from the ledger, any failed condition
+  lets the session stop) → the launcher's "keep going" logic for Main and builder sessions under `claude -p`.
+- **One owner per shared file; workers write their own ledger** → the team registry and handoff files (Main owns the
+  plan; builder, QA and Tester each append to their own JSONL).
+- **Fixed-shape, no-free-text status injection** → what the launcher feeds each resumed session, for cache stability and
+  injection safety.
+- **Per-session plan binding, never a repo-global pointer** → registry keys must be per run and per role (#240).
+- **The "resume after kill at 50%" benchmark protocol** (`docs/evals.md`, Test 5, O6: kill mid-task, new session told
+  only "Continue the work in this directory", count turns) → a benchmark task for kit reliability across context resets.
+- **"Test the shipped script, not a copy of it"** → a rule for kit hook tests, run on Windows.
+
+**What to avoid**
+- Relying on a skill self-triggering. The kit's launcher should start roles explicitly, not hope the skill fires.
+- Treating plan checkboxes or the attestation hash as proof of done. Done must come from QA and the Tester, outside the
+  builder's write scope.
+- Shared mutable pointers in one folder for parallel sessions.
+
+**Evidence level.** Medium. The author ran a 77-run, 7-arm benchmark with task specs committed before runs and fixed
+graders, and disclosed a grader bug and its fix (`docs/evals.md`, Test 5). But the raw runs "live in the benchmark
+workspace, not tracked in this repo". All arms tied on correctness (77/77 green). The headline resume advantage (5.0 vs
+8.3 turns, n=3) was measured on an older version, and they say not to read it as the current default. Test 1's 96.7% vs
+6.7% measures whether the files were created, not task quality. UNVERIFIED until re-run.
+
+### deer-flow (`bytedance/deer-flow` @ 8f1a6cd)
+
+**What it is.** ByteDance's "super agent harness" (v2, a full rewrite): a LangGraph lead agent that hands work to
+subagents, with sandboxes, memory, skills, a Gateway API, scheduled runs and a web UI. **License:** MIT (`LICENSE`).
+Copying allowed? yes, keep the notice.
+
+**Process: how the work is organised**
+- A lead agent plus subagents, called through a `task` tool (`backend/packages/harness/deerflow/subagents/`,
+  `agents/lead_agent/`). The tool blocks and polls in the backend, so the model makes one call instead of polling: "LLM
+  makes only ONE tool call… Timeout protection (5 minutes max)" (`backend/docs/task_tool_improvements.md`).
+- **Checking subagent results** (issue #4651, "[RFC] Deterministic tool receipts & layered subagent result
+  verification"). Before this, the lead got "a free-text self-report… A subagent that ran off the rails but returns
+  `completed` has its conclusions adopted wholesale". The fix has three layers, cheapest first. (1) **Tool receipts**:
+  the runtime, not the model, stamps every tool call (`args_sha256`, `output_sha256`, status), and reports must cite
+  receipt ids. (2) **Acceptance criteria checked in code** (`subagents/acceptance_checks.py`): `file:<path>
+  exists|non-empty|json-valid`, and `tests_passed:<cmd>` must anchor to a specific recorded execution with a
+  test-summary shape, "so a self-report can never silently pass an objectively checkable requirement". Anything
+  undecidable is UNVERIFIED, never passed. (3) An optional one-shot small-model judge, off by default.
+- **Unattended mode** (`backend/docs/RUN_INTERACTION_POLICY.md`): runs in `scheduled`, `webhook` or `autonomous` mode
+  "must never wait for a synchronous human response". They make "minimal reversible assumptions, list material
+  assumptions, or return a structured `BLOCKED` result naming the missing decision". Subagents always deny pending
+  network requests. Public callers can't switch a run to unattended.
+- **Permissions**: `GuardrailMiddleware` checks every tool call before it runs, against a pluggable provider (allowlist,
+  OAP policy, custom). If the provider errors, it **fails closed** by default (`backend/docs/GUARDRAILS.md`,
+  `fail_closed: true`). Over-long arguments are denied rather than truncated, because "a prefix could hide the dangerous
+  half of a `write_file` payload".
+- **Stop limits**: goals carry `max_continuations` and `max_no_progress_continuations` (`agents/goal_state.py`).
+  `LoopDetectionMiddleware` hard-stops identical calls whose results show no progress
+  (`backend/docs/LOOP_DETECTION.md`). Work items survive restarts with execution epochs and revision checks, and
+  cancellation fences the whole subtree (`backend/docs/task-coordination-state.md`).
+
+**Lessons learned**
+- **Self-reports were trusted with no evidence.** The prompt told the lead to "verify against primary evidence", "but no
+  primary evidence exists in a form the verifier can use" (#4651). The RFC notes that full-trajectory LLM judging "has
+  been falsified on both cost and quality grounds".
+- **Queue time ate the timeout.** A queued subagent's timeout clock started at delegation, so time waiting for a slot
+  counted, and polls were spent while still PENDING (issue #8308, "Count a subagent's timeout… from admission, not from
+  delegation").
+- **State grows without limit.** Checkpoint storage kept growing from leftover base64 data, large tool results and
+  missing retention (issue #4189). There was also a run-registry memory leak (PR #5070).
+- Subagent internal messages leaked into the parent's stream as raw tool JSON (issue #4043). Concurrent sandbox calls
+  raised `INVALID_CONCURRENT_GRAPH_UPDATE` (issue #3628). Agent guidance grew past their own 96 KiB limit for the
+  subagents `AGENTS.md` chain (issue #5457).
+- Hard-coded `/mnt/user-data` paths broke on Windows (issue #2185).
+
+**What the kit should take**
+- **The acceptance-criteria contract**: every handoff from Main to the builder carries machine-checkable criteria (files
+  exist, tests pass on a recorded run). These are checked by code outside the builder, and anything not checkable is
+  marked UNVERIFIED → QA gate and handoff file format.
+- **The `RunInteractionPolicy` wording** (never wait for a human; make reversible assumptions and list them; return
+  `BLOCKED` naming the missing decision) → the system prompt of every `claude -p` role.
+- **Fail-closed tool authorization with deny-not-truncate** → the scoped PermissionRequest hook.
+- **Count timeouts from admission, not from dispatch** → launcher heartbeats for queued roles.
+- **Hard caps on continuations and on no-progress continuations** → launcher stop rules.
+
+**What to avoid**
+- Accepting a teammate's "done" message as evidence (#4651). QA must re-run, not read.
+- An LLM judge on every result. Use deterministic checks first and a judge only for what's left.
+- Unbounded checkpoint and log growth in long runs (#4189). Set a size budget for the registry and logs from day 1.
+- The scale: a full web platform with auth, IM channels and Postgres is far more than a plugin needs. Take the
+  contracts, not the server.
+
+**Evidence level.** Engineering-grade: large test suites, RFCs with review, and a CHANGELOG of 16k lines. But the repo
+has no task-success benchmark of the harness itself, and the README makes no measured success claims. The verification
+layers are design plus unit tests, with no measured false-pass rate. UNVERIFIED until re-run.
+
+### paperclip (`paperclipai/paperclip` @ 1b1861c)
+
+**What it is.** A Node server and React UI that runs a "company" of agents (Claude Code, Codex, OpenClaw, HTTP bots):
+org chart, issues as the unit of work, heartbeat wakeups, budgets, approvals, and audit logs. "If it can receive a
+heartbeat, it's hired" (`README.md`). **License:** MIT (`LICENSE`). Copying allowed? yes, keep the notice.
+
+**Process: how the work is organised**
+- Agents don't run continuously. They **wake on heartbeats**: an assignment, a comment, or a timer (`README.md`,
+  "Heartbeats"; `skills/paperclip-board/SKILL.md`: `"heartbeat": {"intervalSec": 300, "wakeOnDemand": true}`). Each wake
+  follows a fixed procedure (`skills/paperclip/SKILL.md`, "The Heartbeat Procedure"): read the inbox, pick work
+  (`in_progress`, then `in_review`, then `todo`), then **check out** the issue (`POST /api/issues/{id}/checkout`). If
+  another agent holds it, the answer is `409`: "stop, pick a different task. **Never retry a 409.**"
+- Every exit must leave a **waiting path**: `in_review` with a saved pending interaction, or `blocked` with first-class
+  `blockedByIssueIds`. "A comment naming someone does not create that path" (same file). `done` means "verification is
+  recorded, and no follow-up remains".
+- **Review stages** (`server/src/services/issue-execution-policy.ts`): the reviewer is picked from the stage's
+  participants **excluding the agent the work goes back to** (`exclude: returnAssignee`), so the builder isn't its own
+  reviewer. After `DEFAULT_MAX_REVIEW_ROUNDS = 3` agent-requested change rounds, the review escalates to a human.
+- **Task watchdog** (`doc/TASK-WATCHDOG.md`): an opt-in second agent wakes when a whole issue tree has come to rest. It
+  checks the evidence for wrong stops ("declaring 'done' without proof, leaving an issue `in_review` with no real
+  reviewer") and can reopen or reassign, but has a written list of disallowed actions (no approvals, budgets, secrets or
+  config). Separate mechanisms handle a silent running process and stalled `in_progress` work.
+- Budgets: per company, agent, project and issue, with warning thresholds and hard stops. But "Budget checks and
+  threshold enforcement are best effort. Concurrent operations can start from the same observed balance"
+  (`doc/PRODUCT.md`, "Budget control behavior").
+- Agent lifecycle is a state machine (pending_approval → preparing → verifying → ready → pausing/paused → terminating),
+  and "verifying" runs a real hello-probe of the harness before work is allowed (`doc/AGENT-LIFECYCLE.md`).
+- Their own dev process: `pnpm verify` on affected tests, red-green TDD for bug fixes, and CI typecheck/test/build on
+  the final revision as the definition of done (`AGENTS.md` §7, §10, §12). Agent-behaviour evals use promptfoo
+  (`evals/README.md`).
+
+**Lessons learned** (their most-discussed issues are almost all **silent stalls in handoff and recovery**)
+- "Skipped handoff wake… is terminal: a reviewer handoff stalls silently with no run and no retry" (issue #13532).
+  "Handoff wake parked as deferred… is never re-admitted" (#14537). "Resolved recovery no-replay holds silently deadlock
+  issues (invisible, undebuggable, watchdog duplicates every 30s)" (#14600). "Task permanently unrecoverable:
+  pre-dispatch cancellation…" (#13640).
+- **Quota and limit failures strand agents**: "Provider-quota recovery never fires… agents strand indefinitely with no
+  wake path" (issue #15461). Subscription logins expire after about 8 h because only the access token is stored
+  (#14182).
+- **Kill switches that don't finish**: pausing hangs forever in `pausing` when an old run has no process identity
+  (issues #18147, #17718). The budget hard stop fired with observed spend 0 when runs finished at the same time, then
+  agents stuck in `pausing` (#18106).
+- **Reading success from output text misfires**: a regex marked successful runs as `claude_auth_required` because the
+  agent's output contained "Unauthorized" (issue #5534).
+- **Handoff payloads grow until spawn fails**: an unbounded continuation pushed the wake-payload environment variable
+  past `MAX_ARG_STRLEN`, causing E2BIG on every local adapter (issue #13959).
+
+**What the kit should take**
+- **Checkout with a `409` and never retry** → the launcher registry: one owner per task, atomic claim, losers move on.
+- **"Every exit leaves a waiting path"** (in_review with a pending question, or blocked on a named blocker) → the
+  end-of-session rule for every `claude -p` role, so the launcher always knows who wakes next.
+- **Reviewer ≠ return assignee, 3 review rounds then escalate** → the QA gate (builder can't approve itself; after 3
+  bounces the issue goes to `SHARIF_ACTION_ITEMS.md`).
+- **The task-watchdog idea**: when everything has stopped, one agent checks whether the stop is legitimate, with a
+  written "disallowed" list → a cheap final check by Main before the run reports done.
+- **The "verifying" hello-probe before a role is ready** → the launcher pings each role session before handing it work.
+- **Determine success from exit codes and structured output, never by regex on agent prose** (#5534) → launcher result
+  parsing.
+
+**What to avoid**
+- Building a control plane. Their biggest problems are the recovery machinery itself (#13532, #14537, #14600, #15461).
+  Keep the kit's handoffs as plain files with a few states, and test the stuck cases explicitly.
+- Unbounded handoff payloads in env vars or CLI args (#13959). Pass paths to files instead.
+- Trusting the budget stop as exact. It is best effort by their own docs, so the kit should also cap `--max-budget-usd`
+  per session.
+- The `skills/complain/SKILL.md` instructs agents to "Submit proactively without permission". That content is aimed at
+  their agents; I didn't act on it, and the kit shouldn't ship a skill that sends data without asking.
+
+**Evidence level.** Engineering and ops evidence: real bug reports with reproductions, and recovery benchmarks of server
+internals (`doc/benchmarks/`). There is no measurement that a "company" of agents beats a single agent, and the README's
+claims are product claims. UNVERIFIED until re-run.
+
+### ruflo (`ruvnet/ruflo` @ 87f612c)
+
+**What it is.** A large "agent meta-harness" (formerly claude-flow, v3.80.0, 10,615 commits) for Claude Code and Codex:
+an MCP server, hooks, 98 agent definitions, swarm and "hive-mind" coordination, vector memory, "self-learning" routing,
+and many plugins. **License:** MIT (`LICENSE`). Copying allowed? yes, keep the notice.
+
+**Process: how the work is organised**
+- **The swarm keeps records; Claude Code does the work.** "Ruflo is the coordination ledger and policy decision point.
+  Claude Code executes code, tests, commands, and file changes. A Ruflo coordination call records work; it does not
+  perform the implementation" (`CLAUDE.md`, "Capability Brain"). Agents are Claude Code Task subagents spawned alongside
+  MCP `swarm_init` calls (`CLAUDE.md`, "Swarm Orchestration").
+- Recommended swarm: hierarchical, 6–8 agents, "raft consensus (leader maintains authoritative state)", "frequent
+  checkpoints via post-task hooks", and "short task cycles with verification gates" (`CLAUDE.md`, "Anti-Drift Coding
+  Swarm").
+- Concurrency rules (`CLAUDE.md`, "Concurrent Automated Development"): "Never allow two writers in one worktree."
+  Read-only agents may share a checkout. Only the integration owner edits manifests and lockfiles. "A lease or work
+  claim coordinates ownership; it never grants authority." Bind tests and handoffs to an exact clean commit. Learning
+  systems "cannot self-promote or expand tools, network, secrets, spend, concurrency, or release authority".
+- Headless use: it documents `claude -p` with `--max-budget-usd`, `--allowedTools`, and `--dangerously-skip-permissions`
+  "(sandboxed environments only)" (`CLAUDE.md`, "Headless Background Instances").
+- Unattended loop: the `ruflo-autopilot` plugin runs on Claude's `/loop` + ScheduleWakeup with a **270 s heartbeat**,
+  chosen to stay under the 5-minute prompt-cache lifetime, plus an `iterationCap` guard (default 1000)
+  (`plugins/ruflo-autopilot/README.md`).
+- A later "verifier" signs outcomes from separate acceptance, safety, replay and adversarial commands, and "Check
+  programs are host-reviewed trusted code, not sandboxed arbitrary agent instructions"
+  (`docs/validation/managed-loop-e2e.md`).
+
+**Lessons learned** (measured vs asserted)
+- **Their own audit found headline numbers fabricated** (`docs/reviews/intelligence-system-audit-2026-05-29.md`). "HNSW
+  150x–12,500x" measured a **1.48×** peak. "Flash Attention 2.49–7.47×" was "**fabricated with `Math.random()` at
+  runtime**" (`attention-coordinator.ts:972`). "75× embeddings" had no benchmark. The CLI "**silently inverts negative
+  reward**", so training against a bad agent reinforces it. ONNX failure fell back silently to mock embeddings still
+  labelled as the real model. Yet `CLAUDE.local.md` still states "HNSW (150x-12,500x), Flash Attention (2.49x-7.47x)".
+- **The "multi-agent benchmark" is a mock**: `docs/benchmarks/multi-agent/multiagent-mock-…json` has `"backend": "mock"`
+  and finished in 4 ms for 100 runs per task. "Intelligent routing (89% accuracy)" (`README.md`, `docs/USERGUIDE.md`)
+  cites no measurement in the repo.
+- **Users couldn't get it to do work**: "Still can't figure out how to get v3 to actually perform work"; "since it's an
+  'mcp' I still only have 1 claude code 'agent' doing everything" (issue #958).
+- **Ledgers grow until everything locks**: the policy receipt ledger re-read and re-hashed its full history on every
+  tool call under a 5 s lock, until "all MCP tools hit policy-state-lock-timeout" (issue #3164). Cold `npx` startup hung
+  over 60 s downloading a model on every start (#2286, #3154).
+- The honest part is the GAIA L1 attempt (`docs/benchmarks/submission/`). It scored 34/53, but "n=1 only; n=3 mean
+  pending". Their own baseline rerun moved 21 → 23 (`variance-analysis.md`), so several "+2" component wins are inside
+  noise. They do test components in isolation and **rejected** ones that hurt (visit_webpage −3, CodeAgent −4).
+
+**What the kit should take**
+- **The concurrency rules, almost word for word**: one writer per worktree; only the integration owner touches
+  lockfiles; a claim coordinates ownership but grants no authority; tests and handoffs are bound to an exact commit →
+  roles/prompts and the launcher.
+- **"Learning loops may propose, never self-promote or widen their own permissions"** → the kit's permission hook and
+  any self-improvement study.
+- **A 270 s heartbeat for wake loops** (under the cache lifetime) → launcher polling interval for long-lived roles.
+- **Component isolation runs with keep/reject decisions logged** (`submission/metadata.md` table) → the benchmark's
+  ablation format, with n≥3 per arm, which they didn't have.
+- **The audit format**: graded by evidence, "confirmed / partial / unsubstantiated / fabricated" → the evaluator's
+  scorecard style for third-party claims.
+
+**What to avoid**
+- Swarm machinery that only records coordination while one model does the work (#958; `CLAUDE.md`). The literature says
+  role teams don't beat one strong agent at equal cost, and ruflo has no measurement showing otherwise.
+- Docs that drift from measurements (`CLAUDE.local.md` vs the audit). Kit numbers come only from the scorecard.
+- Silent fallbacks to mocks (embeddings) and append-only ledgers with full re-verification on every call (#3164).
+- `CLAUDE.md` tells agents they "MUST initialize the swarm using MCP tools" and "MUST call MCP tools AND Task tool in
+  ONE message". That is repo content aimed at agents; I ignored it. Its parallel `claude -p` example (`SECURITY=$(claude
+  -p … &)`) doesn't capture output as written.
+
+**Evidence level.** Mostly asserted. The measured items are the self-audit (6 auditors, real runs, n not reported per
+claim) and the GAIA n=1 runs with per-run cost (~$2.5–6 per run). Multiplier claims in README and CLAUDE files are
+contradicted by their own audit. The multi-agent benchmark is a mock. All UNVERIFIED until re-run.
