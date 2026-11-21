@@ -239,3 +239,11 @@ Every reader finding at major severity or above is fixed and confirmed against i
 except 4d pass. The only open FAIL is the body word count (15,043 against 9,000–11,000), which is Sharif's
 decision: cut about 4,000 words per the round-1 plan, or change the threshold in
 `docs/plans/07_literature_review.md`. m7 (redundancy) and n1 are minor and do not block.
+
+
+## Round 3 (lead, 2026-11-21): author decision on length
+
+Sharif, 2026-11-21: "length is acceptable and green light". The word-count criterion was changed by the
+author from 9,000–11,000 to 9,000–15,500 (recorded in `docs/plans/07_literature_review.md` and
+`scripts/literature/check_review.py`). Re-measured mechanically with `check_review.py`: body 15,043
+words → PASS. No other criterion or finding changed. **Final: GRADE PASS (7/7 criteria).**

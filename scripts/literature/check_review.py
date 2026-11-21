@@ -2,7 +2,7 @@
 
 Checks, from the section sources in literature/review/sections/:
   - every \\cite key is a paper ID in literature/papers.tsv        (0 dangling: hard fail)
-  - body word count 9,000-11,000; abstract <= 150 words
+  - body word count 9,000-15,500 (Sharif 2026-11-21); abstract <= 150 words
   - >= 150 distinct works cited; each of the 9 themes cited >= 8 distinct times; >= 15 repo citations
   - Summary Points and Future Issues present
   - after a build: no undefined citations or references in build/main.log
@@ -72,7 +72,8 @@ def main():
     abstract = SEC / "00_abstract.tex"
     aw = words(abstract.read_text(encoding="utf-8")) if abstract.exists() else 0
     check("abstract <= 150 words", 0 < aw <= 150, f"{aw} words")
-    check("body 9,000-11,000 words", 9000 <= body_words <= 11000, f"{body_words} words")
+    # Sharif 2026-11-21: "length is acceptable" (criterion raised from 9,000-11,000 after the Phase 8 grade)
+    check("body 9,000-15,500 words", 9000 <= body_words <= 15500, f"{body_words} words")
     for stem, n in per_file.items():
         print(f"        {stem}: {n}")
     valid = [k for k in keys if k in ids]

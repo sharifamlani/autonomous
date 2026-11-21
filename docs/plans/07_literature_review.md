@@ -384,7 +384,7 @@ not passed by then, the post waits, and Sharif is told why in one sentence.
 | Every citation is real | 0 IDs missing from `papers.tsv` | `render_review.py --check` | script output |
 | Every claim has verbatim evidence | 0 cited sources without an entry in `LITERATURE_REVIEW_EVIDENCE.md`; 0 NOT FOUND / WRONG PAGE | `build_evidence.py` exit 0 + QA row per MANUAL entry | evidence file + QA file |
 | Numbers match their sources | ≥ 20 of 20 randomly sampled quoted numbers match the PDF or README quote | evaluator re-fetches and compares | scorecard rows |
-| It is a review article, structured as one | abstract ≤ 150 words; Summary Points and Future Issues present; 9,000–11,000 words; ≥ 150 works cited | script counts | script output |
+| It is a review article, structured as one | abstract ≤ 150 words; Summary Points and Future Issues present; 9,000–15,500 words (raised from 9,000–11,000 by Sharif 2026-11-21: "length is acceptable"); ≥ 150 works cited | script counts | script output |
 | Covers the corpus | each of the 9 themes cited ≥ 8 times; ≥ 15 repo citations | script counts by ID prefix | script output |
 | Source quality is labelled | every number in §§4–12 says whether its source is independent or lab-authored, and measured or asserted | evaluator checks a sample of 20 | scorecard rows |
 | Kit implications are traceable | every row in Table 4 cites ≥ 1 paper or repo | evaluator checks all rows | scorecard rows |
