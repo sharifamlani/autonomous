@@ -5,14 +5,14 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.18 · 2026-11-21
+> v0.19 · 2026-11-21
 
 ---
 
 ## §0 You are here
 
 - **Current phase:** Phase 8 (independent evaluation of the literature review); Phases 7 and 7.5 done
-- **Current step:** GRADE PASS except word count; waiting on Sharif: raise the length limit or cut to ~11k
+- **Current step:** review published in the repo (GRADE PASS 7/7); Marketing preparing post + video for Sharif's approval; row 7.3 (CLAUDE.md v1) open
 - **Last update:** 2026-11-21
 - **Next action:** after QA (incl. the verbatim evidence file) and the grade pass, wait for Sharif's express go before any post (target 6:00 AM Sun 2026-11-22 EST).
 
@@ -239,13 +239,13 @@ Source: CLAUDE.md §7.
 **Goal:** an evaluator that did none of the work grades Phases 4–7 against the criteria table.
 **Entry gate:** Phase 7.
 **Exit gate:** every criterion PASS on the evaluator's scorecard; post for the phase goes out.
-**Status:** ⏸ planned
+**Status:** ⏳ grade PASS; release with Marketing
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 8.1 | Evaluator grades the criteria from a fresh clone (citations and repo metadata re-queried) (was 9.1) | ~ | — | 2026-11-21 · scorecard `literature/qa/PHASE8_SCORECARD.md`: 6/7 criteria PASS (20/20 random numbers, 20/20 evidence spot checks); word count FAIL (15,043 vs 9-11k) pending Sharif | D13 |
-| 8.2 | Fix rounds until every criterion passes (was 9.2) | ⏸ | — | gate: 8.1 | global CLAUDE.md |
-| 8.3 | Release card from the scorecard; Marketing posts the review to LinkedIn + X with a video about the paper (`make-video` skill) **only on Sharif's express go order** (target 6:00 AM Sun 2026-11-22 EST) (was 9.3) | ⏸ | — | gate: 8.2 | CLAUDE.md §8 |
+| 8.1 | Evaluator grades the criteria from a fresh clone (citations and repo metadata re-queried) (was 9.1) | ✅ | — | 2026-11-21 · `12940cd` + `88d47b6` (GRADE PASS 7/7; length criterion raised by Sharif) | D13 |
+| 8.2 | Fix rounds until every criterion passes (was 9.2) | ✅ | — | 2026-11-21 · `f05f4a1` (M1 ruflo fairness + 7 minors fixed, re-graded) | global CLAUDE.md |
+| 8.3 | Release card from the scorecard; Marketing posts the review to LinkedIn + X with a video about the paper (`make-video` skill) **only on Sharif's express go order** (target 6:00 AM Sun 2026-11-22 EST) (was 9.3) | ⏳ | — | 2026-11-21 · `88d47b6` release card + PDF live; Marketing preparing post + video for Sharif's approval in its session (Sharif: "green light") | CLAUDE.md §8 |
 
 ### Phase 9 — Kit v0.1 design, from the research
 
@@ -346,6 +346,9 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.19 · 2026-11-21** — Sharif: "length is acceptable and green light". Review PDF published
+  (`88d47b6`, GRADE PASS 7/7) with release card; Marketing preparing the post and video, posting only
+  on Sharif's approval in its session. Rows 8.1–8.2 closed.
 - **v0.18 · 2026-11-21** — Phase 8 grade: 6/7 criteria PASS on independent re-measurement; the one
   major reader finding (ruflo fairness) fixed and re-graded. Only the word-count criterion fails
   (15,043 vs 9-11k); changing it is Sharif's call.
