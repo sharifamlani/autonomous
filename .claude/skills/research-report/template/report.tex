@@ -1,0 +1,88 @@
+% Research report template (research-report skill). Main article <= 5 pages before \appendix.
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{caption}
+\usepackage{xcolor}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
+\captionsetup{font=small,labelfont=bf}
+\graphicspath{{figures/}}
+\input{numbers.tex}
+
+\newcommand{\StudyID}{NNN}
+\newcommand{\StudyTitle}{Study title}
+
+\title{\textbf{\StudyTitle}\\[2pt]\large Study \StudyID{} research note}
+\author{Trading research factory}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent Question. Data. Method. Verdict. What it changes for our trading schema.
+\end{abstract}
+
+\section{Introduction}
+% The question and why it matters for compounded net return.
+
+\section{Literature review}
+% Short; cite literature IDs and papers; gross vs net.
+
+\section{Theory}
+% Mechanism, who pays the edge, prior before testing.
+
+\section{Methods}
+% Data, universe, period, point-in-time rules, costs, split/holdout, trials, gate. PREREG commit.
+
+\section{Findings}
+% Lead with what failed. Equity figure, drawdown figure, results table, gate table.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\linewidth]{equity.pdf}
+  \caption{Growth of \$1, log scale. Look at: whether the candidate stays above the benchmark after costs.}
+\end{figure}
+
+\begin{table}[h]
+  \centering\small
+  \caption{Results: gross, net and after tax versus the benchmark.}
+  \begin{tabular}{lrrrr}
+    \toprule
+    Series & Net Sharpe & Ann.\ return & Max DD & After-tax $g$ \\
+    \midrule
+    Candidate & -- & -- & -- & -- \\
+    Benchmark & -- & -- & -- & -- \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Conclusions}
+% Verdict: promote / park / kill.
+
+\section{Implications for our trading schema}
+% Concrete changes: portfolio, roadmap, cost model, hypothesis queue.
+
+\label{mainend}
+\clearpage
+\appendix
+\section{Detailed results}
+\section{Robustness and cost sensitivity}
+\section{Bias checklist (CLAUDE.md section 5)}
+\section{Trials and data provenance}
+\section{Replication}
+Code, environment fingerprints and step-by-step instructions are in \texttt{replication/README.md}
+(commit given there); the underlying market data is licensed and is not redistributed.
+\section{Disclaimer}
+Research only. Results are hypothetical backtests on historical data, net of modelled costs and
+planning-rate taxes; they are not investment, tax or legal advice and do not promise future results.
+Public use requires a securities-law review.
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+\end{document}

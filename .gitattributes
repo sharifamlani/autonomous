@@ -1,0 +1,18 @@
+# Normalize text to LF in the repo; Windows checkouts convert as needed
+* text=auto eol=lf
+
+# Windows-only scripts keep CRLF
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary formats: never diff or convert
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.mp4 binary
+*.xlsx binary
+*.docx binary
+*.zip binary
