@@ -183,3 +183,59 @@ Word count is the only failing **criterion**. Criteria 1, 2, 3, 5, 6 and 7 pass,
 independent re-measurement (20/20 numbers; 20/20 evidence spot checks). The grade would still be FAIL
 without the word-count failure, because of the one major reader finding (M1), which is a one-clause fix.
 The minor findings m1–m8 are recommended and do not block publication.
+
+---
+
+## Round 2 (re-grade of `git diff 257dd35 HEAD -- literature/review`, HEAD f05f4a1)
+
+Scope: only the diff (16 files, +25/−15) and the criteria it can affect (2, 3, 4, 6, and layout). I rebuilt
+with `bash scripts/literature/build_review.sh` (35 pages, 0 undefined references) and re-checked each fix
+against its source myself.
+
+### Fixes checked against their sources
+
+| Finding | Fix in text | Source check | Status |
+|---|---|---|---|
+| M1 ruflo (§4.4) | "(the same audit records that the ``randomized telemetry'' has since been ``removed'')" | `ruvnet/ruflo` `docs/reviews/intelligence-system-audit-2026-05-29.md` l. 97: "✅ **#2 Flash Attention fabrication** — randomized telemetry removed from both `attention-coordinator` copies". The quoted words are verbatim | **Fixed** |
+| m1 Summary Point 1 | "The same agent harness, running different models, appears…" | matches §1.3's hedge | **Fixed** |
+| m2 49.4% conditional (§6.2) | adds "should be read as a verdict-quality estimate conditional on a verdict" and "counting the 942 missing verdicts as failures lowers it to 22.3%" [T18, pp. 7–8] | T18 p. 8: "the 49.4% rate should be read as a verdict-quality estimate conditional on a verdict"; p. 7: "Counting the 942 missing verdicts as failures lowers the effective false-accept rate from 49.4% to 22.3%" | **Fixed** |
+| m3 Vibe Code Bench (§7) | "achieves 61.8% accuracy on the held-out test split of 50 applications" | C19 p. 1 abstract: "(50 private validation, 50 held-out test)… the best achieves 61.8% accuracy on the test split" | **Fixed** |
+| m4 AlphaEvolve (§8.3) | "…0.7% of Google's fleet-wide compute, by Google's own post-deployment measurement" | A25 p. 14: "Post-deployment measurements across Google's fleet confirmed the simulator results… recovers on average 0.7% of Google's fleet-wide compute resources" | **Fixed** |
+| m5 Future Issue 8 vs §15 | §15 adds an "eighth" task: independent third-party measurement of interventions per task and hours unattended | now matches Future Issue 8; no new numbers or citations | **Fixed** |
+| m6 layout | `\repobreak` (breakable repo name) replaces `\resizebox` in Table 2 and is used in Figure 1 | see layout check below | **Fixed** |
+| m8 locator style | §1.2 and §11.3 both cite F30 as "p. 78" | consistent now. The passage is on PDF page 78, whose **printed page number is 77**. See nit n1 | **Fixed** (nit n1 remains) |
+| m7 redundancy | not changed | waiting on the author's word-count decision | open (minor) |
+
+### Layout check
+- **Table 2 (p. 5):** `frankbria/ralph-claude-code #91` now wraps over two lines at body-table size. The
+  pymupdf scan finds no text under 6.5 pt on pages 1–26 apart from the superscript footnote markers on
+  pp. 23–24. Readable.
+- **Figure 1 (p. 9):** `K-Dense-AI/scientific-agent-skills #152` wraps inside its cell. The 21 pt overfull
+  box is gone from the log, and the remaining overfull boxes are the intentional full-width title block and
+  boxes. Readable. Both pages were inspected as 110 dpi renders.
+
+### Re-run checks
+
+| Criterion | Round-2 result | PASS/FAIL |
+|---|---|---|
+| 1. Citations | `check_review.py`: 162 distinct keys, 0 dangling | **PASS** |
+| 2. Numbers | no number in the round-1 draw changed. The new numbers (22.3%, 942, 50 test apps, 0.7%) were each checked against the source above | **PASS** |
+| 3. Evidence | `build_evidence.py`: 1,048 rows (VERIFIED 757, MANUAL 291), 0 sources without a row, 0 NOT FOUND / WRONG PAGE, exit 0. The new rows for ruflo l. 97, T18 pp. 7–8, C19 p. 1 and A25 p. 14 are the passages confirmed above | **PASS** |
+| 4a–c. Abstract 150; boxes present; 162 works | unchanged | PASS |
+| **4d. Word count** | **15,043** body words (+114 from the fixes) against 9,000–11,000 | **FAIL** |
+| 5. Coverage | themes 10/20/12/19/20/20/16/23/22; 70 repo citations, 28 repos | **PASS** |
+| 6. Source labelling | m4 makes the AlphaEvolve vendor measurement explicit; no labels removed | **PASS** |
+| 7. Table 4 | unchanged; 10/10 rows cited | **PASS** |
+
+### Nit (does not block)
+- **n1.** F30 is cited as "p. 78", which is the PDF page index. The page's printed number is 77, and readers
+  of the report will look for the printed page. Suggest "p. 77" in §1.2 and §11.3, or "PDF p. 78".
+
+### Round-2 verdict
+
+**GRADE PASS except word count (author decision pending).**
+
+Every reader finding at major severity or above is fixed and confirmed against its source. All criteria
+except 4d pass. The only open FAIL is the body word count (15,043 against 9,000–11,000), which is Sharif's
+decision: cut about 4,000 words per the round-1 plan, or change the threshold in
+`docs/plans/07_literature_review.md`. m7 (redundancy) and n1 are minor and do not block.
