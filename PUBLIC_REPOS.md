@@ -81,7 +81,8 @@ cites the repo; the write-up has the file path or issue number.
 - **Sweep 2: failures that hide themselves.** K-Dense's reviewer silently scored every failed review
   7.5 (scientific-agent-skills #152). AutoResearchClaw's own audit found its anti-fabrication checks
   switched off when the network was down, giving a perfect integrity score while 2,831 tests passed
-  (its fix is #302). AI-Scientist-v3's repair agent quietly made the evaluator non-repeatable, so
+  (a proposed fix, PR #302, was closed unmerged;
+  a narrower one, #323, is open). AI-Scientist-v3's repair agent quietly made the evaluator non-repeatable, so
   keep/revert became a coin flip (#5). The kit's rules: a skipped or failed check never counts as a
   pass, every caught error goes into a `degradations` list, and the baseline is scored twice before
   a run starts.

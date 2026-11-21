@@ -1069,11 +1069,11 @@ numbers in the repo. UNVERIFIED until we test it on our runner.
   - "Best" refinement is hard-coded to maximize, so loss tasks pick the worst run (`_paper_writing.py:241`).
   - An unapproved quality gate is skipped in the iterative runner (`runner.py:845`).
 - Issue #301: the experiment-spec validation hooks imported a module that does not exist and were wrapped in `except: debug`, so "spec compliance has effectively been dead code". The fix added `PreregisteredPrediction` (statement, metric, baseline, minimum effect size) and `seeds` to the plan schema.
-- Issue #302 "Fail-open audit": every catch-all on the experiment path was assigned "converted-surface" or "converted-record" (one WARNING plus a `degradations` entry in `pipeline_summary.json`).
+- PR #302 "Fail-open audit" (closed without merging, checked 2026-11-21; a narrower PR #323 is open): it proposed that every catch-all on the experiment path be assigned "converted-surface" or "converted-record" (one WARNING plus a `degradations` entry in `pipeline_summary.json`).
 - Issue #316: self-review "rarely produces the kind of objection that would actually block a run".
 
 **What the kit should take**
-- **QA gate:** the #302 rule. Every caught exception either fails the stage or writes a `degradations[]` entry to the run summary. "Skipped" must never count toward a score (`verify.py:97`).
+- **QA gate:** the rule #302 proposed (not merged upstream). Every caught exception either fails the stage or writes a `degradations[]` entry to the run summary. "Skipped" must never count toward a score (`verify.py:97`).
 - **Study protocol:** a `VerifiedRegistry`-style check for RESULT.md. Every number in the report must trace to a saved output file. This feeds our "every number generated from saved outputs" rule.
 - **Study protocol:** the #301 `PreregisteredPrediction` fields as a machine-readable block in PREREG.md.
 - **Roles/prompts:** `review_provenance.json` (author model versus judge model) as the evaluator's independence receipt.
