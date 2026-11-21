@@ -56,6 +56,10 @@ desktop.ini
 # literature: paper PDFs stay local (not redistributed); the indexes and papers.tsv are public.
 # scripts/literature/fetch_papers.py re-downloads them from papers.tsv (Sharif 2026-11-20).
 /literature/**/*.pdf
+# ...except our own review, which is published (Phase 7)
+!/literature/LITERATURE_REVIEW.pdf
+/literature/review/build/
+/literature/review/build.out
 
 # public: third-party GitHub repos cloned for reference. The clones stay local (each keeps its own
 # history and remote); the manifest, notes and candidate lists are the committed record.

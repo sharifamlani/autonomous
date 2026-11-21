@@ -1,0 +1,117 @@
+% Verification, Not Capability -- a review article.
+% Build: bash scripts/literature/build_review.sh   (latexmk + bibtex; output literature/LITERATURE_REVIEW.pdf)
+\documentclass[10.5pt,letterpaper]{article}
+
+% ---------- page and type ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newtxtext,newtxmath}
+\usepackage[letterpaper,top=0.9in,bottom=1in,left=0.85in,right=2.35in,
+            marginparwidth=1.55in,marginparsep=0.22in,headsep=0.3in]{geometry}
+\usepackage{microtype}
+\usepackage{xcolor}
+\definecolor{arblue}{RGB}{0,62,116}
+\definecolor{argray}{RGB}{90,90,90}
+\definecolor{arshade}{RGB}{233,240,247}
+\usepackage{graphicx,amsmath,booktabs,tabularx,enumitem}
+\usepackage[font=small,labelfont={bf,color=arblue},labelsep=period,justification=raggedright,singlelinecheck=false]{caption}
+\usepackage{marginnote}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[authoryear,round,sort]{natbib}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{colorlinks=true,linkcolor=arblue,citecolor=arblue,urlcolor=arblue,
+  pdftitle={Verification, Not Capability: What the Evidence Says About Autonomous Agents That Build Software and Do Research},
+  pdfauthor={Sharif Amlani}}
+
+\setlength{\parindent}{1.2em}
+\setlength{\parskip}{0pt}
+\linespread{1.06}
+
+% ---------- headings ----------
+\titleformat{\section}{\normalfont\large\bfseries\color{arblue}\MakeUppercase}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries\color{arblue}}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\itshape}{\thesubsubsection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{1.6ex plus .4ex}{0.8ex}
+\titlespacing*{\subsection}{0pt}{1.2ex plus .3ex}{0.5ex}
+
+% ---------- running heads ----------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{argray}Amlani}
+\fancyhead[R]{\small\color{argray}\textit{Verification, Not Capability}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\fancyheadoffset[R]{1.77in}
+
+% ---------- macros used by the sections ----------
+% Margin definition, Annual Review style: \defn{Term}{definition}
+\newcommand{\defn}[2]{\marginnote{\raggedright\footnotesize\textcolor{arblue}{\textbf{#1:}} #2}}
+% Repository evidence: \repo{owner/repo}{issue} and \repofile{owner/repo}{path}
+\newcommand{\repo}[2]{\href{https://github.com/#1/issues/#2}{\texttt{\small #1}~\##2}}
+\newcommand{\repofile}[2]{\href{https://github.com/#1/blob/HEAD/#2}{\texttt{\small #1}: \texttt{\small\detokenize{#2}}}}
+% Summary Points / Future Issues boxes
+\newtcolorbox{arbox}[1]{colback=arshade,colframe=arblue,boxrule=0.6pt,arc=0pt,
+  left=8pt,right=8pt,top=6pt,bottom=6pt,fonttitle=\bfseries\MakeUppercase,coltitle=white,
+  colbacktitle=arblue,title={#1},enlarge right by=1.77in,width=\linewidth+1.77in}
+
+\renewcommand{\refname}{Literature Cited}
+\setlength{\bibsep}{2pt plus 1pt}
+\renewcommand{\bibfont}{\footnotesize}
+
+\begin{document}
+
+% ---------- title block ----------
+\thispagestyle{plain}
+\noindent{\small\color{argray}\textsc{Review Article}\hfill Autonomous Working Paper No.~1 \textperiodcentered{} November 2026}\par
+\noindent\textcolor{arblue}{\rule{\dimexpr\linewidth+1.77in}{1.2pt}}\par\vspace{10pt}
+\noindent\begin{minipage}{\dimexpr\linewidth+1.77in}
+\raggedright
+{\LARGE\bfseries\color{arblue} Verification, Not Capability: What the Evidence Says About Autonomous Agents That Build Software and Do Research\par}
+\vspace{10pt}
+{\large Sharif Amlani\par}
+\vspace{2pt}
+{\small\color{argray} The Autonomous Project \textperiodcentered{} \url{https://github.com/sharifamlani/autonomous}\par}
+\end{minipage}
+\vspace{12pt}
+
+\noindent\begin{minipage}[t]{0.29\dimexpr\linewidth+1.77in}
+\small\raggedright
+\textcolor{arblue}{\textbf{Keywords}}\\[2pt]
+autonomous agents, software engineering, AI scientist, verification, reproducibility, evaluation\\[10pt]
+\textcolor{arblue}{\textbf{Contents}}\\[2pt]
+\input{sections/contents}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.66\dimexpr\linewidth+1.77in}
+\textcolor{arblue}{\textbf{Abstract}}\\[2pt]
+\input{sections/00_abstract}
+\end{minipage}
+\vspace{14pt}
+
+\noindent\textcolor{arblue}{\rule{\dimexpr\linewidth+1.77in}{0.4pt}}
+\vspace{6pt}
+
+% ---------- body ----------
+\input{sections/01_introduction}
+\input{sections/02_scope}
+\input{sections/03_concepts}
+\input{sections/04_architecture}
+\input{sections/05_harness}
+\input{sections/06_verification}
+\input{sections/07_building}
+\input{sections/08_science}
+\input{sections/09_data}
+\input{sections/10_replication}
+\input{sections/11_reliability}
+\input{sections/12_measurement}
+\input{sections/13_synthesis}
+\input{sections/14_implications}
+\input{sections/15_agenda}
+\input{sections/16_conclusion}
+\input{sections/17_endmatter}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
