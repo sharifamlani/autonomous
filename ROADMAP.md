@@ -5,14 +5,14 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.15 · 2026-11-21
+> v0.16 · 2026-11-21
 
 ---
 
 ## §0 You are here
 
 - **Current phase:** Phase 7 in progress (literature review, Annual Review-style article; outline approved)
-- **Current step:** full draft done (`ff08499`); Phase 7.5 QA running (5 agents: sections 1-5, 6-8, 9-12, 13-17, bibliography + consistency)
+- **Current step:** Phase 7.5 QA: 5 QA passes done (135 findings, all fixed, `739bdef`..`dbdf44a`); independent re-check of every fix running
 - **Last update:** 2026-11-21
 - **Next action:** after QA (incl. the verbatim evidence file) and the grade pass, wait for Sharif's express go before any post (target 6:00 AM Sun 2026-11-22 EST).
 
@@ -175,7 +175,7 @@ Source: CLAUDE.md §7.
 **Goal:** all nine literature folders filled with verified papers and repo candidates.
 **Entry gate:** Phase 4 exit gate.
 **Exit gate:** `verify_literature.py --all` PASS; ≥ 90 papers, ≥ 8 per folder.
-**Status:** ✅ done (288 papers, 216 repo candidates after round 2 and the lab sweep; no grading per D16)
+**Status:** ✅ done (288 catalogue entries = 286 distinct papers after two duplicates were found in Phase 7.5 QA; 216 repo candidates; no grading per D16)
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
@@ -346,6 +346,11 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.16 · 2026-11-21** — Phase 7.5: five QA passes found 135 issues (11 blockers) and all are fixed,
+  e.g. a +0.5-point non-significant result stated as "beat", a quote stitched from figure axis labels, a
+  claim cited to an OpenAI post outside the corpus, an unmerged PR called a fix (also corrected in
+  PUBLIC_REPOS.md). Corpus corrected to 286 distinct papers (two duplicates). Evidence file published
+  (1,043 rows, 753 verified against PDFs, 290 checked by hand, 0 failing). Re-check of every fix running.
 - **v0.15 · 2026-11-21** — Full review draft in LaTeX (`ff08499`): 16 sections, 37 pages, 162 papers
   and 27 repos cited, evidence ledger 991 rows (720 verified against PDFs by script). Row 7.2 done.
   Phase 7.5 QA started. Draft is ~13.4k words vs the plan's 9-11k (question to Sharif).

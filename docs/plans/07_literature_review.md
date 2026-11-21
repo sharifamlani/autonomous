@@ -11,7 +11,7 @@ disagrees and why, proposes a framework, and ends with summary points, future is
 agenda. The kit's design follows from it (Phase 9), but the review stands on its own as a public
 paper for researchers and practitioners.
 
-**Corpus.** 288 verified papers (`literature/papers.tsv`, 2013–2026, 219 of them from 2025–2026) and
+**Corpus.** 286 distinct verified papers (`literature/papers.tsv`, 2013–2026, 218 of them from 2025–2026; 288 entries before two duplicates were removed in QA) and
 237 GitHub repos, 32 of them written up for process and lessons (`PUBLIC_REPOS.md`,
 `public/_README.md`). Repos are treated the way a political-science review treats grey literature
 and practitioner reports: evidence of what happens in use, weighed below controlled studies.
