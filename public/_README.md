@@ -492,6 +492,7 @@ numbers in the repo. UNVERIFIED until we test it on our runner.
 - Text volume as a stand-in for progress (#75). Keep templates short and tie each artifact to a check.
 - Self-ticked `[X]` tasks as proof of done (`implement.md:169`). Completion must come from tests and a walk, not from checkboxes.
 - Supporting many agent tools. Most issue volume is integration breakage; we target Claude Code only.
+- Numbering IDs densely and in sequence (`templates/commands/tasks.md:161` "Sequential number (T001, T002...)"). Every edit forces a renumber that breaks references (#4065).
 
 **Evidence level.** `spec-driven.md` argues that templates "constrain LLMs for better outcomes", but there is no benchmark or measurement in the repo. Tests cover the CLI only (`tests/`). UNVERIFIED.
 
@@ -530,6 +531,7 @@ numbers in the repo. UNVERIFIED until we test it on our runner.
 - Ending a run on the agent's own `EXIT_SIGNAL` or ticked checkboxes (#91). The literature says builders fabricate completion; our stop rule must be an independent test re-run plus the Tester walk.
 - `templates/PROMPT.md` tells the agent "LIMIT testing to ~20% of your total effort" and "PRIORITIZE: Implementation > Documentation > Tests". That runs against the evidence that tests plus requirements help most.
 - Loading config as code (`source .ralphrc`, fixed in #363).
+- A breaker that only reads signals after the agent runs. In #227, a failure at CLI startup looped forever with `consecutive_same_error` stuck at 0.
 - The template's "max 100 concurrent" subagents (`templates/PROMPT.md`). Nothing measured supports it.
 
 **Evidence level.** "784 tests, 100% pass rate" (README) measures the bash harness, not the outcomes it builds. There are no success-rate or cost numbers. UNVERIFIED.
@@ -554,6 +556,7 @@ numbers in the repo. UNVERIFIED until we test it on our runner.
 - Incremental (brownfield) development was dropped, and users asked why: issue #972 "Discussion - Incremental Development Mode".
 - The test role never matured: "Perfect the test role" is still an open roadmap task, and the short-term goal is "fully automatic implementation of medium-sized projects (around 2000 lines of code)" (`docs/ROADMAP.md`).
 - Provider and rate-limit friction makes up most of the top issues: #988, #996 (Anthropic 429), #180, #1382, #1617.
+- Unpinned dependencies break installs over time: issue #1617 "TypeError: AsyncClient.__init__() got an unexpected keyword argument 'proxies'", plus several setup issues (#42, #321). The kit should pin its few dependencies and check them in CI.
 - Splitting work into more, smaller roles costs tokens: "Attempt to atomize all role work, but this may significantly increase token overhead" (`docs/ROADMAP.md`, Features 3).
 - Windows breakage: issue #926 "ModuleNotFoundError: No module named 'pwd'", issue #1132 (Minecraft env not adapted to Windows). The last commit (#1897) is a Windows terminal fix.
 
@@ -569,8 +572,10 @@ numbers in the repo. UNVERIFIED until we test it on our runner.
 - A fixed PM → Architect → PM → Engineer waterfall. The literature says role teams do not beat one strong agent at equal cost, and MetaGPT's own default team has since dropped its QA and reviewer roles (`software_company.py:56-62`).
 - A QA role that writes the tests it then grades (`qa_engineer.py`). Checks must be ones the builder cannot edit.
 - Greenfield-only generation with no brownfield path (#972), and free-text parsing of model output (#562, #351).
+- Treating "rounds ran out" or "all roles idle" as finished. With `run_tests=False` by default (`software_company.py:19`), a run can end with nothing executed. Our stop reason must be logged apart from our pass verdict.
+- Copying it as a code base. It does not drive Claude Code, it has no permission or sandbox layer, and development has slowed (last commit 2026-01-21). Take ideas, not code.
 
-**Evidence level.** No benchmark numbers or results are in the repo. The research claims live in the linked papers (`README.md` News, `docs/ACADEMIC_WORK.md`). The issue tracker shows frequent parse failures and unfinished runs. UNVERIFIED.
+**Evidence level.** No benchmark numbers or results are in the repo. The research claims live in the linked papers (`README.md` News, `docs/ACADEMIC_WORK.md`). The issue tracker shows frequent parse failures and unfinished runs. Popularity (71,372 stars per `gh api repos/FoundationAgents/MetaGPT`, 2026-11-21) is not evidence of how good the results are. UNVERIFIED.
 
 ## C. Coding agents and evaluation harnesses
 
@@ -587,10 +592,14 @@ numbers in the repo. UNVERIFIED until we test it on our runner.
 - **PR template** (`.github/pull_request_template.md`): a `HUMAN:` section agents must not edit, and an `AGENT:` section that says "Just running unit tests is NOT sufficient". `check_pr_description.py` enforces that the sections and media exist.
 - **Issue gate:** a PR needs a linked issue labelled `ready-for-dev`, and only triage automation or repo writers may apply that label (`.github/workflows/issue-readiness-check.yml`).
 - Mutation testing is available (`stryker.config.mjs`, `scripts/stryker-diff.mjs`, `npm run test:mutation:diff`). I found no CI workflow that runs it.
+- Release smoke matrix: install method × OS × agent (OpenHands, Claude Code, Codex, Gemini CLI). Each cell is "install, onboard, start conversation, agent replies", tagged P0 (must pass before any release), P1 or P2 (`docs/TESTING_MATRIX.md`).
+- Triage writes acceptance criteria as observable outcomes and failure/recovery cases, not as implementation steps (`custom-codereview-guide.md`, "Triage: Behavioral Acceptance and Readiness").
 
 **Lessons learned**
 - They used to run nightly integration tests: 6 tiny tasks (t01 fix typo ... t06 browse a GitHub PR), with success rate and $ per task posted per model. Haiku cost about $0.13-0.19 for the set and swung between 6/6 and 5/6 night to night. DeepSeek scored 0/6 (issue #5318 "Nightly Integration Tests Runs", 2024-11 to 2025-01).
-- Checks drift unless they are pinned to a baseline SHA and re-proven. Hence the feature-map baseline line and the bug-backfill procedure with three outcomes (mapped / not reproduced / ...) (`references/bug-backfill.md`).
+- Checks drift unless they are pinned to a baseline SHA and re-proven. Hence the feature-map baseline line and the bug-backfill procedure with three outcomes, each with its own label: mapped, not reproduced, out of scope (`references/bug-backfill.md`).
+- Release E2E runs were accidentally testing developer checkouts. The rule now is to unset `OH_AGENT_SERVER_LOCAL_PATH` and similar overrides and confirm package versions in the runtime log (`AGENTS.md`, "Release E2E isolation").
+- Changes to prompts, tools or planning can move benchmark scores. The reviewer has to state the eval risk, and a human picks a lightweight eval (`custom-codereview-guide.md`, "Review Sequence and Decision").
 - Several agents sharing one machine corrupted each other's evidence. Rules now: export `OH_VERIFY_RUN`, never `pkill -f`, `stop` ends only your own run, and launch refuses when RAM is under about 2 GB (`verify-openhands/SKILL.md`).
 - Long `git commit -m` bodies got garbled in the persistent shell, so they now use `git commit -F <file>` (`AGENTS.md`).
 - Dependency rule: wait 7 days after publication before adopting a version, and agents may not grant themselves an exception (`AGENTS.md`, "Dependency release-age policy").
@@ -629,6 +638,8 @@ numbers in the repo. UNVERIFIED until we test it on our runner.
 - After a command timed out, models ran `sleep` expecting it to resume. The timeout message now says plainly that the command did not finish and will not resume (PR #995 "fix(env): clarify timed-out command behavior", closes #950).
 - Users could not reproduce leaderboard scores. The maintainers pointed them to the published trajectories, which carry the full config, and to re-grading with `sb-cli`. The issue closed unresolved (issue #756 "Understanding & Replicating mini-swe-agent scores on swebench.com").
 - Users asked to raise the cost limit mid-run instead of the run dying (issue #567 "Allow extending cost limit in textual UI").
+- Sandbox choice keeps coming back as a request: bubblewrap, E2B, Modal, Contree (issues #452 "Add bubblewrap environment", #792 "feat: add E2B cloud sandbox environment", #679 "Integrate Modal for scalable remote execution"). Singularity hit read-only filesystem errors (issue #710 "Read-only file system error while using singularity as environment").
+- Agent-written code is too verbose: "Many LMs write very verbose code -- please clean it up! Same goes for the tests" (`docs/contributing.md`).
 
 **What the kit should take**
 - **Launcher / every role session:** the four stop conditions (steps, $, wall time, consecutive format errors), each with a named `exit_status` written to the registry. Add a run-wide $ cap across all sessions, the equivalent of `MSWEA_GLOBAL_COST_LIMIT`.
@@ -636,6 +647,8 @@ numbers in the repo. UNVERIFIED until we test it on our runner.
 - **Roles/prompts:** an explicit "done" handshake (a fixed sentinel, only on exit 0) instead of inferring completion from silence. Include the "do not modify tests/config, do not submit helper files" boundary block.
 - **Tester/QA tooling:** stateless commands (prefix `cd`/env every time) rather than long-lived shells, and head/tail cutting of long output.
 - **Kit tests:** a `DeterministicModel`-style replay for testing the launcher and handoffs without paying for API calls.
+- **Benchmark (from-scratch arm):** the ProgramBench runner (`docs/usage/programbench.md`, `config/benchmarks/programbench.yaml`). The agent rebuilds source code from a compiled binary and is scored by tests against the rebuilt executable. It is a ready-made hard "build from scratch" task family.
+- **Observation template:** show `returncode` and any exception before the output, and send a specific recovery hint when the model hits the token limit without making a tool call (`swebench.yaml` `format_error_template`).
 
 **What to avoid**
 - Trusting a leaderboard number you cannot re-run. #756 shows that even the authors' numbers are hard to reproduce without the trajectories and config.
@@ -667,6 +680,8 @@ numbers in the repo. UNVERIFIED until we test it on our runner.
 - Reading a log must never run its code. Read and run operations were split after the design review (`design/malicious-log-code-execution.md`; issue #5728 "docs(design): code execution from a malicious eval log"; CHANGELOG #6085).
 - Agentic evals "end" with 7-8 hung samples out of hundreds. Tight time limits punish legitimately slow samples, so they built detect, diagnose and resolve with explicit dispositions (`design/stalled-samples.md`).
 - Pass/fail alone hides shortcuts, so "scanners" now review transcripts for reward hacking, refusals and environment misconfiguration (`docs/scanners.qmd`).
+- The single "headline" number defaulted to the first metric of the first scorer. That is wrong when `stderr()` or a cheap sanity scorer comes first, so the headline metric is now configurable (`docs/metrics.qmd`, line 86 onward).
+- Rule for code: never silently coerce an error or invalid state into a result. Define the observable error and test it (`AGENTS.md`, "Invalid state").
 
 **What the kit should take**
 - **Benchmark:** consider building the kit benchmark on Inspect, or at least copying its concepts: epochs plus reducers for ≥3 runs per arm, the scored/errored/unscored split, `fail_on_error` thresholds and eval-set retries. Its Claude Code bridge already exists (`docs/agent-bridge.qmd`).
@@ -692,6 +707,9 @@ numbers in the repo. UNVERIFIED until we test it on our runner.
 - **Separate verifier mode** (`examples/tasks/separate-verifier-environment/task.toml`, `environment_mode = "separate"`): the verifier runs in its own container and receives only declared artifacts. Artifacts are sanitised: setuid bits cleared, outside-pointing symlinks skipped (CHANGELOG). Sidecar artifacts let the verifier score from evidence the agent's container never had write access to, such as request logs and DB dumps (CHANGELOG, "Sidecar Artifacts and Collect Hooks"). Since a recent breaking change, new tasks default to separate verification (CHANGELOG, "task initialization").
 - **Task lint and quality check:** `harbor lint` (config, pins, verifier setup, Compose privileges). An LLM `quality_checker` rubric checks: instruction covers what the tests check and vice versa, anti-cheating, no answer in the image, pinned deps, no hard-coded solution (`default-rubric.toml`).
 - **Parity rule for adapters** (`ADAPTER_CONTRIBUTING.md`, Step 5): run the same agent version, model ID, prompts and settings on the original benchmark and the Harbor side. They match only if the run *ranges* overlap. Report mean ± SEM, require ≥2 runs per side (3+ preferred), and run symmetrically: 5-10 task sanity, then 1 full run, then 3 runs, on both sides in step.
+- **Simulated users:** RFC 0002 proposes a second agent playing the user (`--user claude-code --user-model ...`) for multi-turn tasks, instead of one up-front instruction (`rfcs/0002-simulated-users.md`).
+- **Claude Code skills shipped with the repo:** `skills/create-task`, `create-adapter`, `rewardkit`, `upload-parity-experiments` (`skills/`), so agents author tasks the same way every time.
+- **Test rule:** do not test CLI help panels or console text, which change with terminal width. Test behaviour or `--json` payloads instead (`AGENTS.md`, "Running Tests").
 - **Review:** adapter PRs move through labelled stages: "bot review", "human review", "final review" (issues #545, #501, #471). Contributors must "understand the code you contribute". Docs and PR text are human-written first and last draft, and agent use is disclosed (`CONTRIBUTING.md`, "Golden Rule").
 
 **Lessons learned**
@@ -708,6 +726,7 @@ numbers in the repo. UNVERIFIED until we test it on our runner.
 - **Benchmark task review:** copy `default-rubric.toml` as the checklist for every benchmark task we write, especially "instruction covers everything tests check" (the literature says detailed requirements help) and "no hard-coded solution".
 - **Study protocol / benchmark:** the parity method (overlapping ranges, mean ± SEM, symmetric run order) for comparing kit versions or the kit against a baseline.
 - **Permissions hook:** network_mode `no-network` / allowlist per phase as the model for scoping unattended permissions.
+- **Tester:** RFC 0002's simulated user, a second agent playing the founder who clarifies as the build goes, as a benchmark arm for `/autonomous:new-app`. Real ideas arrive vague, and this tests whether the kit asks good questions.
 
 **What to avoid**
 - Running the grader in the same container and as the same user as the agent (RFC 0003's attack list).
@@ -734,12 +753,17 @@ numbers in the repo. UNVERIFIED until we test it on our runner.
 - Tests ran against the *committed* branch, not the working tree. Users saw identical scores before and after edits because changes were not committed (issue #84 "commit0 test Output is Always the Same..."). The per-commit recorder showed the same symptom (issue #90).
 - Starting repos sometimes did not even import (syntax errors in stubs), so every test failed for reasons unrelated to the agent (issue #48 "Repos have syntax errors", still open).
 - Setup fragility: missing unzip of the spec (issue #71), config errors (issue #85).
+- Files had to be implemented in dependency order, so a topological sort of modules was added (PR #72 "add Topo sort", merged 2024-09-29).
+- The baseline agent's in-loop feedback is opt-in and capped (`run_tests: false`, `use_lint_info: true` by default in `agent/configs/agent.yaml`; `max_iteration` default 3). So the default baseline never sees a failing test, which makes it a weak lower bound.
+- Distributed test backends (Modal, then local Docker and E2B) were added and then needed timeout and version fixes (git log: "work with new modal version", "e2b-timeout"; issue #106 "Add E2B execution backend").
 
 **What the kit should take**
 - **Benchmark:** the from-scratch task shape (stubbed library + real unit tests + spec + reference commit as oracle) is a good fit for "new-app"-style tasks. The literature says from-scratch is far less solved and that giving tests and requirements helps. The `use_*_info` flags make that an experimental arm.
 - **Benchmark hygiene:** ship task repos as shallow clones with no history and no remote. Grade only source paths, re-applying pristine tests at grade time (the fix #100 never landed). Grade from what is committed and say so in the instructions.
 - **Benchmark:** a reference/oracle run per task that must pass, plus a check that the starting state at least imports, so that "all tests fail" means the agent failed, not the task.
 - **QA gate:** per-commit scoring gives a learning curve per run, which is useful for hours and $ vs progress in the scorecard.
+- **Roles/prompts (builder):** a dependency-ordered work list (the topo-sort idea) and test feedback switched on, since the default no-test config is the weak arm.
+- **Study protocol:** run the `use_unit_tests_info` / `use_spec_info` flags as pre-registered arms. That is a direct test of "giving the agent its tests plus detailed requirements helps".
 
 **What to avoid**
 - Grading a diff that includes test files. Counting xfail as passed.
