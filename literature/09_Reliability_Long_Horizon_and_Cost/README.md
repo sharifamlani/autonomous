@@ -30,12 +30,26 @@ run with no human needs.
 | F13 | Becker et al. (METR), "Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity" | 2025 | [arXiv:2507.09089](https://arxiv.org/abs/2507.09089) | RCT, 16 developers, 246 tasks: AI use made tasks take 19% longer while developers believed it saved 20% (interactive tools, not autonomous agents) |
 | F14 | McCain et al. (Anthropic), "Measuring AI agent autonomy in practice" | 2026 | [anthropic.com](https://www.anthropic.com/research/measuring-agent-autonomy) | Vendor telemetry: the longest Claude Code turns grew from under 25 to over 45 minutes; human interventions per session 5.4 to 3.3 (note) |
 | F15 | Anthropic, "Manage costs effectively" (Claude Code docs) | 2026 | [code.claude.com](https://code.claude.com/docs/en/costs) | About $13 per developer per active day; agent teams in plan mode about 7x the tokens of a standard session; why long sessions cost more (note) |
+| F16 | Laban et al. (Microsoft Research, Salesforce Research), "LLMs Get Lost In Multi-Turn Conversation" | 2025 | [arXiv:2505.06120](https://arxiv.org/abs/2505.06120) | 200,000+ simulated conversations: -39% average from single-turn to underspecified multi-turn; the drop is mostly unreliability (+112%), not aptitude (-15%); a wrong early turn is not recovered |
+| F17 | Hong, Troynikov and Huber (Chroma), "Context Rot: How Increasing Input Tokens Impacts LLM Performance" | 2025 | [trychroma.com](https://www.trychroma.com/research/context-rot) | 18 LLMs: performance becomes "increasingly unreliable as input length grows", even on simple tasks; distractors worsen it (note, company report) |
+| F18 | Smekal (Stanford), "Can your AI agent be cheaper? Investigating the effects of task specifications on token spend in agentic coding tasks" | 2026 | [arXiv:2608.25399](https://arxiv.org/abs/2608.25399) | 2,700 runs, one model: a thinner task spec raises token spend 29.7% but leaves run-to-run spread unchanged; one cheap probe run predicts spend on an unseen task to about 36% |
+| F19 | Bjarnason et al. (KTH), "On Randomness in Agentic Evals" (ICLR 2026 Workshop) | 2026 | [arXiv:2602.07150](https://arxiv.org/abs/2602.07150) | 60,000 trajectories on SWE-bench Verified: single-run pass@1 shifts 2.2 to 6.0 points with which run is picked; pass@k vs pass^k gaps up to 24.9 points |
+| F20 | Mehta (Snowflake AI Research), "Confident and Wrong: Silent Semantic Failures in Coding Agents" | 2026 | [arXiv:2603.25764](https://arxiv.org/abs/2603.25764) | 1,750 trajectories: GPT-5 submits a patch on 100% of runs but resolves 44%; most failures are the same wrong patch repeated, so completion and consistency monitors both look healthy |
+| F21 | Willette et al. (NVIDIA), "Staying on Task: Testing the Foundations of Long-Horizon Agent Reliability" | 2026 | [arXiv:2609.38712](https://arxiv.org/abs/2609.38712) | A controlled long-generation diagnostic on 7 open-weight models: -62.8% from 4K to 128K context, -36.5% from input format, -39.9% from local task complexity |
+| F22 | Du et al. (UIUC, Amazon), "Context Length Alone Hurts LLM Performance Despite Perfect Retrieval" | 2025 | [arXiv:2510.05381](https://arxiv.org/abs/2510.05381) | Even with perfect retrieval, whitespace padding or masking, performance falls 13.9% to 85% as input grows, within claimed context limits (5 LLMs) |
+| F23 | Park et al. (UC Berkeley), "System Optimizations for Cost-Efficient Agent Harnesses" | 2026 | [arXiv:2611.12122](https://arxiv.org/abs/2611.12122) | Harness choice changes cost up to 2.6x on the same model and task; a layer between Claude Code or Codex and the model cut cost up to 35% without lowering accuracy |
+| F24 | Ariño de la Rubia and Pafka (CEU, Epoch), "Identical Runs, Different Results: Benchmarking AI Coding Agents on Open-Weight Models" | 2026 | [arXiv:2609.33812](https://arxiv.org/abs/2609.33812) | 584 runs on one ML task, 52 repeats per pairing: identical runs varied more than agents differed; tens to 100+ runs per agent to rank them; cost differed over 20x between two agents on one model |
+| F25 | Rahman et al. (UCLA, Google Research, Google DeepMind), "Locating Hidden Failures Makes Long-Horizon Agents More Reliable" | 2026 | [arXiv:2609.17930](https://arxiv.org/abs/2609.17930) | 2,518 trajectories, 6,967 mistakes: after a first mistake agents recover in 30.5% of runs and never detect it in 38.5%; even runs scored solved delete data or fabricate success |
+| A26 (filed in 01) | Froger et al. (Meta Superintelligence Labs), "ARE: Scaling Up Agent Environments and Evaluations" (Gaia2) | 2025 | [arXiv:2509.17158](https://arxiv.org/abs/2509.17158) | Asynchronous agent benchmark: no model dominates, stronger reasoning costs efficiency, and budget-scaling curves plateau |
+| F27 | Segato (Anthropic), "Quantifying infrastructure noise in agentic coding evals" | 2026 | [anthropic.com](https://www.anthropic.com/engineering/infrastructure-noise) | Container resource limits moved Terminal-Bench 2.0 scores by 6 points (p < 0.01); recommends a calibrated resource band and repeated runs (note, vendor post) |
+| A27 (filed in 01) | Rajasekaran et al. (Anthropic), "Effective context engineering for AI agents" | 2025 | [anthropic.com](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) | Vendor guidance: treat context as a finite "attention budget"; compaction, note-taking outside the window and sub-agents with clean contexts for long tasks (note, no measurements) |
+| F29 | Kwa and Cheng (METR), "How Does Time Horizon Vary Across Domains?" | 2025 | [metr.org](https://metr.org/blog/2025-07-14-how-does-time-horizon-vary-across-domains) | Software and reasoning horizons of 50-200+ minutes; computer-use horizons 40-100x shorter; authors call each benchmark's result "fairly noisy" (note) |
 
 Already held elsewhere and used below: A9 (tau-bench, pass^k), A10 (AI Agents That Matter, cost-controlled
 evaluation), A14 (TheAgentCompany, long-horizon tasks with cost per task), T7 (MAST failure taxonomy,
 multi-agent), C14 (METR: merge decisions about 24 points below automated grades, normalised to a 68%
-golden-patch baseline; 34.9 points raw), V3 and V17 (ImpossibleBench and "Recent Frontier Models Are
-Reward Hacking", theme 05).
+golden-patch baseline; 34.9 points raw), V3, V17 and V23 (ImpossibleBench, "Recent Frontier Models Are
+Reward Hacking", and MacDiarmid et al.'s "Natural Emergent Misalignment from Reward Hacking in Production RL", theme 05: reward hacking learned on production coding RL generalised to Claude Code sabotage in 12% of runs of the sabotage evaluation).
 
 ## What it establishes
 
@@ -46,7 +60,9 @@ more spend often buying no accuracy. For the kit this means a run of hours is pl
 guards around it: independent grading against ground truth, pass-all-k style consistency reported
 instead of the best run, fresh context and file-based state rather than one ever-growing session, an
 exit gate and a budget cap, and $/task reported with its spread. Capability numbers alone say little
-about these.
+about these. Round 2 sharpens three points: a single run per task is too noisy to rank agents (F19, F24), a
+run that looks finished can be confidently wrong (F20, F25), and a prompt change moves mean spend but not run-to-run
+spread (F18).
 
 1. **Success rate falls with task length, and the "reliable" horizon is much shorter than the headline
    one.** F1: "current frontier AI models such as o3 have a 50% time horizon of around 110 minutes" and
@@ -131,6 +147,53 @@ about these.
    (Section 1), with developers accepting "<44% of the generations" (Appendix C.1.4). It is early-2025
    Cursor use, not an autonomous run, but it is the one randomised measurement here: perceived speed-up
    and measured speed-up differed in sign, which is why G1 and G2 are scored by clocks and invoices.
+9. **One run per task is noise; the spread is large and the kit must repeat.** F19 ran 60,000 trajectories on SWE-bench
+   Verified (three models, two scaffolds) and finds "single-run pass@1 estimates vary by 2.2 to 6.0 percentage
+   points depending on which run is selected, with standard deviations exceeding 1.5 percentage points even at
+   temperature 0" (Abstract), gaps "up to 24.9 percentage points" between pass@1 and pass@5 (Section 2.4.2, maximum
+   over twelve configurations), and trajectories that "diverge early, often within the first few percent of
+   tokens" (Abstract). F24 (CEU with Epoch) repeats six agent-model pairings 52 times each on one ML task:
+   "Identical runs of one pairing varied more than the pairings differed from one another", and resolving the
+   agent differences "would take tens to more than a hundred runs of each" (Abstract); "cost differed more than
+   twentyfold between two agents on the same model, mostly through the prompt cache". For the kit: report mean and
+   spread over at least 3 runs (CLAUDE.md section 5), and do not call a 2-3 point kit improvement real from one run
+   each.
+10. **Completion is not correctness: silent failures look like success.** F20 (1,750 trajectories, 50 SWE-bench
+    Verified tasks): "GPT-5 submits a patch on 100% of runs but resolves only 44%"; silent semantic failure covers
+    "80% of Llama 4's failing runs and 68% of GPT-5's" and is "invisible: ... completion-based and consistency-based
+    monitoring both look healthy" (Abstract). F25 (Google Research and DeepMind with UCLA) annotates 2,518
+    trajectories: "after its first mistake, an agent recovers in only 30.5% of runs and never detects the error at
+    all in 38.5%" (Section 1), "even runs scored as solved delete data, corrupt systems, or fabricate success"
+    (Abstract), and the strongest judge "correctly identifies the first mistake in fewer than a third of runs".
+    Together with F5 and F7 this supports an auditor that reads trajectories and a grader that runs the real
+    tests, rather than trusting a "done" message.
+11. **Context degradation is real even without retrieval failure, and long unattended generation shows it early.**
+    F22 (UIUC with Amazon): "even when models can perfectly retrieve all relevant information, their performance still
+    degrades substantially (13.9%-85%) as input length increases but remains well within the models' claimed
+    lengths", and it persists when irrelevant tokens become whitespace or are masked (Abstract). F21 (NVIDIA)
+    isolates three axes with a controlled diagnostic on seven open-weight models: "a 62.8% decrease when scaling
+    context length from 4-128K, a 36.5% decrease when varying input format, and a 39.9% decrease by increasing local
+    task complexity" (Abstract). F16 (Microsoft Research) finds the same shape in conversation: "an average drop of
+    39% across six generation tasks", mostly "a significant increase in unreliability" (Abstract; Figure 1 gives
+    aptitude -15%, unreliability +112%), with models that "get lost and do not recover". F17 (Chroma, 18 LLMs) and A27
+    (Anthropic) name the pattern "context rot" and A27 recommends compaction, notes outside the window and fresh
+    sub-agent contexts. This backs the kit's file-based state and fresh context per stage (see also H13), though A27
+    gives guidance, not measurements.
+12. **Cost: the spec and the harness move spend; run-to-run variance stays.** F18 (2,700 runs, one model): "reducing a
+    full task specification to a bare user story raises token spend by 29.7%, while run-to-run variance remains
+    unaffected by any prompt changes", with sensitivity from 13% to 115% by task, and a single cheap probe predicts
+    spend on an unseen task "within 36%" (Abstract). So a budget should come from a probe plus a spread, not a point
+    estimate. F23 (Berkeley) reports harness-side differences "achieving cost reductions up to 2.6x on the same model
+    and task" and, with a layer interposed on existing harnesses such as Claude Code, "cost reductions up to 35%
+    ... without compromising accuracy" (Abstract); accuracy "depends mostly on the LLM used". A26 (Meta) adds that
+    "budget scaling curves plateau" and "stronger reasoning often comes at the cost of efficiency" (Abstract), the same
+    point as F6 and F7: more spend stops buying accuracy. F27 (an Anthropic post) shows infrastructure alone moves a
+    coding score: "the gap between the most- and least-resourced setups on Terminal-Bench 2.0 was 6 percentage points
+    (p < 0.01)", so the benchmark must pin container resources and report them.
+13. **Time-horizon trends differ sharply by domain.** F29 (METR) finds software and reasoning benchmarks with "50-200+
+    minute horizons which are currently doubling every 2-6 months", while visual computer-use horizons are "40-100x
+    shorter". For the kit's app walks, which use a real UI, the computer-use horizon is the relevant one, and the
+    authors call any single benchmark's result "fairly noisy".
 
 ## The catch
 
@@ -173,3 +236,20 @@ about these.
   should plan on the shorter, consistency-adjusted horizon.
 - **Vendor and model-age bias.** F10, F14, F15 and the Claude-specific results in F9 and F11 come from
   or about the vendors themselves; F11's judge panel is made of four vendors' models, so a vendor's own model is among its graders. Model names in F9 to F11 move fast, so numbers go stale within months.
+- **Round-2 sources are mostly single-benchmark, single-task or workshop-level.** F19 is SWE-bench Verified with
+  open-weight models and two scaffolds (an ICLR workshop paper); F24 is one XGBoost task on open-weight endpoints
+  and reports that on later-year data the delivered models "kept only a third of their gain", so its variance
+  figures belong to that task; F20 is 50 tasks, four models, five repeats and a single author; F21 is a synthetic
+  transduction task on seven open-weight models in a workshop; F22 uses five LLMs on math, QA and coding prompts, not
+  a running agent; F18 holds one model (Kimi K3) fixed on SWE-bench Verified tasks; F23's 35% saving is on benchmarks,
+  not an unattended multi-hour Claude Code run. F25's annotations come from judge models plus humans over three
+  domains, and its Scout verifier is its own training. None of these runs the kit's own app or study tasks.
+- **Some round-2 sources are vendor-written or company reports.** F27 and A27 come from Anthropic, A26 from Meta, F17 from a vector-database company. F17, F27, A27 and F29 are web posts or reports
+  with no peer review, and A27 reports no measurements. Treat their numbers as the author's own measurement of the
+  author's own setup.
+- **Dated model lines.** F16 tests 2025 models (Gemini 2.5 Pro, GPT-4.1, o3 among them), F21 and F22 older or
+  open-weight families; newer models may degrade less with length. Design around the direction (shorter context is
+  safer), not the percentages.
+- **Cost evidence cuts both ways.** F18 shows the prompt does not change run-to-run spread, so a tighter spec lowers
+  mean spend but does not make one run's cost predictable; F23's abstract says accuracy "depends mostly on the LLM
+  used", so harness tweaks are cost levers, not accuracy levers. Neither tests a long build with a reasoning-heavy model.

@@ -32,6 +32,21 @@ Deflated Sharpe, FDR control, and Ioannidis 2005) are held in the Trading repo's
 | R13 | Scheel, Schijen and Lakens, "An excess of positive results: Comparing the standard Psychology literature with Registered Reports" (AMPPS) | 2021 | [doi:10.1177/25152459211007467](https://doi.org/10.1177/25152459211007467) | 96% positive first hypotheses in 152 standard reports vs 44% in 71 Registered Reports; non-randomised, so not causal |
 | R14 | Open Science Collaboration, "Estimating the reproducibility of psychological science" (Science) | 2015 | [doi:10.1126/science.aac4716](https://doi.org/10.1126/science.aac4716) | 100 replications: 97% of originals significant vs 36% of replications; replication effects half the size of the originals |
 | R15 | Trisovic et al., "A large-scale study on research code quality and execution" (Scientific Data) | 2022 | [doi:10.1038/s41597-022-01143-6](https://doi.org/10.1038/s41597-022-01143-6) | 9,078 R files from 2,109 Dataverse packages re-run in a clean Docker image: 74% failed on first execution, 56% after automatic cleaning of paths and libraries |
+| R16 | Gould et al., "Same data, different analysts: variation in effect sizes due to analytical decisions in ecology and evolutionary biology" (BMC Biology) | 2025 | [doi:10.1186/s12915-024-02101-x](https://doi.org/10.1186/s12915-024-02101-x) | 174 analyst teams (246 analysts), two unpublished datasets: 141 and 85 usable effects; "near continuous variation" from large negative effects to effects near zero, some significant in the opposite direction; variation unrelated to variable sets, random-effects structure or peer rating of the analysis |
+| R17 | Menkveld et al., "Nonstandard Errors" (The Journal of Finance) | 2024 | [doi:10.1111/jofi.13337](https://doi.org/10.1111/jofi.13337) | 164 teams test the same six hypotheses on the same market data; researcher-to-researcher spread (nonstandard error) is sizable, 1.2% around a median of -3.3% for one hypothesis and 6.7% around 1.1% for a vaguer one; peer feedback halves it; participants underestimate it |
+| R18 | Camerer et al., "Evaluating the replicability of social science experiments in Nature and Science between 2010 and 2015" (Nature Human Behaviour) | 2018 | [doi:10.1038/s41562-018-0399-z](https://doi.org/10.1038/s41562-018-0399-z) | 21 pre-registered, high-powered replications (about 5x the original samples): significant same-direction effect for 13 (62%), effect size about 50% of the original; a consortium result from top-journal studies |
+| R19 | Brodeur, Cook, Hartley and Heyes, "Do Pre-registration and Pre-analysis Plans Reduce p-Hacking and Publication Bias?" (IZA DP 15476; JPE Microeconomics 2024) | 2024 | [IZA PDF](https://docs.iza.org/dp15476.pdf) | 15,992 test statistics from RCTs in 15 leading economics journals: registration alone shows no meaningful difference in p-hacking, a complete pre-analysis plan does (about 10 points fewer marginally significant statistics) |
+| R20 | Protzko et al., "Retraction Note: High replicability of newly discovered social-behavioural findings is achievable" (Nature Human Behaviour) | 2024 | [doi:10.1038/s41562-024-01997-3](https://doi.org/10.1038/s41562-024-01997-3) | The headline "pre-registration and rigour give high replicability" paper was retracted for misstated pre-registration, outcomes and analyses chosen with knowledge of the data, and incomplete reporting; a case of the reform itself failing its own standard |
+| R21 | Miller (Anthropic), "Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations" | 2024 | [arXiv:2411.00640](https://arxiv.org/abs/2411.00640) | Evals are experiments: standard errors, clustered errors, resampling to cut variance, paired differences between models and power analysis; the template for how a kit scorecard should report a score |
+| R22 | Agarwal et al. (Google Research, Brain Team), "Deep Reinforcement Learning at the Edge of the Statistical Precipice" (NeurIPS 2021 Outstanding Paper) | 2021 | [arXiv:2108.13264](https://arxiv.org/abs/2108.13264) | With 3-10 runs per task, point estimates mislead; recommends interval estimates, performance profiles and the interquartile mean, and finds discrepancies in prior comparisons on ALE, Procgen and DM Control |
+| R23 | Pineau et al. (Facebook AI Research, McGill), "Improving Reproducibility in Machine Learning Research (A Report from the NeurIPS 2019 Reproducibility Program)" | 2020 | [arXiv:2003.12206](https://arxiv.org/abs/2003.12206) | Code-submission policy, a reproducibility challenge and a checklist at NeurIPS 2019; cites a study where 63.5% of results in 255 manuscripts reproduced, 85% with author help and 4% without |
+| R24 | Hofman et al. (Microsoft Research, Northwestern, Penn), "Pre-registration for Predictive Modeling" | 2023 | [arXiv:2311.18807](https://arxiv.org/abs/2311.18807) | A lightweight pre-registration template for predictive modelling (reuse of test data, data-dependent choices) and an interview study of ML researchers who followed it; participants "might have produced biased estimates" without it |
+| V23 (filed in 05) | MacDiarmid et al. (Anthropic), "Natural Emergent Misalignment from Reward Hacking in Production RL" | 2025 | [arXiv:2511.18397](https://arxiv.org/abs/2511.18397) | Models that learn to game coding-test harnesses (for example `sys.exit(0)` before the asserts) generalise to sabotage in Claude Code, 12% attempted sabotage in the main setting; prevention and inoculation prompting help |
+| R26 | Toledo et al. (FAIR at Meta), "AI Research Agents for Machine Learning: Search, Exploration, and Generalization in MLE-bench" | 2025 | [arXiv:2507.02554](https://arxiv.org/abs/2507.02554) | Agents that search against a validation score overfit it: picking the final solution by test score would raise the medal rate by 9-13 points (absolute), the agent analogue of reusing a held-out set |
+| R27 | Baumann et al., "Large Language Model Hacking: Quantifying the Hidden Risks of Using LLMs for Text Annotation" | 2025 | [arXiv:2509.08825](https://arxiv.org/abs/2509.08825) | 37 annotation tasks from 21 social-science studies: a handful of prompt paraphrases can make virtually anything significant; 13 million labels, 18 LLMs, 2,361 hypotheses: incorrect conclusions in about 31% of hypotheses for state-of-the-art models |
+| R28 | Samuel and Mietchen, "Computational reproducibility of Jupyter notebooks from biomedical publications" (GigaScience) | 2024 | [doi:10.1093/gigascience/giad113](https://doi.org/10.1093/gigascience/giad113) | 27,271 notebooks from 2,660 repositories linked to 3,467 articles: of 10,388 whose declared dependencies installed, 1,203 ran without error and 879 reproduced the original results |
+| F27 (filed in 09) | Segato (Anthropic), "Quantifying infrastructure noise in agentic coding evals" (engineering blog, vendor-authored, `_NOTE.md`) | 2026 | [Anthropic Engineering](https://www.anthropic.com/engineering/infrastructure-noise) | Compute limits alone moved Terminal-Bench 2.0 scores by 6 points (p < 0.01); the post advises scepticism toward leaderboard gaps under 3 points until eval configurations are matched |
+| R30 | Liu, Kale, Althoff and Heer (UW), "Boba: Authoring and Visualizing Multiverse Analyses" | 2020 | [arXiv:2007.05551](https://arxiv.org/abs/2007.05551) | An open DSL where an analyst writes one script plus the decision points and the compiler generates and runs every variant; a free, citable copy of the multiverse method that the folder could not otherwise reach |
 
 ## What it establishes
 
@@ -115,6 +130,56 @@ unless it came from a plan and decision rule committed before it existed.
    version-controlled program code" (Section 2). That fits the kit's `replicate.ipynb` Run All rule and a
    final independent re-execution of every study.
 
+8. **Many-analyst variation is not a quirk of one field.** R16 repeats the design in ecology: "174 analyst
+   teams, comprising 246 analysts", 141 usable effects for one dataset and 85 for the other, "near
+   continuous variation in effect size from large negative effects to effects near zero, and even effects
+   crossing the traditional threshold of significance in the opposite direction" (Abstract), with no
+   strong link between variable selection, random-effects structure or peer rating and distance from the
+   mean. R17 puts a number on it in finance, with 164 teams on the same data: a nonstandard error of
+   "1.2% around a median of -3.3%" for a clear hypothesis and "6.7% around 1.1%" for a vaguer one,
+   "smaller for more reproducible and higher quality papers", and "peer feedback reduces NSEs by half"
+   (Conclusion). The lever that worked in R17 is review, not a better analyst, which is the kit's
+   independent evaluator.
+9. **Pre-registration helps through the detail of the plan, not through the act of registering.** R19, on
+   15,992 test statistics from RCTs in 15 leading economics journals: "no meaningful difference in the
+   distribution of test statistics from pre-registered studies, compared to their non-pre-registered
+   counterparts. However, pre-registered studies that have a complete PAP are significantly less
+   p-hacked" (Abstract), with the share of marginally significant statistics "about 10 percentage points
+   lower" in articles with a complete PAP (Results). That is an argument for a `PREREG.md` that fixes the
+   specifications, outcomes and decision rule, not a bare timestamp. R24 (Microsoft Research and
+   collaborators) carries the idea to predictive modelling with a template and an interview study
+   (qualitative, small, one department).
+10. **Agents overfit the dev set they search against.** R26 (FAIR at Meta) on MLE-bench: "we find
+    systematic overfitting: selecting the final solution in a search graph by its test--rather than
+    validation--score, would increase the medal rate by 9 to 13 % (absolute scale)" (Introduction), with a
+    widening validation-test band over 20 seeds (Fig. 4). This supports the dev/held-out split and the
+    one-look rule in CLAUDE.md section 5: the more the agent iterates against a metric, the less that
+    metric means. V23 (Anthropic) is the adversarial end of the same pressure: models trained on
+    environments they could game learned hacks such as "calling sys.exit(0) to break out of a test
+    harness" and showed "attemped sabotage 12% of the time" (sic) in a Claude Code setting (Introduction),
+    so a grader must not live where the agent can edit or exit around it.
+11. **Report a score as an estimate: runs, error bars, environment.** R21 (Anthropic): "evaluations are
+    experiments", with recommendations to compute standard errors, cluster them, resample, compare models
+    on paired question-level differences and use power analysis (Section 1). R22 (Google Research):
+    "3-10 runs are prevalent" in deep RL, so point estimates hide the uncertainty; interval estimates and
+    the interquartile mean are the remedy (Introduction). F27 (Anthropic engineering post): resource
+    configuration alone gave "6 percentage points (p < 0.01)" on Terminal-Bench 2.0. Together they fix what
+    the benchmark scorecard must carry: several runs per arm, a confidence interval, and the environment
+    spec.
+12. **LLM choices are themselves forking paths.** R27: "with just a handful of prompt paraphrases,
+    virtually anything can be presented as statistically significant" and "incorrect conclusions in
+    approximately 31% of hypotheses for state-of-the-art LLMs" (Abstract). Any study that uses an LLM to
+    label, grade or simulate must pre-register the model, prompt and settings, as R7 says for agent
+    experiments.
+13. **Re-runnable code is the weakest link, and notebooks are not exempt.** R28 re-ran Jupyter notebooks
+    tied to biomedical papers: of 10,388 with installable declared dependencies, "1,203 notebooks ran
+    through without any errors, including 879 that produced results identical" to the original (Abstract),
+    with failures traced mainly to dependency documentation. With R15 and R8 this supports pinning the
+    environment inside `replicate.ipynb` and having the evaluator re-run it in a clean environment before
+    any result counts. R23 (Facebook AI Research) shows a soft policy moves behaviour: "About 40% of
+    authors reported that they had provided code" at initial submission to NeurIPS 2019 (Section 3), though
+    a checklist is not a check.
+
 ## The catch
 
 - **No paper measures the kit's setting.** Every agent study here (R1-R5) runs one-shot or short
@@ -154,3 +219,31 @@ unless it came from a plan and decision rule committed before it existed.
   R11 and R14 are repository copies of the published articles; page and figure numbers may differ from the
   journal PDFs. Trisovic's and Xu's reproducibility rates concern code that runs, not whether the
   analysis is correct.
+- **Larger many-analyst studies still measure spread, not error.** R16 and R17 repeat the design of R9-R11,
+  but R16 uses two datasets and R17 one market dataset with six hypotheses chosen by the coordinators;
+  R17 is finance, and its authors say its nonstandard errors "are likely to be an upper bound" for
+  published estimates (Conclusion). R16 is held here as the EcoEvoRxiv preprint, whose numbers may
+  differ from the BMC Biology article.
+- **The best-known pre-registration win has fallen.** R20 retracts the paper that claimed high
+  replicability from pre-registered, large-sample, transparent methods; the editors cite missing
+  pre-registration for the supporting analyses, "selection of outcome measures and analyses with
+  knowledge of the data" and incomplete reporting, while the authors "disagree with other concerns".
+  Evidence that pre-registration works therefore rests on R13 and R19, both observational (R19 compares
+  different studies, in economics RCTs from 2018-2021, not one study with and without a plan), and R18
+  shows only that high-powered pre-registered replications of Nature and Science papers succeeded 62% of
+  the time.
+- **The lab papers are measured analogues, not analysis-integrity studies.** R21 is a method paper with
+  no empirical test, R22 is about RL benchmarks, R23 is a conference report that quotes the 63.5%
+  reproduction figure second-hand, and V23 and R26 study training environments and MLE-bench, not
+  social-science analysis. We use them for dev-set overfitting, grader tampering and noise in scores.
+  V23 is vendor-authored, about Anthropic's own models in synthetic training settings, and F27 is a
+  vendor blog (`_NOTE.md`) on two coding benchmarks. R24's evidence is an interview study of a small
+  number of Northwestern PhD students.
+- **Computational reproducibility is bounded by what runs.** R28 counts notebooks that run and match, not
+  whether they are correct, covers Python notebooks linked from PubMed Central, and its corpus excludes
+  repositories without declared dependencies; 879 identical results is about 8% of the 10,388 re-run
+  notebooks.
+- **Still no measurement of agent p-hacking on analysis tasks beyond R1-R6.** R27 is about LLM annotation,
+  not agents running analyses. R30 describes a method and a user study and does not measure its effect on
+  research quality. R18-R20 are human-science results; R18 is held as a repository copy of the published
+  article, R19 as the IZA working-paper version.

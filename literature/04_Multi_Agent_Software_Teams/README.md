@@ -30,6 +30,20 @@ must contain, and how the benchmark must score a team against a no-team arm at e
 | T15 | Xia et al., "Passes Alone, Fails Together: Benchmarking Semantic Coordination in Parallel LLM-Agent Development" (EXPRESS 2026) | 2026 | [arXiv:2609.25396](https://arxiv.org/abs/2609.25396) | Parallel agents' patches pass alone and fail merged in 97% of constructed runs; one message about the concurrent change recovers 82%; rare in mined real PRs |
 | T16 | Carlini, "Building a C compiler with a team of parallel Claudes" (Anthropic Engineering) | 2026 | [anthropic.com](https://www.anthropic.com/engineering/building-c-compiler) | 16 parallel Claudes, ~2,000 sessions, ~$20,000: a team works when the task verifier is near-perfect and coordination is a lock file in git (note) |
 | T17 | Yan, "Multi-Agents: What's Actually Working" (Cognition blog) | 2026 | [cognition.com](https://cognition.com/blog/multi-agents-working) | Parallel writers still fail; what works is several agents contributing intelligence while writes stay single-threaded, with a reviewer that shares no context with the coder (note) |
+| T18 | Kim et al. (MIT, Google Research, Google DeepMind), "TeamBench: Evaluating Agent Coordination under Enforced Role Separation" | 2026 | [arXiv:2605.07073](https://arxiv.org/abs/2605.07073) | Planner/Executor/Verifier with OS-enforced separation, 851 templates: team vs solo is +0.5 points (p = 0.20); verifiers approve 49.4% of submissions the grader rejects; teams help only where solo is weak |
+| T19 | Khatua et al. (Stanford, SAP Labs), "CooperBench: Why Coding Agents Cannot be Your Teammates Yet" | 2026 | [arXiv:2601.13295](https://arxiv.org/abs/2601.13295) | 652 two-agent tasks on real repos: cooperating agents succeed about 30% less than one agent doing both features, and a chat channel does not significantly help |
+| T20 | Geng and Neubig (CMU), "Effective Strategies for Asynchronous Software Engineering Agents" (CAID) | 2026 | [arXiv:2603.21489](https://arxiv.org/abs/2603.21489) | A manager plus engineers in isolated git worktrees with test-gated merges beats the same-model single agent (Claude Sonnet 4.5: 57.2 to 63.3 PaperBench, 53.1 to 59.1 Commit0-Lite) at about 2x to 4x the cost |
+| T21 | Zhan et al. (Microsoft Research), "Agensh: Scaling Organizational Intelligence to 1,024 Agents" | 2026 | [arXiv:2609.26781](https://arxiv.org/abs/2609.26781) | Orchestrator-free workers on a shared git workspace: 1 to 128 agents lifts the test-pass rate 19.31% to 28.78% on the five hardest ProgramBench tasks at the same 6-hour wall-clock; no cost reported |
+| T22 | Mediratta et al. (UT Austin, NVIDIA), "Decentralized Multi-Agent Coordination and Communication in Shared Codebases" (ParallACT) | 2026 | [arXiv:2611.00314](https://arxiv.org/abs/2611.00314) | Parallel agents fall from 62% to 16% (Claude Code, Opus 4.8) on contradictory tasks vs a single-agent oracle; one serial handoff recovers 54% at the same cost; a message channel recovers little |
+| T23 | Tang et al. (Notre Dame, Vanderbilt, Google), "How Coding Agents Fail Their Users: A Large-Scale Analysis of Developer-Agent Misalignment in 20,574 Real-World Sessions" | 2026 | [arXiv:2605.29442](https://arxiv.org/abs/2605.29442) | In real Claude Code, Codex and Cursor sessions, 22.58% of misalignment episodes are inaccurate self-reporting (claiming done before it works); 91.49% of visible resolutions need the user to correct the agent |
+| T24 | Zhong et al. (CMU, Fewshot), "Hardening Agent Benchmarks with Adversarial Hacker-Fixer Loops" | 2026 | [arXiv:2606.08960](https://arxiv.org/abs/2606.08960) | 323 of 1,968 tasks (16%) in five terminal-agent benchmarks are hackable by frontier models from the task text alone; a hacker/fixer/solver loop drives attack success on KernelBench 62% to 0% |
+| T25 | Fu et al. (BUPT, Zhejiang, HKUST, Westlake, Duke Kunshan), "Do More Agents Help? Evaluating Accuracy and Cost in LLM Multi-Agent Workflows" | 2026 | [arXiv:2606.05670](https://arxiv.org/abs/2606.05670) | Six multi-agent workflows vs one controller (GPT-4.1, ten benchmarks, 3 runs): one wins (79.70 vs 76.65), five trail by 1.71 to 8.76 points; debate costs 1.39x tokens, ChatEval 4.34x |
+| T26 | Adams et al. (Meta), "Automating Low-Risk Code Review at Meta: RADAR, Risk Calibration, and Review Efficiency" | 2026 | [arXiv:2605.30208](https://arxiv.org/abs/2605.30208) | Production funnel auto-approving low-risk agent-era diffs: 535K+ reviewed, 331K+ landed, revert rate 1/3 and incident rate 1/50 of non-RADAR diffs (observational; only the safest diffs qualify) |
+| T27 | Ugare and Chandra (Meta), "Agentic Code Reasoning" | 2026 | [arXiv:2603.01896](https://arxiv.org/abs/2603.01896) | An agent that reads (not runs) code to judge patch equivalence: 78.2% standard vs 88.8% with a structured "semi-formal" protocol at 2.8x the steps; execution-free review still misses real test differences |
+| T28 | Rajasekaran, "Harness design for long-running application development" (Anthropic Engineering) | 2026 | [anthropic.com](https://www.anthropic.com/engineering/harness-design-long-running-apps) | Planner, generator and a separate evaluator that drives the live app: solo $9 / 20 min vs full harness $200 / 6 h on one task; a later run $124.70 / 3 h 50 min; roles shrink as models improve (note) |
+| H27 (filed in 02) | Lopopolo, "Harness engineering: leveraging Codex in an agent-first world" (OpenAI) | 2026 | [openai.com](https://openai.com/index/harness-engineering/) | One internal product, about 1,500 merged PRs by three engineers driving Codex, agents often self-merge, humans "aren't required" to review; no comparison arm (note) |
+| T30 | Lin, "Scaling long-running autonomous coding" (Cursor) | 2026 | [cursor.com](https://cursor.com/blog/scaling-agents) | Hundreds of agents on one repo: locks and an integrator role failed; planners + isolated workers + a judge per cycle worked; no controlled numbers (note) |
+| T31 | Anthropic, "Orchestrate teams of Claude Code sessions" (Claude Code docs) | 2026 | [code.claude.com](https://code.claude.com/docs/en/agent-teams) | Agent teams are experimental, interactive-only (not spawned under `-p`), cost "significantly more tokens"; "for sequential tasks, same-file edits ... a single session or subagents are more effective" (note) |
 
 ## What it establishes
 
@@ -39,6 +53,9 @@ compute, an independent check against ground truth, and a small number of agents
 communication. For the kit this means a Main + builder + QA + tester team is justified only to the
 extent that QA and the tester are *independent verifiers that run the thing*, with the builder
 writing serially; every extra role must beat a budget-matched single-agent arm in the benchmark.
+Round 2 (T18-T31) strengthens this: lab-run controlled studies find a role split no better than solo
+on average (T18, T25), parallel writers lose to one agent unless work is isolated and merges are
+test-gated (T19, T20, T22), and an LLM verifier alone approves about half of failing work (T18).
 
 1. **The original team papers beat weak baselines, and each other's claims conflict.** T1's one-shot
    single-agent baseline (GPT-Engineer) scores Quality 0.1419 against ChatDev's 0.3953 (Table 1), but
@@ -99,12 +116,58 @@ writing serially; every extra role must beat a budget-matched single-agent arm i
    to a task while writes stay single-threaded"; parallel writers make conflicting implicit choices (the page: "Actions carry implicit decisions", about "style, code patterns, how certain edge cases should be handled").
    Cross-reference H14 (theme 02): +90.2% for an orchestrator on research at about 15× the tokens of a
    chat, and "most coding tasks involve fewer truly parallelizable tasks than research".
+8. **Round 2: lab-run controlled studies agree that a role split rarely beats solo on average, and
+   that an LLM verifier is the weak link.** T18 (MIT, Google Research, Google DeepMind) enforces roles
+   with OS permissions across 851 task templates: "Full Team is not significantly better than Solo on
+   average ... +0.5 points (p = 0.20 ...) and the team wins on 68 of 155 tasks" (Section 3.3); teams
+   help by 15.7 points in the lowest solo-score quintile and "trail Solo by 6.8-10.1 points" in the top
+   three (Section 3.4). The verifier "approves 49.4% of submissions that the grader rejects (... n =
+   1,083)", and removing it "raises mean partial score by 5.5 points" (Section 3.3); only 0.24 of the
+   planner's spec-critical tokens reach the executor's channel (0.79 in the planner's own). T25
+   (single GPT-4.1 controller vs six workflows, ten benchmarks, three runs) finds five of six
+   workflows "trail by 1.71-8.76 percentage points" and LLM-Debate "loses 1.96 points in pooled accuracy
+   while consuming 1.39 times the tokens" (Abstract). T27 gives the other side of verification:
+   an agent that may only read code judges patch equivalence at 78.2% (standard) and 88.8%
+   (structured protocol) but needs 28.17 steps against 10.08, and its misses are "missed execution
+   differences" (Section 4.1, Table 2). So a read-only reviewer is useful, but the tester must run
+   things.
+9. **Parallel builders fail even when each agent is competent; serial handoff is the cheap fix.**
+   T19 (Stanford, SAP) reports "GPT-5 and Claude Sonnet 4.5 based agents achieve only 25% with
+   two-agent cooperation ... around 50% lower than a 'Solo' baseline" (Section 1) and that the chat
+   channel's effect on success "is not statistically significant" (Section 5). T22 (UT Austin,
+   NVIDIA) uses Claude Code with Opus 4.8: joint pass falls "from 62% to 16% on contradictory
+   instances (p < 0.001)" against a single-agent oracle; with one hand-off "joint success rises
+   significantly from 16% to 54%" at 1.18× the oracle's tokens, while a second round (ABAB) adds cost (1.88×) and
+   no gain (Section 4.1, Table 1). T20 (CMU) shows what makes parallelism pay: isolated git
+   worktrees and test-gated merges lift Claude Sonnet 4.5 from 57.2 to 63.3 (PaperBench) and 53.1 to
+   59.1 (Commit0-Lite), but worktree-less "soft isolation" on PaperBench scores 55.5, below the 57.2
+   single agent (Table 3). T21 (Microsoft Research) scales that to 1 to 128 agents on a shared git
+   workspace: mean test-pass "from 19.31% to 28.78%" on the five hardest ProgramBench tasks (Section 3.1).
+10. **Real-use evidence: the reviewer and tester roles exist because agents over-claim.** In 20,574
+   real coding-agent sessions (T23), "Inaccurate Self-Reporting" is 22.58% of misalignment episodes
+   (Section 4.1) and "91.49% of visible resolutions still require explicit user correction"
+   (Abstract). Meta's production funnel (T26) auto-approves only low-risk diffs and reports a revert
+   rate of 1/3 and a production-incident rate of 1/50 of non-RADAR diffs (Abstract). T24 shows the
+   check itself is attackable: "323 (16%)" of 1,968 benchmark tasks are hackable by frontier models
+   given only the task description, and an adversarial hacker/fixer/solver loop takes KernelBench
+   attack success "from 62% to 0%" (Abstract). Vendor posts agree on shape, not on numbers:
+   T28 (Anthropic) credits "separating the agent doing the work from the agent judging it" and
+   shrinks the harness as models improve ("the boundary moved outward"); H27 (OpenAI) runs most
+   review agent-to-agent with "minimal blocking merge gates"; T30 (Cursor) found that locks and an
+   integrator role failed and that planners, isolated workers and a per-cycle judge worked; T31
+   (Anthropic docs) says agent teams are experimental, cost "significantly more tokens", and are not
+   spawned under `claude -p`.
 
-**Design implications for the kit:** (a) keep one builder writing at a time; (b) make QA a fresh-context
-reviewer fed the diff and spec, not the builder's history; (c) make the tester judge by running the app
-and tests (external ground truth), never by reading code; (d) hand over the written spec, not a design
-document the builder will treat as authoritative; (e) run the benchmark with a budget-matched single-agent
-arm and report $/task for both.
+**Design implications for the kit:** (a) keep one builder writing at a time, and when work must be
+parallel, isolate it in separate git worktrees with merges gated by tests (T20, T22) or hand off
+serially (T22); (b) make QA a fresh-context reviewer fed the diff and spec, not the builder's history;
+(c) make the tester judge by running the app and tests (external ground truth), never by reading code
+or by an LLM verdict alone (T18's 49.4% false-accept rate, T27's missed execution differences), and
+harden the grader against being gamed (T24); (d) hand over the written spec, not a design document the
+builder will treat as authoritative (T12), and do not expect a planner's detail to survive the
+handoff (T18's 0.24 recall); (e) add the role only where solo is weak (T18's quintiles), and drop it
+as the model improves (T28); (f) run the benchmark with a budget-matched single-agent arm and report
+$/task for both; (g) distrust the builder's "done": the tester's run is the verdict (T23).
 
 ## The catch
 
@@ -128,3 +191,27 @@ arm and report $/task for both.
 - **Preprint quality varies.** T9 is a single-author preprint of a meta-analysis built on nine studies
   with mixed designs; T8 and T12 are preprints; T15 is a workshop paper. Treat the direction as
   consistent across T8-T11 rather than any one effect size as settled.
+- **Round 2 (T18-T31): newer models, but still not our setup and not equal cost.**
+  - *Few comparisons are budget-matched.* T20's gains come at about 2x to 4x the single agent's cost
+    (Claude Sonnet 4.5 on PaperBench $3.3 to $6.5, Commit0-Lite $1.9 to $8.1, Table 2), and a single agent
+    given double the iterations improves little (Figure 2); the equal-cost question is open. T21 equalises
+    wall-clock (6 h) only and reports no cost; T25 equalises step limits, not tokens. T22 and T19 compare
+    against a single-agent "oracle" or Solo that is given the whole task, which is the right bar for the
+    kit but is not a team of roles.
+  - *Small or constructed task sets.* T21 uses five ProgramBench tasks and one model family; T22 has 85
+    (Claude) and 155 (open-weight) constructed instances; T19 uses two agents only; T18's team-vs-solo
+    result is a 155-task ablation with one model (Gemini-3 Flash) and its 49.4% false-accept rate "is a
+    property of our sampled role-mixing distribution, not of any single model" (Section 3.7 discussion).
+  - *Coordination benchmarks are not app building.* T18, T19 and T22 build tasks where agents must
+    coordinate on shared code; T20 and T21 use PaperBench, Commit0 and ProgramBench; T25 is mostly
+    reasoning and QA benchmarks (coding is HumanEval and MBPP). None runs a builder + QA + tester pipeline
+    on a user-facing app walked by an agent; the kit's own benchmark has to.
+  - *Observational and vendor evidence.* T23 detects misalignment only when the developer pushes back
+    (latent failures are excluded) and uses GPT-5.4 to annotate. T26's revert and incident rates compare
+    RADAR-reviewed diffs, which are pre-filtered to the safest ones, against all other diffs: it shows
+    the funnel is safe, not that reviewer agents reduce defects. T28 to T31 are vendor-authored posts or
+    docs with no matched single-agent arm, and Cursor's and OpenAI's results (H27, T30) are not graded
+    by an outside party.
+  - *Preprints.* Every new arXiv paper here is a 2026 preprint without a listed venue; T20, T22 and T24
+    were revised or posted after the models they test were released, and none has been independently
+    replicated in this folder.

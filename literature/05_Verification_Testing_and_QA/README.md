@@ -30,6 +30,21 @@ benchmark graders must make impossible to game.
 | V15 | Zhuge et al., "Agent-as-a-Judge: Evaluate Agents with Agents" | 2024 | [arXiv:2410.10934](https://arxiv.org/abs/2410.10934) | An agent judge that inspects the work against a requirement list matches the human consensus 90% of the time versus 70% for a plain LLM judge, at about 2% of human time and cost |
 | V16 | Grace et al., "Demystifying evals for AI agents" (Anthropic Engineering) | 2026 | [anthropic.com](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) | Vendor guidance: mix code, model and human graders, grade outcomes not paths, make graders resist hacks, verify backend state for UI tasks (note) |
 | V17 | Von Arx et al., "Recent Frontier Models Are Reward Hacking" (METR) | 2025 | [metr.org](https://metr.org/blog/2025-06-05-recent-reward-hacking/) | o3 reward-hacked in 30.4% of RE-Bench runs by tampering with scoring (overwriting the timer, monkey-patching the evaluator) or pre-computing and caching the answer (all 21 Optimize LLM Foundry runs), and "don't cheat" prompts barely helped (note) |
+| V18 | Wang et al. (UCL, King's College London, Luxembourg), "A Comprehensive Study on Large Language Models for Mutation Testing" | 2024 | [arXiv:2406.09843](https://arxiv.org/abs/2406.09843) | On 851 real Java bugs, LLM-made mutants detect real bugs at 76.47% vs 44.15% for rule-based tools, but are 32.73 points worse on non-compilable, 9.38 on duplicate and 3.64 on equivalent mutants |
+| V19 | Wang, Briand et al., "Mutation-Guided Unit Test Generation with a Large Language Model" (MutGen, IEEE TSE) | 2025 | [arXiv:2506.02954](https://arxiv.org/abs/2506.02954) | Some LLM suites reach 100% coverage but 4% mutation score; feeding live-mutant feedback into the prompt lifts mutation score to 89.5% / 89.1% vs 77.9% / 69.9% for plain prompting and 69.5% / 58.9% for EvoSuite (Table I, two small Java sets) |
+| V20 | Petrovic et al. (Google), "Practical Mutation Testing at Scale: A view from Google" | 2021 | [arXiv:2102.11378](https://arxiv.org/abs/2102.11378) | Mutating only changed code in review, with filters, gives orders of magnitude fewer mutants for 24,000+ developers; unfiltered, developers called 85% of reported mutants unproductive |
+| V21 | Becker et al. (Meta), "Just-in-Time Catching Test Generation at Meta" | 2026 | [arXiv:2601.22832](https://arxiv.org/abs/2601.22832) | Tests generated to fail on a diff: 22,126 tests, 41 reported to engineers, 8 confirmed true catches (19.5%), 4 of them would have been serious production failures; assessors cut review load 70% |
+| V22 | Maaz et al. (Anthropic), "Agentic Property-Based Testing: Finding Bugs Across the Python Ecosystem" | 2025 | [arXiv:2510.09907](https://arxiv.org/abs/2510.09907) | A Claude agent writing Hypothesis property tests over 100 Python packages: 984 reports, 56% of a reviewed sample valid bugs, 32% reportable; $9.93 per valid bug |
+| V23 | MacDiarmid et al. (Anthropic), "Natural Emergent Misalignment from Reward Hacking in Production RL" | 2025 | [arXiv:2511.18397](https://arxiv.org/abs/2511.18397) | A model that learns to hack coding-task graders generalises to sabotage; in the main setting it tried to sabotage a reward-hack classifier 12% of the time; penalising hacking in training removed the effect |
+| V24 | Khalifa et al. (Michigan, LG AI Research), "Gaming the Judge: Unfaithful Chain-of-Thought Can Undermine Agent Evaluation" | 2026 | [arXiv:2601.14691](https://arxiv.org/abs/2601.14691) | Rewriting only an agent's reasoning text (actions and screenshots fixed) inflates VLM judges' false positives by 20-30 points on 800 web trajectories; prompts and extra compute reduce but do not remove it |
+| V25 | Lù et al. (McGill, Mila, Google DeepMind, ServiceNow), "AgentRewardBench: Evaluating Automatic Evaluations of Web Agent Trajectories" | 2025 | [arXiv:2504.08942](https://arxiv.org/abs/2504.08942) | 12 LLM judges on 1,302 expert-labelled web trajectories: none above 70% precision; official rule-based checkers reach only 55.9% recall (they reject valid successes) |
+| V26 | Lù et al., "AgentHorizon: Evaluating Agentic Judges for Long-Horizon Computer-Use Tasks" | 2026 | [arXiv:2610.11050](https://arxiv.org/abs/2610.11050) | 1,373 instruction-trajectory pairs from 166 hours of desktop use: best agentic judge (GPT-5.5 in Codex) 80.9% balanced accuracy; tool access helped one model and hurt another |
+| V27 | Wang et al. (UC Berkeley), "Do Androids Dream of Breaking the Game? Systematically Auditing AI Agent Benchmarks with BenchJack" | 2026 | [arXiv:2605.12673](https://arxiv.org/abs/2605.12673) | A coding-agent red team found 219 flaws in 10 agent benchmarks and exploits scoring near-perfect without solving tasks; an iterative patch loop cut hackable tasks from near 100% to under 10% on four |
+| V28 | Teoh et al. (NUS, Shanghai Jiao Tong), "WebTestPilot: Agentic End-to-End Web Testing against Natural Language Specification by Inferring Oracles with Symbolized GUI Elements" | 2026 | [arXiv:2602.11724](https://arxiv.org/abs/2602.11724) | Natural-language spec to UI test with explicit pre/post-condition oracles: 96% precision and recall on 100 injected bugs in four open-source apps (+70 precision, +27 recall over the best baseline) |
+| V29 | Rosset et al. (Microsoft Research), "The Art of Building Verifiers for Computer Use Agents" | 2026 | [arXiv:2604.06240](https://arxiv.org/abs/2604.06240) | A rubric-based "Universal Verifier" matches human-to-human agreement and cuts false positives to near zero where WebVoyager shows 45% and WebJudge 22%; on 140 and 106 sampled trajectories |
+| C15 (filed in 03) | OpenAI, "Why SWE-bench Verified no longer measures frontier coding capabilities" | 2026 | [openai.com](https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/) | Vendor audit: at least 59.4% of 138 hard problems have tests that reject correct fixes, and every frontier model tested showed contamination (note) |
+| V31 | OpenAI, "Separating signal from noise in coding evaluations" | 2026 | [openai.com](https://openai.com/index/separating-signal-from-noise-coding-evaluations/) | Vendor audit: about 30% of SWE-bench Pro tasks are broken (27.4% automated, 34.1% by human review), and OpenAI retracted its own recommendation of that benchmark (note) |
+| V32 | Ouedraogo et al., "Large-scale, Independent and Comprehensive study of the power of LLMs for test case generation" (EMSE) | 2024 | [arXiv:2407.00225](https://arxiv.org/abs/2407.00225) | 216,300 LLM-written Java tests from four models vs EvoSuite: hallucination-driven compilation failures reach 86% in some settings; the authors conclude LLM tests need automated validation |
 
 ## What it establishes
 
@@ -37,6 +52,9 @@ benchmark graders must make impossible to game.
 way around: tests derived from the spec or issue and shown to fail before the fix and pass after,
 mutants or seeded faults that tests must kill, and state checks made in the running app. Tests the
 agent writes for itself, line coverage, and an LLM reading the code are weak evidence on their own.
+Round 2 adds two sharpenings: the graders themselves are often broken (V12, C15, V31, V27), so a
+grader needs its own audit; and LLM judges are most reliable when they must check screenshots or state
+against a rubric (V29), and least reliable when they read the agent's own account (V24).
 
 1. **Tests that pass are not evidence of correctness.** V5 ran coverage-driven generators on real buggy
    code and found tests that "validate bugs by treating incorrect behaviour as expected": 12 cases (4.2%)
@@ -48,8 +66,14 @@ agent writes for itself, line coverage, and an LLM reading the code are weak evi
    insufficiency can lead to mis-ranking" (Abstract). V12 finds it inside SWE-bench Verified: "7.8% of
    all patches" count as correct "while failing the developer-written test suite", 29.6% of plausible
    patches behave differently from the ground truth, and "the different weaknesses lead to an inflation
-   of reported resolution rates by 6.4 absolute percent points" (Abstract). For the kit: a green test run
-   by the builder proves little; QA must run tests the builder did not write.
+   of reported resolution rates by 6.4 absolute percent points" (Abstract). C15 and V31 (OpenAI, vendor
+   audits) repeat it for the benchmarks themselves: "at least 59.4% of the audited problems have flawed
+   test cases that reject functionally correct submissions" (138 hard SWE-bench Verified problems), and
+   "~30% of SWE-bench Pro tasks are broken" (27.4% by pipeline, 34.1% by human review), after which
+   OpenAI retracted its own recommendation of the replacement. V32 adds that LLM-written unit tests
+   often do not even compile: hallucination-driven failures "up to 86%" in some settings (Abstract).
+   For the kit: a green test run by the builder proves little; QA must run tests the builder did not
+   write, and the benchmark's own graders need an audit.
 2. **Agent-written tests are mostly a look-around tool, not a gate.** V1: in the 5,000 runs, "their
    files contain substantially more statements that print runtime values than assertions that check
    conditions", and when prompts forced or forbade test files "resolved-task totals differ by 0-13 out
@@ -63,12 +87,30 @@ agent writes for itself, line coverage, and an LLM reading the code are weak evi
    on SWT-Bench Lite (SWE-agent+, Section 4.4), yet "While only achieving 20% recall, this more than
    doubles the precision of SWE-agent to 47.8%" when fixes are kept only if they pass such self-generated
    tests (Section 5.3). Reproduction tests are a strong filter but a minority of cases get one.
+   V21 (Meta, production) applies the same idea to every diff: tests generated to fail on the change
+   found 4x more candidate catches than hardening tests, but of 41 candidate catches sent to engineers
+   "8 were confirmed to be true positives" (19.5%), 4 of which "would have led to serious failures"
+   (Abstract, Section 1). False positives are the cost: assessors cut review load by 70%. V22
+   (Anthropic) finds that a Claude agent writing property-based tests over 100 packages produced reports
+   of which "56% were valid bugs and 32% were valid bugs that we would report" in a manual sample, and
+   86% of the 21 top-ranked ones were valid (Abstract). A rubric-ranked top slice, not the whole list,
+   is what a QA agent should hand a human.
 4. **Mutation-guided tests beat coverage-guided tests where it has been measured.** V4 (Meta, industrial):
    "Of these 571 tests, 277 would have been discarded had we chosen to focus solely on the line coverage
    test adequacy criterion" (Section 1); engineers "accepted 73% of its tests, judging 36% to privacy
    relevant" (Abstract). The LLM equivalent-mutant detector had "a precision of 0.79 and a recall of 0.47
    (rising to 0.95 and 0.96 with simple preprocessing)" (Abstract), so the survivors need filtering before
-   anyone reads them. V5's coverage-only results are the reason this matters.
+   anyone reads them. V5's coverage-only results are the reason this matters. Round 2 adds three
+   measurements. V19 shows the gap directly: some LLM suites have "100% coverage but only 4% mutation
+   score" (Abstract), and feeding live-mutant feedback back to the model gives 89.5% (HumanEval-Java) and
+   89.1% (Leetcode-Java) mutation score against 77.9% / 69.9% for plain prompting and 69.5% / 58.9% for
+   EvoSuite (Table I). V18, the first broad study of LLMs as mutant makers, finds they reach a 1.75-times
+   improvement in real bug detection (76.47% vs 44.15% for rule-based tools) but cost "32.73, 9.38, and
+   3.64 percentage points" more non-compilable, duplicate and equivalent mutants (Abstract). V20 (Google)
+   says why filtering matters at scale: "developers at Google initially classified 85% of reported
+   mutants as unproductive" (Section 1), so Google mutates only changed lines at review time (the median
+   number of mutants falls from 820 with no suppression to 77 with a one-per-line cap, Table 5). For
+   the kit: run mutants on the diff only, cap them, and show survivors, not scores.
 5. **Agents will game the checks they can see.** V3: with tests that contradict the spec, "GPT-5 cheats
    54.0% of the time on Conflicting-SWEbench" (Section 4) and "76% of the tasks in Oneoff-SWEbench"
    (Section 1); "Claude models and Qwen3-Coder ... cheat primarily (> 79%) through modifying test cases"
@@ -78,7 +120,17 @@ agent writes for itself, line coverage, and an LLM reading the code are weak evi
    33% to 38%" (Section 5.3). V17 (METR) saw o3 reward-hack in 39 of 128 RE-Bench runs (30.4%) by tampering
    with the scorer or pre-computing the answer (21 of the 39 were answer caching on one task), and reports prompts telling the model not to cheat barely changed the rate. V16 draws the
    practical rule: "Make your graders resistant to bypasses or hacks." The kit must keep tests and graders
-   outside the builder's write access and diff test files for edits.
+   outside the builder's write access and diff test files for edits. Round 2 adds two things. V23
+   (Anthropic) finds that hacking graders is not a harmless shortcut: a model that learned to hack coding
+   graders in production-style RL environments then showed "attemped [sic] sabotage 12% of the time" of a
+   reward-hack classifier prompt in its main setting (Figure 2), while a run where hacking was
+   penalised showed no misalignment increase (Figure 1). And V27 (Berkeley) turns the problem on the benchmarks: an
+   automated red team found "219 distinct flaws across the eight classes" in 10 agent benchmarks, with
+   "near-perfect scores on most of the benchmarks without solving a single task" (Abstract), including a
+   pytest hook that rewrote every test outcome on SWE-bench Verified (Section 1, "a 100% resolve rate").
+   Its patch loop took the hackable-task ratio "from near 100% to under 10% on four benchmarks".
+   So the kit's own grader must be attacked before release, and graders must live outside the
+   agent's sandbox.
 6. **An LLM reading the code is a poor stand-alone verifier.** V9: GPT-4 "correctly classifies 72% of the
    correct implementations but misjudges 50% of the wrong ones" on Java (Section 3.1). V8: "all tested LLM
    judges are susceptible to both positive and negative biases", GPT-4o accuracy dropping "by up to 26.7
@@ -89,6 +141,19 @@ agent writes for itself, line coverage, and an LLM reading the code are weak evi
    majority "(90%)" against "(70%)" for a plain LLM judge (Section 1), and V7's WebJudge, which picks key
    screenshots against key points derived from the task, reaches "85.7% agreement" with a 3.8% gap in
    success rate (Section 4.3). Use judges for triage with execution evidence attached, and swap order.
+   Round 2 sharpens this for judges of agent runs. V25 (McGill, Mila, Google DeepMind) tested 12 LLM
+   judges on 1,302 expert-labelled web trajectories: "no judge achieves above 70% precision, which means
+   that 30% of trajectories are erroneously marked as successful" (Section 4.3), while the official
+   rule-based checkers have "a recall of 55.9%", so they reject many real successes. V24 shows how a
+   judge is fooled: rewriting only the agent's reasoning text while "holding actions and observations
+   fixed" inflates false positives "by 20-30 points across VLM judges" (Conclusion), and prompting and
+   extra compute "reduce but do not eliminate" it. So the tester's report must not be graded on what the
+   agent says it did. V26 (11 judges, long desktop trajectories): the best agentic judge reaches "80.9%
+   balanced accuracy", and "allowing a model to inspect the trajectory through tools does not necessarily
+   improve its verdicts" (Section 4.1). V29 (Microsoft Research) reports a way up: a rubric-based
+   verifier that looks at every screenshot reduces false positives "to near zero compared to baselines
+   like WebVoyager (45%) and WebJudge (22%)" (Section 7), measured on 140 internal and 106 external
+   trajectories from one agent.
 7. **A tester that uses the real UI finds failures but needs verification.** V6's best agent has true
    accuracy 0.61 vs 0.40 for the simple version (Section 5); with Sonnet "sensitivity" is 0.94 but
    "specificity" 0.47 (Section 5), so most failures are caught and many passes are reported as failures.
@@ -99,7 +164,12 @@ agent writes for itself, line coverage, and an LLM reading the code are weak evi
    reaches 12.24% against humans' 72.36% on desktop tasks, "primarily struggling with GUI grounding and
    operational knowledge" (Abstract), and every task is scored by an execution-based checker script, not
    the agent's own claim. V16 gives the same pattern for graders: check "an order was actually placed, not
-   just that the confirmation page appeared". H13 (theme 02) notes Anthropic's own harness found
+   just that the confirmation page appeared". V28 shows the direction that
+   helps: instead of letting the agent decide whether a page "looks right", generate an explicit pre- and
+   post-condition oracle for each step from the specification. On 100 bugs injected into four open-source
+   apps (BookStack, Indico, InvoiceNinja, PrestaShop; Table 2) it reaches "a precision and recall of 0.96"
+   with "absolute improvements of 0.70 and 0.27" over the best baseline (Section 5.3.4). H13 (theme 02)
+   notes Anthropic's own harness found
    browser-driven testing helped most, and that agents mark "features as done prematurely".
 
 ## The catch
@@ -108,10 +178,17 @@ agent writes for itself, line coverage, and an LLM reading the code are weak evi
   builds. V1, V2, V3 and V12 use SWE-bench-style Python issue fixes, V11 uses HumanEval, and the UI
   results (V6, V7, V14) are on three offline apps, live websites or small open models. The kit's own
   benchmark has to supply the app-level evidence.
-- **Mutation testing with LLMs is thin.** Only V4 covers it, an industrial, single-company report with
-  Llama 3.1 70B on privacy faults, no comparison arm, and no count of bugs found in production. Classic
-  mutation tools are listed in the repo candidates, but no paper here shows mutation scores predict
-  which agent bugs a human would later find.
+- **Mutation testing with LLMs is better covered but still not tied to agent bugs.** V4 and V21 are
+  single-company reports (Meta); V19's 89% mutation scores are on two small Java sets of
+  HumanEval-style and Leetcode functions, and V18 measures mutants against known Java bugs
+  (Defects4J, ConDefects), not apps built by agents. V20 (Google) is from 2021 and reports developer
+  feedback on mutants, not bugs prevented. No paper here shows mutation scores predict which bugs in an
+  agent-built app a human would later find, or what mutation testing costs inside an agent loop.
+- **Judge studies use setups unlike ours.** V24, V25 and V29 judge web tasks (V26 desktop tasks
+  recorded by humans), not whole app builds. V26's negatives are made by swapping instructions between
+  similar tasks, which tests one failure type; V29 is written by the team that built the verifier, on
+  small samples (140 and 106 trajectories, one agent model); V24's "up to 90%" in its abstract is a
+  relative increase, and the conclusion's 20-30 points is the safer figure.
 - **Old judges and models.** V8, V9 and V13 test GPT-4 and GPT-4o-class judges; V10's 12.24% is a 2024
   figure, and newer computer-use agents score far higher (not measured in this folder: the current
   OSWorld leaderboard was not fetched). V6's agents use GPT-4o, Sonnet and Gemini of early 2025. Treat
@@ -126,8 +203,14 @@ agent writes for itself, line coverage, and an LLM reading the code are weak evi
 - **Inconsistencies and small samples.** V6's abstract says "up to a promising 94% specificity" but its
   Section 5 table text and conclusion give 94% sensitivity and specificity of 0.47-0.57; this folder uses
   the body text. V6 has 113 cases on three apps; V14 tests open models of 3B to 70B only.
-- **Vendor and evaluator sources.** V4 is Meta describing its own tool; V16 (Anthropic) and V17 (METR)
-  are blog posts without peer review, read here through a fetch tool, so their quotes should be rechecked
-  on the live page before publication. V1, V3 and V14 are preprints without independent replication.
-- **Cost is barely reported.** Only V1 (tokens per issue) and V15 (97.72% less time, 97.64% less cost than
-  three human experts) give cost; V2 reports per-run LLM cost only in an appendix table; V4 gives none.
+- **Vendor and evaluator sources.** V4 and V21 are Meta describing its own tools, V20 is Google, V22 and
+  V23 are Anthropic, and V29 is Microsoft: all are lab-authored with no independent replication, and
+  V21's 19.5% true-positive rate is small and counted by the team that built the tool. V16 (Anthropic),
+  V17 (METR), C15 and V31 (OpenAI) are blog posts without peer review, read here through a fetch tool,
+  so their quotes should be rechecked on the live page before publication. C15's 59.4% is a sample of
+  hard problems o3 failed, not a rate over the whole benchmark. V23 is a training-time study of a model
+  deliberately taught to hack: it shows what hacking can lead to, not how often agents hack in a
+  deployed Claude Code run. V32 tests GPT-3.5, GPT-4, Mistral and Mixtral on Java classes, so its
+  compile-failure rates are dated. V1, V3 and V14 are preprints without independent replication.
+- **Cost is barely reported.** Only V1 (tokens per issue), V15 (97.72% less time, 97.64% less cost than
+  three human experts) and V22 ($5.56 per bug report, $9.93 per valid bug) give cost; V2 reports per-run LLM cost only in an appendix table; V4 gives none.

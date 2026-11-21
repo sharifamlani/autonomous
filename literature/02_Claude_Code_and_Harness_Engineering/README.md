@@ -28,6 +28,20 @@ kit's team runs as one agent or several.
 | H13 | Young, "Effective harnesses for long-running agents" (Anthropic Engineering) | 2025 | [anthropic.com](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) | Vendor recipe: initializer session, progress file, JSON feature list, one feature per session, git, browser testing (note) |
 | H14 | Hadfield et al., "How we built our multi-agent research system" (Anthropic Engineering) | 2025 | [anthropic.com](https://www.anthropic.com/engineering/multi-agent-research-system) | Orchestrator + subagents beat one agent by 90.2% on research at ~15× the tokens of a chat (~4× for a single agent); poor fit for most coding (note) |
 | H15 | Anthropic, "Run Claude Code programmatically" (Claude Code docs) | 2026 | [code.claude.com](https://code.claude.com/docs/en/headless) | The flags and defaults that decide whether a `claude -p` run can proceed unattended (note) |
+| H16 | Liu et al. (MBZUAI, UCL), "Dive into Claude Code: The Design Space of Today's and Future AI Agent Systems" | 2026 | [arXiv:2604.14228](https://arxiv.org/abs/2604.14228) | Source-level analysis of Claude Code (v2.1.88): a simple loop wrapped in 7 permission modes, 27 hook events, a five-layer compaction pipeline and four extension mechanisms; static snapshot, no outcome data |
+| H17 | Ji et al. (HKUST), "Measuring the Permission Gate: A Stress-Test Evaluation of Claude Code's Auto Mode" | 2026 | [arXiv:2604.04978](https://arxiv.org/abs/2604.04978) | Independent test of auto mode on 128 ambiguous DevOps prompts: 81.0% end-to-end false-negative rate, because in-project file edits skip the classifier |
+| H18 | Debenedetti et al. (Google, Google DeepMind, ETH Zurich), "Defeating Prompt Injections by Design" (CaMeL) | 2025 | [arXiv:2503.18813](https://arxiv.org/abs/2503.18813) | A deterministic layer outside the model (control/data-flow extraction plus capability policies) solves 77% of AgentDojo tasks with provable security vs 84% undefended |
+| H19 | Costa et al. (Microsoft), "Securing AI Agents with Information-Flow Control" (FIDES) | 2025 | [arXiv:2505.23643](https://arxiv.org/abs/2505.23643) | Label-based deterministic policy checks stop all AgentDojo prompt-injection attacks while completing about 16% more tasks than a basic planner (o1/o3/o4-mini) |
+| H20 | Wong et al. (Meta, Harvard), "Confucius Code Agent: Scalable Agent Scaffolding for Real-World Codebases" | 2025 | [arXiv:2512.10398](https://arxiv.org/abs/2512.10398) | Scaffold ablations on SWE-Bench-Pro: context management +6.6 pts for Claude 4 Sonnet but +0.6 for 4.5 Sonnet; cross-session notes +1.4 pts and fewer tokens |
+| H21 | Packer et al. (UC Berkeley), "MemGPT: Towards LLMs as Operating Systems" | 2023 | [arXiv:2310.08560](https://arxiv.org/abs/2310.08560) | Agent-managed paged memory (search over full history) lifts multi-session recall accuracy from 32.1% to 92.5% (GPT-4) over a recursive-summary baseline; conversational, not coding |
+| H22 | Liu et al. (Quantstamp, Tianjin Univ., NTU, UNSW and others), "Agent Skills in the Wild: An Empirical Study of Security Vulnerabilities at Scale" | 2026 | [arXiv:2601.10338](https://arxiv.org/abs/2601.10338) | 26.1% of 31,132 marketplace skills hold at least one vulnerability; skills bundling scripts are 2.12x as likely to |
+| H23 | Hughes, "How we built Claude Code auto mode: a safer way to skip permissions" (Anthropic Engineering) | 2026 | [anthropic.com](https://www.anthropic.com/engineering/claude-code-auto-mode) | Users accept 93% of prompts; a two-stage transcript classifier has 0.4% false positives on traffic but a 17% false-negative rate on real overeager actions (n=52) (note) |
+| H24 | Dworken and Weller-Davies, "Beyond permission prompts: making Claude Code more secure and autonomous" (Anthropic Engineering) | 2025 | [anthropic.com](https://www.anthropic.com/engineering/claude-code-sandboxing) | OS-level filesystem plus network sandboxing cut permission prompts by 84% in internal use (note) |
+| H25 | Aizawa, "Writing effective tools for agents: with agents" (Anthropic Engineering) | 2025 | [anthropic.com](https://www.anthropic.com/engineering/writing-tools-for-agents) | Consolidated tools, concise responses (about a third of the tokens), a 25,000-token response cap and tuned descriptions; practical guidance, no controlled study (note) |
+| H26 | Anthropic, "Managing context on the Claude Developer Platform" | 2025 | [claude.com](https://claude.com/blog/context-management) | Vendor-reported: clearing stale tool results plus a file memory tool +39% on an internal agentic-search set, and -84% tokens in a 100-turn run (note) |
+| H27 | Lopopolo (OpenAI), "Harness engineering: leveraging Codex in an agent-first world" | 2026 | [openai.com](https://openai.com/index/harness-engineering/) | A 100-line AGENTS.md as a map, repo docs as the system of record, linters as enforcement; about 1,500 PRs in five months, no hand-written code (note) |
+| H28 | Yan (Cognition), "Don't Build Multi-Agents" | 2025 | [cognition.com](https://cognition.com/blog/dont-build-multi-agents) | Opinion: share full traces and avoid parallel agents that make conflicting implicit decisions; no numbers (note) |
+| H29 | Meta, "Agents Rule of Two: A Practical Approach to AI Agent Security" | 2025 | [ai.meta.com](https://ai.meta.com/blog/practical-ai-agent-security/) | Design rule: in one session an agent should hold no more than two of untrusted input, sensitive access, and state change or external communication (note) |
 
 ## What it establishes
 
@@ -35,7 +49,11 @@ kit's team runs as one agent or several.
 is a well-designed tool interface, small curated skills, simple context pruning, deterministic
 permission rules, and external progress state (files plus git). Big auto-generated context files,
 self-written skills and default multi-agent fan-out often cost more without helping, so each harness
-piece the kit adds has to earn its place in a paired benchmark run.
+piece the kit adds has to earn its place in a paired benchmark run. The round-2 additions (H16–H29,
+mostly lab-authored) sharpen one point: **a model-based permission classifier is not enough for an
+unattended run.** The platform's own auto mode misses most scope-escalating actions on an independent
+stress test (H17), so the kit should lean on OS sandboxing (H24) and deterministic rules at the tool
+call (H18, H19), and treat the classifier as one layer.
 
 1. **Context files are weaker than assumed.** H1: "providing context files does not generally improve
    task success rates, while increasing inference cost by over 20% on average" (Abstract), though
@@ -90,7 +108,42 @@ piece the kit adds has to earn its place in a paired benchmark run.
    "turned out to be critical"; git lets it "revert bad code changes and recover working states".
    H15 lists the unattended traps the kit must set around: background work is dropped "after 10
    minutes of continuous idle waiting by default", and a subagent's backgrounded command can let a
-   run "exit with code 0 before the command finishes".
+   run "exit with code 0 before the command finishes". Round 2 adds two measurements on the same
+   idea. H20 (Meta, Harvard): on 151 SWE-Bench-Pro instances with Claude 4.5 Sonnet, rerunning with notes
+   from a first run raised the resolve rate "from 53% to 54.4%" and cut average turns from 64 to 61 and
+   tokens from 104k to 93k (Table 4). H21: letting the agent page through its full history (a memory
+   tool) lifts multi-session recall accuracy from 32.1% to 92.5% for GPT-4 over a recursive-summary
+   baseline (Table 2). H26 (vendor) reports the same pattern for Claude, with a file-based memory tool
+   plus clearing stale tool results "improved performance by 39% over baseline" on an internal set.
+8. **The platform is mostly harness, and its guardrails are layered.** H16 reads the Claude Code source:
+   "The core of the system is a simple while-loop", wrapped in "a permission system with seven modes and
+   an ML-based classifier, a five-layer compaction pipeline", four extension mechanisms (MCP, plugins,
+   skills, hooks) and subagents (Abstract); a hook pipeline spans 27 event types, five of which take
+   part in the permission decision (Section 5.2). Because Claude Code already stacks deny-first rules,
+   hooks, the classifier and an optional sandbox, the kit should configure these, not rebuild them.
+9. **Permission design: approval prompts fail, classifiers leak, sandboxes and rules hold.** H23 (vendor):
+   users "accept 93% of" prompts, so prompting is not a safety control. Its classifier has a 0.4%
+   false-positive rate on 10,000 real calls but a 17% false-negative rate on 52 real overeager actions.
+   H17 tests it independently on 128 ambiguous DevOps prompts: "The end-to-end false negative rate is
+   81.0% (95% CI: 73.8%-87.4%)", 36.8% of state-changing actions never reach the classifier because
+   in-project file edits are exempt, and Safe Task Success moves only from 29.7% to 32.8% (Table 2).
+   H24 (vendor): filesystem plus network sandboxing "safely reduces permission prompts by 84%". The
+   deterministic alternatives cost little utility: H18 solves 77% of AgentDojo tasks with provable
+   security against 84% undefended, and H19 "stops all prompt injection attacks in AgentDojo" with policy
+   checks on while completing about 16% more tasks than a basic planner (Section 1). H29 (vendor) gives
+   the design rule: never combine untrusted input, sensitive access and external state change in one
+   unsupervised session.
+10. **Skills are an attack surface and a maintenance cost.** H22: "26.1% of skills contain at least one
+    vulnerability", data exfiltration 13.3% and privilege escalation 11.8%, and skills that bundle
+    scripts are "2.12x more likely" to be vulnerable (Abstract). Together with H12 (co-evolving scripts)
+    and H6 (self-written skills hurt), the kit should ship few, reviewed skills and no auto-installed
+    third-party ones.
+11. **Vendor practice agrees on lean, mechanical harnesses; the numbers are thin.** H27 (OpenAI) runs a
+    100-line AGENTS.md "map" into repo docs and enforces architecture "mechanically via custom linters"
+    and structural tests, which fits H1's cost finding. H25 (Anthropic) says "More tools don't always lead
+    to better outcomes", favours consolidated tools, concise responses and a 25,000-token response cap,
+    in line with H10. H28 (Cognition) argues against parallel agents that make conflicting implicit
+    decisions; H11 is the measured counterpart.
 
 ## The catch
 
@@ -109,4 +162,26 @@ piece the kit adds has to earn its place in a paired benchmark run.
   the cost of false blocks in a long build.
 - **Fast-moving platform.** H15's defaults are version-gated (e.g. Manual mode for `-p` from v2.1.302);
   any kit configuration must be re-checked against the docs at release time.
+- **Round-2 evidence is mostly vendor posts and static analysis.** Seven of the 14 additions (H23–H29)
+  are company posts about their own products with no run counts, baselines or confidence intervals
+  (H26's 39% and 84% come from an unpublished internal set; H23's 17% rests on 52 actions; H24's 84% is
+  internal usage; H28 and H29 are opinion and policy). H16 analyses one Claude Code snapshot (v2.1.88,
+  with feature-flag variants) and measures no outcomes; its "1.6% of the codebase is AI decision logic"
+  figure is quoted from community analysis, not measured by the authors (Section 3).
+- **Single-model, small-sample tests.** H17 covers one model (Sonnet 4.6), one synthetic benchmark of 128
+  prompts and one run per prompt, and its authors warn the result "should not be extrapolated to
+  production-traffic performance" (Limitations); it is a coverage gap in one version of the gate, not a
+  rate to plan around. H20's ablations use a 100-example subset (Table 2) and a +1.4 point note-taking
+  gain from single runs (Table 4); gains from context management shrink with the stronger model (+6.6 on
+  Claude 4 Sonnet, +0.6 on 4.5 Sonnet), so harness features can decay as models improve. H21 is a 2023
+  chat-memory result, not a coding one. H18 and H19 are tested on AgentDojo (prompt injection), not on the
+  cost of false blocks in an unattended build, and CaMeL gives up 7 points of utility (77% vs 84%).
+- **Scaffold vs model.** The Terminal-Bench paper (Merrill et al., arXiv:2601.11868, Section 4; filed in
+  theme 01) concludes "model selection is usually more important than agent scaffold" (a 17% gain for
+  Gemini 2.5 Pro with its neutral scaffold over OpenHands, 52% from a stronger GPT model in one agent). That cuts against
+  the view that harness effort dominates (H10, H20); the kit's paired benchmark must test harness
+  changes at a fixed model.
+- **Skill security counts are scanner-dependent.** H22's 26.1% "conflates intentional malice" with
+  legitimate security tooling and bad practice (Limitations), uses a detector with 86.7% precision and
+  82.5% recall, and covers two third-party marketplaces, not the curated ones the kit would install from.
 - **Adoption is not effectiveness.** H2 and H12 count what developers configure, not whether it works.
