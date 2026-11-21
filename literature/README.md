@@ -40,7 +40,7 @@ Filled as each folder lands: papers held, verdict on the folder's central questi
 | Folder | Papers | Central question | Verdict | The catch |
 |---|---|---|---|---|
 | 01 | — | Which agent architectures hold up outside demos? | — | — |
-| 02 | — | What configuration of Claude Code makes long unattended runs work? | — | — |
+| 02 | 15 | What configuration of Claude Code makes long unattended runs work? | A lean, measured harness: good tools, small curated skills, old tool output dropped, permissions enforced at each tool call, progress kept in files + git; big generated context files, self-written skills and default multi-agent splits often add cost without gain | Almost no evidence from multi-hour unattended runs; the long-run sources are vendor posts with little data |
 | 03 | — | How far can a single coding agent get on real issues, and what drives it? | — | — |
 | 04 | — | Do role-based multi-agent teams beat one strong agent? | — | — |
 | 05 | — | Which checks catch agent bugs before a human does? | — | — |
