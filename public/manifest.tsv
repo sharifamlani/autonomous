@@ -1,0 +1,4 @@
+# Third-party reference repos. Synced by scripts/sync_public_repos.sh
+# The clones themselves are gitignored; this manifest is the committed record.
+#
+# name	url	pinned_commit
