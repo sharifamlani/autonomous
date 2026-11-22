@@ -99,7 +99,9 @@ def totals(out):
     if mu:
         tok = sum(m.get(k, 0) or 0 for m in mu.values()
                   for k in ("inputTokens", "outputTokens", "cacheReadInputTokens", "cacheCreationInputTokens"))
-        return tok, sum(m.get("outputTokens", 0) or 0 for m in mu.values()), r.get("num_turns"), r.get("total_cost_usd")
+        # turns = model calls seen in the stream; the result's num_turns counts conversation turns (S1 run:
+        # 2, for 11 model calls), so it is not used
+        return tok, sum(m.get("outputTokens", 0) or 0 for m in mu.values()), out["turns_live"], r.get("total_cost_usd")
     t = out["tokens_live"]
     return sum(t.values()), t["output_tokens"], out["turns_live"], None
 
