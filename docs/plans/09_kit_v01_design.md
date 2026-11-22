@@ -32,7 +32,7 @@ in the recipe: the builder never grades its own work; something it cannot edit d
 | Hidden acceptance checks written from the spec **before** the build | L1, L3 (strong/moderate) | A big role roster (marketing, auditor, PM) inside the kit; marketing runs as a separate session that reads the kit's release card | L5: roles without an independent check have no accuracy evidence |
 | A Tester that uses the running app and records what it saw | L1, L2; Future Issue 1 | An LLM reviewer that reads the builder's summary | L4: 49.4% false approvals in T18 |
 | A study path that commits PREREG before data, then one held-out look | L9 | Auto-generated context files, many skills | L7: lean harness |
-| Caps on $, time, turns, repeated errors + an honest `STUCK` exit | L8 | "Retry until green" loops with no cap | L8, P5: compounding failures |
+| Caps on tokens, time, turns, repeated errors + an honest `STUCK` exit | L8 | "Retry until green" loops with no cap | L8, P5: compounding failures |
 | A benchmark with a budget-matched baseline arm and k = 3 runs | L10, L11 | Judging v0.1 by one good run | L10: single runs can't rank |
 
 ## Found while planning: the benchmark tool can't run the full tasks
@@ -96,7 +96,7 @@ autonomous/
  | benchmark/run.py     |     | RUN FOLDER  runs/<id>/  (temp, short path on Windows)         |
  | --arm kit|baseline   |---->|                                                              |
  | --task app_001|...   |     |  baseline arm: one `claude -p` with the same prompt, model,  |
- | --runs 3             |     |  $ cap and time cap, no plugin                               |
+ | --runs 3             |     |  token cap and time cap, no plugin                            |
  +----------------------+     |                                                              |
             ^                 |  kit arm: `claude -p "/autonomous:new-app <idea>"`           |
             |                 |    Main -> spec-writer --> spec.md + checks/ (hidden)        |
