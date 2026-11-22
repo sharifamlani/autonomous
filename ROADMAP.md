@@ -5,7 +5,7 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.21 · 2026-11-22
+> v0.22 · 2026-11-22
 
 ---
 
@@ -253,7 +253,7 @@ Source: CLAUDE.md §7.
 **Entry gate:** Phase 8.
 **Exit gate:** plan file with tree, flowchart, derisking and evaluation criteria approved by Sharif.
 **Status:** ⏳ in progress (plan drafted 2026-11-22 · `fd1a90c`; waiting on Sharif's decisions 9-A to 9-E)
-**Plan:** `docs/plans/09_kit_v01_design.md`
+**Plan:** `docs/plans/09_kit_v01_design.md` + `docs/plans/09_kit_v01_architecture.md`
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
@@ -347,6 +347,9 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.22 · 2026-11-22** — Phase 9 starting architecture drafted (Sharif: "we need a starting architecture
+  to iterate on"): deterministic orchestrator + agent roles, file-based run folder, verdict contracts,
+  role fences in a hook, caps, `kit.toml` knobs. morluto/rea reviewed (ideas borrowed, not a dependency).
 - **v0.21 · 2026-11-22** — Row 7.3 closed: CLAUDE.md §0.5 holds the review's lessons L1–L11 (`e55edec`);
   Phase 7 done. Phase 9 plan drafted (`fd1a90c`). Found: `claude plugin eval` caps a run at 1 h / 200
   turns with no code graders, so the plan proposes revising D11 (decision 9-A).

@@ -4,6 +4,8 @@
 **Inputs:** the literature review (`literature/LITERATURE_REVIEW.pdf`, Table 3, Summary Points, §13),
 the lessons table in `CLAUDE.md` §0.5 (L1–L11), spike 4.8 (`research/spikes/plugin_team.md`, D15),
 and the `claude plugin eval` docs (https://code.claude.com/docs/en/plugin-evals.md, read 2026-11-22).
+**Architecture:** `docs/plans/09_kit_v01_architecture.md` (components, run folder, state machines,
+file contracts, role fences, caps, the `kit.toml` knobs).
 
 ```
 AUTONOMOUS — phase plan

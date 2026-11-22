@@ -1,0 +1,2 @@
+name	url	stars	last_push	license	archived	theme	why
+morluto/rea	https://github.com/morluto/rea	473116	2026-11-22T05:40:00Z	MIT	false	03	Reverse-engineering MCP + CLI (binaries, Electron/JS, web). Not a kit dependency; borrowable ideas: observed/inferred/unknown evidence labels in AGENTS.md, real-tool CI lanes, agent environments built from recorded web sessions with reward checks (Sharif link, 2026-11-22)
