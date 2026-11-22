@@ -5,7 +5,7 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.33 · 2026-11-22
+> v0.34 · 2026-11-22
 
 ---
 
@@ -282,8 +282,8 @@ Source: CLAUDE.md §7.
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
 | 10.1 | App ladder: A1 build, A2 20 planted bugs for QA + tester, A3 impossible spec (was 11.1) | ⏸ | ✅ 10 | `docs/plans/10_benchmark_validation.md` (approved) | D2 |
-| 10.2 | Study ladder: S1 reproduce + S2 replicate Amlani & Collitt 2021 (CC0), S3 planted effect + null, S4 traps (LaLonde, leading prompt) (was 11.2) | ~ S1 key, S2 inputs, S3 data done (`3aa257f`); S3 jitter + S4 pending | ✅ 10 | `docs/plans/10_benchmark_validation.md` (approved) | D2 |
-| 10.3 | Write graders (deterministic first; LLM judge only with a calibration set) (was 11.3) | ~ study graders calibrated 13/13 (`8f93aad`); app graders with step 7 | ⏸ 10 | gate: 10.1–10.2 | literature 05 |
+| 10.2 | Study ladder: S1 reproduce + S2 replicate Amlani & Collitt 2021 (CC0), S3 planted effect + null, S4 traps (LaLonde, leading prompt) (was 11.2) | ~ S1, S2, S3 built and graded (S3 jitter done); S4 pending | ✅ 10 | `docs/plans/10_benchmark_validation.md` (approved) | D2 |
+| 10.3 | Write graders (deterministic first; LLM judge only with a calibration set) (was 11.3) | ~ study graders calibrated 15/15 (`6b7c267`); app graders with step 7 | ⏸ 10 | gate: 10.1–10.2 | literature 05 |
 | 10.4 | Run the no-plugin baseline arm; record the scorecard (was 11.4) | ⏸ | ✅ 10 | gate: 10.3, 10.5 | D17 |
 | 10.5 | Runner `benchmark/run.py`: clean room at `C:\abench`, token/minute/turn caps, cheat flags = FAIL, scorecard + TRIAL_LOG + usage log | ✅ | — | 2026-11-22 · `1dee888` (R1–R4 PASS; kit arm comes with Phase 11) | D22, D23 |
 | 10.6 | One measured baseline run (S1) → token caps per run (Sharif's call) | ~ run done 2026-11-22: S1 PASS 8/8, 12.4 min, 517k tokens; caps waiting on Sharif | ✅ 10 | gate: 10.5 + S1 grader | D22 |
@@ -359,6 +359,7 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.34 · 2026-11-22** — Housekeeping: the three S1 trial rows committed to TRIAL_LOG (`2e29f38`); rows 10.2 and 10.3 brought up to date (S3 jitter done, calibration 15/15). Still waiting on Sharif's token caps (10-I).
 - **v0.33 · 2026-11-22** — Measured S1 baseline run PASS: plain Claude Code reproduced all 8 Table 2–3 estimates at printed precision in 12.4 min, 11 model calls, 517k tokens (mostly cache reads), weekly usage still 2%. Turn counter fixed to count model calls. Token caps go to Sharif.
 - **v0.32 · 2026-11-22** — D25: S2 tolerance = max(10%, 0.25 SE) (Sharif); calibration 15/15. Two measured S1 attempts were failed by the cheat flag on honest behaviour (own room path with a semicolon; a scratch folder beside the room): the flag now matches run-id names only, and the runner sweeps the room root before and after every run with a per-run temp folder (`029c943`, `2605485`).
 - **v0.31 · 2026-11-22** — Steps 4–5 done: S3 jitter (R5) and the study tasks S1–S3 with calibrated graders (R6, 13/13; calibration caught and fixed a double-rounding bug). S2 near-zero tolerance raised to Sharif. Step 6 (measured S1 run) started.
