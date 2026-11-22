@@ -60,6 +60,25 @@ def remove(room):
     shutil.rmtree(room, ignore_errors=True)
 
 
+def tmpdir(run_id):
+    """A per-run TMP/TEMP folder, so system temp cannot carry files from one run to the next."""
+    d = ROOM_ROOT / f"{run_id}.tmp"
+    d.mkdir(parents=True, exist_ok=True)
+    return d
+
+
+def sweep():
+    """Delete everything under the room root except the probe room. Runs before and after every run:
+    an agent may write outside its room (the first S1 run made C:/abench/_scratch_b1), and nothing it
+    leaves may reach a later run. Returns what was removed."""
+    gone = []
+    for p in ROOM_ROOT.glob("*"):
+        if p.name != "_probe":
+            shutil.rmtree(p, ignore_errors=True) if p.is_dir() else p.unlink(missing_ok=True)
+            gone.append(p.name)
+    return gone
+
+
 def clean_check(context_text):
     """Problems found in a /context report from the room; [] means stock Claude Code."""
     problems = [f"memory file loaded: {l.strip()}" for l in context_text.splitlines() if "CLAUDE.md" in l]

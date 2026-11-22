@@ -110,16 +110,19 @@ def run_one(task, arm, k, ts, bdir, model, caps_override):
     if hits:
         return {"task": task["id"], "run_id": run_id, "status": "ERROR", "pass": False, "score": 0,
                 "tokens": 0, "output_tokens": 0, "minutes": 0, "turns": 0, "flags": ["leak-in-inputs"]}
+    swept_before = rooms.sweep()                          # nothing from an earlier run survives
     room = rooms.build(task, run_id)
     caps = {**task["caps"], **{k2: v for k2, v in caps_override.items() if v is not None}}
     prompt = (room / "task.md").read_text(encoding="utf-8")
     on_tool = lambda b: watch.flags(b, run_id, task["watch"])
     print(f"[{run_id}] started in {room} (caps {caps})", flush=True)
-    out = launch.run(launch.command(model), prompt, room, caps, on_tool, bdir / "raw" / f"{run_id}.jsonl")
+    out = launch.run(launch.command(model), prompt, room, caps, on_tool, bdir / "raw" / f"{run_id}.jsonl",
+                     tmp=rooms.tmpdir(run_id))
     dest = bdir / "raw" / run_id
     dest.mkdir(parents=True, exist_ok=True)
     made = rooms.collect(task, room, dest)
     rooms.remove(room)
+    swept_after = rooms.sweep()                           # e.g. scratch the agent left beside its room
     status = status_of(out, made, task)
     g = record.grade(task, dest)
     (dest / "grade.json").write_text(json.dumps(g, indent=2) + "\n", encoding="utf-8", newline="\n")
@@ -132,6 +135,7 @@ def run_one(task, arm, k, ts, bdir, model, caps_override):
            "flags": out["flags"], "stop": out["stop"], "missing": missing, "made": made,
            "grader": record.public(g), "cost_usd_api": cost, "processes": out["processes"], "orphans_killed": out["orphans_killed"],
            "orphans_left": out["orphans_left"], "exit": out["exit"], "caps": caps,
+           "swept_before": swept_before, "swept_after": swept_after,
            "week_util": out["week_util"], "limit_status": out["limit_status"]}
     print(f"[{run_id}] {status} pass={passed} tokens={tok} min={out['minutes']} turns={turns} flags={out['flags']} "
           f"orphans_left={out['orphans_left']}", flush=True)

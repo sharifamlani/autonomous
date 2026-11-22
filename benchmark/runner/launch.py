@@ -34,8 +34,11 @@ def exe():
     return str(real) if w.lower().endswith(".cmd") and real.exists() else w
 
 
-def env():
-    return {k: v for k, v in os.environ.items() if not (k.startswith("CLAUDE_CODE_") or k in STRIP)}
+def env(tmp=None):
+    e = {k: v for k, v in os.environ.items() if not (k.startswith("CLAUDE_CODE_") or k in STRIP)}
+    if tmp:                                                 # per-run temp, swept after the run
+        e.update(TMP=str(tmp), TEMP=str(tmp), TMPDIR=str(tmp))
+    return e
 
 
 def command(model, plugin_dir=None):
@@ -114,10 +117,10 @@ class Job:
         _k32.CloseHandle(self.h)
 
 
-def run(cmd, prompt, room, caps, on_tool_use, raw_path):
+def run(cmd, prompt, room, caps, on_tool_use, raw_path, tmp=None):
     """Run to completion or cap. Returns the live tallies, the final result event, and how it stopped."""
     t0 = time.monotonic()
-    proc = subprocess.Popen(cmd, cwd=room, env=env(), stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+    proc = subprocess.Popen(cmd, cwd=room, env=env(tmp), stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE, text=True, encoding="utf-8", bufsize=1)
     job = Job()
     job.add(proc.pid)                                       # before the agent can start anything
