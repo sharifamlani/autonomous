@@ -390,4 +390,4 @@ The grader already supports it (`abs_se` in S2's task.toml, now 0 = off).
 | 10-F | Approve Part 2 (runner design, steps 1–8) | **Yes** |
 | 10-G | Overlap: start Phase 11 after step 6, finish step 7 alongside | **Yes**: the study half is ready first |
 | 10-H | Runs per check: k = 3 per arm for release checks, k = 1 for dev iterations | **Yes** |
-| 10-I | Token caps per run | Decided after step 6, from the measured run |
+| 10-I | Token caps per run | **Decided (D26, Sharif 2026-11-22):** study 3M tokens + 60 min, app 15M tokens + 120 min, both arms |

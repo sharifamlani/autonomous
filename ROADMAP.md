@@ -5,16 +5,16 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.34 · 2026-11-22
+> v0.35 · 2026-11-22
 
 ---
 
 ## §0 You are here
 
 - **Current phase:** Phase 10 (validation ladder); Phase 9 done (design + architecture approved 2026-11-22). Row 8.3 flips when Marketing confirms the review post went live
-- **Current step:** benchmark smokes D1–D3 PASS (S1 key 72/72 printed values; S2 inputs leak-free; S3 planted effect recoverable, null clean). Remaining: graders + calibration (D4), bug injection (D5, needs the known-good app), `run.py` and the baseline run (D6)
+- **Current step:** limits set (D26). Two tracks in parallel (D24): step 7 of plan 10 (S4, A1, A2 + bug injection, A3, each with grader and calibration) and Phase 11 (kit build, against plan 09's smokes, starting with the folder fence)
 - **Last update:** 2026-11-22
-- **Next action:** Sharif sets token caps (10-I) from the measured S1 run; then step 7 (remaining tasks) and Phase 11 (kit build) start in parallel (D24).
+- **Next action:** step 7: build S4 (LaLonde trap + leading prompt) with its grader and calibration; Phase 11: `plugin/` skeleton and `hooks/gate.py --selftest` (plan 09 smoke S2).
 
 ---
 
@@ -90,6 +90,7 @@ Source: CLAUDE.md §7.
 | D23 | Benchmark runs happen in a clean room: workspace at `C:\abench\<run-id>` (outside the user folder, repo and Dropbox) with `--setting-sources project,local --strict-mcp-config`, so the baseline is stock Claude Code (no personal CLAUDE.md, skills or MCP). A run that reaches for the original package or the answer keys is scored FAIL | Spike 2026-11-22; Sharif, 2026-11-22 ("fail it is") |
 | D24 | Plan 10 Part 2 approved: runner + steps 1–8; Phase 11 starts after the measured run (step 6) with the remaining tasks built alongside; k = 3 per arm for release checks, k = 1 for dev iterations; token caps set from the measured run | Sharif, 2026-11-22 (10-F to 10-H) |
 | D25 | S2 grading (revises 10-B): an estimate passes if within 10% of the key **or** within 0.25 of the key's SE, whichever is larger, with the same sign and the same 5% call; all 8 terms must pass. Reason: 10% of a near-zero estimate (e.g. -0.381, SE 0.538) is ~0.07 SE, so only an exact specification match could pass | Sharif, 2026-11-22 |
+| D26 | Run limits (10-I), the same in both arms: study 3M tokens + 60 min, app 15M tokens + 120 min (6x the measured S1 run of 517k tokens, 12.4 min). App limits are a first guess, revisited after the first measured app run | Sharif, 2026-11-22 |
 
 ---
 
@@ -286,7 +287,7 @@ Source: CLAUDE.md §7.
 | 10.3 | Write graders (deterministic first; LLM judge only with a calibration set) (was 11.3) | ~ study graders calibrated 15/15 (`6b7c267`); app graders with step 7 | ⏸ 10 | gate: 10.1–10.2 | literature 05 |
 | 10.4 | Run the no-plugin baseline arm; record the scorecard (was 11.4) | ⏸ | ✅ 10 | gate: 10.3, 10.5 | D17 |
 | 10.5 | Runner `benchmark/run.py`: clean room at `C:\abench`, token/minute/turn caps, cheat flags = FAIL, scorecard + TRIAL_LOG + usage log | ✅ | — | 2026-11-22 · `1dee888` (R1–R4 PASS; kit arm comes with Phase 11) | D22, D23 |
-| 10.6 | One measured baseline run (S1) → token caps per run (Sharif's call) | ~ run done 2026-11-22: S1 PASS 8/8, 12.4 min, 517k tokens; caps waiting on Sharif | ✅ 10 | gate: 10.5 + S1 grader | D22 |
+| 10.6 | One measured baseline run (S1) → token caps per run (Sharif's call) | ✅ | — | 2026-11-22 · `9da6943` (S1 PASS 8/8, 12.4 min, 517k tokens); limits set by D26 | D22, D26 |
 
 ### Phase 11 — Kit v0.1 build
 
@@ -359,6 +360,7 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.35 · 2026-11-22** — D26: run limits set (study 3M tokens / 60 min, app 15M / 120 min, both arms); `runner/tasks.py` applies them per task kind. Row 10.6 ✅. Step 7 and Phase 11 start in parallel.
 - **v0.34 · 2026-11-22** — Housekeeping: the three S1 trial rows committed to TRIAL_LOG (`2e29f38`); rows 10.2 and 10.3 brought up to date (S3 jitter done, calibration 15/15). Still waiting on Sharif's token caps (10-I).
 - **v0.33 · 2026-11-22** — Measured S1 baseline run PASS: plain Claude Code reproduced all 8 Table 2–3 estimates at printed precision in 12.4 min, 11 model calls, 517k tokens (mostly cache reads), weekly usage still 2%. Turn counter fixed to count model calls. Token caps go to Sharif.
 - **v0.32 · 2026-11-22** — D25: S2 tolerance = max(10%, 0.25 SE) (Sharif); calibration 15/15. Two measured S1 attempts were failed by the cheat flag on honest behaviour (own room path with a semicolon; a scratch folder beside the room): the flag now matches run-id names only, and the runner sweeps the room root before and after every run with a per-run temp folder (`029c943`, `2605485`).

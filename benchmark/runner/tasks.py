@@ -6,7 +6,10 @@ BENCH = Path(__file__).resolve().parents[1]
 ROOT = BENCH.parent
 TASKS = BENCH / "tasks"
 GROUPS = {"smoke": "smoke_", "study": "study_", "app": "app_"}
-DEFAULT_CAPS = {"minutes": 60, "turns": 0, "tokens": 0}       # 0 = no cap (token caps set after step 6)
+DEFAULT_CAPS = {"minutes": 60, "turns": 0, "tokens": 0}       # 0 = no cap
+# D26 (Sharif 2026-11-22): 6x the measured S1 run (517k tokens, 12.4 min); the same in both arms.
+# App caps are a first guess, revisited after the first measured app run.
+KIND_CAPS = {"study": {"minutes": 60, "tokens": 3_000_000}, "app": {"minutes": 120, "tokens": 15_000_000}}
 
 
 def load(task_id):
@@ -16,7 +19,7 @@ def load(task_id):
         raise SystemExit(f"no task {task_id!r}: {f} missing")
     cfg = tomllib.loads(f.read_text(encoding="utf-8"))
     cfg["id"], cfg["dir"] = task_id, d
-    cfg["caps"] = {**DEFAULT_CAPS, **cfg.get("caps", {})}
+    cfg["caps"] = {**DEFAULT_CAPS, **KIND_CAPS.get(cfg.get("kind"), {}), **cfg.get("caps", {})}
     cfg.setdefault("watch", [])
     cfg.setdefault("answer", [])
     cfg.setdefault("grader", "none")
