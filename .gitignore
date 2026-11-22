@@ -74,3 +74,6 @@ desktop.ini
 
 # Benchmark task inputs built from copyrighted papers stay local
 /benchmark/tasks/*/inputs_local/
+
+# benchmark run transcripts and outputs: may hold task text from local-only papers
+/benchmark/results/*/*/raw/

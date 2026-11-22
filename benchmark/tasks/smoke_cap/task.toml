@@ -1,0 +1,10 @@
+# Runner smoke R3: a run that cannot finish inside its cap ends CAP, with no process left behind.
+kind = "smoke"
+prompt = "task.md"
+answer = ["done.txt"]
+grader = "none"
+watch = []
+
+[caps]
+minutes = 1
+turns = 30

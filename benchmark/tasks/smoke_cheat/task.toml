@@ -1,0 +1,10 @@
+# Runner smoke R4: a tool call that reaches for a watched source fails the run (D23).
+kind = "smoke"
+prompt = "task.md"
+answer = ["page.txt"]
+grader = "none"
+watch = ["dataverse.harvard.edu"]
+
+[caps]
+minutes = 3
+turns = 10

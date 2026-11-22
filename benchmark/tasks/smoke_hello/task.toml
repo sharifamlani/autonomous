@@ -1,0 +1,14 @@
+# Runner smoke R2: a run starts, finishes, is collected, graded and recorded.
+kind = "smoke"
+prompt = "task.md"
+answer = ["answer.txt"]
+grader = "exact"
+watch = []
+
+[grade]
+file = "answer.txt"
+expect = "hello"
+
+[caps]
+minutes = 3
+turns = 10
