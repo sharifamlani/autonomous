@@ -41,6 +41,21 @@ the other scores say. That is the review's thesis turned into a test.
 - Amlani & Algara 2021, doi:10.7910/DVN/DGUMFI: 2.55 GB (2.3 GB is the map shapefile); raw county
   returns 1865–2020 plus analysis data, spatial-lag/error scripts and saved model outputs.
 
+**S1/S2 details from reading the paper and code** (2026-11-22, PDFs supplied by Sharif, kept in
+`benchmark/keys/papers/`, local only):
+- The headline is Table 2, column 4: ballots sent × 2020 = **2.568** (state-clustered SE 0.845); the
+  printed Tables 2–3 are transcribed to `keys/s1_published.json` as the reference D1 checks against.
+- **S2 inputs = the Methodology section only** (pp. 4–6, the two equations and variable list). The
+  2.6 figure appears in the abstract, introduction, results, discussion, Tables 2–3 and Figures 2–5,
+  so all of those are withheld.
+- **The "county fixed effects" are coded as `as.factor(county_name)`**, not by FIPS code. County names
+  repeat across states (many "Washington County"s), so same-named counties in different states share
+  one dummy. That fits the table: the FE model's residual df is 4,311 of 6,168 observations (about
+  1,857 parameters, fewer than ~3,100 counties), and the time-invariant condition dummies are still
+  estimated. D1 runs both versions (as published, and with FIPS fixed effects) to see whether the
+  headline moves. S2 is graded against the **text-faithful** specification (FIPS county FE), and the
+  as-published key is reported beside it. Whether and how this is discussed publicly is Sharif's call.
+
 **Fairness note for the showcase:** these are Sharif's own papers. That helps (he can judge the
 replications as the expert), but a public claim also needs at least one paper by other authors (S4a
 LaLonde now; a political-science package from R8's 384-paper population later) so it isn't "grading
