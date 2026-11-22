@@ -79,20 +79,27 @@ our own homework".
 3. Copy detection: an answer that matches the paper but not the agent's own code output is flagged.
 4. Answer keys and seeds are **local only** (gitignored), even though the data are CC0.
 
-## v0.1 scope and cost
+## v0.1 scope and usage
 
 v0.1 runs **S1, S2, S3 (planted + null), S4a, S4b, A1, A2, A3**. S5 and S6 come after v0.1.
 
-| | Tasks | Runs (2 arms × 3) | Cap per run | Max |
-|---|---|---|---|---|
-| Study | 6 (S1, S2, S3-planted, S3-null, S4a, S4b) | 36 | $10 | $360 |
-| App build | 1 (A1) | 6 | $30 | $180 |
-| Checker tests | 3 (A2 bugs, A2 clean, A3) | 9 (kit only, 3 each) | $10 | $90 |
-| **Release check** | | | | **≤ $630** |
-| Dev iteration (kit only, 1 run each) | | 10 | | **≤ $130** |
+**Runs use Sharif's Claude Code subscription, so the budget is usage, not dollars** (Sharif,
+2026-11-22: "we just have to manage the usage"; D22). Every run records its token counts (input,
+output, cache) from `claude -p --output-format json`; the API-equivalent dollar figure is kept only as
+a reference for readers who pay per token.
 
-These are ceilings, not estimates; real runs are expected to cost much less. This revisits decision
-9-B.
+| | Tasks | Runs (2 arms × 3) | Wall-clock cap per run |
+|---|---|---|---|
+| Study | 6 (S1, S2, S3-planted, S3-null, S4a, S4b) | 36 | 1 h |
+| App build | 1 (A1) | 6 | 2 h |
+| Checker tests | 3 (A2 bugs, A2 clean, A3) | 9 (kit only, 3 each) | 1 h |
+| **Release check** | | **51 runs** | |
+| Dev iteration (kit only, 1 run each) | | 10 runs | |
+
+Token caps per run, and how much of a week's limit a release check may use, are set **after the
+first measured run** (one baseline task, usage read before and after), not guessed. Heavy runs are
+scheduled so they never compete with Sharif's own work for the same weekly limit. This revises
+decision 9-B and 10-D.
 
 ## Folder / file structure
 
@@ -204,5 +211,5 @@ FIPS 3,108):
 | 10-A | v0.1 scope: S1–S4 + A1–A3 (above) | **Yes**; S5 (Amlani & Algara) as the first v0.2 task |
 | 10-B | S2 tolerance | same sign, same 5% significance call, coefficient within 10% (relative) of the key |
 | 10-C | Paper text for S2 | Sharif provides the accepted manuscript (kept local; not redistributed) |
-| 10-D | Release-check ceiling | ≤ $630 per full release check; ≤ $130 per dev iteration |
+| 10-D | Release-check ceiling | ~~≤ $630 per release check; ≤ $130 per dev iteration~~ **Revised (D22):** usage, not dollars; token ceilings set from the first measured run |
 | 10-E | Independent paper for the public claim | LaLonde in v0.1; one political-science package by other authors in v0.2 |

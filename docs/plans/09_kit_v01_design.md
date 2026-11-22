@@ -181,7 +181,7 @@ E4 is the thesis of the review turned into a test. If the kit fails it, v0.1 doe
 | # | Decision | Recommendation |
 |---|---|---|
 | 9-A | Revise D11: plugin eval for behaviour checks; our `benchmark/run.py` for end-to-end tasks | **Yes**: plugin eval's 1-hour cap and lack of code graders can't run a full app build |
-| 9-B | Caps per run | App: 2 h and $30. Study: 1 h and $10. Same caps for both arms. A full release check is then ≤ $240; a dev iteration ≤ $40 |
+| 9-B | Caps per run | App: 2 h. Study: 1 h. Same caps for both arms. **Revised by D22 (2026-11-22):** dollar caps replaced by usage (token) caps, since runs use Sharif's Claude Code subscription; token ceilings are set from the first measured run |
 | 9-C | Model for the runs | Opus 5.5 in both arms for v0.1 (one variable at a time); try cheaper builder models as a later trial |
 | 9-D | Where runs execute | Native Windows for v0.1 with `run.py` (proven in spike 4.8); WSL2 only if we use plugin-eval shell grants |
 | 9-E | Kit roles in v0.1 | Spec-writer, builder, QA, tester; analyst, replicator; no marketing or auditor agents (L5). Every run writes a release card (`release/`) that an **outside** Marketing session reads (Sharif 2026-11-22: "it can sit outside but not be part of the plugin") |

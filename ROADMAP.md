@@ -5,7 +5,7 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.25 · 2026-11-22
+> v0.26 · 2026-11-22
 
 ---
 
@@ -14,7 +14,7 @@
 - **Current phase:** Phase 10 (validation ladder); Phase 9 done (design + architecture approved 2026-11-22). Row 8.3 flips when Marketing confirms the review post went live
 - **Current step:** benchmark smokes D1–D3 PASS (S1 key 72/72 printed values; S2 inputs leak-free; S3 planted effect recoverable, null clean). Remaining: graders + calibration (D4), bug injection (D5, needs the known-good app), `run.py` and the baseline run (D6)
 - **Last update:** 2026-11-22
-- **Next action:** morning check-in with Sharif on moving toward kit v0.1: `run.py` + graders (D4, D6) are the bridge, since the kit arm runs through the same runner.
+- **Next action:** Sharif reviews the next-steps list (2026-11-22): build `benchmark/run.py` (records tokens per run, D22), then the S1–S3 graders with calibration pairs (D4), then one measured baseline run to set the usage ceilings.
 
 ---
 
@@ -85,7 +85,8 @@ Source: CLAUDE.md §7.
 | D18 | Every role runs on Claude Code: one `claude -p` session per role step, started by `team.py`; the baseline arm is plain Claude Code without the plugin | Spike 4.8; Sharif, 2026-11-22 |
 | D19 | v0.1 runs use Opus 5.5 in both arms; runs execute on native Windows | Sharif, 2026-11-22 (9-C, 9-D) |
 | D20 | Kit roles: spec-writer, builder, QA, tester; analyst, replicator. The conductor is code (`team.py`). Marketing runs outside the kit, reading a release card each run writes | Sharif, 2026-11-22 (9-E) |
-| D21 | Validation ladder v0.1: S1–S4 (Amlani & Collitt 2021, planted effect + null, LaLonde, leading prompt) and A1–A3 (build, 20 planted bugs, impossible spec); S2 tolerance = same sign, same 5% call, within 10%; ceilings $630 per release check, $130 per dev iteration | Sharif, 2026-11-22 (10-A to 10-E) |
+| D21 | Validation ladder v0.1: S1–S4 (Amlani & Collitt 2021, planted effect + null, LaLonde, leading prompt) and A1–A3 (build, 20 planted bugs, impossible spec); S2 tolerance = same sign, same 5% call, within 10%; budget per D22 | Sharif, 2026-11-22 (10-A to 10-E) |
+| D22 | Runs use Sharif's Claude Code subscription: the budget and the efficiency metric are **usage (tokens per task)**, not dollars. Caps are tokens, wall-clock and turns; token ceilings are set from the first measured run. API-equivalent $ is recorded for readers only. Revises 9-B and 10-D | Sharif, 2026-11-22 |
 
 ---
 
@@ -353,6 +354,7 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.26 · 2026-11-22** — D22: the kit runs on Sharif's Claude Code subscription, so usage (tokens per task) replaces dollars as the budget and the G2 metric. Dollar caps in 9-B and 10-D removed; token ceilings to be set from the first measured run. CLAUDE.md, plans 09/10 and the research templates updated.
 - **v0.25 · 2026-11-22** — Phase 10 smokes D1–D3 PASS: Amlani & Collitt Tables 2–3 reproduced 72/72
   (`53f6891`); the published county FE are coded by county name (1,845 groups vs 3,108 FIPS); with FIPS FE
   the headline rises 2.568 → 2.923. S2 methods-only inputs pass the leak check; S3 planted/null data pass

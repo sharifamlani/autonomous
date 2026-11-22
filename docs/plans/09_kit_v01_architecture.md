@@ -67,7 +67,7 @@ also makes every run comparable and every change a one-line config diff (L10).
 | Component | Owns | Never does | Lesson |
 |---|---|---|---|
 | Entry skill | user I/O, starting and summarising | decides pass/fail | L1 |
-| team.py | flow, caps, verdict reading, cost sums, the report | writes app code or judges quality | L1, L7, L8 |
+| team.py | flow, caps, verdict reading, usage sums, the report | writes app code or judges quality | L1, L7, L8 |
 | Roles | one job each, output files in a fixed format | read files outside their fence; change state | L1, L3, L5 |
 | gate.py | permissions, fences, logging | ask a model whether something is allowed | L7 |
 | Run folder | all state | hold secrets (env vars stay in the process) | — |
@@ -79,8 +79,8 @@ also makes every run comparable and every change a one-line config diff (L10).
 runs/<YYMMDD-HHMM>-<slug>/            # short path (Windows long-path limit, spike 4.8)
 ├── run.json          # id, kind, task, arm, kit version, model per role, caps, state, status
 ├── kit.toml          # the exact config this run used (copied in; the iteration knob)
-├── registry.json     # per role step: session_id, pid, started, ended, exit, cost_usd, turns
-├── ledger.tsv        # append-only: time, role, event, cost_usd, cumulative_usd
+├── registry.json     # per role step: session_id, pid, started, ended, exit, tokens, turns
+├── ledger.tsv        # append-only: time, role, event, tokens, cumulative_tokens
 ├── gate.log          # every hook decision: time, role, tool, target, allow|deny, rule
 ├── spec/             # spec.md (features, user walks), rubric.md (QA's checklist)
 ├── checks/           # HIDDEN from builder: walk.yaml (tester's steps + expected state),
@@ -106,7 +106,7 @@ read), `study/` (PREREG.md, analysis.py, replicate.ipynb, TRIAL_LOG.tsv, RESULT.
             |          |                                   +--> any FAIL, r = R ----> REPORT: STUCK
             |          +-- checks don't run / not tied to spec --> SPEC (once) --> REPORT: STUCK
             +-- builder/any role writes STUCK.md -----------------------------------> REPORT: STUCK
-   any state: $ cap, wall-clock cap, turn cap, or 3 identical errors ---------------> REPORT: CAP
+   any state: token cap, wall-clock cap, turn cap, or 3 identical errors ---------------> REPORT: CAP
 
    REPORT --> RELEASE_CARD (code, not an agent: a fact sheet + real screenshots for an OUTSIDE
                             marketer session to read; written after the result is final)
@@ -188,7 +188,7 @@ repo's own Marketing session (agent-team role, `post-infographic` skill), anothe
 ```
 
 - **`release/card.md`:** what was built or found, how it was checked (checks passed, observed in the
-  running app), cost, hours, interventions, status, how to run it. Plain facts, no hype.
+  running app), usage, hours, interventions, status, how to run it. Plain facts, no hype.
 - **`release/numbers.tsv`:** every number in the card with the file and field it came from, so a
   marketer can only quote checked numbers (the rule this repo's Marketing already follows).
 - **`release/media/`:** real screenshots copied from `evidence/` (the app as the tester saw it).
@@ -226,10 +226,12 @@ Same model for every role in v0.1 (decision 9-C). Per-role models are a knob in 
 - The fences are a seatbelt, not a vault: the review counts sandbox escapes as real (H17); the
   benchmark grader re-checks `checks/` hashes after every run to detect tampering.
 
-**Caps** (team.py, from kit.toml): run $ cap and wall-clock cap (decision 9-B); per-step max turns
-(§7); 3 identical consecutive errors ends the step. team.py sums each child session's
-`total_cost_usd` from `--output-format json` into ledger.tsv (a parent's cost omits its children,
-spike 4.8) and kills the process tree at a cap.
+**Caps** (team.py, from kit.toml): run token cap and wall-clock cap (decision 9-B, revised by D22:
+runs use a Claude Code subscription, so usage is the budget, not dollars); per-step max turns (§7);
+3 identical consecutive errors ends the step. team.py sums each child session's `usage` token counts
+from `--output-format json` into ledger.tsv (a parent's totals omit its children, spike 4.8) and kills
+the process tree at a cap. The JSON's `total_cost_usd` is kept as an API-equivalent figure for readers
+who pay per token, never as a cap.
 
 **Launch line per role step** (spike 4.8 shape):
 `claude -p "<step task>" --plugin-dir <kit> --append-system-prompt-file prompts/<role>.md
@@ -262,7 +264,7 @@ walk_driver  = "cua"               # or "playwright"
 max_dev_trials = 10
 replicator     = true
 [caps]
-app_usd = 30   app_minutes = 120   study_usd = 10   study_minutes = 60
+app_tokens = 0   app_minutes = 120   study_tokens = 0   study_minutes = 60   # 0 = set after the first measured run (D22)
 [models]
 default = "claude-opus-5-5"        # per-role overrides allowed
 [exits]
@@ -284,7 +286,7 @@ MCP servers as dependencies (L7).
 ```
 # Run 261122-0915-expense-splitter        status: DONE        kit 0.1.0
 Idea: "an app where friends log shared expenses and see who owes whom"
-Cost $18.40 · 1 h 22 min · 2 build rounds · 0 interventions
+Usage 4.1M tokens (310k output) · 1 h 22 min · 2 build rounds · 0 interventions
 
 Checks (hidden, written before the build)     12/12 PASS (observed in the running app)
   W1 add a person ............ PASS  evidence/r2/W1.png

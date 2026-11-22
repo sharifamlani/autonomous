@@ -24,7 +24,7 @@ builds the system that does both, proves it with measurements, and gives it away
 | # | Goal | What "done" looks like |
 |---|---|---|
 | **G1** | **Fast** | Idea to walked app, and question to verified study, in hours of agent time, not days |
-| **G2** | **Efficient** | Cost per task measured on every version and falling; no wasted agent rounds |
+| **G2** | **Efficient** | Usage per task (tokens) measured on every version and falling; no wasted agent rounds. Runs use a Claude Code subscription, so the budget is the usage limit, not dollars (D22) |
 | **G3** | **Reliable** | The same task succeeds run after run; failures are caught by the system, not by Sharif |
 | **G4** | **Accurate** | Apps do what the spec says when a user walks them; studies match known answers |
 | **G5** | **Autonomous** | Runs for hours unattended: no permission prompts, no rescues, alerts only when a human is needed |
@@ -38,7 +38,7 @@ deliver"):
    points: `/autonomous:new-app "<idea>"` and `/autonomous:new-study "<question>" <data>`.
 2. **The benchmark:** a small public task set (app specs with scripted user walks, research
    questions with known answers) that the kit runs unattended, scored per kit version by an
-   independent evaluator on success, accuracy, $/task, hours and human interventions. Built on
+   independent evaluator on success, accuracy, usage per task (tokens), hours and human interventions. Built on
    `claude plugin eval`.
 3. **The showcase:** the apps and studies the kit made, a short white paper, and the build-in-public
    series on LinkedIn.
@@ -88,7 +88,7 @@ is also a thing the benchmark should test.
 | L5 | **Add a role only if it is an independent check** | Builder + independent checks (QA, Tester, Evaluator) are the core. Any other role must earn its place in a benchmark arm against a **budget-matched single agent**; product roles such as marketing run outside the kit as their own session, reading its release card | Moderate |
 | L6 | **Parallel builders are isolated and merge only through executed tests** | One worktree per builder; merge gated on CI + QA at the sha + walk (the flywheel) | Moderate |
 | L7 | **Lean harness** | Few curated skills, no auto-generated context files, deterministic permission rules (scoped hook, allow-list), not model judgment | Moderate |
-| L8 | **Every run is bounded and has an honest exit** | Separate caps on dollars, wall-clock, turns and repeated errors; a `STUCK` exit the agent is told to use instead of forcing a pass; a skipped or failed check fails loudly | Suggestive |
+| L8 | **Every run is bounded and has an honest exit** | Separate caps on usage (tokens), wall-clock, turns and repeated errors; a `STUCK` exit the agent is told to use instead of forcing a pass; a skipped or failed check fails loudly | Suggestive |
 | L9 | **Studies pre-commit, then look once** | PREREG (hypothesis, decision rule, held-out split) committed before results; one held-out look; every reported number re-run from code by someone who did not write it | Moderate |
 | L10 | **Claims rest on repeated runs, graded independently** | k ≥ 3 runs per arm with the spread, $ per passed task, hours, interventions per task; graded by an evaluator that did not build the kit; a single run never ranks anything | Strong |
 | L11 | **Graders are instruments that break** | Every grader is audited before its scores are trusted: it must fail a known-bad submission and pass a known-good one (a calibration pair) | Strong |
@@ -194,7 +194,7 @@ Every study lives in `research/NNN_<slug>/` (scaffold: `python scripts/new_study
 
 1. **`PREREG.md`**: hypothesis, sources, why the literature can't answer it, mechanism, prior, the
    system under test and comparison arms, the task set (known answers), dev/held-out split, runs per
-   arm, metric, grader, pass thresholds, cost budget, trial budget, abandonment rule.
+   arm, metric, grader, pass thresholds, usage budget, trial budget, abandonment rule.
 2. **Trial log**: append every run to `research/TRIAL_LOG.tsv`. Never delete rows.
 3. **Runs per arm ≥ 3**; agent runs vary, so report the spread, not the best run.
 4. **One look at the held-out tasks.** A second look is logged as a trial.
