@@ -1,0 +1,15 @@
+# S3 (planted): estimate the effect of a fictional state policy on county turnout. Built by
+# scripts/benchmark/plant_s3.R; the planted and null copies get the identical task text.
+kind = "study"
+prompt = "../study_s3_planted/task.md"
+inputs = "inputs_local/planted"
+answer = ["answer.json", "replicate.ipynb"]
+grader = "planted"
+watch = ["dataverse.harvard.edu", "10.7910/dvn/tkbwoc", "tkbwoc", "10.1089/elj.2021.0015", "elj.2021.0015"]
+
+[grade]
+key = "s3.json"
+which = "planted"
+
+[caps]
+minutes = 60

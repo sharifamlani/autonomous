@@ -29,6 +29,14 @@ def grade(task, outputs):
         return {"pass": False, "score": 0, "details": f"grader crashed: {(p.stderr or p.stdout)[-500:]}"}
 
 
+def public(g):
+    """What may go in a committed scorecard: pass, score and a summary, never key values.
+    The full grader output stays in raw/<run_id>/grade.json (gitignored)."""
+    d = g.get("details")
+    summary = d.get("summary") if isinstance(d, dict) else d
+    return {"pass": g.get("pass"), "score": g.get("score"), "summary": summary}
+
+
 def usage(label):
     """Weekly usage via the local .packages/Claude_code/cc.py, when this machine has it."""
     sys.path.insert(0, str(ROOT / ".packages" / "Claude_code"))

@@ -58,13 +58,13 @@ def check_inputs(tasks):
 
 def calibrate(tasks):
     """Each grader must PASS its known-good answer and FAIL its known-bad one (L11)."""
-    failures, checked = [], 0
+    failures, missing, checked = [], [], 0
     for t in tasks:
-        cal = BENCH / "calibration" / t["id"]
+        cal = BENCH / "keys" / "calibration" / t["id"]          # local only: holds key values
         if t["grader"] == "none":
             continue
         if not cal.exists():
-            failures.append(f"{t['id']}: no calibration pair at {cal}")
+            missing.append(f"{t['id']}: no calibration pair at {cal}")
             continue
         for kind, want in (("good", True), ("bad", False)):
             for case in sorted(p for p in (cal / kind).iterdir() if p.is_dir()) or [cal / kind]:
@@ -75,9 +75,9 @@ def calibrate(tasks):
                 if not ok:
                     failures.append(f"{t['id']} {kind}/{case.name}")
     print(f"calibration: {checked - len(failures)} of {checked} cases as expected")
-    for f in failures:
+    for f in failures + missing:
         print("  FAIL", f)
-    return 1 if failures else 0
+    return 1 if failures or missing else 0
 
 
 def status_of(out, made, task):
@@ -122,6 +122,7 @@ def run_one(task, arm, k, ts, bdir, model, caps_override):
     rooms.remove(room)
     status = status_of(out, made, task)
     g = record.grade(task, dest)
+    (dest / "grade.json").write_text(json.dumps(g, indent=2) + "\n", encoding="utf-8", newline="\n")
     missing = [a for a in task["answer"] if a not in made]
     passed = bool(g.get("pass")) and status in ("DONE", "STUCK") and not missing and not out["flags"]
     tok, out_tok, turns, cost = totals(out)
@@ -129,7 +130,7 @@ def run_one(task, arm, k, ts, bdir, model, caps_override):
            "score": g.get("score") if passed else 0,
            "tokens": tok, "output_tokens": out_tok, "minutes": out["minutes"], "turns": turns,
            "flags": out["flags"], "stop": out["stop"], "missing": missing, "made": made,
-           "grader": g, "cost_usd_api": cost, "processes": out["processes"], "orphans_killed": out["orphans_killed"],
+           "grader": record.public(g), "cost_usd_api": cost, "processes": out["processes"], "orphans_killed": out["orphans_killed"],
            "orphans_left": out["orphans_left"], "exit": out["exit"], "caps": caps,
            "week_util": out["week_util"], "limit_status": out["limit_status"]}
     print(f"[{run_id}] {status} pass={passed} tokens={tok} min={out['minutes']} turns={turns} flags={out['flags']} "

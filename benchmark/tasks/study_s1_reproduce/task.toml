@@ -1,0 +1,18 @@
+# S1: reproduce Tables 2-3 of Amlani & Collitt (2022) with the authors' replication package.
+# Graded against the package's own specification (county fixed effects as coded, state-clustered SEs),
+# at the printed precision (3 decimals): plan 10, D1.
+kind = "study"
+prompt = "task.md"
+inputs = "inputs_local"
+answer = ["answer.json", "replicate.ipynb"]
+grader = "numbers"
+watch = ["dataverse.harvard.edu", "10.7910/dvn/tkbwoc", "tkbwoc", "10.1089/elj.2021.0015", "elj.2021.0015"]
+leak_key = "s1.json"
+
+[grade]
+key = "s1.json"
+spec = "published"
+rule = "printed"
+
+[caps]
+minutes = 60

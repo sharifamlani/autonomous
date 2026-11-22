@@ -9,5 +9,12 @@ watch = ["dataverse.harvard.edu", "10.7910/dvn/tkbwoc", "tkbwoc", "10.1089/elj.2
 leak_key = "s1.json"
 leak_phrases = ["2.6 percent", "2.6 +", "7.3 percent", "4.7 +", "1.4 percent", "1.2 percent"]
 
+[grade]
+key = "s1.json"
+spec = "fips"
+rule = "tolerance"
+rel = 0.10          # decision 10-B (approved): within 10% of the key, same sign, same 5% call
+abs_se = 0.0        # 0 = off; see plan 10 Part 2 notes on near-zero estimates (Sharif's call)
+
 [caps]
 minutes = 60
