@@ -138,13 +138,13 @@ autonomous/
 
 | # | What it proves | Command | Expected | If it fails → |
 |---|---|---|---|---|
-| S1 | A launcher-started `claude -p` session runs under caps and is killed cleanly at the cap | `python benchmark/run.py --arm baseline --task smoke_hello --runs 1 --max-usd 0.50 --max-min 2` | `status=CAP` or `status=DONE`, scorecard written, no orphan `claude` process (`tasklist | grep -c claude` unchanged) | Fix the kill/timeout path in run.py before anything else |
+| S1 | A launcher-started `claude -p` session runs under caps and is killed cleanly at the cap | `python benchmark/run.py --arm baseline --task smoke_hello --runs 1 --max-tokens 200000 --max-min 2` | `status=CAP` or `status=DONE`, scorecard written, no orphan `claude` process (`tasklist | grep -c claude` unchanged) | Fix the kill/timeout path in run.py before anything else |
 | S2 | The fence works: the builder cannot read `checks/` | `python plugin/hooks/gate.py --selftest` | `8/8 fence cases PASS` (read/glob/grep/bash cat into checks/ all denied for builder; allowed for tester) | Fence is the core of L1; redesign the gate before building roles |
 | S3 | Graders are trustworthy instruments (L11) | `python benchmark/run.py --calibrate --task all` | Each grader: known-good scores ≥ threshold, known-bad scores < threshold | Fix the grader; no scored run until it passes |
 | S4 | The Tester can walk a running app unattended in an isolated profile (D7) | `python benchmark/run.py --arm kit --task smoke_walk --runs 1` | `tester: 3/3 checks PASS`, 3 screenshots in `runs/<id>/evidence/`, 0 permission prompts | Re-run spike S3b; fall back to Playwright for web apps |
 | S5 | The held-out seal holds (L9) | `python benchmark/run.py --arm kit --task smoke_study --runs 1` | gate log shows 0 analyst reads of held-out; PREREG commit time < held-out script time | Tighten seal.py / gate.py |
 | S6 | Honest exit: an impossible task ends `STUCK`, not a fake DONE (L8) | `python benchmark/run.py --arm kit --task smoke_impossible --runs 1` | `status=STUCK`, grader confirms no tampering with checks | Strengthen `done-means-evidence`; this is Future Issue 3 |
-| S7 | Baseline arm runs both real tasks end to end | `python benchmark/run.py --arm baseline --task all --runs 1` | 2 scorecards, every field filled (score, $, minutes) | Fix run.py task wiring |
+| S7 | Baseline arm runs both real tasks end to end | `python benchmark/run.py --arm baseline --task all --runs 1` | 2 scorecards, every field filled (score, tokens, minutes) | Fix run.py task wiring |
 | S8 | **End to end:** kit arm, both tasks, unattended | `python benchmark/run.py --arm kit --task all --runs 1` | 2 RUN_REPORTs, 2 scorecards, 0 interventions | Route the failing stage to its owner; back to its smoke |
 
 Ground truth after S8: Sharif opens the built app and clicks through it himself; a fresh session
@@ -158,8 +158,8 @@ runs `replicate.ipynb` Run All and gets the same estimate.
 | E2 | "The app works when someone uses it" | ≥ 2 of 3 kit runs pass ≥ 90% of hidden acceptance checks on app_001 | grader: API tests + scripted walk | scorecard + walk screenshots |
 | E3 | "The study's number checks out" | ≥ 2 of 3 kit runs within the answer key's tolerance; 3 of 3 commit PREREG before the held-out look | grader + git log + gate log | scorecard + `research/001_*/` |
 | E4 | "It never says done when it isn't" | 0 kit runs report DONE while the hidden grader scores below threshold | grader false-DONE check | scorecard `false_done` |
-| E5 | "It beats just asking Claude" | kit mean score > baseline mean on each task at the same $ and time caps, spread reported | run.py, both arms, k=3 | scorecard `delta`, min/max |
-| E6 | "I know what it cost" | every run records $, minutes and turns; kit $ per passed task reported | run.py | scorecard |
+| E5 | "It beats just asking Claude" | kit mean score > baseline mean on each task at the same token and time caps, spread reported | run.py, both arms, k=3 | scorecard `delta`, min/max |
+| E6 | "I know what it cost" | every run records tokens, minutes and turns; kit tokens per passed task reported (D22) | run.py | scorecard |
 | E7 | "Anyone can install it" | `claude plugin validate plugin --strict` exit 0; install from GitHub on a clean profile lists `/autonomous:new-app` and `/autonomous:new-study` | CLI on a clean profile | log + screenshot |
 | E8 | "The scale is honest" | every grader passes its calibration pair before the scored run | `run.py --calibrate` | calibration log |
 | E9 | "We can iterate" | one command reproduces the scorecard; one TRIAL_LOG row per run | `run.py --arm kit --task all --runs 3` | `benchmark/results/v0.1.0/`, TRIAL_LOG |
