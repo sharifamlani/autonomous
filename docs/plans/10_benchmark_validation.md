@@ -362,6 +362,18 @@ model; one grader verdict is re-checked by hand against the key.
 | Grading is reproducible | re-grading saved outputs gives identical scores | `run.py --regrade <ts>` | empty diff |
 | Baseline runs the whole ladder | 1 scorecard row per task, 0 empty fields | R9 | `benchmark/results/baseline/<ts>/` |
 
+### Part 2 progress
+
+| Smoke | Result | Evidence |
+|---|---|---|
+| R1 clean room | **PASS** 2026-11-22: `/context` in an empty room at `C:\abench`: 0 CLAUDE.md rows, 0 MCP, built-in skills only (19.8k tokens). Negative control (same check in a home-folder room): 173 problems found | `run.py --dry-run --context`; `results/baseline/*/room_check.txt` |
+| R2 hello | **PASS**: DONE, graded PASS, 49.7k tokens, 2 turns, weekly usage logged before/after; `--regrade` gives 1 of 1 identical | `results/baseline/261122-164548/` |
+| R3 caps | **PASS** on the second attempt. First attempt (`261122-164701`) left an orphan `sleep.exe`: Git Bash children lose their parent link, so the process-tree kill missed it and the tree check wrongly reported 0. Fix: every run lives in a Windows job object, terminated at a cap. Re-run: CAP at 1.0 min; the agent's foreground and background `sleep 300` both gone by an outside `tasklist` count | `results/baseline/261122-165152/` |
+| R4 cheat flag | **PASS**: flagged `watch:dataverse.harvard.edu` on the first tool call, stopped in 4 s before writing anything, scored FAIL | `results/baseline/261122-165358/` |
+| Leak check in the runner | `run.py --check-inputs --task study_s2_replicate`: 0 of 209 values (exit 0); a planted leak file is caught (exit 1). `scripts/benchmark/check_inputs.py` retired | this table |
+
+Each run also records the weekly-limit share from the stream's `rate_limit_event` (free; first and last value).
+
 ### Decisions for Sharif (Part 2)
 
 | # | Decision | Recommendation |

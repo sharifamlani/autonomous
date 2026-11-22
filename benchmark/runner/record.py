@@ -40,7 +40,8 @@ def usage(label):
 
 
 def write(bdir, meta, rows):
-    (bdir / "scorecard.json").write_text(json.dumps({"meta": meta, "runs": rows}, indent=2), encoding="utf-8")
+    (bdir / "scorecard.json").write_text(json.dumps({"meta": meta, "runs": rows}, indent=2) + "\n",
+                                         encoding="utf-8", newline="\n")
     md = [f"# Scorecard {meta['arm']} {meta['ts']}", "",
           f"model {meta['model']} · claude {meta['claude_version']} · room check: {meta['room_check']}", "",
           "Weekly usage before: " + "; ".join(f"{u['name']} {u['pct']}%" for u in meta["usage_before"]),

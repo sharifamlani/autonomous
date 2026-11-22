@@ -42,7 +42,8 @@ def room_check(bdir=None):
     text = launch.context(rooms.probe())
     problems = rooms.clean_check(text)
     if bdir:
-        (bdir / "room_check.txt").write_text(text + "\n\nproblems: " + json.dumps(problems) + "\n", encoding="utf-8")
+        (bdir / "room_check.txt").write_text(text + "\n\nproblems: " + json.dumps(problems) + "\n", encoding="utf-8",
+                                             newline="\n")
     return text, problems
 
 
@@ -125,7 +126,7 @@ def run_one(task, arm, k, ts, bdir, model, caps_override):
     passed = bool(g.get("pass")) and status in ("DONE", "STUCK") and not missing and not out["flags"]
     tok, out_tok, turns, cost = totals(out)
     row = {"task": task["id"], "run_id": run_id, "status": status, "pass": passed,
-           "score": g.get("score") if passed or g.get("score") is None else 0,
+           "score": g.get("score") if passed else 0,
            "tokens": tok, "output_tokens": out_tok, "minutes": out["minutes"], "turns": turns,
            "flags": out["flags"], "stop": out["stop"], "missing": missing, "made": made,
            "grader": g, "cost_usd_api": cost, "processes": out["processes"], "orphans_killed": out["orphans_killed"],

@@ -1,0 +1,13 @@
+# S2: replicate Amlani & Collitt (2022) from the Methodology section and the data only (no code, no results).
+# Graded against the FIPS county fixed-effects specification (the text-faithful one; plan 10, D1 notes).
+kind = "study"
+prompt = "task.md"
+inputs = "inputs_local"
+answer = ["answer.json", "replicate.ipynb"]
+grader = "numbers"
+watch = ["dataverse.harvard.edu", "10.7910/dvn/tkbwoc", "tkbwoc", "10.1089/elj.2021.0015", "elj.2021.0015"]
+leak_key = "s1.json"
+leak_phrases = ["2.6 percent", "2.6 +", "7.3 percent", "4.7 +", "1.4 percent", "1.2 percent"]
+
+[caps]
+minutes = 60

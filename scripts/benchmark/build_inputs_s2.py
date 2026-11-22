@@ -11,7 +11,7 @@ publisher PDF ("For personal use only"), so the extracted text stays local:
             vbm_data.rda    the data, unchanged
 
 Run from the repo root:  python scripts/benchmark/build_inputs_s2.py
-Then check for leaks:   python scripts/benchmark/check_inputs.py --task study_s2_replicate
+Then check for leaks:   python benchmark/run.py --check-inputs --task study_s2_replicate
 """
 import re
 import shutil
