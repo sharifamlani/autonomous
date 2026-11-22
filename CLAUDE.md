@@ -71,6 +71,33 @@ A paper's claim, a repo's README, a model's benchmark and a star count are **cla
 they help, and removed when it says they don't. "Tests pass", "it deployed" and "it looks right" are
 never evidence that the kit works; only a graded run of the real task is.
 
+## 0.5 Lessons from the literature review (CLAUDE.md v1)
+
+Source: `literature/LITERATURE_REVIEW.pdf`, Table 3 (design principles), Summary Points and §13. The
+review's one-line finding: **agents succeed where something they cannot edit decides "done", and fail,
+often silently, where they grade their own work.** Every kit design and every build in this repo
+follows these rules. Confidence is the review's, not ours; a rule marked *moderate* or *suggestive*
+is also a thing the benchmark should test.
+
+| # | Rule | How we apply it | Confidence |
+|---|---|---|---|
+| L1 | **"Done" is decided by a signal the builder cannot edit** | Acceptance tests and the Tester's walk script are written from the spec before the build, kept outside the builder's folder, and run outside its session. Studies: the answer key and held-out split stay out of the agent's workspace until grading | Strong |
+| L2 | **A completion report is a claim, not evidence** | Nothing counts as done without execution artifacts: test output, the walk's screenshots and observed state, the notebook's executed outputs. "I finished" with no artifact = not done | Strong |
+| L3 | **Tell the builder how it will be checked; keep the final check out of reach** | The builder gets the spec, the acceptance criteria in prose and can run its own app; it never sees or edits the grader's code or the held-out answers | Moderate |
+| L4 | **A reviewer checks observed state against a rubric, not the builder's story** | QA and the Evaluator run the code and grade against an explicit rubric file; they do not read the builder's summary first | Moderate |
+| L5 | **Add a role only if it is an independent check** | Builder + independent checks (QA, Tester, Evaluator) are the core. Any other role must earn its place in a benchmark arm against a **budget-matched single agent** | Moderate |
+| L6 | **Parallel builders are isolated and merge only through executed tests** | One worktree per builder; merge gated on CI + QA at the sha + walk (the flywheel) | Moderate |
+| L7 | **Lean harness** | Few curated skills, no auto-generated context files, deterministic permission rules (scoped hook, allow-list), not model judgment | Moderate |
+| L8 | **Every run is bounded and has an honest exit** | Separate caps on dollars, wall-clock, turns and repeated errors; a `STUCK` exit the agent is told to use instead of forcing a pass; a skipped or failed check fails loudly | Suggestive |
+| L9 | **Studies pre-commit, then look once** | PREREG (hypothesis, decision rule, held-out split) committed before results; one held-out look; every reported number re-run from code by someone who did not write it | Moderate |
+| L10 | **Claims rest on repeated runs, graded independently** | k ≥ 3 runs per arm with the spread, $ per passed task, hours, interventions per task; graded by an evaluator that did not build the kit; a single run never ranks anything | Strong |
+| L11 | **Graders are instruments that break** | Every grader is audited before its scores are trusted: it must fail a known-bad submission and pass a known-good one (a calibration pair) | Strong |
+
+**Open questions the benchmark is built to answer** (the review's Future Issues 1–4): does builder +
+independent Tester beat a budget-matched solo agent on apps built from scratch; do separate sessions
+handing off through files beat one long session; does an honest `STUCK` exit cut gaming without
+cutting completion; how much does pre-registration narrow the spread of study verdicts.
+
 ## 1. The founding promise and the red flag rule
 
 The promise, as a user would say it (full spike record in the local `.agents/project.md`):
