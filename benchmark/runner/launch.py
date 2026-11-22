@@ -1,4 +1,4 @@
-"""Start one clean-room `claude -p`, read its stream live, enforce caps, kill the process tree at a cap.
+"""Start one clean-room `claude -p`, read its stream live, enforce caps, kill everything it started at a cap (a Windows job object).
 
 Clean room (D23): --setting-sources project,local + --strict-mcp-config with no servers, run from a
 room outside the home folder, with this session's CLAUDE_CODE_* variables removed so the child is a
@@ -53,34 +53,65 @@ def context(room):
     return json.loads(p.stdout)["result"]
 
 
-def _alive(pid):
-    """Never os.kill(pid, 0) on Windows: it terminates the process."""
-    h = ctypes.windll.kernel32.OpenProcess(0x1000, False, pid)
-    if not h:
-        return False
-    code = ctypes.c_ulong()
-    ctypes.windll.kernel32.GetExitCodeProcess(h, ctypes.byref(code))
-    ctypes.windll.kernel32.CloseHandle(h)
-    return code.value == 259
+_k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+_k32.CreateJobObjectW.restype = ctypes.c_void_p
+_k32.OpenProcess.restype = ctypes.c_void_p
 
 
-def _descendants(pid):
-    out = subprocess.run(["powershell", "-NoProfile", "-Command",
-                          "Get-CimInstance Win32_Process | Select-Object ProcessId,ParentProcessId | ConvertTo-Json -Compress"],
-                         capture_output=True, text=True, timeout=60).stdout
-    kids, procs = set(), json.loads(out or "[]")
-    frontier = {pid}
-    while frontier:
-        nxt = {p["ProcessId"] for p in procs if p["ParentProcessId"] in frontier} - kids - {pid}
-        kids |= nxt
-        frontier = nxt
-    return kids
+class _BasicLimit(ctypes.Structure):
+    _fields_ = [("PerProcessUserTimeLimit", ctypes.c_int64), ("PerJobUserTimeLimit", ctypes.c_int64),
+                ("LimitFlags", ctypes.c_uint32), ("MinimumWorkingSetSize", ctypes.c_size_t),
+                ("MaximumWorkingSetSize", ctypes.c_size_t), ("ActiveProcessLimit", ctypes.c_uint32),
+                ("Affinity", ctypes.c_size_t), ("PriorityClass", ctypes.c_uint32), ("SchedulingClass", ctypes.c_uint32)]
 
 
-def _kill(pids):
-    for p in pids:
-        if _alive(p):
-            subprocess.run(["taskkill", "/PID", str(p), "/T", "/F"], capture_output=True)
+class _ExtendedLimit(ctypes.Structure):
+    _fields_ = [("Basic", _BasicLimit), ("IoInfo", ctypes.c_uint64 * 6), ("ProcessMemoryLimit", ctypes.c_size_t),
+                ("JobMemoryLimit", ctypes.c_size_t), ("PeakProcessMemoryUsed", ctypes.c_size_t),
+                ("PeakJobMemoryUsed", ctypes.c_size_t)]
+
+
+class _Accounting(ctypes.Structure):
+    _fields_ = [("TotalUserTime", ctypes.c_int64), ("TotalKernelTime", ctypes.c_int64),
+                ("ThisPeriodTotalUserTime", ctypes.c_int64), ("ThisPeriodTotalKernelTime", ctypes.c_int64),
+                ("TotalPageFaultCount", ctypes.c_uint32), ("TotalProcesses", ctypes.c_uint32),
+                ("ActiveProcesses", ctypes.c_uint32), ("TotalTerminatedProcesses", ctypes.c_uint32)]
+
+
+class Job:
+    """A Windows job object around the run: every process the agent starts stays inside it, even when
+    its parent dies (Git Bash programs lose their parent link, so a process-tree kill misses them;
+    smoke R3, 2026-11-22). Killing the job kills them all; closing the handle does too."""
+
+    def __init__(self):
+        self.h = ctypes.c_void_p(_k32.CreateJobObjectW(None, None))
+        info = _ExtendedLimit()
+        info.Basic.LimitFlags = 0x2000                                  # KILL_ON_JOB_CLOSE
+        if not _k32.SetInformationJobObject(self.h, 9, ctypes.byref(info), ctypes.sizeof(info)):
+            raise OSError(ctypes.get_last_error(), "SetInformationJobObject")
+
+    def add(self, pid):
+        ph = ctypes.c_void_p(_k32.OpenProcess(0x0101, False, pid))      # SET_QUOTA | TERMINATE
+        ok = _k32.AssignProcessToJobObject(self.h, ph)
+        _k32.CloseHandle(ph)
+        if not ok:
+            raise OSError(ctypes.get_last_error(), "AssignProcessToJobObject")
+
+    def counts(self):
+        a = _Accounting()
+        _k32.QueryInformationJobObject(self.h, 1, ctypes.byref(a), ctypes.sizeof(a), None)
+        return a.TotalProcesses, a.ActiveProcesses
+
+    def kill(self):
+        _k32.TerminateJobObject(self.h, 1)
+        for _ in range(50):
+            if self.counts()[1] == 0:
+                break
+            time.sleep(0.1)
+        return self.counts()[1]
+
+    def close(self):
+        _k32.CloseHandle(self.h)
 
 
 def run(cmd, prompt, room, caps, on_tool_use, raw_path):
@@ -88,20 +119,17 @@ def run(cmd, prompt, room, caps, on_tool_use, raw_path):
     t0 = time.monotonic()
     proc = subprocess.Popen(cmd, cwd=room, env=env(), stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE, text=True, encoding="utf-8", bufsize=1)
+    job = Job()
+    job.add(proc.pid)                                       # before the agent can start anything
     proc.stdin.write(prompt)
     proc.stdin.close()
     lines, err = queue.Queue(), []
     threading.Thread(target=lambda: ([lines.put(l) for l in proc.stdout], lines.put(None)), daemon=True).start()
     threading.Thread(target=lambda: err.extend(proc.stderr), daemon=True).start()
 
-    usage, flags, result, stop = {}, [], None, None
-    tree, last_snap = set(), 0.0
+    usage, flags, result, stop, limits = {}, [], None, None, []
     with open(raw_path, "w", encoding="utf-8", newline="\n") as raw:
         while True:
-            now = time.monotonic()
-            if now - last_snap > 10:                       # remember the tree so nothing outlives the run
-                tree |= _descendants(proc.pid)
-                last_snap = now
             try:
                 line = lines.get(timeout=1)
             except queue.Empty:
@@ -127,6 +155,8 @@ def run(cmd, prompt, room, caps, on_tool_use, raw_path):
                                 stop = stop or "FLAGGED"
                 elif ev.get("type") == "result":
                     result = ev
+                elif ev.get("type") == "rate_limit_event":          # weekly-limit share, per run, free
+                    limits.append(ev.get("rate_limit_info", {}))
             minutes = (time.monotonic() - t0) / 60
             tokens = sum(sum(u.values()) for u in usage.values())
             if caps["minutes"] and minutes > caps["minutes"]:
@@ -138,18 +168,21 @@ def run(cmd, prompt, room, caps, on_tool_use, raw_path):
             if stop:
                 break
 
-    tree |= _descendants(proc.pid) if proc.poll() is None else set()
     if proc.poll() is None:
-        _kill([proc.pid])
+        job.kill()                                          # cap or flag: stop everything now
     try:
         proc.wait(timeout=30)
     except subprocess.TimeoutExpired:
-        _kill([proc.pid])
-    orphans = [p for p in tree if _alive(p)]
-    _kill(orphans)                                          # e.g. a script the agent left running
-    left = [p for p in orphans if _alive(p)]
+        job.kill()
+    spawned, active = job.counts()
+    leftovers = active                                      # e.g. a server the agent left running
+    left = job.kill()
+    job.close()
+    week = [w.get("unifiedWindows", {}).get("seven_day", {}).get("utilization") for w in limits]
     return {"stop": stop, "result": result, "flags": sorted(set(flags)),
+            "week_util": [week[0], week[-1]] if week else None,
+            "limit_status": limits[-1].get("status") if limits else None,
             "minutes": round((time.monotonic() - t0) / 60, 2), "turns_live": len(usage),
             "tokens_live": {k: sum(u.get(k, 0) for u in usage.values()) for k in TOKEN_FIELDS},
-            "orphans_killed": len(orphans) - len(left), "orphans_left": len(left),
+            "processes": spawned, "orphans_killed": leftovers - left, "orphans_left": left,
             "exit": proc.returncode, "stderr": "".join(err)[-2000:]}

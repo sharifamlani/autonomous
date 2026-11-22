@@ -82,6 +82,8 @@ def calibrate(tasks):
 def status_of(out, made, task):
     if out["stop"] == "FLAGGED":
         return "FLAGGED"
+    if out.get("limit_status") not in (None, "allowed", "allowed_warning"):
+        return "ERROR"                                      # cut off by the usage limit, not the task
     if out["stop"] and out["stop"].startswith("CAP"):
         return "CAP"
     if "STUCK.md" in made:
@@ -126,8 +128,9 @@ def run_one(task, arm, k, ts, bdir, model, caps_override):
            "score": g.get("score") if passed or g.get("score") is None else 0,
            "tokens": tok, "output_tokens": out_tok, "minutes": out["minutes"], "turns": turns,
            "flags": out["flags"], "stop": out["stop"], "missing": missing, "made": made,
-           "grader": g, "cost_usd_api": cost, "orphans_killed": out["orphans_killed"],
-           "orphans_left": out["orphans_left"], "exit": out["exit"], "caps": caps}
+           "grader": g, "cost_usd_api": cost, "processes": out["processes"], "orphans_killed": out["orphans_killed"],
+           "orphans_left": out["orphans_left"], "exit": out["exit"], "caps": caps,
+           "week_util": out["week_util"], "limit_status": out["limit_status"]}
     print(f"[{run_id}] {status} pass={passed} tokens={tok} min={out['minutes']} turns={turns} flags={out['flags']} "
           f"orphans_left={out['orphans_left']}", flush=True)
     return row
