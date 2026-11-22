@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "arm": "baseline",
+    "ts": "261122-170351",
+    "model": "claude-opus-5-5",
+    "claude_version": "2.1.330 (Claude Code)",
+    "room_check": "PASS",
+    "task_spec": "study_s1_reproduce",
+    "runs": 1,
+    "usage_before": [
+      {
+        "name": "week (all models)",
+        "pct": 2,
+        "resets": "Nov 29, 5:59am (America/New_York)"
+      },
+      {
+        "name": "week (Fable)",
+        "pct": 0,
+        "resets": "Nov 29, 6am (America/New_York)"
+      }
+    ],
+    "usage_after": [
+      {
+        "name": "week (all models)",
+        "pct": 2,
+        "resets": "Nov 29, 5:59am (America/New_York)"
+      },
+      {
+        "name": "week (Fable)",
+        "pct": 0,
+        "resets": "Nov 29, 6am (America/New_York)"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "task": "study_s1_reproduce",
+      "run_id": "261122-170351-s1_reproduce-b1",
+      "status": "FLAGGED",
+      "pass": false,
+      "score": 0,
+      "tokens": 56970,
+      "output_tokens": 22,
+      "minutes": 0.15,
+      "turns": 2,
+      "flags": [
+        "room:261122-170351-s1_reproduce-b1;"
+      ],
+      "stop": "FLAGGED",
+      "missing": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "made": [],
+      "grader": {
+        "pass": false,
+        "score": 0,
+        "summary": "missing answer.json"
+      },
+      "cost_usd_api": null,
+      "processes": 75,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 1,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 0
+      },
+      "week_util": [
+        0.01,
+        0.01
+      ],
+      "limit_status": "allowed"
+    }
+  ]
+}
