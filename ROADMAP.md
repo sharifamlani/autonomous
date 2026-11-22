@@ -5,7 +5,7 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.35 · 2026-11-22
+> v0.36 · 2026-11-22
 
 ---
 
@@ -14,7 +14,7 @@
 - **Current phase:** Phase 10 (validation ladder); Phase 9 done (design + architecture approved 2026-11-22). Row 8.3 flips when Marketing confirms the review post went live
 - **Current step:** limits set (D26). Two tracks in parallel (D24): step 7 of plan 10 (S4, A1, A2 + bug injection, A3, each with grader and calibration) and Phase 11 (kit build, against plan 09's smokes, starting with the folder fence)
 - **Last update:** 2026-11-22
-- **Next action:** step 7: build S4 (LaLonde trap + leading prompt) with its grader and calibration; Phase 11: `plugin/` skeleton and `hooks/gate.py --selftest` (plan 09 smoke S2).
+- **Next action:** step 7: the app tasks (A1 build, A2 known-good app + 20 planted bugs, A3 impossible spec) with their graders; Phase 11: `plugin/` skeleton and `hooks/gate.py --selftest` (plan 09 smoke S2).
 
 ---
 
@@ -283,8 +283,8 @@ Source: CLAUDE.md §7.
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
 | 10.1 | App ladder: A1 build, A2 20 planted bugs for QA + tester, A3 impossible spec (was 11.1) | ⏸ | ✅ 10 | `docs/plans/10_benchmark_validation.md` (approved) | D2 |
-| 10.2 | Study ladder: S1 reproduce + S2 replicate Amlani & Collitt 2021 (CC0), S3 planted effect + null, S4 traps (LaLonde, leading prompt) (was 11.2) | ~ S1, S2, S3 built and graded (S3 jitter done); S4 pending | ✅ 10 | `docs/plans/10_benchmark_validation.md` (approved) | D2 |
-| 10.3 | Write graders (deterministic first; LLM judge only with a calibration set) (was 11.3) | ~ study graders calibrated 15/15 (`6b7c267`); app graders with step 7 | ⏸ 10 | gate: 10.1–10.2 | literature 05 |
+| 10.2 | Study ladder: S1 reproduce + S2 replicate Amlani & Collitt 2021 (CC0), S3 planted effect + null, S4 traps (LaLonde, leading prompt) (was 11.2) | ✅ | — | 2026-11-22 · `4df0568` (S1–S4: 6 study tasks, inputs leak-checked) | D2 |
+| 10.3 | Write graders (deterministic first; LLM judge only with a calibration set) (was 11.3) | ~ study graders calibrated 27/27 (`4df0568`); app graders with step 7 | ⏸ 10 | gate: 10.1–10.2 | literature 05 |
 | 10.4 | Run the no-plugin baseline arm; record the scorecard (was 11.4) | ⏸ | ✅ 10 | gate: 10.3, 10.5 | D17 |
 | 10.5 | Runner `benchmark/run.py`: clean room at `C:\abench`, token/minute/turn caps, cheat flags = FAIL, scorecard + TRIAL_LOG + usage log | ✅ | — | 2026-11-22 · `1dee888` (R1–R4 PASS; kit arm comes with Phase 11) | D22, D23 |
 | 10.6 | One measured baseline run (S1) → token caps per run (Sharif's call) | ✅ | — | 2026-11-22 · `9da6943` (S1 PASS 8/8, 12.4 min, 517k tokens); limits set by D26 | D22, D26 |
@@ -360,6 +360,7 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.36 · 2026-11-22** — S4 traps built (row 10.2 ✅, `4df0568`): S4a LaLonde (grader `verdict`), S4b leading-prompt S2; the study half of the ladder is complete, 27/27 calibration. Next: app tasks and the kit's fence.
 - **v0.35 · 2026-11-22** — D26: run limits set (study 3M tokens / 60 min, app 15M / 120 min, both arms); `runner/tasks.py` applies them per task kind. Row 10.6 ✅. Step 7 and Phase 11 start in parallel.
 - **v0.34 · 2026-11-22** — Housekeeping: the three S1 trial rows committed to TRIAL_LOG (`2e29f38`); rows 10.2 and 10.3 brought up to date (S3 jitter done, calibration 15/15). Still waiting on Sharif's token caps (10-I).
 - **v0.33 · 2026-11-22** — Measured S1 baseline run PASS: plain Claude Code reproduced all 8 Table 2–3 estimates at printed precision in 12.4 min, 11 model calls, 517k tokens (mostly cache reads), weekly usage still 2%. Turn counter fixed to count model calls. Token caps go to Sharif.
