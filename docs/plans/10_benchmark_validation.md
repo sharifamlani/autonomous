@@ -9,8 +9,8 @@ entire system." One app and one study show the kit runs; they don't convince any
 ```
 AUTONOMOUS — phase plan
 ─────────────────────────────────
-Phase 9    : Kit v0.1 design + architecture [██████████████⏸.....] waiting on you (9-A to 9-D)
-Phase 10   : Validation ladder (this plan)  [████................] ⏳ drafting
+Phase 9    : Kit v0.1 design + architecture [████████████████████] ✅
+Phase 10   : Validation ladder (this plan)  [████████⏸...........] waiting on you (Part 2)
 Phase 11   : Kit v0.1 build
 Phase 12   : v0.1 release
 ```
@@ -214,3 +214,159 @@ FIPS 3,108):
 | 10-C | Paper text for S2 | Sharif provides the accepted manuscript (kept local; not redistributed) |
 | 10-D | Release-check ceiling | ~~≤ $630 per release check; ≤ $130 per dev iteration~~ **Revised (D22):** usage, not dollars; token ceilings set from the first measured run |
 | 10-E | Independent paper for the public claim | LaLonde in v0.1; one political-science package by other authors in v0.2 |
+
+---
+
+## Part 2: the runner and the remaining steps (for Sharif's approval, 2026-11-22)
+
+**Status:** proposed 2026-11-22. Steps 1–3 build the runner; steps 4–8 finish the ladder.
+**Decided already:** usage, not dollars (D22); a run that reaches for the original package or the
+keys **fails** (Sharif, 2026-11-22: "fail it is"; D23); every run happens in a clean room (D23).
+
+### The runner, in one line
+
+An exam proctor: it seats Claude Code in an empty room with only the exam paper, keeps the clock,
+takes the paper away at the cap, and hands the answer sheet to a grader in another room who holds the
+key.
+
+**The clean room (spike 2026-11-22, 0 tokens, via `/context`).** Plain `claude -p` loads Sharif's
+personal setup: his CLAUDE.md (17.4k tokens), his skills and ~650k tokens of MCP tools. Measured:
+
+| Setup | Agent starts with |
+|---|---|
+| default, in a folder under `C:\Users\Shari` | his CLAUDE.md, skills, all MCP servers (56.2k tokens) |
+| `--setting-sources project,local --strict-mcp-config`, same folder | MCP gone; CLAUDE.md still loaded (found by walking up the folder tree) |
+| **the same flags + a workspace at `C:\abench\<run-id>`** | **stock Claude Code only: built-in skills, no CLAUDE.md, no MCP (32.1k)** |
+
+`--bare` is not usable: it accepts only an API key, never the subscription. Workspaces outside the
+repo and Dropbox also keep the answer keys out of the agent's neighbourhood and keep sync off the run.
+
+**One run:**
+1. Leak-check the inputs; abort on a hit.
+2. Build `C:\abench\<run-id>` with `task.md` and the inputs only.
+3. Start one clean-room `claude -p` (Opus 5.5, `stream-json`). Both arms share prompt, permissions,
+   caps and inputs; the kit arm adds `--plugin-dir plugin` and its slash command.
+4. While it streams: sum tokens, count turns, stop at the token / minute / turn cap by killing the
+   process tree, and flag any tool call that touches a `watch` string or a path into the repo.
+5. Collect the named answer files (missing = fail).
+6. Grade in a separate process against `benchmark/keys/`, including a check that reported numbers
+   match the notebook's own output.
+7. Write the scorecard row, the TRIAL_LOG row, and weekly usage before and after the batch
+   (`cc.py log`).
+
+**Modes:** `--arm baseline|kit --task <id|study|app|v0.1> --runs k` · `--check-inputs` (absorbs
+`check_inputs.py`) · `--calibrate` (graders only, no agent) · `--dry-run` (build the room, print the
+launch line) · `--regrade <ts>` (re-grade saved outputs).
+
+**Task file** (`benchmark/tasks/<id>/task.toml`): `kind`, `prompt`, `inputs`, `answer` (required
+files), `grader`, `key`, `tolerance`, `caps` (`minutes`, `turns`, `tokens`; 0 = set after step 6),
+`watch` (strings whose appearance in a tool call fails the run).
+
+**Not in the runner:** judging quality (graders only); retries (a failure is data); parallel runs (one
+at a time, so runs don't share the machine or the usage); blocking the web (plain Claude Code has it,
+so we flag and fail the cheat instead).
+
+**Known limits:** the fence is a seatbelt, not a vault: the agent's shell could read an absolute path
+if it guessed one. The watch fails any such run; a separate Windows user or container is a later step.
+This Claude Code version's help lists no `--max-turns`, so the runner counts turns from the stream and
+enforces the cap itself.
+
+### Folder / file structure (Part 2)
+
+```
+autonomous/
+├── benchmark/
+│   ├── _README.md                       # the ladder, how to run, scorecard fields, the clean room
+│   ├── run.py                           # CLI: modes above; one run at a time
+│   ├── runner/room.py                   # build C:\abench\<run-id>, copy inputs, leak check
+│   ├── runner/launch.py                 # clean-room claude -p, stream reader, caps, process-tree kill
+│   ├── runner/watch.py                  # fail flags: watch strings, paths into the repo or keys
+│   ├── runner/record.py                 # scorecard.json/.md, TRIAL_LOG row, cc.py usage log
+│   ├── grade/numbers.py                 # S1, S2: estimates vs key within tolerance + copy check
+│   ├── grade/planted.py                 # S3: CI covers delta and excludes 0; null claims no effect
+│   ├── grade/{verdict,walk,bugs,stuck}.py   # S4, A1, A2, A3 (step 7)
+│   ├── calibration/<grader>/{good,bad}/ # known-good and known-bad answer per grader
+│   ├── tasks/smoke_{hello,cap,cheat}/   # runner smokes (tiny; near-zero usage)
+│   ├── tasks/study_s1…s4/, app_a1…a3/   # task.toml + task.md (inputs_local/ gitignored)
+│   └── results/<arm>/<ts>/              # scorecard committed; raw/ transcripts gitignored
+├── scripts/benchmark/plant_s3.R         # step 4: covariate jitter
+├── scripts/benchmark/check_inputs.py    # retired into run.py --check-inputs (step 1)
+├── research/TRIAL_LOG.tsv               # one row per scored run
+└── .gitignore                           # + /benchmark/results/*/*/raw/
+```
+
+### Flowchart (one run)
+
+```
+ +-------------+   +--------------------+   +--------------------------+
+ | task.toml + |-->| room.py: leak      |-->| C:\abench\<run-id>       |
+ | task.md +   |   | check (hit=abort), |   | task.md + inputs only    |
+ | inputs      |   | build the room     |   +------------+-------------+
+ +-------------+   +--------------------+                |
+                                                         v
+ +--------------------------+   stream   +--------------------------------+
+ | watch.py: repo/keys path |<-----------| launch.py: claude -p clean     |
+ | or watch string = FAIL   |            | room; tokens, turns, minutes;  |
+ +------------+-------------+            | cap hit -> kill tree -> CAP    |
+              |                          +---------------+----------------+
+              v                                          v
+ +--------------------------+            +--------------------------------+
+ | record.py: scorecard row,|<-----------| grade/<grader>.py (separate    |
+ | TRIAL_LOG, cc.py usage   |            | process) vs benchmark/keys/    |
+ +--------------------------+            +--------------------------------+
+```
+
+### Steps, in order
+
+| # | Step | Usage |
+|---|---|---|
+| 1 | Runner skeleton + clean room + `smoke_hello` | near zero |
+| 2 | Caps and the process-tree kill (`smoke_cap`) | near zero |
+| 3 | Watch flags (`smoke_cheat`: told to fetch a watched URL) | near zero |
+| 4 | S3 covariate jitter | none |
+| 5 | Graders S1–S3 + calibration pairs (D4) | none (no agent) |
+| 6 | **One measured run**: baseline on S1, then propose token caps to Sharif (his call) | one real run |
+| 7 | Remaining tasks S4, A1, A2 (+ bug injection, D5), A3, each with its grader and calibration | none |
+| 8 | **Full baseline** (D6): one run per v0.1 task, the "before" scorecard | ~10 runs |
+
+If Sharif approves the overlap (10-G), Phase 11 (kit build) starts after step 6, and step 7 runs
+alongside it.
+
+### Derisking (dependency order)
+
+| # | What it proves | Command | Expected | If it fails → |
+|---|---|---|---|---|
+| R1 | The room is clean | `python benchmark/run.py --task smoke_hello --dry-run --context` | `/context` in the room: 0 CLAUDE.md rows, 0 MCP tools, only built-in skills | Move the room or add flags; nothing runs until clean |
+| R2 | A run starts, finishes and is recorded | `python benchmark/run.py --arm baseline --task smoke_hello --runs 1` | `status=DONE`; tokens, minutes, turns filled; answer file collected | Fix launch.py / record.py |
+| R3 | Caps stop a run cleanly | `python benchmark/run.py --arm baseline --task smoke_cap --runs 1` | `status=CAP` within cap + 30 s; `tasklist` shows 0 orphan claude processes | Fix the kill |
+| R4 | The cheat flag fails a run | `python benchmark/run.py --arm baseline --task smoke_cheat --runs 1` | `flags=[watch:<url>]`, `score=FAIL` | Fix watch.py |
+| R5 | S3 stays honest after jitter | `"C:/Program Files/R/R-4.5.0/bin/Rscript.exe" scripts/benchmark/plant_s3.R --selftest` | `SELFTEST PASS`; 0 covariate rows match the public data exactly | Retune the jitter |
+| R6 | Study graders are trustworthy (D4) | `python benchmark/run.py --calibrate --task study` | 3/3: known-good PASS, known-bad FAIL | Fix that grader |
+| R7 | One real task end to end | `python benchmark/run.py --arm baseline --task study_s1_reproduce --runs 1` | scorecard row, 0 empty fields; weekly % logged before/after | Fix that task's wiring |
+| R8 | Bug injection is clean (D5) | `python benchmark/tasks/app_a2_checkers/inject.py --selftest` | 20/20 apply; app starts; each bug trips ≥ 1 check | Rewrite that bug |
+| R9 | **End to end:** baseline on the whole v0.1 ladder (D6) | `python benchmark/run.py --arm baseline --task v0.1 --runs 1` | one scorecard row per task, 0 empty fields | Back to the failing task's smoke |
+
+Ground truth after R9: Sharif reads one S2 notebook and says whether it is a fair attempt at his
+model; one grader verdict is re-checked by hand against the key.
+
+### Evaluation criteria (Part 2 done; measured by script, D16)
+
+| Criterion | Threshold | How measured | Evidence |
+|---|---|---|---|
+| The baseline is plain Claude Code | 0 CLAUDE.md rows, 0 MCP tools, 0 user skills at the start of every batch | `/context` in the room before each batch | `results/.../room_check.txt` |
+| Caps hold | `smoke_cap` ends `CAP` within cap + 30 s, 0 orphan processes | R3 | scorecard + tasklist log |
+| Cheating fails | `smoke_cheat` scored FAIL with the flag named | R4 | scorecard |
+| No answers in any task's inputs | 0 hits on every v0.1 task | `run.py --check-inputs --task all` | check log |
+| Every grader calibrated | 8/8 v0.1 graders | `run.py --calibrate --task all` | calibration log |
+| Every run records usage | tokens, minutes, turns on 100% of rows; weekly % before/after each batch | scorecard + `usage_log.tsv` | scorecard |
+| Grading is reproducible | re-grading saved outputs gives identical scores | `run.py --regrade <ts>` | empty diff |
+| Baseline runs the whole ladder | 1 scorecard row per task, 0 empty fields | R9 | `benchmark/results/baseline/<ts>/` |
+
+### Decisions for Sharif (Part 2)
+
+| # | Decision | Recommendation |
+|---|---|---|
+| 10-F | Approve Part 2 (runner design, steps 1–8) | **Yes** |
+| 10-G | Overlap: start Phase 11 after step 6, finish step 7 alongside | **Yes**: the study half is ready first |
+| 10-H | Runs per check: k = 3 per arm for release checks, k = 1 for dev iterations | **Yes** |
+| 10-I | Token caps per run | Decided after step 6, from the measured run |
