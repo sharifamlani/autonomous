@@ -5,16 +5,16 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.24 · 2026-11-22
+> v0.25 · 2026-11-22
 
 ---
 
 ## §0 You are here
 
 - **Current phase:** Phase 10 (validation ladder); Phase 9 done (design + architecture approved 2026-11-22). Row 8.3 flips when Marketing confirms the review post went live
-- **Current step:** building the benchmark: answer key for S1 (Amlani & Collitt 2021, run headlessly in R 4.1.1), then masking, planted-effect and bug-injection selftests (smokes D1–D5)
+- **Current step:** benchmark smokes D1–D3 PASS (S1 key 72/72 printed values; S2 inputs leak-free; S3 planted effect recoverable, null clean). Remaining: graders + calibration (D4), bug injection (D5, needs the known-good app), `run.py` and the baseline run (D6)
 - **Last update:** 2026-11-22
-- **Next action:** smoke D1 (`scripts/benchmark/build_key_s1.R` reproduces Table 2); Sharif sends the accepted manuscript for S2 (10-C).
+- **Next action:** morning check-in with Sharif on moving toward kit v0.1: `run.py` + graders (D4, D6) are the bridge, since the kit arm runs through the same runner.
 
 ---
 
@@ -353,6 +353,10 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.25 · 2026-11-22** — Phase 10 smokes D1–D3 PASS: Amlani & Collitt Tables 2–3 reproduced 72/72
+  (`53f6891`); the published county FE are coded by county name (1,845 groups vs 3,108 FIPS); with FIPS FE
+  the headline rises 2.568 → 2.923. S2 methods-only inputs pass the leak check; S3 planted/null data pass
+  the self-test. Inputs and keys stay local.
 - **v0.24 · 2026-11-22** — Sharif approved the Phase 9 design and architecture and the Phase 10 ladder ("All
   that looks good!"): decisions D17–D21 recorded (D17 revises D11). Phase 9 done; Phase 10 in progress.
 - **v0.23 · 2026-11-22** — Phase 10 validation ladder drafted (Sharif: "compelling ways to validate the

@@ -71,3 +71,6 @@ desktop.ini
 
 # Benchmark answer keys, seeds and masked texts stay local (agents must never see them)
 /benchmark/keys/
+
+# Benchmark task inputs built from copyrighted papers stay local
+/benchmark/tasks/*/inputs_local/

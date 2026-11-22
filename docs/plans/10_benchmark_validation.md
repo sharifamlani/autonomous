@@ -176,6 +176,8 @@ it is a fair attempt at his model; the S1 key is checked by hand against the pub
 | Smoke | Result | Evidence |
 |---|---|---|
 | D1 answer key | **PASS** 2026-11-22: 72 of 72 printed Table 2–3 values (coefficients and SEs of the DiD terms, all four columns) reproduced at printed precision (R 4.5.0; the package used 4.1.1) | `scripts/benchmark/build_key_s1.R` → `benchmark/keys/s1.json` (local) |
+| D2 masking | **PASS** 2026-11-22: S2 inputs = Methodology section (1,922 words, equations re-typeset) + data; 0 of 209 key values and 0 of 6 headline phrases found; a planted leak file was caught (3 hits) | `scripts/benchmark/build_inputs_s2.py`, `scripts/benchmark/check_inputs.py` (stands in for `run.py --check-inputs` until run.py exists) |
+| D3 planted effect | **PASS** 2026-11-22: reference DiD (county FE as first differences, state-clustered) on 3,101 counties: planted 95% CI covers the secret delta and excludes 0; null 95% CI covers 0 | `scripts/benchmark/plant_s3.R --selftest` → `benchmark/keys/s3.json` (local) |
 
 **FIPS fixed effects vs the published coding** (state-clustered SEs; county_name gives 1,845 groups,
 FIPS 3,108):
@@ -185,6 +187,15 @@ FIPS 3,108):
   −1.074 (SE 0.488, p = 0.028)**, the smallest group (115 counties), one of four tests. The other
   three move toward zero-to-slightly-negative and stay insignificant.
 - S2 is graded against the FIPS (text-faithful) specification.
+
+**Notes for the graders (from D2–D3):**
+- S3's policy is assigned at the state level (15 of 50 states), so honest intervals are wide (about
+  ±1.4 points). Grade S3 on "95% CI covers the planted delta and excludes 0" (planted) and "no
+  significant effect claimed" (null), not on a tight point estimate.
+- Known cheat path: S2 and S3 data derive from a public package. An agent with network access could
+  download it (S2: run the original code; S3: re-identify counties by their unchanged covariates and
+  diff out delta). Guards to add in run.py: log and flag any fetch of the Dataverse record or DOI, and
+  jitter S3 covariates before v0.1 scoring.
 
 ## Decisions for Sharif
 
