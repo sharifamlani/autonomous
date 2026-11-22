@@ -97,7 +97,8 @@ a reference for readers who pay per token.
 | Dev iteration (kit only, 1 run each) | | 10 runs | |
 
 Token caps per run, and how much of a week's limit a release check may use, are set **after the
-first measured run** (one baseline task, usage read before and after), not guessed. Heavy runs are
+first measured run** (one baseline task; weekly usage logged before and after with `cc.py log`, tokens
+from the run's JSON), not guessed. Heavy runs are
 scheduled so they never compete with Sharif's own work for the same weekly limit. This revises
 decision 9-B and 10-D.
 

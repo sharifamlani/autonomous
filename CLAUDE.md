@@ -257,6 +257,7 @@ against its source (Sharif 2026-11-22).
 - **Commit early, commit often** (global CLAUDE.md): one logical change per commit, pushed each time.
 - **Scripts over retyped commands.** Anything run twice is a script in `scripts/`, idempotent, with a
   paired verify step.
+- **Usage and context checks are self-serve** (Sharif 2026-11-22): `python .packages/Claude_code/cc.py usage | log "<label>" | context | sessions | compact <id>` (local only). Never ask Sharif to read `/usage` or `/context`; check it yourself. A running session can't be compacted from outside, so at milestones Claude measures its context and tells Sharif when to type `/compact`.
 - **Windows machine notes:** run `gh` and `git push` with a timeout and `GCM_INTERACTIVE=never`;
   write `.env` and scripts with the file tools, not heredocs; `core.longpaths=true` is set.
 - **Plans** follow the global format: tree → flowchart → wireframes (if UI) → derisking → evaluation

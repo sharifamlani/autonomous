@@ -5,7 +5,7 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.26 · 2026-11-22
+> v0.27 · 2026-11-22
 
 ---
 
@@ -354,6 +354,7 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.27 · 2026-11-22** — Self-serve Claude Code checks: local `.packages/Claude_code/cc.py` reads usage limits, a session's context size and live sessions with 0 model tokens, and compacts stored sessions (85k → 21k proven); running sessions are refused. The measured baseline run no longer needs Sharif to read `/usage`.
 - **v0.26 · 2026-11-22** — D22: the kit runs on Sharif's Claude Code subscription, so usage (tokens per task) replaces dollars as the budget and the G2 metric. Dollar caps in 9-B and 10-D removed; token ceilings to be set from the first measured run. CLAUDE.md, plans 09/10 and the research templates updated.
 - **v0.25 · 2026-11-22** — Phase 10 smokes D1–D3 PASS: Amlani & Collitt Tables 2–3 reproduced 72/72
   (`53f6891`); the published county FE are coded by county name (1,845 groups vs 3,108 FIPS); with FIPS FE
