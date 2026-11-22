@@ -5,7 +5,7 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.31 · 2026-11-22
+> v0.32 · 2026-11-22
 
 ---
 
@@ -14,7 +14,7 @@
 - **Current phase:** Phase 10 (validation ladder); Phase 9 done (design + architecture approved 2026-11-22). Row 8.3 flips when Marketing confirms the review post went live
 - **Current step:** benchmark smokes D1–D3 PASS (S1 key 72/72 printed values; S2 inputs leak-free; S3 planted effect recoverable, null clean). Remaining: graders + calibration (D4), bug injection (D5, needs the known-good app), `run.py` and the baseline run (D6)
 - **Last update:** 2026-11-22
-- **Next action:** the measured S1 baseline run (step 6, in progress), then token caps to Sharif; S2 tolerance (10-B near-zero estimates) also waiting on Sharif.
+- **Next action:** the measured S1 baseline run (step 6, third attempt running after two cheat-flag false positives were fixed), then token caps to Sharif.
 
 ---
 
@@ -89,6 +89,7 @@ Source: CLAUDE.md §7.
 | D22 | Runs use Sharif's Claude Code subscription: the budget and the efficiency metric are **usage (tokens per task)**, not dollars. Caps are tokens, wall-clock and turns; token ceilings are set from the first measured run. API-equivalent $ is recorded for readers only. Revises 9-B and 10-D | Sharif, 2026-11-22 |
 | D23 | Benchmark runs happen in a clean room: workspace at `C:\abench\<run-id>` (outside the user folder, repo and Dropbox) with `--setting-sources project,local --strict-mcp-config`, so the baseline is stock Claude Code (no personal CLAUDE.md, skills or MCP). A run that reaches for the original package or the answer keys is scored FAIL | Spike 2026-11-22; Sharif, 2026-11-22 ("fail it is") |
 | D24 | Plan 10 Part 2 approved: runner + steps 1–8; Phase 11 starts after the measured run (step 6) with the remaining tasks built alongside; k = 3 per arm for release checks, k = 1 for dev iterations; token caps set from the measured run | Sharif, 2026-11-22 (10-F to 10-H) |
+| D25 | S2 grading (revises 10-B): an estimate passes if within 10% of the key **or** within 0.25 of the key's SE, whichever is larger, with the same sign and the same 5% call; all 8 terms must pass. Reason: 10% of a near-zero estimate (e.g. -0.381, SE 0.538) is ~0.07 SE, so only an exact specification match could pass | Sharif, 2026-11-22 |
 
 ---
 
@@ -358,6 +359,7 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.32 · 2026-11-22** — D25: S2 tolerance = max(10%, 0.25 SE) (Sharif); calibration 15/15. Two measured S1 attempts were failed by the cheat flag on honest behaviour (own room path with a semicolon; a scratch folder beside the room): the flag now matches run-id names only, and the runner sweeps the room root before and after every run with a per-run temp folder (`029c943`, `2605485`).
 - **v0.31 · 2026-11-22** — Steps 4–5 done: S3 jitter (R5) and the study tasks S1–S3 with calibrated graders (R6, 13/13; calibration caught and fixed a double-rounding bug). S2 near-zero tolerance raised to Sharif. Step 6 (measured S1 run) started.
 - **v0.30 · 2026-11-22** — Runner built (row 10.5 ✅): clean room R1, hello R2, caps R3 (after a job-object fix for orphaned Git Bash processes), cheat flag R4 all PASS; leak check and regrade moved into `run.py`. Next: S3 jitter and the study graders.
 - **v0.29 · 2026-11-22** — Sharif approved plan 10 Part 2 (D24): runner + steps 1–8, overlap with Phase 11 after the measured run, k = 3 release / k = 1 dev. Row 10.5 in progress.

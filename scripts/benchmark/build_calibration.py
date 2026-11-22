@@ -66,6 +66,15 @@ def main():
         for v in terms.values():
             v["b"] *= 1.05                                    # 5% off, every p unchanged: inside 10-B
     case("study_s2_replicate", "good", "five_percent_off", close, did_lines(close))
+    def shifted(k_se):                                        # every b moved by k_se of its SE, p unchanged
+        a = copy.deepcopy(fips)
+        for terms in a.values():
+            for v in terms.values():
+                v["b"] += k_se * v["se"]
+        return a
+    inside, outside = shifted(0.20), shifted(0.40)            # D25: within max(10%, 0.25 SE)
+    case("study_s2_replicate", "good", "within_quarter_se", inside, did_lines(inside))
+    case("study_s2_replicate", "bad", "beyond_quarter_se", outside, did_lines(outside))
     case("study_s2_replicate", "bad", "published_coding", pub, did_lines(pub))   # county-name FE: headline 12% off
     unclustered = copy.deepcopy(fips)
     for terms in unclustered.values():

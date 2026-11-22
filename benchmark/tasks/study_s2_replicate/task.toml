@@ -13,8 +13,8 @@ leak_phrases = ["2.6 percent", "2.6 +", "7.3 percent", "4.7 +", "1.4 percent", "
 key = "s1.json"
 spec = "fips"
 rule = "tolerance"
-rel = 0.10          # decision 10-B (approved): within 10% of the key, same sign, same 5% call
-abs_se = 0.0        # 0 = off; see plan 10 Part 2 notes on near-zero estimates (Sharif's call)
+rel = 0.10          # D25 (Sharif 2026-11-22, revising 10-B): within 10% of the key OR within 0.25 of its SE,
+abs_se = 0.25       # whichever is larger; same sign and same 5% call still required
 
 [caps]
 minutes = 60
