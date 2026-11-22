@@ -89,7 +89,8 @@ runs/<YYMMDD-HHMM>-<slug>/            # short path (Windows long-path limit, spi
 ├── handoffs/         # NNN-<from>-<to>.md, append-only notes between roles (context, repros)
 ├── evidence/r<N>/    # test output, screenshots, walk logs, per round
 ├── verdicts/         # r<N>-qa.json, r<N>-tester.json (the only thing team.py acts on)
-└── RUN_REPORT.md     # written by team.py from the files above, never by an agent
+├── RUN_REPORT.md     # written by team.py from the files above, never by an agent
+└── release/          # card.md, numbers.tsv, media/: hand-off for an OUTSIDE marketer (§6b)
 ```
 
 The study kind swaps `spec/ checks/ app/` for `data/dev/`, `sealed/` (held-out, analyst cannot
@@ -106,6 +107,9 @@ read), `study/` (PREREG.md, analysis.py, replicate.ipynb, TRIAL_LOG.tsv, RESULT.
             |          +-- checks don't run / not tied to spec --> SPEC (once) --> REPORT: STUCK
             +-- builder/any role writes STUCK.md -----------------------------------> REPORT: STUCK
    any state: $ cap, wall-clock cap, turn cap, or 3 identical errors ---------------> REPORT: CAP
+
+   REPORT --> RELEASE_CARD (code, not an agent: a fact sheet + real screenshots for an OUTSIDE
+                            marketer session to read; written after the result is final)
 ```
 
 | State | Who runs | Input | Output (contract) | Exit rule (team.py) |
@@ -115,6 +119,7 @@ read), `study/` (PREREG.md, analysis.py, replicate.ipynb, TRIAL_LOG.tsv, RESULT.
 | BUILD(r) | builder (resumed each round with `--resume`) | spec, rubric, prior verdicts and repros | commits in `app/`, `evidence/r<N>/build.txt` (its own test run), `app/RUN.md` (how to start it) | commit exists + RUN.md parses |
 | CHECK(r) | qa and tester **in parallel**, fresh sessions | app at the commit sha | `verdicts/r<N>-qa.json`, `verdicts/r<N>-tester.json` + evidence | both files valid JSON |
 | REPORT | team.py | everything | `RUN_REPORT.md`, final `run.json.status` | — |
+| RELEASE_CARD | team.py | `RUN_REPORT.md`, `verdicts/`, `evidence/` | `release/` (§6b): the hand-off an outside marketer reads | every number in the card traced to a verdict or the report |
 
 - **R = 3 rounds** **[iterate]**. The builder keeps its context across rounds; checkers start fresh
   every round so they don't anchor on last round's story (L4).
@@ -128,6 +133,7 @@ read), `study/` (PREREG.md, analysis.py, replicate.ipynb, TRIAL_LOG.tsv, RESULT.
 
 ```
  INIT --> SEAL --> PREREG --> COMMIT --> DEV(t) --> LOOK --> REPLICATE --> REPORT: DONE | STUCK | CAP
+                                                                            --> RELEASE_CARD
 ```
 
 | State | Who runs | Output (contract) | Exit rule (team.py) |
@@ -162,6 +168,37 @@ only observed checks can pass the tester's verdict (idea borrowed from rea, §9)
 The prompt tells every role this is an honourable exit, better than a forced pass (L8).
 
 **Handoff** (`handoffs/NNN-<from>-<to>.md`): free text for context. team.py never parses it.
+
+## 6b. Build in public: the marketer lives outside the kit
+
+Sharif, 2026-11-22: building in public is "critical for my use case" as an independent developer,
+and marketing "can sit outside but not be part of the plugin". So the kit has **no marketing agent**.
+It ends every run by writing a release card (code, not an agent), and any marketer reads it: this
+repo's own Marketing session (agent-team role, `post-infographic` skill), another tool, or the user.
+
+```
+ KIT (plugin)                                   OUTSIDE THE KIT (user's own setup)
+ +-------------------------------+              +--------------------------------------+
+ | run ends -> REPORT            |              | Marketing session (claude, separate) |
+ |   -> RELEASE_CARD (team.py)   |---- files -->| reads release/, drafts posts + card, |
+ |      release/card.md          |  (+ optional | gets the user's OK, posts with the   |
+ |      release/numbers.tsv      |   message)   | user's own accounts and tools        |
+ |      release/media/*.png      |              +--------------------------------------+
+ +-------------------------------+
+```
+
+- **`release/card.md`:** what was built or found, how it was checked (checks passed, observed in the
+  running app), cost, hours, interventions, status, how to run it. Plain facts, no hype.
+- **`release/numbers.tsv`:** every number in the card with the file and field it came from, so a
+  marketer can only quote checked numbers (the rule this repo's Marketing already follows).
+- **`release/media/`:** real screenshots copied from `evidence/` (the app as the tester saw it).
+- **Switch:** `[release] notify = ""` (default: just write the files) or the name of an outside
+  session to message when the card is ready (cross-session messaging works between `claude -p`
+  sessions, spike 4.8 run C) **[iterate]**.
+
+Why outside is better: the kit stays lean and focused on getting the work right (L5, L7); posting
+needs the user's own accounts, voice and approval, which don't belong in an open-source plugin; and
+the benchmark never has to switch marketing off, because it isn't there.
 
 ## 7. Roles
 
@@ -230,13 +267,16 @@ app_usd = 30   app_minutes = 120   study_usd = 10   study_minutes = 60
 default = "claude-opus-5-5"        # per-role overrides allowed
 [exits]
 stuck_exit = true                  # false = Future Issue 3 arm
+[release]                          # build in public (§6b): the card is always written
+notify = ""                        # or an outside session's name, e.g. "autonomous-marketing"
 ```
 
 ## 11. Deliberately not in v0.1
 
 Built-in agent teams (don't run under `-p`, spike 4.8); an LLM orchestrator; parallel builders and
 worktrees (one builder is enough for one small app; L6 applies when we add a second); staging/RC/tag
-steps of the full flywheel (one app per run); marketing or auditor roles in the kit (L5); external
+steps of the full flywheel (one app per run); marketing or auditor agents in the kit (marketing
+reads the release card from outside, §6b; L5); external
 MCP servers as dependencies (L7).
 
 ## 12. What the user sees: RUN_REPORT.md (the only "UI")

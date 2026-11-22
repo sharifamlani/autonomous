@@ -29,7 +29,7 @@ in the recipe: the builder never grades its own work; something it cannot edit d
 
 | Build | Because (review) | Don't build | Because |
 |---|---|---|---|
-| Hidden acceptance checks written from the spec **before** the build | L1, L3 (strong/moderate) | A big role roster (marketing, auditor, PM) inside the kit | L5: roles without an independent check have no accuracy evidence |
+| Hidden acceptance checks written from the spec **before** the build | L1, L3 (strong/moderate) | A big role roster (marketing, auditor, PM) inside the kit; marketing runs as a separate session that reads the kit's release card | L5: roles without an independent check have no accuracy evidence |
 | A Tester that uses the running app and records what it saw | L1, L2; Future Issue 1 | An LLM reviewer that reads the builder's summary | L4: 49.4% false approvals in T18 |
 | A study path that commits PREREG before data, then one held-out look | L9 | Auto-generated context files, many skills | L7: lean harness |
 | Caps on $, time, turns, repeated errors + an honest `STUCK` exit | L8 | "Retry until green" loops with no cap | L8, P5: compounding failures |
@@ -184,7 +184,7 @@ E4 is the thesis of the review turned into a test. If the kit fails it, v0.1 doe
 | 9-B | Caps per run | App: 2 h and $30. Study: 1 h and $10. Same caps for both arms. A full release check is then ≤ $240; a dev iteration ≤ $40 |
 | 9-C | Model for the runs | Opus 5.5 in both arms for v0.1 (one variable at a time); try cheaper builder models as a later trial |
 | 9-D | Where runs execute | Native Windows for v0.1 with `run.py` (proven in spike 4.8); WSL2 only if we use plugin-eval shell grants |
-| 9-E | Kit roles in v0.1 | Spec-writer, builder, QA, tester; analyst, replicator. No marketing/auditor roles inside the kit (L5) |
+| 9-E | Kit roles in v0.1 | Spec-writer, builder, QA, tester; analyst, replicator; no marketing or auditor agents (L5). Every run writes a release card (`release/`) that an **outside** Marketing session reads (Sharif 2026-11-22: "it can sit outside but not be part of the plugin") |
 
 The two benchmark tasks are picked in Phase 10 (rows 10.1–10.2). Leading candidates: a small web
 app with real arithmetic and state (an expense splitter, so checks are exact), and a classic
