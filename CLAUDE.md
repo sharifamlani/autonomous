@@ -244,6 +244,9 @@ LinkedIn and X: the problem in one line, what's new, how it was checked, what's 
 real repo or app; the repo link in the first comment; 120–160 words on LinkedIn. Text, hook and shot
 list are pre-approved by Sharif once; the phase close is the GO. Numbers come only from the
 evaluator's scorecard or the release card. Posting permission granted by Sharif 2026-11-20.
+Every post carries an infographic card made with the `post-infographic` skill (Nano Banana Pro, 4:5,
+off-white/charcoal/teal, 3–4 checked numbers or one simple diagram), every number on it checked
+against its source (Sharif 2026-11-22).
 
 ## 9. Working conventions
 
