@@ -171,6 +171,21 @@ it is a fair attempt at his model; the S1 key is checked by hand against the pub
 | Every grader calibrated | 8/8 v0.1 graders | D4 | calibration log |
 | Baseline arm runs the whole v0.1 ladder | 1 scorecard per task, 0 empty fields | D6 | `benchmark/results/baseline/<ts>/` |
 
+## Progress
+
+| Smoke | Result | Evidence |
+|---|---|---|
+| D1 answer key | **PASS** 2026-11-22: 72 of 72 printed Table 2–3 values (coefficients and SEs of the DiD terms, all four columns) reproduced at printed precision (R 4.5.0; the package used 4.1.1) | `scripts/benchmark/build_key_s1.R` → `benchmark/keys/s1.json` (local) |
+
+**FIPS fixed effects vs the published coding** (state-clustered SEs; county_name gives 1,845 groups,
+FIPS 3,108):
+- Turnout: the headline **grows from 2.568 (SE 0.845) to 2.923 (SE 0.883)**, p = 0.001; the other three
+  conditions stay negative-to-null and insignificant (p 0.14–0.44). The paper's turnout conclusions hold.
+- Vote share: three of four DiD terms stay null; **excuse-needed to applications sent × 2020 becomes
+  −1.074 (SE 0.488, p = 0.028)**, the smallest group (115 counties), one of four tests. The other
+  three move toward zero-to-slightly-negative and stay insignificant.
+- S2 is graded against the FIPS (text-faithful) specification.
+
 ## Decisions for Sharif
 
 | # | Decision | Recommendation |
