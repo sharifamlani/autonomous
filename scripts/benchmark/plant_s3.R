@@ -5,7 +5,8 @@
 #             turnout in treated counties raised by a secret amount delta
 #   null    : the same construction with a different random set of states and delta = 0
 # To stop an agent backing delta out by diffing against the public data, every turnout value gets
-# small seeded noise, rows are shuffled, identifiers are replaced by random ids, and columns renamed.
+# small seeded noise, each county's covariates are scaled by a seeded ~3% factor (so no row matches the
+# public data exactly), rows are shuffled, identifiers are replaced by random ids, and columns renamed.
 #
 # Outputs (all local, gitignored):
 #   benchmark/tasks/study_s3_planted/inputs_local/{planted,null}/panel.csv   agent-visible data
@@ -34,18 +35,34 @@ states <- sort(unique(d$state.name))
 set.seed(SEED)
 delta <- round(runif(1, 1.5, 3.5), 2)                           # the secret effect, in turnout points
 
+COVS <- c(pct_black = "prcntBlack", dem_share_2016 = "democratic_percent", median_income = "medianIncome",
+          median_age = "medianAge", pct_hs = "prcntHS", covid_deaths_trend = "daily_change_deaths_1week_100K")
+JITTER_SD <- 0.03   # each county's covariates scaled by exp(N(0, 0.03)), ~3%, the same factor in both years
+
 build <- function(eff, treated) {
   x <- d
   x$policy_p <- as.integer(x$state.name %in% treated)
   x$turnout <- x$Percent_Turnout_VAP + rnorm(nrow(x), 0, 0.3) + eff * x$policy_p * (x$year == 2020)
   ids <- setNames(sample(1e5:9e5, length(unique(x$state_county_fips))), unique(x$state_county_fips))
   sids <- setNames(sample(100:999, length(states)), states)
+  cid <- match(x$state_county_fips, unique(x$state_county_fips))
+  jit <- function(v) v * exp(rnorm(max(cid), 0, JITTER_SD))[cid]   # stops exact matching to the public data
   out <- data.frame(county_id = ids[as.character(x$state_county_fips)], state_id = sids[x$state.name],
-                    year = x$year, turnout_vap_pct = round(x$turnout, 3), policy_p = x$policy_p,
-                    pct_black = x$prcntBlack, dem_share_2016 = x$democratic_percent,
-                    median_income = x$medianIncome, median_age = x$medianAge, pct_hs = x$prcntHS,
-                    covid_deaths_trend = x$daily_change_deaths_1week_100K, battleground = x$battleground)
-  out[sample(nrow(out)), ]
+                    year = x$year, turnout_vap_pct = round(x$turnout, 3), policy_p = x$policy_p)
+  for (nm in names(COVS)) out[[nm]] <- signif(jit(x[[COVS[[nm]]]]), 6)
+  out$battleground <- x$battleground
+  orig <- as.data.frame(lapply(COVS, function(v) x[[v]]))
+  o <- sample(nrow(out))
+  structure(out[o, ], orig = orig[o, ])
+}
+
+# rows whose six covariates all sit within 0.01% of the public values (want 0). Not exact equality:
+# rounding alone breaks equality, so an exact test passes even with no jitter (negative control, 2026-11-22)
+exact_matches <- function(p) {
+  o <- attr(p, "orig")
+  same <- sapply(names(COVS), function(nm)
+    is.na(p[[nm]]) & is.na(o[[nm]]) | abs(p[[nm]] - o[[nm]]) <= 1e-4 * pmax(abs(o[[nm]]), 1e-12))
+  sum(rowSums(same, na.rm = TRUE) == length(COVS))
 }
 
 treated_p <- sample(states, 15)
@@ -75,15 +92,19 @@ key <- list(seed = SEED, delta = delta, treated_states_planted = treated_p, trea
 if ("--selftest" %in% commandArgs(TRUE)) {
   rp <- did(planted); rn <- did(null)
   key$reference <- list(planted = rp, null = rn)
+  em <- c(planted = exact_matches(planted), null = exact_matches(null))
+  key$reference$exact_covariate_matches <- as.list(em)
   ok_p <- rp$lo <= delta && delta <= rp$hi && rp$lo > 0
   ok_n <- rn$lo <= 0 && 0 <= rn$hi
+  ok_j <- all(em == 0)
+  cat(sprintf("covariate rows identical to the public data: planted %d, null %d (want 0)\n", em[1], em[2]))
   cat(sprintf("planted: estimate %.3f, 95%% CI [%.3f, %.3f] covers delta: %s, excludes 0: %s\n",
               rp$b, rp$lo, rp$hi, rp$lo <= delta && delta <= rp$hi, rp$lo > 0))
   cat(sprintf("null   : estimate %.3f, 95%% CI [%.3f, %.3f] covers 0: %s\n", rn$b, rn$lo, rn$hi, ok_n))
   cat(sprintf("counties: %d per dataset; rows: %d\n", rp$n_counties, nrow(planted)))
   write_json(key, KEY, auto_unbox = TRUE, digits = NA, pretty = TRUE)
-  cat(if (ok_p && ok_n) "SELFTEST PASS\n" else "SELFTEST FAIL\n")
-  quit(status = if (ok_p && ok_n) 0 else 1)
+  cat(if (ok_p && ok_n && ok_j) "SELFTEST PASS\n" else "SELFTEST FAIL\n")
+  quit(status = if (ok_p && ok_n && ok_j) 0 else 1)
 }
 write_json(key, KEY, auto_unbox = TRUE, digits = NA, pretty = TRUE)
 cat("wrote planted and null datasets and", KEY, "\n")
