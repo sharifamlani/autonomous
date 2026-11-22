@@ -5,7 +5,7 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.22 · 2026-11-22
+> v0.23 · 2026-11-22
 
 ---
 
@@ -271,8 +271,8 @@ Source: CLAUDE.md §7.
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 10.1 | Pick the app task (spec + scripted user walk + pass checks) (was 11.1) | ⏸ | ⏸ 10 | gate: Phase 9 | D2 |
-| 10.2 | Pick the known-answer study (a published finding with data we can access) (was 11.2) | ⏸ | ⏸ 10 | gate: Phase 9 | D2 |
+| 10.1 | App ladder: A1 build, A2 20 planted bugs for QA + tester, A3 impossible spec (was 11.1) | ⏸ | ✅ 10 | `docs/plans/10_benchmark_validation.md` (draft) | D2 |
+| 10.2 | Study ladder: S1 reproduce + S2 replicate Amlani & Collitt 2021 (CC0), S3 planted effect + null, S4 traps (LaLonde, leading prompt) (was 11.2) | ⏸ | ✅ 10 | `docs/plans/10_benchmark_validation.md` (draft) | D2 |
 | 10.3 | Write graders (deterministic first; LLM judge only with a calibration set) (was 11.3) | ⏸ | ⏸ 10 | gate: 10.1–10.2 | literature 05 |
 | 10.4 | Run the no-plugin baseline arm; record the scorecard (was 11.4) | ⏸ | ⏸ 10 | gate: 10.3 | D11 |
 
@@ -347,6 +347,10 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.23 · 2026-11-22** — Phase 10 validation ladder drafted (Sharif: "compelling ways to validate the
+  entire system"; "I love the ladder"). Study tasks from Sharif's own CC0 replication packages (Amlani &
+  Collitt 2021 for v0.1; Amlani & Algara 2021 for v0.2), planted effects, traps; app checkers tested
+  with planted bugs. Rows 10.1–10.2 redefined.
 - **v0.22 · 2026-11-22** — Phase 9 starting architecture drafted (Sharif: "we need a starting architecture
   to iterate on"): deterministic orchestrator + agent roles, file-based run folder, verdict contracts,
   role fences in a hook, caps, `kit.toml` knobs. morluto/rea reviewed (ideas borrowed, not a dependency).

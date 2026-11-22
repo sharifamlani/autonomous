@@ -186,11 +186,10 @@ E4 is the thesis of the review turned into a test. If the kit fails it, v0.1 doe
 | 9-D | Where runs execute | Native Windows for v0.1 with `run.py` (proven in spike 4.8); WSL2 only if we use plugin-eval shell grants |
 | 9-E | Kit roles in v0.1 | Spec-writer, builder, QA, tester; analyst, replicator; no marketing or auditor agents (L5). Every run writes a release card (`release/`) that an **outside** Marketing session reads (Sharif 2026-11-22: "it can sit outside but not be part of the plugin") |
 
-The two benchmark tasks are picked in Phase 10 (rows 10.1–10.2). Leading candidates: a small web
-app with real arithmetic and state (an expense splitter, so checks are exact), and a classic
-known-answer replication with public data (the LaLonde job-training experiment, where the
-experimental estimate is known and the naive observational estimate is wrong, so it also tests
-whether the agent falls into the trap).
+The benchmark tasks are now a **validation ladder**, planned in `docs/plans/10_benchmark_validation.md`
+(Sharif, 2026-11-22): study rungs from reproducing Amlani & Collitt (2021) with its replication package,
+to replicating it from the paper alone, to planted effects only we know, to trap tasks (LaLonde, a
+leading prompt); app rungs from building an app to planting 20 bugs that QA and the tester must catch.
 
 ## Phase 9 evaluation (plan-level; no independent evaluator, D16)
 

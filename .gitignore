@@ -68,3 +68,6 @@ desktop.ini
 !/public/_README.md
 !/public/_candidates/
 !/public/candidates.tsv
+
+# Benchmark answer keys, seeds and masked texts stay local (agents must never see them)
+/benchmark/keys/
