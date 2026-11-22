@@ -14,7 +14,7 @@
 - **Current phase:** Phase 10 (validation ladder); Phase 9 done (design + architecture approved 2026-11-22). Row 8.3 flips when Marketing confirms the review post went live
 - **Current step:** benchmark smokes D1–D3 PASS (S1 key 72/72 printed values; S2 inputs leak-free; S3 planted effect recoverable, null clean). Remaining: graders + calibration (D4), bug injection (D5, needs the known-good app), `run.py` and the baseline run (D6)
 - **Last update:** 2026-11-22
-- **Next action:** Sharif approves Part 2 of plan 10 (runner + steps 1–8, decisions 10-F to 10-I); then build the runner smoke by smoke, clean-room check (R1) first.
+- **Next action:** build the runner smoke by smoke (plan 10 Part 2): R1 clean room, R2 smoke_hello, R3 caps, R4 cheat flag.
 
 ---
 
@@ -284,7 +284,7 @@ Source: CLAUDE.md §7.
 | 10.2 | Study ladder: S1 reproduce + S2 replicate Amlani & Collitt 2021 (CC0), S3 planted effect + null, S4 traps (LaLonde, leading prompt) (was 11.2) | ~ S1 key, S2 inputs, S3 data done (`3aa257f`); S3 jitter + S4 pending | ✅ 10 | `docs/plans/10_benchmark_validation.md` (approved) | D2 |
 | 10.3 | Write graders (deterministic first; LLM judge only with a calibration set) (was 11.3) | ⏸ | ⏸ 10 | gate: 10.1–10.2 | literature 05 |
 | 10.4 | Run the no-plugin baseline arm; record the scorecard (was 11.4) | ⏸ | ✅ 10 | gate: 10.3, 10.5 | D17 |
-| 10.5 | Runner `benchmark/run.py`: clean room at `C:\abench`, token/minute/turn caps, cheat flags = FAIL, scorecard + TRIAL_LOG + usage log | ⏸ | ✅ 10 | Part 2 (proposed 2026-11-22) | D22, D23 |
+| 10.5 | Runner `benchmark/run.py`: clean room at `C:\abench`, token/minute/turn caps, cheat flags = FAIL, scorecard + TRIAL_LOG + usage log | ⏳ | ✅ 10 | Part 2 (approved 2026-11-22, D24) | D22, D23 |
 | 10.6 | One measured baseline run (S1) → token caps per run (Sharif's call) | ⏸ | ✅ 10 | gate: 10.5 + S1 grader | D22 |
 
 ### Phase 11 — Kit v0.1 build
@@ -358,6 +358,7 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.29 · 2026-11-22** — Sharif approved plan 10 Part 2 (D24): runner + steps 1–8, overlap with Phase 11 after the measured run, k = 3 release / k = 1 dev. Row 10.5 in progress.
 - **v0.28 · 2026-11-22** — Plan 10 Part 2 proposed: the runner (clean room, caps, cheat = FAIL, scorecard) and steps 1–8 to the full baseline. D23: clean room at `C:\abench` (spike: default `claude -p` loads Sharif's CLAUDE.md, skills and ~650k tokens of MCP tools; the flags plus a workspace outside the user folder give stock Claude Code). Rows 10.5–10.6 added; 10.2 partial.
 - **v0.27 · 2026-11-22** — Self-serve Claude Code checks: local `.packages/Claude_code/cc.py` reads usage limits, a session's context size and live sessions with 0 model tokens, and compacts stored sessions (85k → 21k proven); running sessions are refused. The measured baseline run no longer needs Sharif to read `/usage`.
 - **v0.26 · 2026-11-22** — D22: the kit runs on Sharif's Claude Code subscription, so usage (tokens per task) replaces dollars as the budget and the G2 metric. Dollar caps in 9-B and 10-D removed; token ceilings to be set from the first measured run. CLAUDE.md, plans 09/10 and the research templates updated.
