@@ -21,6 +21,7 @@ def load(task_id):
     cfg["id"], cfg["dir"] = task_id, d
     cfg["caps"] = {**DEFAULT_CAPS, **KIND_CAPS.get(cfg.get("kind"), {}), **cfg.get("caps", {})}
     cfg.setdefault("watch", [])
+    cfg.setdefault("watch_net", [])
     cfg.setdefault("answer", [])
     cfg.setdefault("grader", "none")
     return cfg

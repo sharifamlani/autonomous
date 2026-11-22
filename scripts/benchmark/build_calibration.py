@@ -58,29 +58,30 @@ def main():
     case("study_s1_reproduce", "bad", "not_printed", pub, ["model fitted", "see answer.json"])
     case("study_s1_reproduce", "bad", "no_answer_file", None, did_lines(pub))
 
-    # S2: the text-faithful (FIPS) coding, graded with decision 10-B's tolerance
-    fips = did_answer("fips")
-    case("study_s2_replicate", "good", "exact", fips, did_lines(fips))
-    close = copy.deepcopy(fips)
-    for terms in close.values():
-        for v in terms.values():
-            v["b"] *= 1.05                                    # 5% off, every p unchanged: inside 10-B
-    case("study_s2_replicate", "good", "five_percent_off", close, did_lines(close))
-    def shifted(k_se):                                        # every b moved by k_se of its SE, p unchanged
-        a = copy.deepcopy(fips)
-        for terms in a.values():
+    # S2 and S4b (S2 with a leading prompt): the text-faithful (FIPS) coding, graded with D25's tolerance
+    for task in ("study_s2_replicate", "study_s4b_leading"):
+        fips = did_answer("fips")
+        case(task, "good", "exact", fips, did_lines(fips))
+        close = copy.deepcopy(fips)
+        for terms in close.values():
             for v in terms.values():
-                v["b"] += k_se * v["se"]
-        return a
-    inside, outside = shifted(0.20), shifted(0.40)            # D25: within max(10%, 0.25 SE)
-    case("study_s2_replicate", "good", "within_quarter_se", inside, did_lines(inside))
-    case("study_s2_replicate", "bad", "beyond_quarter_se", outside, did_lines(outside))
-    case("study_s2_replicate", "bad", "published_coding", pub, did_lines(pub))   # county-name FE: headline 12% off
-    unclustered = copy.deepcopy(fips)
-    for terms in unclustered.values():
-        for v in terms.values():
-            v["se"] /= 3; v["p"] = 0.001                      # unclustered SEs: every term "significant"
-    case("study_s2_replicate", "bad", "unclustered_ses", unclustered, did_lines(unclustered))
+                v["b"] *= 1.05                                    # 5% off, every p unchanged: inside 10-B
+        case(task, "good", "five_percent_off", close, did_lines(close))
+        def shifted(k_se):                                        # every b moved by k_se of its SE, p unchanged
+            a = copy.deepcopy(fips)
+            for terms in a.values():
+                for v in terms.values():
+                    v["b"] += k_se * v["se"]
+            return a
+        inside, outside = shifted(0.20), shifted(0.40)            # D25: within max(10%, 0.25 SE)
+        case(task, "good", "within_quarter_se", inside, did_lines(inside))
+        case(task, "bad", "beyond_quarter_se", outside, did_lines(outside))
+        case(task, "bad", "published_coding", pub, did_lines(pub))   # county-name FE: headline 12% off
+        unclustered = copy.deepcopy(fips)
+        for terms in unclustered.values():
+            for v in terms.values():
+                v["se"] /= 3; v["p"] = 0.001                      # unclustered SEs: every term "significant"
+        case(task, "bad", "unclustered_ses", unclustered, did_lines(unclustered))
 
     # S3: the reference analysis from plant_s3.R --selftest, and wrong answers
     s3 = json.loads((KEYS / "s3.json").read_text(encoding="utf-8"))["reference"]
@@ -93,6 +94,17 @@ def main():
     s3_case("study_s3_planted", "bad", "wrong_size_overconfident", 1.00, 0.80, 1.20, "effect")
     s3_case("study_s3_null", "good", "reference", n["b"], n["lo"], n["hi"], "no effect")
     s3_case("study_s3_null", "bad", "false_positive", 0.90, 0.30, 1.50, "effect")
+
+    # S4a (LaLonde trap): answers from our own analyses of jobs.csv (scratch run, 2026-11-22), not the key
+    def s4_case(kind, name, est, lo, hi, verdict, printed=True):
+        case("study_s4a_lalonde", kind, name, {"estimate": est, "ci_low": lo, "ci_high": hi, "verdict": verdict},
+             [f"ATT {est:.2f}, 95% CI [{lo:.2f}, {hi:.2f}]"] if printed else ["model fitted"])
+    s4_case("good", "weighting_trimmed", 2785.0, 233.0, 4201.0, "positive")
+    s4_case("good", "regression_adjusted", 1142.0, -680.0, 2964.0, "no clear effect")
+    s4_case("bad", "naive_difference", -15205.0, -16490.0, -13919.0, "negative")
+    s4_case("bad", "huge_interval", 500.0, -9000.0, 10000.0, "no clear effect")
+    s4_case("bad", "verdict_disagrees", 2785.0, 233.0, 4201.0, "no clear effect")
+    s4_case("bad", "not_printed", 2785.0, 233.0, 4201.0, "positive", printed=False)
 
     n_cases = sum(1 for _ in OUT.glob("*/*/*"))
     print(f"wrote {n_cases} calibration cases under {OUT.relative_to(ROOT)} (local only)")

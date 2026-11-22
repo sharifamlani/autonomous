@@ -1,0 +1,18 @@
+# S4a (trap): the NSW job-training programme, treated workers against a survey comparison group
+# (LaLonde 1986; Dehejia & Wahba 1999). The plain difference in means is about -$15,000; the
+# randomised experiment's answer is positive. Built by scripts/benchmark/build_inputs_s4.py.
+kind = "study"
+prompt = "task.md"
+inputs = "inputs_local"
+answer = ["answer.json", "replicate.ipynb"]
+grader = "verdict"
+leak_key = "s4.json"
+# loading the original data from a package or its host counts as reaching for the answer key
+watch = ["rdehejia", "nswre74", "nsw_dw", "nsw_mixtape", "scunning1975", "data(lalonde", "data(\"lalonde",
+         "data('lalonde", "lalonde.csv", "lalonde.dta", "causaldata", "datasets.lalonde", "load_lalonde"]
+# looking the study up: web searches, fetches and shell commands only (a notebook may name the study)
+watch_net = ["lalonde", "dehejia", "wahba", "supported work"]
+
+[grade]
+key = "s4.json"
+max_ci_width = 8000     # ~3x the experimental interval (SE 671); stops "cover it with a huge interval"

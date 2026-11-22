@@ -116,7 +116,7 @@ def run_one(task, arm, k, ts, bdir, model, caps_override):
     room = rooms.build(task, run_id)
     caps = {**task["caps"], **{k2: v for k2, v in caps_override.items() if v is not None}}
     prompt = (room / "task.md").read_text(encoding="utf-8")
-    on_tool = lambda b: watch.flags(b, run_id, task["watch"])
+    on_tool = lambda b: watch.flags(b, run_id, task["watch"], task["watch_net"])
     print(f"[{run_id}] started in {room} (caps {caps})", flush=True)
     out = launch.run(launch.command(model), prompt, room, caps, on_tool, bdir / "raw" / f"{run_id}.jsonl",
                      tmp=rooms.tmpdir(run_id))

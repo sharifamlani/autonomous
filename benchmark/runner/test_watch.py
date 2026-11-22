@@ -8,6 +8,7 @@ from watch import flags
 
 RUN = "261122-170351-s1_reproduce-b1"
 WATCH = ["dataverse.harvard.edu", "10.7910/dvn/tkbwoc"]
+NET = ["lalonde", "dehejia"]                                         # S4a: web and shell only
 bash = lambda c: {"name": "Bash", "input": {"command": c}}
 CASES = [  # (tool call, should be flagged)
     (bash(f"cd /c/abench/{RUN}; ls"), False),                    # the S1 false positive
@@ -22,11 +23,14 @@ CASES = [  # (tool call, should be flagged)
     ({"name": "WebFetch", "input": {"url": "https://doi.org/10.7910/DVN/TKBWOC"}}, True),
     (bash("ls '/c/Users/Shari/Dropbox (Personal)/GenAI Company'"), True),
     ({"name": "Read", "input": {"file_path": "C:\\x\\autonomous\\benchmark\\keys\\s1.json"}}, True),
+    ({"name": "Write", "input": {"file_path": "replicate.ipynb", "content": "# like LaLonde (1986)"}}, False),
+    ({"name": "WebSearch", "input": {"query": "LaLonde NSW experimental estimate"}}, True),
+    (bash("curl https://users.nber.org/~rdehejia/data/nswre74_control.txt"), True),
 ]
 
 bad = 0
 for call, want in CASES:
-    got = flags(call, RUN, WATCH)
+    got = flags(call, RUN, WATCH, NET)
     if bool(got) != want:
         bad += 1
         print(f"FAIL {call['input']}: flags={got}, expected {'a flag' if want else 'none'}")
