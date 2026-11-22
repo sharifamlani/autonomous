@@ -96,7 +96,7 @@ autonomous/
  | benchmark/run.py     |     | RUN FOLDER  runs/<id>/  (temp, short path on Windows)         |
  | --arm kit|baseline   |---->|                                                              |
  | --task app_001|...   |     |  baseline arm: one `claude -p` with the same prompt, model,  |
- | --runs 3             |     |  token cap and time cap, no plugin                            |
+ | --runs 3             |     |  token cap and time cap, no plugin                           |
  +----------------------+     |                                                              |
             ^                 |  kit arm: `claude -p "/autonomous:new-app <idea>"`           |
             |                 |    Main -> spec-writer --> spec.md + checks/ (hidden)        |
