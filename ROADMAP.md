@@ -5,16 +5,16 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.23 · 2026-11-22
+> v0.24 · 2026-11-22
 
 ---
 
 ## §0 You are here
 
-- **Current phase:** Phase 9 (kit v0.1 design); Phases 7, 7.5 and 8 done (review post scheduled 6:00 AM ET Sun 2026-11-22; row 8.3 flips when Marketing confirms it is live)
-- **Current step:** Phase 9 plan drafted (`docs/plans/09_kit_v01_design.md`): test-and-iterate v0.1, two-scale benchmark (plugin eval for behaviour checks, `benchmark/run.py` end to end)
+- **Current phase:** Phase 10 (validation ladder); Phase 9 done (design + architecture approved 2026-11-22). Row 8.3 flips when Marketing confirms the review post went live
+- **Current step:** building the benchmark: answer key for S1 (Amlani & Collitt 2021, run headlessly in R 4.1.1), then masking, planted-effect and bug-injection selftests (smokes D1–D5)
 - **Last update:** 2026-11-22
-- **Next action:** Sharif answers decisions 9-A to 9-E (9-A revises D11: plugin eval caps runs at 1 h and has no code graders); then Phase 10 (benchmark).
+- **Next action:** smoke D1 (`scripts/benchmark/build_key_s1.R` reproduces Table 2); Sharif sends the accepted manuscript for S2 (10-C).
 
 ---
 
@@ -81,6 +81,11 @@ Source: CLAUDE.md §7.
 | D14 | License: MIT (repo and plugin) | Sharif, 2026-11-20 |
 | D15 | The kit is a plugin plus a launcher script that starts each role as its own `claude -p` session (not built-in agent teams, not a separate framework); its permission hook is scoped to the project folder and an allow-list | Spike 4.8, 2026-11-21 · `4261c62` |
 | D16 | Literature collection is not independently graded: scouts self-check with `verify_literature.py`, nothing more ("just get as much literature as we possibly can. We don't need to grade that.") | Sharif, 2026-11-21 |
+| D17 | Two-scale benchmark: `claude plugin eval` for single-skill behaviour checks; our `benchmark/run.py` for end-to-end tasks (plugin eval caps runs at 1 h / 200 turns, no code graders). Revises D11 | Sharif, 2026-11-22 (decision 9-A) |
+| D18 | Every role runs on Claude Code: one `claude -p` session per role step, started by `team.py`; the baseline arm is plain Claude Code without the plugin | Spike 4.8; Sharif, 2026-11-22 |
+| D19 | v0.1 runs use Opus 5.5 in both arms; runs execute on native Windows | Sharif, 2026-11-22 (9-C, 9-D) |
+| D20 | Kit roles: spec-writer, builder, QA, tester; analyst, replicator. The conductor is code (`team.py`). Marketing runs outside the kit, reading a release card each run writes | Sharif, 2026-11-22 (9-E) |
+| D21 | Validation ladder v0.1: S1–S4 (Amlani & Collitt 2021, planted effect + null, LaLonde, leading prompt) and A1–A3 (build, 20 planted bugs, impossible spec); S2 tolerance = same sign, same 5% call, within 10%; ceilings $630 per release check, $130 per dev iteration | Sharif, 2026-11-22 (10-A to 10-E) |
 
 ---
 
@@ -252,29 +257,30 @@ Source: CLAUDE.md §7.
 **Goal:** the kit's agents, prompts, skills and gates designed from the review, with a plan.
 **Entry gate:** Phase 8.
 **Exit gate:** plan file with tree, flowchart, derisking and evaluation criteria approved by Sharif.
-**Status:** ⏳ in progress (plan drafted 2026-11-22 · `fd1a90c`; waiting on Sharif's decisions 9-A to 9-E)
+**Status:** ✅ done (plan + architecture approved by Sharif 2026-11-22: "All that looks good!"; D17–D20)
 **Plan:** `docs/plans/09_kit_v01_design.md` + `docs/plans/09_kit_v01_architecture.md`
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 9.1 | Design `/autonomous:new-app` (agent-team roles as plugin agents and skills) (was 10.1) | ⏳ | ✅ 09 | 2026-11-22 · `fd1a90c` drafted, awaiting approval | D8 |
-| 9.2 | Design `/autonomous:new-study` (research protocol as plugin agents and skills) (was 10.2) | ⏳ | ✅ 09 | 2026-11-22 · `fd1a90c` drafted, awaiting approval | D9 |
-| 9.3 | Design unattended run settings (permission flags, background caps, CUA walk) (was 10.3) | ⏳ | ✅ 09 | 2026-11-22 · `fd1a90c` drafted, awaiting approval | D7, CLAUDE.md §1 |
-| 9.4 | Decide which lifted dev skills and agents enter the kit (`research-report`, the three dev agents, scrubbed `scheduled-wakeup-loops` and `agent-spec`) (was 4.3–4.5, O5) | ⏳ | ✅ 09 | 2026-11-22 · `fd1a90c` drafted, awaiting approval | D6 |
+| 9.1 | Design `/autonomous:new-app` (agent-team roles as plugin agents and skills) (was 10.1) | ✅ | — | 2026-11-22 · `fd1a90c` `a2aae37` `07a013e` approved | D8 |
+| 9.2 | Design `/autonomous:new-study` (research protocol as plugin agents and skills) (was 10.2) | ✅ | — | 2026-11-22 · `fd1a90c` `a2aae37` `07a013e` approved | D9 |
+| 9.3 | Design unattended run settings (permission flags, background caps, CUA walk) (was 10.3) | ✅ | — | 2026-11-22 · `fd1a90c` `a2aae37` `07a013e` approved | D7, CLAUDE.md §1 |
+| 9.4 | Decide which lifted dev skills and agents enter the kit (`research-report`, the three dev agents, scrubbed `scheduled-wakeup-loops` and `agent-spec`) (was 4.3–4.5, O5) | ✅ | — | 2026-11-22 · `fd1a90c` `a2aae37` `07a013e` approved | D6 |
 
 ### Phase 10 — Benchmark v0.1: the tests
 
 **Goal:** one app task and one known-answer study, with graders, runnable by `claude plugin eval`.
 **Entry gate:** Phase 9.
 **Exit gate:** the baseline arm (no plugin) runs end to end and produces a scorecard.
-**Status:** ⏸ planned
+**Status:** ⏳ in progress (ladder approved 2026-11-22, D21; waiting on the S2 manuscript from Sharif)
+**Plan:** `docs/plans/10_benchmark_validation.md`
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 10.1 | App ladder: A1 build, A2 20 planted bugs for QA + tester, A3 impossible spec (was 11.1) | ⏸ | ✅ 10 | `docs/plans/10_benchmark_validation.md` (draft) | D2 |
-| 10.2 | Study ladder: S1 reproduce + S2 replicate Amlani & Collitt 2021 (CC0), S3 planted effect + null, S4 traps (LaLonde, leading prompt) (was 11.2) | ⏸ | ✅ 10 | `docs/plans/10_benchmark_validation.md` (draft) | D2 |
+| 10.1 | App ladder: A1 build, A2 20 planted bugs for QA + tester, A3 impossible spec (was 11.1) | ⏸ | ✅ 10 | `docs/plans/10_benchmark_validation.md` (approved) | D2 |
+| 10.2 | Study ladder: S1 reproduce + S2 replicate Amlani & Collitt 2021 (CC0), S3 planted effect + null, S4 traps (LaLonde, leading prompt) (was 11.2) | ⏸ | ✅ 10 | `docs/plans/10_benchmark_validation.md` (approved) | D2 |
 | 10.3 | Write graders (deterministic first; LLM judge only with a calibration set) (was 11.3) | ⏸ | ⏸ 10 | gate: 10.1–10.2 | literature 05 |
-| 10.4 | Run the no-plugin baseline arm; record the scorecard (was 11.4) | ⏸ | ⏸ 10 | gate: 10.3 | D11 |
+| 10.4 | Run the no-plugin baseline arm; record the scorecard (was 11.4) | ⏸ | ⏸ 10 | gate: 10.3 | D17 |
 
 ### Phase 11 — Kit v0.1 build
 
@@ -347,6 +353,8 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.24 · 2026-11-22** — Sharif approved the Phase 9 design and architecture and the Phase 10 ladder ("All
+  that looks good!"): decisions D17–D21 recorded (D17 revises D11). Phase 9 done; Phase 10 in progress.
 - **v0.23 · 2026-11-22** — Phase 10 validation ladder drafted (Sharif: "compelling ways to validate the
   entire system"; "I love the ladder"). Study tasks from Sharif's own CC0 replication packages (Amlani &
   Collitt 2021 for v0.1; Amlani & Algara 2021 for v0.2), planted effects, traps; app checkers tested

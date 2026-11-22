@@ -1,6 +1,6 @@
 # Phase 9 plan: kit v0.1 design, built to test and iterate
 
-**ROADMAP rows:** 9.1–9.4 · **Status:** draft for Sharif's approval · **Date:** 2026-11-22
+**ROADMAP rows:** 9.1–9.4 · **Status:** approved by Sharif 2026-11-22 (D17–D20) · **Date:** 2026-11-22
 **Inputs:** the literature review (`literature/LITERATURE_REVIEW.pdf`, Table 3, Summary Points, §13),
 the lessons table in `CLAUDE.md` §0.5 (L1–L11), spike 4.8 (`research/spikes/plugin_team.md`, D15),
 and the `claude plugin eval` docs (https://code.claude.com/docs/en/plugin-evals.md, read 2026-11-22).

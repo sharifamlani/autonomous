@@ -1,6 +1,6 @@
 # Phase 10 plan: the validation ladder (benchmark v0.1)
 
-**ROADMAP rows:** 10.1–10.4 · **Status:** draft for Sharif's approval · **Date:** 2026-11-22
+**ROADMAP rows:** 10.1–10.4 · **Status:** approved by Sharif 2026-11-22 (D21) · **Date:** 2026-11-22
 **Why this plan:** Sharif, 2026-11-22: "we need to come up with some compelling ways to validate the
 entire system." One app and one study show the kit runs; they don't convince anyone it works.
 **Inputs:** the review (Summary Points 6–9), the study-theme notes in `literature/06_*/README.md`
