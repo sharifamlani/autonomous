@@ -5,16 +5,16 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.20 · 2026-11-21
+> v0.21 · 2026-11-22
 
 ---
 
 ## §0 You are here
 
-- **Current phase:** Phase 8 (independent evaluation of the literature review); Phases 7 and 7.5 done
-- **Current step:** review published in the repo (GRADE PASS 7/7); post #4 scheduled by Marketing for 6:00 AM ET Sun 2026-11-22 on LinkedIn + X (Sharif's go in its session; text only, video dropped); row 7.3 (CLAUDE.md v1) open
-- **Last update:** 2026-11-21
-- **Next action:** Marketing confirms post #4 went live at 6:00 AM Sun and drafts commenter replies for Sharif to send (row 8.3 flips ✅); then row 7.3 (CLAUDE.md v1) on Sharif's go, then Phase 9.
+- **Current phase:** Phase 9 (kit v0.1 design); Phases 7, 7.5 and 8 done (review post scheduled 6:00 AM ET Sun 2026-11-22; row 8.3 flips when Marketing confirms it is live)
+- **Current step:** Phase 9 plan drafted (`docs/plans/09_kit_v01_design.md`): test-and-iterate v0.1, two-scale benchmark (plugin eval for behaviour checks, `benchmark/run.py` end to end)
+- **Last update:** 2026-11-22
+- **Next action:** Sharif answers decisions 9-A to 9-E (9-A revises D11: plugin eval caps runs at 1 h and has no code graders); then Phase 10 (benchmark).
 
 ---
 
@@ -208,14 +208,14 @@ Source: CLAUDE.md §7.
 **Goal:** the synthesis that turns the evidence into the kit's design.
 **Entry gate:** Phases 5–6.
 **Exit gate:** `LITERATURE_REVIEW.md` with 0 dangling citation IDs; CLAUDE.md v1 committed.
-**Status:** ⏳ in progress (outline approved 2026-11-21)
+**Status:** ✅ done (review published; CLAUDE.md v1 lessons L1–L11 2026-11-22)
 **Plan:** `docs/plans/07_literature_review.md`
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
 | 7.1 | Write `literature/LITERATURE_REVIEW.md`: what the evidence and the repo lessons say per part, and what they imply for the kit's roster, prompts and gates (was 8.1) | ✅ | — | 2026-11-21 · `ff08499` draft → `257dd35` QA'd (16 sections, 162 papers + 28 repos, 35 pp.) | literature/ |
 | 7.2 | Citation check script: every ID in the review resolves in `papers.tsv` (was 8.2) | ✅ | — | 2026-11-21 · `de3f956` `check_review.py` (0 dangling; smoke: fake ID caught) + `build_evidence.py` (`c733ac8`) | criterion 9 |
-| 7.3 | CLAUDE.md v1: fold in the review's design implications (was 8.3) | ⏸ | — | gate: 7.1 | this plan |
+| 7.3 | CLAUDE.md v1: fold in the review's design implications (was 8.3) | ✅ | — | 2026-11-22 · `e55edec` CLAUDE.md §0.5, lessons L1–L11 | this plan |
 
 ### Phase 7.5 — QA of the literature review (before the independent grade)
 
@@ -252,14 +252,15 @@ Source: CLAUDE.md §7.
 **Goal:** the kit's agents, prompts, skills and gates designed from the review, with a plan.
 **Entry gate:** Phase 8.
 **Exit gate:** plan file with tree, flowchart, derisking and evaluation criteria approved by Sharif.
-**Status:** ⏸ planned
+**Status:** ⏳ in progress (plan drafted 2026-11-22 · `fd1a90c`; waiting on Sharif's decisions 9-A to 9-E)
+**Plan:** `docs/plans/09_kit_v01_design.md`
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 9.1 | Design `/autonomous:new-app` (agent-team roles as plugin agents and skills) (was 10.1) | ⏸ | ⏸ 09 | gate: Phase 8 | D8 |
-| 9.2 | Design `/autonomous:new-study` (research protocol as plugin agents and skills) (was 10.2) | ⏸ | ⏸ 09 | gate: Phase 8 | D9 |
-| 9.3 | Design unattended run settings (permission flags, background caps, CUA walk) (was 10.3) | ⏸ | ⏸ 09 | gate: Phase 8 | D7, CLAUDE.md §1 |
-| 9.4 | Decide which lifted dev skills and agents enter the kit (`research-report`, the three dev agents, scrubbed `scheduled-wakeup-loops` and `agent-spec`) (was 4.3–4.5, O5) | ⏸ | ⏸ 09 | gate: Phase 8 | D6 |
+| 9.1 | Design `/autonomous:new-app` (agent-team roles as plugin agents and skills) (was 10.1) | ⏳ | ✅ 09 | 2026-11-22 · `fd1a90c` drafted, awaiting approval | D8 |
+| 9.2 | Design `/autonomous:new-study` (research protocol as plugin agents and skills) (was 10.2) | ⏳ | ✅ 09 | 2026-11-22 · `fd1a90c` drafted, awaiting approval | D9 |
+| 9.3 | Design unattended run settings (permission flags, background caps, CUA walk) (was 10.3) | ⏳ | ✅ 09 | 2026-11-22 · `fd1a90c` drafted, awaiting approval | D7, CLAUDE.md §1 |
+| 9.4 | Decide which lifted dev skills and agents enter the kit (`research-report`, the three dev agents, scrubbed `scheduled-wakeup-loops` and `agent-spec`) (was 4.3–4.5, O5) | ⏳ | ✅ 09 | 2026-11-22 · `fd1a90c` drafted, awaiting approval | D6 |
 
 ### Phase 10 — Benchmark v0.1: the tests
 
@@ -346,6 +347,9 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.21 · 2026-11-22** — Row 7.3 closed: CLAUDE.md §0.5 holds the review's lessons L1–L11 (`e55edec`);
+  Phase 7 done. Phase 9 plan drafted (`fd1a90c`). Found: `claude plugin eval` caps a run at 1 h / 200
+  turns with no code graders, so the plan proposes revising D11 (decision 9-A).
 - **v0.20 · 2026-11-21** — Post #4 (the review) scheduled for 6:00 AM ET Sun 2026-11-22 on LinkedIn
   and X after Sharif's go in Marketing's session. Video dropped by Sharif; text-only with a page-1 image
   of the PDF; link held for commenters, replies drafted by Marketing and sent by Sharif. Row 8.3 flips
