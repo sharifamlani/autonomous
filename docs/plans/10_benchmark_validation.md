@@ -10,7 +10,7 @@ entire system." One app and one study show the kit runs; they don't convince any
 AUTONOMOUS — phase plan
 ─────────────────────────────────
 Phase 9    : Kit v0.1 design + architecture [████████████████████] ✅
-Phase 10   : Validation ladder (this plan)  [████████⏸...........] waiting on you (Part 2)
+Phase 10   : Validation ladder (this plan)  [████████............] ⏳ Part 2 approved; building the runner
 Phase 11   : Kit v0.1 build
 Phase 12   : v0.1 release
 ```
@@ -219,7 +219,7 @@ FIPS 3,108):
 
 ## Part 2: the runner and the remaining steps (for Sharif's approval, 2026-11-22)
 
-**Status:** proposed 2026-11-22. Steps 1–3 build the runner; steps 4–8 finish the ladder.
+**Status:** approved by Sharif 2026-11-22 ("Yes!": 10-F, 10-G, 10-H; D24). Steps 1–3 build the runner; steps 4–8 finish the ladder.
 **Decided already:** usage, not dollars (D22); a run that reaches for the original package or the
 keys **fails** (Sharif, 2026-11-22: "fail it is"; D23); every run happens in a clean room (D23).
 

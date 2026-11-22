@@ -5,7 +5,7 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.28 · 2026-11-22
+> v0.29 · 2026-11-22
 
 ---
 
@@ -88,6 +88,7 @@ Source: CLAUDE.md §7.
 | D21 | Validation ladder v0.1: S1–S4 (Amlani & Collitt 2021, planted effect + null, LaLonde, leading prompt) and A1–A3 (build, 20 planted bugs, impossible spec); S2 tolerance = same sign, same 5% call, within 10%; budget per D22 | Sharif, 2026-11-22 (10-A to 10-E) |
 | D22 | Runs use Sharif's Claude Code subscription: the budget and the efficiency metric are **usage (tokens per task)**, not dollars. Caps are tokens, wall-clock and turns; token ceilings are set from the first measured run. API-equivalent $ is recorded for readers only. Revises 9-B and 10-D | Sharif, 2026-11-22 |
 | D23 | Benchmark runs happen in a clean room: workspace at `C:\abench\<run-id>` (outside the user folder, repo and Dropbox) with `--setting-sources project,local --strict-mcp-config`, so the baseline is stock Claude Code (no personal CLAUDE.md, skills or MCP). A run that reaches for the original package or the answer keys is scored FAIL | Spike 2026-11-22; Sharif, 2026-11-22 ("fail it is") |
+| D24 | Plan 10 Part 2 approved: runner + steps 1–8; Phase 11 starts after the measured run (step 6) with the remaining tasks built alongside; k = 3 per arm for release checks, k = 1 for dev iterations; token caps set from the measured run | Sharif, 2026-11-22 (10-F to 10-H) |
 
 ---
 
