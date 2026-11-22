@@ -5,7 +5,7 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.30 · 2026-11-22
+> v0.31 · 2026-11-22
 
 ---
 
@@ -14,7 +14,7 @@
 - **Current phase:** Phase 10 (validation ladder); Phase 9 done (design + architecture approved 2026-11-22). Row 8.3 flips when Marketing confirms the review post went live
 - **Current step:** benchmark smokes D1–D3 PASS (S1 key 72/72 printed values; S2 inputs leak-free; S3 planted effect recoverable, null clean). Remaining: graders + calibration (D4), bug injection (D5, needs the known-good app), `run.py` and the baseline run (D6)
 - **Last update:** 2026-11-22
-- **Next action:** plan 10 Part 2 step 4 (S3 covariate jitter) and step 5 (S1–S3 graders with calibration pairs); then the measured S1 run (step 6).
+- **Next action:** the measured S1 baseline run (step 6, in progress), then token caps to Sharif; S2 tolerance (10-B near-zero estimates) also waiting on Sharif.
 
 ---
 
@@ -282,7 +282,7 @@ Source: CLAUDE.md §7.
 |---|---|---|---|---|---|
 | 10.1 | App ladder: A1 build, A2 20 planted bugs for QA + tester, A3 impossible spec (was 11.1) | ⏸ | ✅ 10 | `docs/plans/10_benchmark_validation.md` (approved) | D2 |
 | 10.2 | Study ladder: S1 reproduce + S2 replicate Amlani & Collitt 2021 (CC0), S3 planted effect + null, S4 traps (LaLonde, leading prompt) (was 11.2) | ~ S1 key, S2 inputs, S3 data done (`3aa257f`); S3 jitter + S4 pending | ✅ 10 | `docs/plans/10_benchmark_validation.md` (approved) | D2 |
-| 10.3 | Write graders (deterministic first; LLM judge only with a calibration set) (was 11.3) | ⏸ | ⏸ 10 | gate: 10.1–10.2 | literature 05 |
+| 10.3 | Write graders (deterministic first; LLM judge only with a calibration set) (was 11.3) | ~ study graders calibrated 13/13 (`8f93aad`); app graders with step 7 | ⏸ 10 | gate: 10.1–10.2 | literature 05 |
 | 10.4 | Run the no-plugin baseline arm; record the scorecard (was 11.4) | ⏸ | ✅ 10 | gate: 10.3, 10.5 | D17 |
 | 10.5 | Runner `benchmark/run.py`: clean room at `C:\abench`, token/minute/turn caps, cheat flags = FAIL, scorecard + TRIAL_LOG + usage log | ✅ | — | 2026-11-22 · `1dee888` (R1–R4 PASS; kit arm comes with Phase 11) | D22, D23 |
 | 10.6 | One measured baseline run (S1) → token caps per run (Sharif's call) | ⏸ | ✅ 10 | gate: 10.5 + S1 grader | D22 |
@@ -358,6 +358,7 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.31 · 2026-11-22** — Steps 4–5 done: S3 jitter (R5) and the study tasks S1–S3 with calibrated graders (R6, 13/13; calibration caught and fixed a double-rounding bug). S2 near-zero tolerance raised to Sharif. Step 6 (measured S1 run) started.
 - **v0.30 · 2026-11-22** — Runner built (row 10.5 ✅): clean room R1, hello R2, caps R3 (after a job-object fix for orphaned Git Bash processes), cheat flag R4 all PASS; leak check and regrade moved into `run.py`. Next: S3 jitter and the study graders.
 - **v0.29 · 2026-11-22** — Sharif approved plan 10 Part 2 (D24): runner + steps 1–8, overlap with Phase 11 after the measured run, k = 3 release / k = 1 dev. Row 10.5 in progress.
 - **v0.28 · 2026-11-22** — Plan 10 Part 2 proposed: the runner (clean room, caps, cheat = FAIL, scorecard) and steps 1–8 to the full baseline. D23: clean room at `C:\abench` (spike: default `claude -p` loads Sharif's CLAUDE.md, skills and ~650k tokens of MCP tools; the flags plus a workspace outside the user folder give stock Claude Code). Rows 10.5–10.6 added; 10.2 partial.

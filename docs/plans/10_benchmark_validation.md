@@ -371,9 +371,16 @@ model; one grader verdict is re-checked by hand against the key.
 | R3 caps | **PASS** on the second attempt. First attempt (`261122-164701`) left an orphan `sleep.exe`: Git Bash children lose their parent link, so the process-tree kill missed it and the tree check wrongly reported 0. Fix: every run lives in a Windows job object, terminated at a cap. Re-run: CAP at 1.0 min; the agent's foreground and background `sleep 300` both gone by an outside `tasklist` count | `results/baseline/261122-165152/` |
 | R4 cheat flag | **PASS**: flagged `watch:dataverse.harvard.edu` on the first tool call, stopped in 4 s before writing anything, scored FAIL | `results/baseline/261122-165358/` |
 | R5 S3 jitter | **PASS**: each county's six covariates scaled by a seeded ~3% factor (same in both years); 0 of 6,202 rows within 0.01% of the public values; planted 95% CI [1.818, 4.547] still covers delta and excludes 0; null [-1.684, 0.987] covers 0. Negative control (jitter off): 6,202 of 6,202 rows match, SELFTEST FAIL. A first, exact-equality counter missed 6,156 of them (rounding broke equality) and was replaced | `scripts/benchmark/plant_s3.R --selftest` |
+| R6 study graders | **PASS** 13 of 13 calibration cases: S1 (exact passes; one term off, numbers not printed by the notebook, no answer file all fail), S2 (exact and 5%-off pass; the published county-name coding and unclustered SEs fail), S3 planted (reference passes; missed effect and overconfident wrong size fail), S3 null (reference passes; false positive fails). Calibration caught a double-rounding bug in the copy check: the S2 key itself failed one term; fixed with a 0.005 tolerance. Calibration answers hold key values, so they live in `benchmark/keys/calibration/` (local) | `run.py --calibrate --task study`; `scripts/benchmark/build_calibration.py` |
 | Leak check in the runner | `run.py --check-inputs --task study_s2_replicate`: 0 of 209 values (exit 0); a planted leak file is caught (exit 1). `scripts/benchmark/check_inputs.py` retired | this table |
 
 Each run also records the weekly-limit share from the stream's `rate_limit_event` (free; first and last value).
+
+**Open for Sharif (S2 tolerance, 10-B).** Calibration confirms 10-B works as written, but its 10% rule is
+very tight for near-zero estimates: for a vote-share term of -0.381 (SE 0.538), "within 10%" means
+within 0.038, about 0.07 SE. Only an exact match of every specification choice clears it. Proposed:
+within 10% **or** within 0.25 of the key's SE, whichever is larger, plus same sign and same 5% call.
+The grader already supports it (`abs_se` in S2's task.toml, now 0 = off).
 
 ### Decisions for Sharif (Part 2)
 
