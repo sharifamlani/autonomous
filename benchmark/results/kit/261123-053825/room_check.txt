@@ -1,0 +1,39 @@
+## Context Usage
+
+**Model:** claude-opus-5-5  
+**Tokens:** 19.8k / 1m (2%)
+
+### Estimated usage by category
+
+| Category | Tokens | Percentage |
+|----------|--------|------------|
+| System prompt | 3.3k | 0.3% |
+| System tools | 14.2k | 1.4% |
+| System tools (deferred) | 14.4k | 1.4% |
+| Skills | 2.3k | 0.2% |
+| Messages | 10 | 0.0% |
+| Free space | 947.2k | 94.7% |
+| Autocompact buffer | 33k | 3.3% |
+
+### Skills
+
+| Skill | Source | Tokens |
+|-------|--------|--------|
+| dataviz | Built-in | ~480 |
+| update-config | Built-in | ~240 |
+| keybindings-help | Built-in | ~80 |
+| code-review | Built-in | ~410 |
+| simplify | Built-in | ~60 |
+| fewer-permission-prompts | Built-in | ~60 |
+| loop | Built-in | ~120 |
+| schedule | Built-in | ~130 |
+| claude-api | Built-in | ~390 |
+| workflow-authoring | Built-in | ~80 |
+| run | Built-in | ~120 |
+| plugin-authoring | Built-in | ~90 |
+| init | Built-in | ~20 |
+| security-review | Built-in | ~30 |
+
+
+
+problems: []

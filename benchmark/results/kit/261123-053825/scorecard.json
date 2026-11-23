@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "arm": "kit",
+    "ts": "261123-053825",
+    "model": "claude-opus-5-5",
+    "claude_version": "2.1.330 (Claude Code)",
+    "room_check": "PASS",
+    "task_spec": "app_a1_build",
+    "runs": 1,
+    "usage_before": [
+      {
+        "name": "week (all models)",
+        "pct": 11,
+        "resets": "Nov 29, 6am (America/New_York)"
+      },
+      {
+        "name": "week (Fable)",
+        "pct": 0,
+        "resets": "Nov 29, 6am (America/New_York)"
+      }
+    ],
+    "usage_after": [
+      {
+        "name": "week (all models)",
+        "pct": 12,
+        "resets": "Nov 29, 5:59am (America/New_York)"
+      },
+      {
+        "name": "week (Fable)",
+        "pct": 0,
+        "resets": "Nov 29, 6am (America/New_York)"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "task": "app_a1_build",
+      "run_id": "261123-053825-a1_build-k1",
+      "status": "DONE",
+      "pass": true,
+      "score": 1.0,
+      "tokens": 1568065,
+      "output_tokens": 1693,
+      "minutes": 9.61,
+      "turns": 38,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "RUN.md",
+        "START.txt",
+        "data.json",
+        "money.js",
+        "public/app.js",
+        "public/index.html",
+        "public/style.css",
+        "server.js"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1.0,
+        "summary": "28 of 28 checks ok"
+      },
+      "cost_usd_api": 0.13759939999999998,
+      "processes": 1204,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 120,
+        "turns": 0,
+        "tokens": 15000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "r7a71e15867.tmp"
+      ],
+      "week_util": [
+        0.11,
+        0.11
+      ],
+      "limit_status": "allowed",
+      "kit": {
+        "status": "DONE",
+        "team_status": "DONE",
+        "team_note": "",
+        "rounds": [
+          {
+            "round": 1,
+            "qa": {
+              "verdict": "PASS",
+              "reason": "18 checks passed with evidence"
+            },
+            "tester": {
+              "verdict": "PASS",
+              "reason": "13 checks passed with evidence"
+            }
+          }
+        ],
+        "tokens": 1380172,
+        "output_tokens": 721,
+        "turns": 31,
+        "roles": [
+          [
+            "r0-spec-writer",
+            "DONE",
+            147008
+          ],
+          [
+            "r1-builder",
+            "DONE",
+            439206
+          ],
+          [
+            "r1-tester",
+            "DONE",
+            345136
+          ],
+          [
+            "r1-qa",
+            "DONE",
+            448822
+          ]
+        ],
+        "flags": []
+      }
+    }
+  ]
+}

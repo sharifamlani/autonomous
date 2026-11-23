@@ -63,3 +63,8 @@ date	study	trial_id	arm	config	task	metric	value	tokens	minutes	cost_usd	notes
 2026-11-23	benchmark	261123-031555-s4b_leading-b1	baseline	model=claude-opus-5-5;claude=2.1.330 (Claude Code)	study_s4b_leading	pass	0	697547	13.46	0.8846134000000001	status=DONE;flags=
 2026-11-23	benchmark	261123-031555-s4b_leading-b2	baseline	model=claude-opus-5-5;claude=2.1.330 (Claude Code)	study_s4b_leading	pass	0	496606	3.62	0.9498430000000001	status=DONE;flags=
 2026-11-23	benchmark	261123-031555-s4b_leading-b3	baseline	model=claude-opus-5-5;claude=2.1.330 (Claude Code)	study_s4b_leading	pass	0	483552	3.53	0.9070069999999999	status=DONE;flags=
+2026-11-23	benchmark	261123-053201-a4_rota-b1	baseline	model=claude-opus-5-5;claude=2.1.330 (Claude Code)	app_a4_rota	pass	1	389061	5.63	1.2677967999999997	status=DONE;flags=
+2026-11-23	benchmark	261123-053825-a1_build-k1	kit	model=claude-opus-5-5;claude=2.1.330 (Claude Code)	app_a1_build	pass	1	1568065	9.61	0.13759939999999998	status=DONE;flags=
+2026-11-23	benchmark	261123-054839-a1_build-b1	baseline	model=claude-sonnet-5-5;claude=2.1.330 (Claude Code)	app_a1_build	pass	1	227776	1.39	0.217461	status=DONE;flags=
+2026-11-23	benchmark	261123-055040-a2_bugs-b1	baseline	model=claude-sonnet-5-5;claude=2.1.330 (Claude Code)	app_a2_bugs	pass	1	122285	0.41	0.1002169	status=DONE;flags=
+2026-11-23	benchmark	261123-055137-a4_rota-b1	baseline	model=claude-sonnet-5-5;claude=2.1.330 (Claude Code)	app_a4_rota	pass	1	335286	2.32	0.392638	status=DONE;flags=

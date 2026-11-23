@@ -1,0 +1,81 @@
+{
+  "meta": {
+    "arm": "baseline",
+    "ts": "261123-053201",
+    "model": "claude-opus-5-5",
+    "claude_version": "2.1.330 (Claude Code)",
+    "room_check": "PASS",
+    "task_spec": "app_a4_rota",
+    "runs": 1,
+    "usage_before": [
+      {
+        "name": "week (all models)",
+        "pct": 11,
+        "resets": "Nov 29, 6am (America/New_York)"
+      },
+      {
+        "name": "week (Fable)",
+        "pct": 0,
+        "resets": "Nov 29, 6am (America/New_York)"
+      }
+    ],
+    "usage_after": [
+      {
+        "name": "week (all models)",
+        "pct": 11,
+        "resets": "Nov 29, 6am (America/New_York)"
+      },
+      {
+        "name": "week (Fable)",
+        "pct": 0,
+        "resets": "Nov 29, 6am (America/New_York)"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "task": "app_a4_rota",
+      "run_id": "261123-053201-a4_rota-b1",
+      "status": "DONE",
+      "pass": true,
+      "score": 1.0,
+      "tokens": 389061,
+      "output_tokens": 39515,
+      "minutes": 5.63,
+      "turns": 7,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "START.txt",
+        "server.py",
+        "static/index.html"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1.0,
+        "summary": "69 of 69 checks ok"
+      },
+      "cost_usd_api": 1.2677967999999997,
+      "processes": 242,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 120,
+        "turns": 0,
+        "tokens": 15000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "r0b7d2b725f.tmp"
+      ],
+      "week_util": [
+        0.11,
+        0.11
+      ],
+      "limit_status": "allowed",
+      "kit": null
+    }
+  ]
+}

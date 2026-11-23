@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "arm": "baseline",
+    "ts": "261123-055040",
+    "model": "claude-sonnet-5-5",
+    "claude_version": "2.1.330 (Claude Code)",
+    "room_check": "PASS",
+    "task_spec": "app_a2_bugs",
+    "runs": 1,
+    "usage_before": [
+      {
+        "name": "week (all models)",
+        "pct": 12,
+        "resets": "Nov 29, 5:59am (America/New_York)"
+      },
+      {
+        "name": "week (Fable)",
+        "pct": 0,
+        "resets": "Nov 29, 6am (America/New_York)"
+      }
+    ],
+    "usage_after": [
+      {
+        "name": "week (all models)",
+        "pct": 12,
+        "resets": "Nov 29, 5:59am (America/New_York)"
+      },
+      {
+        "name": "week (Fable)",
+        "pct": 0,
+        "resets": "Nov 29, 6am (America/New_York)"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "task": "app_a2_bugs",
+      "run_id": "261123-055040-a2_bugs-b1",
+      "status": "DONE",
+      "pass": true,
+      "score": 0.85,
+      "tokens": 122285,
+      "output_tokens": 2541,
+      "minutes": 0.41,
+      "turns": 4,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "bugs.json"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 0.85,
+        "summary": "found 17 of 20 planted bugs; 1 false alarm(s) of 18 report(s)"
+      },
+      "cost_usd_api": 0.1002169,
+      "processes": 7,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 120,
+        "turns": 0,
+        "tokens": 15000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "re113dd9797.tmp"
+      ],
+      "week_util": [
+        0.11,
+        0.11
+      ],
+      "limit_status": "allowed",
+      "kit": null
+    }
+  ]
+}
