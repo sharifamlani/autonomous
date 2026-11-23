@@ -5,7 +5,7 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.36 · 2026-11-22
+> v0.37 · 2026-11-22
 
 ---
 
@@ -14,7 +14,7 @@
 - **Current phase:** Phase 10 (validation ladder); Phase 9 done (design + architecture approved 2026-11-22). Row 8.3 flips when Marketing confirms the review post went live
 - **Current step:** limits set (D26). Two tracks in parallel (D24): step 7 of plan 10 (S4, A1, A2 + bug injection, A3, each with grader and calibration) and Phase 11 (kit build, against plan 09's smokes, starting with the folder fence)
 - **Last update:** 2026-11-22
-- **Next action:** step 7: the app tasks (A1 build, A2 known-good app + 20 planted bugs, A3 impossible spec) with their graders; Phase 11: `plugin/` skeleton and `hooks/gate.py --selftest` (plan 09 smoke S2).
+- **Next action:** step 7: the app tasks (A1 build, A2 known-good app + 20 planted bugs, A3 impossible spec) with their graders; Phase 11: `team.py` launcher and the kill-at-cap path (plan 09 smoke S1), then roles and the entry skills.
 
 ---
 
@@ -294,11 +294,11 @@ Source: CLAUDE.md §7.
 **Goal:** the kit built through the agent-team flywheel, starting from an empty `plugin/`.
 **Entry gate:** Phases 9–10.
 **Exit gate:** every PR QA-approved at its sha and walked on staging; `claude plugin validate plugin --strict` exit 0; 0 references to Trading's package in `plugin/`.
-**Status:** ⏸ planned
+**Status:** ⏳ in flight (11.1 done; fence smoke S2 PASS)
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 11.1 | Create `plugin/.claude-plugin/plugin.json` and root `.claude-plugin/marketplace.json` (was 4.2) | ⏸ | ⏸ 11 | gate: Phase 10 | CLAUDE.md §7 |
+| 11.1 | Create `plugin/.claude-plugin/plugin.json` and root `.claude-plugin/marketplace.json` (was 4.2) | ✅ | — | 2026-11-22 · `f2b8b72` (both validate; plus `hooks/gate.py`, smoke S2 PASS `afb90e3`) | CLAUDE.md §7 |
 | 11.2 | Copy in the skills and agents chosen in 9.4 (copy-don't-rewrite, scrubbed) (was 4.3–4.5) | ⏸ | ⏸ 11 | gate: 11.1 | D6, D9 |
 | 11.3 | Build `/autonomous:new-app` (was 12.1) | ⏸ | ⏸ 11 | gate: 11.2 | D8 |
 | 11.4 | Build `/autonomous:new-study` (was 12.2) | ⏸ | ⏸ 11 | gate: 11.2 | D9 |
@@ -360,6 +360,7 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.37 · 2026-11-22** — Phase 11 started: plugin skeleton + marketplace (row 11.1 ✅, `f2b8b72`); the fence `gate.py` passes plan 09 smoke S2 (35/35 self-test; a live builder session told to break it was denied 10 times and never saw the secret, `afb90e3`).
 - **v0.36 · 2026-11-22** — S4 traps built (row 10.2 ✅, `4df0568`): S4a LaLonde (grader `verdict`), S4b leading-prompt S2; the study half of the ladder is complete, 27/27 calibration. Next: app tasks and the kit's fence.
 - **v0.35 · 2026-11-22** — D26: run limits set (study 3M tokens / 60 min, app 15M / 120 min, both arms); `runner/tasks.py` applies them per task kind. Row 10.6 ✅. Step 7 and Phase 11 start in parallel.
 - **v0.34 · 2026-11-22** — Housekeeping: the three S1 trial rows committed to TRIAL_LOG (`2e29f38`); rows 10.2 and 10.3 brought up to date (S3 jitter done, calibration 15/15). Still waiting on Sharif's token caps (10-I).
