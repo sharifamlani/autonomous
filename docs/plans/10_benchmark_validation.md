@@ -393,3 +393,41 @@ The grader already supports it (`abs_se` in S2's task.toml, now 0 = off).
 | 10-G | Overlap: start Phase 11 after step 6, finish step 7 alongside | **Yes**: the study half is ready first |
 | 10-H | Runs per check: k = 3 per arm for release checks, k = 1 for dev iterations | **Yes** |
 | 10-I | Token caps per run | **Decided (D26, Sharif 2026-11-22):** study 3M tokens + 60 min, app 15M tokens + 120 min, both arms |
+
+## Part 3: A4, the harder app rung (D27, 2026-11-22)
+
+The first baseline showed A1-A3 too easy for plain Claude Code (A1 28/28 ×4, A2 19-20/20 bugs, A3 stopped).
+D27 keeps them as floor rungs and adds A4: **Rota**, a shift scheduler whose difficulty is breadth (7 ordered
+assignment rules, overnight shifts, deterministic auto-fill, If-Match versions, undo over 8 action kinds, an
+audit log, CSV import with line errors, exact CSV export, pagination, a week-view UI), not one trick. The spec
+(`task.md`) is written by the lead; the reference app and grader are built against it by a subagent and
+verified here by calibration.
+
+```
+benchmark/tasks/app_a4_rota/
+├── task.md              # the spec (every rule exact; the checks test only what it states)
+├── task.toml            # kind app, grader rota, threshold 0.9
+└── reference/           # server.py (stdlib), index.html, START.txt: the known-good build
+benchmark/grade/rota.py  # hidden checks: API (~45), restart (~3), UI walk (~10); reuses walk.py's App
+scripts/benchmark/build_calibration.py   # + A4 cases: reference (good), 4 patched-bad builds
+```
+
+```
+ task.md --> subagent builds reference/ + rota.py --> lead: rota.py on reference (expect 100%)
+                                                          |
+                     bad builds (patched reference) ------+--> each fails >= 1 check, < 90%
+                                                          v
+                     baseline probe k=1 (Opus) --> is A4 below the ceiling? --> k=3 in the full baseline
+```
+
+| # | What it proves | Command | Expected | If it fails → |
+|---|---|---|---|---|
+| A4-1 | The reference meets the spec | `python benchmark/run.py --calibrate --task app_a4_rota` | reference good: all checks ok | fix the reference or the check against the spec text |
+| A4-2 | The grader can fail | same | 4 bad builds (rule order swapped, overnight hours wrong, auto-fill tie by id, no persistence of undo) all `pass=False` | add the missing check |
+| A4-3 | A4 is not saturated | `python benchmark/run.py --task app_a4_rota --runs 1` | recorded score; if 28/28-style perfect, report to Sharif before spending k=3 | Sharif decides |
+
+| Criterion | Threshold | How measured | Evidence |
+|---|---|---|---|
+| Grader trustworthy (L11) | reference 100%; 4/4 bad builds fail | `run.py --calibrate --task app_a4_rota` | calibration output |
+| Checks test only the spec | every check names the spec line it tests | read of rota.py (each check's label quotes the rule) | rota.py |
+| Run cost known | one baseline run recorded with tokens and minutes | A4-3 | scorecard |

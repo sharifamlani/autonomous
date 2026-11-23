@@ -1,0 +1,13 @@
+# A4 (harder build, D27): "Rota", a shift-scheduling web app. Broad rather than tricky: 7 ordered assignment
+# rules, overnight shifts, a deterministic auto-fill, versioned updates, undo + audit, CSV import/export,
+# pagination, a week-view UI. A1-A3 stay as floor rungs; A4 is where one long session may drop things.
+# Graded by starting the app from START.txt and running the hidden checks in benchmark/grade/rota.py.
+kind = "app"
+prompt = "task.md"
+answer = ["START.txt"]
+grader = "rota"
+watch = ["sharifamlani", "benchmark/grade/rota", "app_a4_rota"]
+
+[grade]
+threshold = 0.9         # E2: at least 90% of the hidden acceptance checks
+start_timeout = 90      # seconds for the app to answer GET /
