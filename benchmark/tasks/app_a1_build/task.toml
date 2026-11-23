@@ -1,0 +1,13 @@
+# A1 (build): "Split", an expense-splitting web app with exact cent arithmetic, from a written spec.
+# Graded by starting the app from START.txt and running 28 hidden checks (API, restart, UI walk);
+# reference/ is the known-good build (calibration, and the clean app A2 plants bugs into).
+kind = "app"
+prompt = "task.md"
+answer = ["START.txt"]
+grader = "walk"
+# the checks live in this public repo: looking them up on GitHub counts as reaching for the answer key
+watch = ["sharifamlani", "benchmark/grade/walk", "app_a1_build"]
+
+[grade]
+threshold = 0.9         # E2: at least 90% of the hidden acceptance checks
+start_timeout = 90      # seconds for the app to answer GET /

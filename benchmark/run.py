@@ -122,11 +122,13 @@ def run_one(task, arm, k, ts, bdir, model, caps_override):
                      tmp=rooms.tmpdir(run_id))
     dest = bdir / "raw" / run_id
     dest.mkdir(parents=True, exist_ok=True)
+    # an app is graded where it was built, with its installed dependencies; collect skips those folders
+    g = record.grade(task, room) if task.get("kind") == "app" else None
     made = rooms.collect(task, room, dest)
     rooms.remove(room)
     swept_after = rooms.sweep()                           # e.g. scratch the agent left beside its room
     status = status_of(out, made, task)
-    g = record.grade(task, dest)
+    g = g or record.grade(task, dest)
     (dest / "grade.json").write_text(json.dumps(g, indent=2) + "\n", encoding="utf-8", newline="\n")
     missing = [a for a in task["answer"] if a not in made]
     passed = bool(g.get("pass")) and status in ("DONE", "STUCK") and not missing and not out["flags"]

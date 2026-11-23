@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Split</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 640px; margin: 24px auto; padding: 0 16px; color: #222; }
+  section { border: 1px solid #ddd; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; }
+  input, select, button { font: inherit; padding: 4px 8px; margin: 4px 0; }
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid #eee; }
+  #error { color: #b00020; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<h1>Split</h1>
+
+<section id="create">
+  <h2>New group</h2>
+  <input data-testid="group-name" placeholder="Group name">
+  <input data-testid="group-members" placeholder="Members, comma-separated">
+  <button data-testid="create-group">Create group</button>
+</section>
+
+<div id="group" class="hidden">
+  <h2 data-testid="group-title"></h2>
+  <section>
+    <h3>Add expense</h3>
+    <input data-testid="expense-description" placeholder="Description">
+    <input data-testid="expense-amount" placeholder="Amount">
+    <label>Paid by <select data-testid="expense-paid-by"></select></label>
+    <div id="split"></div>
+    <button data-testid="add-expense">Add expense</button>
+    <p id="error" data-testid="error" class="hidden"></p>
+  </section>
+  <section><h3>Expenses</h3><div id="expenses"></div></section>
+  <section><h3>Balances</h3><div id="balances"></div></section>
+  <section><h3>Settle up</h3><div id="settle"></div></section>
+</div>
+
+<script>
+let gid = null, members = [];
+const $ = (t) => document.querySelector(`[data-testid="${t}"]`);
+async function api(method, path, body) {
+  const r = await fetch(path, { method, headers: { "Content-Type": "application/json" },
+                                body: body ? JSON.stringify(body) : undefined });
+  const data = r.status === 204 ? null : await r.json();
+  if (!r.ok) throw new Error(data && data.error ? data.error : r.statusText);
+  return data;
+}
+function el(tag, attrs, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+function showError(msg) { const e = $("error"); e.textContent = msg; e.classList.toggle("hidden", !msg); }
+
+async function refresh() {
+  const [exps, bal, settle] = await Promise.all([
+    api("GET", `/api/groups/${gid}/expenses`), api("GET", `/api/groups/${gid}/balances`),
+    api("GET", `/api/groups/${gid}/settle`)]);
+  const list = document.getElementById("expenses"); list.replaceChildren();
+  for (const x of exps) {
+    const row = el("div", { class: "row", "data-testid": "expense-row" }, `${x.description}: $${x.amount} (paid by ${x.paid_by})`);
+    const del = el("button", { "data-testid": "delete-expense" }, "Delete");
+    del.onclick = async () => { await api("DELETE", `/api/groups/${gid}/expenses/${x.id}`); await refresh(); };
+    row.appendChild(del); list.appendChild(row);
+  }
+  const b = document.getElementById("balances"); b.replaceChildren();
+  for (const m of members) b.appendChild(el("div", { class: "row", "data-testid": `balance-${m}` }, `${m}: ${bal[m]}`));
+  const s = document.getElementById("settle"); s.replaceChildren();
+  for (const p of settle) s.appendChild(el("div", { class: "row", "data-testid": "settle-row" }, `${p.from} pays ${p.to} ${p.amount}`));
+}
+
+$("create-group").onclick = async () => {
+  try {
+    const names = $("group-members").value.split(",").map((s) => s.trim()).filter(Boolean);
+    const g = await api("POST", "/api/groups", { name: $("group-name").value, members: names });
+    gid = g.id; members = g.members;
+    $("group-title").textContent = g.name;
+    const sel = $("expense-paid-by"); sel.replaceChildren();
+    const split = document.getElementById("split"); split.replaceChildren();
+    for (const m of members) {
+      sel.appendChild(el("option", { value: m }, m));
+      const lab = el("label", {}); const cb = el("input", { type: "checkbox", "data-testid": `split-${m}` });
+      cb.checked = true; lab.append(cb, ` ${m} `); split.appendChild(lab);
+    }
+    document.getElementById("group").classList.remove("hidden");
+    await refresh();
+  } catch (e) { alert(e.message); }
+};
+
+$("add-expense").onclick = async () => {
+  const split = members.filter((m) => $(`split-${m}`).checked);
+  try {
+    await api("POST", `/api/groups/${gid}/expenses`, { description: $("expense-description").value,
+      amount: $("expense-amount").value, paid_by: $("expense-paid-by").value, split_among: split });
+    showError(""); $("expense-description").value = ""; $("expense-amount").value = "";
+    await refresh();
+  } catch (e) { showError(e.message); }
+};
+</script>
+</body>
+</html>

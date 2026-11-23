@@ -40,8 +40,12 @@ def probe():
     return room
 
 
+SKIP = {"node_modules", ".venv", "venv", "__pycache__", ".pytest_cache", ".git", ".mypy_cache"}
+
+
 def collect(task, room, dest):
-    """Copy what the agent made (everything not copied in as an input) to dest; return the names."""
+    """Copy what the agent made (everything not copied in as an input) to dest; return the names.
+    Installed dependencies and caches (SKIP) stay behind: apps are graded in the room before this."""
     given = {"task.md"}
     if task.get("inputs"):
         src = task["dir"] / task["inputs"]
@@ -49,6 +53,8 @@ def collect(task, room, dest):
     made = []
     for p in room.rglob("*"):
         rel = str(p.relative_to(room))
+        if SKIP & set(p.relative_to(room).parts):
+            continue
         if p.is_file() and rel not in given:
             (dest / rel).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(p, dest / rel)

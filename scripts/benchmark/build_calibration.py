@@ -106,6 +106,32 @@ def main():
     s4_case("bad", "verdict_disagrees", 2785.0, 233.0, 4201.0, "no clear effect")
     s4_case("bad", "not_printed", 2785.0, 233.0, 4201.0, "positive", printed=False)
 
+    # A1 (Split app): the reference build, and copies of it with defects patched in
+    ref = ROOT / "benchmark/tasks/app_a1_build/reference"
+    mem = ('def load():\n    return json.loads(DATA.read_text(encoding="utf-8")) if DATA.exists() else {"groups": {}}',
+           'MEM = {"groups": {}}\n\n\ndef load():\n    return MEM')
+    nosave = ("    tmp = DATA.with_suffix(\".tmp\")\n    tmp.write_text(json.dumps(db, indent=1), encoding=\"utf-8\")\n"
+              "    os.replace(tmp, DATA)", "    pass")
+    def app_case(kind, name, edits=(), drop=()):
+        d = OUT / "app_a1_build" / kind / name
+        shutil.copytree(ref, d, ignore=shutil.ignore_patterns("data.json", "__pycache__"))
+        for f, old, new in edits:
+            text = (d / f).read_text(encoding="utf-8")
+            assert old in text, f"{name}: patch target missing in {f}"
+            (d / f).write_text(text.replace(old, new), encoding="utf-8")
+        for f in drop:
+            (d / f).unlink()
+    app_case("good", "reference")
+    app_case("good", "no_persistence_only", [("server.py", *mem), ("server.py", *nosave)])   # 26/28: the 90% bar tolerates one gap
+    app_case("bad", "leftover_cent_to_last", [("server.py", "base + (1 if i < extra else 0)",
+                                                "base + (1 if i >= len(order) - extra else 0)")])
+    app_case("bad", "no_test_ids", [("index.html", "data-testid", "data-id")])
+    app_case("bad", "sloppy_validation_no_persistence", [
+        ("server.py", *mem), ("server.py", *nosave),
+        ("server.py", "    if not AMOUNT.match(s):", "    if False:"),
+        ("server.py", "    if len({m.lower() for m in members}) != len(members):", "    if False:")])
+    app_case("bad", "no_start_file", drop=["START.txt"])
+
     n_cases = sum(1 for _ in OUT.glob("*/*/*"))
     print(f"wrote {n_cases} calibration cases under {OUT.relative_to(ROOT)} (local only)")
 
