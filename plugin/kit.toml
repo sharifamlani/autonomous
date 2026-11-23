@@ -5,9 +5,9 @@
 roles = ["spec-writer", "builder", "qa", "tester"]
 max_rounds = 3
 
-[caps]                       # D26: the same caps as the baseline arm
-app_tokens = 15_000_000
-app_minutes = 120
+[caps]                       # D26: the same caps as the baseline arm, with a margin inside them so the team
+app_tokens = 14_800_000      # reports before an outer 15M / 120-minute stop (Main's own share comes out of 15M)
+app_minutes = 115
 
 [turns]                      # per role step (architecture §7)
 spec-writer = 60

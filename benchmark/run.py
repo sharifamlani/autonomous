@@ -4,6 +4,7 @@ Seats Claude Code in a clean room with only the task and its inputs, keeps the c
 cap, and hands what it made to a grader in a separate process that holds the answer key.
 
   python benchmark/run.py --arm baseline --task <id|smoke|study|app|v0.1> --runs 1
+  python benchmark/run.py --arm kit --task app_a1_build --runs 1      # the kit: /autonomous:new-app task.md
   python benchmark/run.py --check-inputs --task all       # leak check only
   python benchmark/run.py --calibrate --task study        # graders vs known-good/bad answers, no agent
   python benchmark/run.py --task smoke_hello --dry-run [--context]   # build the room, print the launch
@@ -13,10 +14,17 @@ Every batch starts with the clean-room check (/context inside an empty room; 0 t
 the room is not stock Claude Code. Statuses: DONE, CAP, STUCK, FLAGGED, ERROR. CAP, FLAGGED and
 ERROR always score FAIL; a flagged run (reaching for the original package, the repo or another run)
 is a cheat (D23).
+
+Kit arm (Phase 11): the same room, model, tools and caps, plus `--plugin-dir plugin`, and the prompt
+`/autonomous:new-app task.md`. Main starts team.py, whose roles are separate sessions the stream here
+cannot see, so after the run: the app is graded and collected from runs/<id>/app/, the roles' tokens
+are added from registry.json, the cheat watch is run over their logs, and the status is the team's.
+Kit arm tasks: app builds (A1, A3, A4). A2 is a review task with no kit entry yet; studies need new-study.
 """
 import argparse
 import datetime as dt
 import json
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -30,6 +38,8 @@ import watch  # noqa: E402
 from tasks import BENCH, select  # noqa: E402
 
 MODEL = "claude-opus-5-5"                                   # D19: Opus 5.5 in both arms
+PLUGIN = BENCH.parent / "plugin"
+KIT_TASKS = {"app_a1_build", "app_a3_impossible", "app_a4_rota"}
 
 
 def short(task_id):
@@ -117,22 +127,31 @@ def run_one(task, arm, k, ts, bdir, model, caps_override):
     caps = {**task["caps"], **{k2: v for k2, v in caps_override.items() if v is not None}}
     prompt = (room / "task.md").read_text(encoding="utf-8")
     on_tool = lambda b: watch.flags(b, room.name, task["watch"], task["watch_net"])
+    if arm == "kit":
+        prompt = "/autonomous:new-app task.md"
     print(f"[{run_id}] started in {room} (caps {caps})", flush=True)
-    out = launch.run(launch.command(model), prompt, room, caps, on_tool, bdir / "raw" / f"{run_id}.jsonl",
-                     tmp=rooms.tmpdir(run_id))
+    out = launch.run(launch.command(model, PLUGIN if arm == "kit" else None), prompt, room, caps, on_tool,
+                     bdir / "raw" / f"{run_id}.jsonl", tmp=rooms.tmpdir(run_id))
     dest = bdir / "raw" / run_id
     dest.mkdir(parents=True, exist_ok=True)
+    kit = kit_after(task, room, dest, on_tool) if arm == "kit" else None
+    work = kit["app"] if kit else room
     # an app is graded where it was built, with its installed dependencies; collect skips those folders
-    g = record.grade(task, room) if task.get("kind") == "app" else None
-    made = rooms.collect(task, room, dest)
+    g = record.grade(task, work) if task.get("kind") == "app" else None
+    made = rooms.collect(task, work, dest)
     rooms.remove(room)
     swept_after = rooms.sweep()                           # e.g. scratch the agent left beside its room
     status = status_of(out, made, task)
+    if kit:
+        out["flags"] += kit["flags"]
+        status = "FLAGGED" if kit["flags"] else kit["status"] if status in ("DONE", "STUCK") else status
     g = g or record.grade(task, dest)
     (dest / "grade.json").write_text(json.dumps(g, indent=2) + "\n", encoding="utf-8", newline="\n")
     missing = [a for a in task["answer"] if a not in made]
     passed = bool(g.get("pass")) and status in ("DONE", "STUCK") and not missing and not out["flags"]
     tok, out_tok, turns, cost = totals(out)
+    if kit:
+        tok, out_tok, turns = tok + kit["tokens"], out_tok + kit["output_tokens"], turns + kit["turns"]
     row = {"task": task["id"], "run_id": run_id, "status": status, "pass": passed,
            "score": g.get("score") if passed else 0,
            "tokens": tok, "output_tokens": out_tok, "minutes": out["minutes"], "turns": turns,
@@ -140,10 +159,53 @@ def run_one(task, arm, k, ts, bdir, model, caps_override):
            "grader": record.public(g), "cost_usd_api": cost, "processes": out["processes"], "orphans_killed": out["orphans_killed"],
            "orphans_left": out["orphans_left"], "exit": out["exit"], "caps": caps,
            "swept_before": swept_before, "swept_after": swept_after,
-           "week_util": out["week_util"], "limit_status": out["limit_status"]}
+           "week_util": out["week_util"], "limit_status": out["limit_status"],
+           "kit": {k: v for k, v in kit.items() if k != "app"} if kit else None}
     print(f"[{run_id}] {status} pass={passed} tokens={tok} min={out['minutes']} turns={turns} flags={out['flags']} "
           f"orphans_left={out['orphans_left']}", flush=True)
     return row
+
+
+def kit_after(task, room, dest, on_tool):
+    """After a kit-arm run: find the team's run folder, pull the app and the team's books, add the roles'
+    usage, and run the cheat watch over the roles' logs (their tool calls never reach this stream)."""
+    runs = sorted((room / "runs").glob("*/run.json")) if (room / "runs").exists() else []
+    if not runs:
+        return {"app": room, "status": "ERROR", "team_status": None, "tokens": 0, "output_tokens": 0, "turns": 0,
+                "flags": [], "note": "no runs/<id>/run.json: team.py never started"}
+    run = runs[-1].parent
+    state = json.loads((run / "run.json").read_text(encoding="utf-8"))
+    reg = json.loads((run / "registry.json").read_text(encoding="utf-8"))
+    app = run / "app"
+    stuck = sorted(run.glob("*/STUCK.md"))
+    if stuck and not (app / "STUCK.md").exists():          # the spec-writer may be the one who stopped
+        shutil.copy2(stuck[0], app / "STUCK.md")
+    books = dest / "kit"
+    books.mkdir(parents=True, exist_ok=True)
+    for f in ("run.json", "registry.json", "ledger.tsv", "RUN_REPORT.md", "kit.toml"):
+        if (run / f).exists():
+            shutil.copy2(run / f, books / f)
+    for d in ("spec", "checks", "verdicts", "evidence", "handoffs", "release", "team-records"):
+        if (run / d).exists():
+            shutil.copytree(run / d, books / d, dirs_exist_ok=True)
+    flags = []
+    for log in (run / "team-records/logs").glob("*.jsonl"):
+        for line in log.read_text(encoding="utf-8", errors="replace").splitlines():
+            try:
+                ev = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if ev.get("type") == "assistant":
+                for b in ev.get("message", {}).get("content", []):
+                    if b.get("type") == "tool_use":
+                        flags += [f"{log.stem}:{f}" for f in on_tool(b)]
+    s = str(state.get("status"))
+    status = "DONE" if s == "DONE" else "STUCK" if s == "STUCK" else "CAP" if s.startswith("CAP") else "ERROR"
+    return {"app": app, "status": status, "team_status": s, "team_note": state.get("note"),
+            "rounds": state.get("rounds"), "tokens": sum(r["tokens"] for r in reg),
+            "output_tokens": sum(r["tokens_by_kind"]["output_tokens"] for r in reg),
+            "turns": sum(r["turns"] for r in reg), "roles": [[r["step"], r["stop"], r["tokens"]] for r in reg],
+            "flags": sorted(set(flags))}
 
 
 def regrade(spec):
@@ -184,8 +246,8 @@ def main():
         return check_inputs(tasks)
     if a.calibrate:
         return calibrate(tasks)
-    if a.arm == "kit":
-        raise SystemExit("the kit arm arrives with the kit (Phase 11)")
+    if a.arm == "kit" and not {t["id"] for t in tasks} <= KIT_TASKS:
+        raise SystemExit(f"the kit arm runs only {sorted(KIT_TASKS)} so far (A2 has no kit entry; studies need new-study)")
     if a.dry_run:
         if a.context:
             text, problems = room_check()
@@ -198,7 +260,9 @@ def main():
         for t in tasks:
             r = rooms.build(t, f"dryrun-{short(t['id'])}")
             print(f"{t['id']}: room {r} holds {sorted(p.name for p in r.iterdir())}")
-            print("  launch:", subprocess.list2cmdline(launch.command(a.model)), "< task.md")
+            kit = a.arm == "kit"
+            print("  launch:", subprocess.list2cmdline(launch.command(a.model, PLUGIN if kit else None)),
+                  "<<< /autonomous:new-app task.md" if kit else "< task.md")
             rooms.remove(r)
         return 0
 
