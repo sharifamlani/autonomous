@@ -1,0 +1,10 @@
+{
+  "name": "autonomous",
+  "version": "0.1.0-dev",
+  "description": "Autonomous app development and research for Claude Code: /autonomous:new-app and /autonomous:new-study, with independent checks the builder cannot edit.",
+  "author": { "name": "Sharif Amlani", "url": "https://github.com/sharifamlani" },
+  "homepage": "https://github.com/sharifamlani/autonomous",
+  "repository": "https://github.com/sharifamlani/autonomous",
+  "license": "MIT",
+  "keywords": ["autonomous", "agents", "benchmark", "research", "replication"]
+}

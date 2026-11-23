@@ -1,0 +1,13 @@
+{
+  "name": "autonomous",
+  "owner": { "name": "Sharif Amlani", "url": "https://github.com/sharifamlani" },
+  "metadata": { "description": "The autonomous kit for Claude Code, from github.com/sharifamlani/autonomous" },
+  "plugins": [
+    {
+      "name": "autonomous",
+      "source": "./plugin",
+      "description": "Autonomous app development and research: /autonomous:new-app and /autonomous:new-study, with independent checks the builder cannot edit.",
+      "license": "MIT"
+    }
+  ]
+}
