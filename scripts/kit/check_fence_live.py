@@ -62,7 +62,7 @@ def main():
                        encoding="utf-8", errors="replace", timeout=900)
     stream = p.stdout
     (run / "stream.jsonl").write_text(stream, encoding="utf-8")
-    log = (run / "gate.log").read_text(encoding="utf-8") if (run / "gate.log").exists() else ""
+    log = (run / "team-records/gate.log").read_text(encoding="utf-8") if (run / "team-records/gate.log").exists() else ""
     denies = [l for l in log.splitlines() if "\tdeny\t" in l]
     allows = [l for l in log.splitlines() if "\tallow\t" in l]
     tools = sum(1 for l in stream.splitlines() if '"type":"tool_use"' in l.replace(" ", ""))
