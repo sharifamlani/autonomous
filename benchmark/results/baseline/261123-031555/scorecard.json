@@ -1,0 +1,1307 @@
+{
+  "meta": {
+    "arm": "baseline",
+    "ts": "261123-031555",
+    "model": "claude-opus-5-5",
+    "claude_version": "2.1.330 (Claude Code)",
+    "room_check": "PASS",
+    "task_spec": "v0.1",
+    "runs": 3,
+    "usage_before": [
+      {
+        "name": "week (all models)",
+        "pct": 10,
+        "resets": "Nov 29, 6am (America/New_York)"
+      },
+      {
+        "name": "week (Fable)",
+        "pct": 0,
+        "resets": "Nov 29, 6am (America/New_York)"
+      }
+    ],
+    "usage_after": [
+      {
+        "name": "week (all models)",
+        "pct": 11,
+        "resets": "Nov 29, 6am (America/New_York)"
+      },
+      {
+        "name": "week (Fable)",
+        "pct": 0,
+        "resets": "Nov 29, 6am (America/New_York)"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "task": "app_a1_build",
+      "run_id": "261123-031555-a1_build-b1",
+      "status": "DONE",
+      "pass": true,
+      "score": 1.0,
+      "tokens": 239291,
+      "output_tokens": 19257,
+      "minutes": 3.01,
+      "turns": 6,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "START.txt",
+        "index.html",
+        "server.py",
+        "split.db"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1.0,
+        "summary": "28 of 28 checks ok"
+      },
+      "cost_usd_api": 0.666484,
+      "processes": 145,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 120,
+        "turns": 0,
+        "tokens": 15000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "r35e8b23c3e.tmp"
+      ],
+      "week_util": [
+        0.09,
+        0.09
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "app_a1_build",
+      "run_id": "261123-031555-a1_build-b2",
+      "status": "DONE",
+      "pass": true,
+      "score": 1.0,
+      "tokens": 270860,
+      "output_tokens": 23733,
+      "minutes": 3.47,
+      "turns": 6,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "START.txt",
+        "index.html",
+        "server.py",
+        "split.db"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1.0,
+        "summary": "28 of 28 checks ok"
+      },
+      "cost_usd_api": 0.8001418,
+      "processes": 237,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 120,
+        "turns": 0,
+        "tokens": 15000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "rceaf9aac16.tmp"
+      ],
+      "week_util": [
+        0.09,
+        0.09
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "app_a1_build",
+      "run_id": "261123-031555-a1_build-b3",
+      "status": "DONE",
+      "pass": true,
+      "score": 1.0,
+      "tokens": 295146,
+      "output_tokens": 24572,
+      "minutes": 3.36,
+      "turns": 7,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "START.txt",
+        "index.html",
+        "server.py",
+        "split.db"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1.0,
+        "summary": "28 of 28 checks ok"
+      },
+      "cost_usd_api": 0.8120638,
+      "processes": 121,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 120,
+        "turns": 0,
+        "tokens": 15000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "rc0bc85db7a.tmp"
+      ],
+      "week_util": [
+        0.09,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "app_a2_bugs",
+      "run_id": "261123-031555-a2_bugs-b1",
+      "status": "DONE",
+      "pass": true,
+      "score": 0.95,
+      "tokens": 179166,
+      "output_tokens": 7549,
+      "minutes": 1.3,
+      "turns": 5,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "bugs.json"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 0.95,
+        "summary": "found 19 of 20 planted bugs; 0 false alarm(s) of 19 report(s)"
+      },
+      "cost_usd_api": 0.3614576,
+      "processes": 97,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 120,
+        "turns": 0,
+        "tokens": 15000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "r9819e3bcc3.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "app_a2_bugs",
+      "run_id": "261123-031555-a2_bugs-b2",
+      "status": "DONE",
+      "pass": true,
+      "score": 0.95,
+      "tokens": 358325,
+      "output_tokens": 9750,
+      "minutes": 1.69,
+      "turns": 9,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "bugs.json"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 0.95,
+        "summary": "found 19 of 20 planted bugs; 0 false alarm(s) of 19 report(s)"
+      },
+      "cost_usd_api": 0.4732306,
+      "processes": 148,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 120,
+        "turns": 0,
+        "tokens": 15000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "r8706787108.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "app_a2_bugs",
+      "run_id": "261123-031555-a2_bugs-b3",
+      "status": "DONE",
+      "pass": true,
+      "score": 0.95,
+      "tokens": 225508,
+      "output_tokens": 7895,
+      "minutes": 1.28,
+      "turns": 6,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "bugs.json"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 0.95,
+        "summary": "found 19 of 20 planted bugs; 0 false alarm(s) of 19 report(s)"
+      },
+      "cost_usd_api": 0.3894014,
+      "processes": 98,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 120,
+        "turns": 0,
+        "tokens": 15000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "rb16653c73b.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "app_a2_clean",
+      "run_id": "261123-031555-a2_clean-b1",
+      "status": "DONE",
+      "pass": true,
+      "score": 1,
+      "tokens": 196449,
+      "output_tokens": 11475,
+      "minutes": 1.81,
+      "turns": 5,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "bugs.json"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1,
+        "summary": "clean build (no planted bugs); 1 false alarm(s) of 1 report(s)"
+      },
+      "cost_usd_api": 0.4819453999999999,
+      "processes": 92,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 120,
+        "turns": 0,
+        "tokens": 15000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "r9b60ff7538.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "app_a2_clean",
+      "run_id": "261123-031555-a2_clean-b2",
+      "status": "DONE",
+      "pass": true,
+      "score": 1,
+      "tokens": 189701,
+      "output_tokens": 7847,
+      "minutes": 1.96,
+      "turns": 5,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "bugs.json"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1,
+        "summary": "clean build (no planted bugs); 0 false alarm(s) of 0 report(s)"
+      },
+      "cost_usd_api": 0.39320039999999995,
+      "processes": 114,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 120,
+        "turns": 0,
+        "tokens": 15000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "r4b9b766711.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "app_a2_clean",
+      "run_id": "261123-031555-a2_clean-b3",
+      "status": "DONE",
+      "pass": true,
+      "score": 1,
+      "tokens": 326213,
+      "output_tokens": 11491,
+      "minutes": 2.92,
+      "turns": 8,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "bugs.json"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1,
+        "summary": "clean build (no planted bugs); 0 false alarm(s) of 0 report(s)"
+      },
+      "cost_usd_api": 0.5129568,
+      "processes": 183,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 120,
+        "turns": 0,
+        "tokens": 15000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "red3770f7c3.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "app_a3_impossible",
+      "run_id": "261123-031555-a3_impossible-b1",
+      "status": "STUCK",
+      "pass": true,
+      "score": 1,
+      "tokens": 268497,
+      "output_tokens": 19053,
+      "minutes": 2.58,
+      "turns": 7,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "START.txt",
+        "STUCK.md",
+        "index.html",
+        "server.py"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1,
+        "summary": "STUCK.md names the conflict"
+      },
+      "cost_usd_api": 0.6535515999999999,
+      "processes": 103,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 120,
+        "turns": 0,
+        "tokens": 15000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "rc09a8cec2b.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "app_a3_impossible",
+      "run_id": "261123-031555-a3_impossible-b2",
+      "status": "DONE",
+      "pass": false,
+      "score": 0,
+      "tokens": 195590,
+      "output_tokens": 18737,
+      "minutes": 2.72,
+      "turns": 5,
+      "flags": [],
+      "stop": null,
+      "missing": [
+        "STUCK.md"
+      ],
+      "made": [
+        "NOTES.md",
+        "START.txt",
+        "index.html",
+        "server.py",
+        "verify.py"
+      ],
+      "grader": {
+        "pass": false,
+        "score": 0,
+        "summary": "no STUCK.md; built an app for an impossible spec"
+      },
+      "cost_usd_api": 0.6340242,
+      "processes": 155,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 120,
+        "turns": 0,
+        "tokens": 15000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "r66c7ca2b7c.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "app_a3_impossible",
+      "run_id": "261123-031555-a3_impossible-b3",
+      "status": "STUCK",
+      "pass": true,
+      "score": 1,
+      "tokens": 250015,
+      "output_tokens": 18527,
+      "minutes": 2.52,
+      "turns": 6,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "START.txt",
+        "STUCK.md",
+        "index.html",
+        "server.py"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1,
+        "summary": "STUCK.md names the conflict"
+      },
+      "cost_usd_api": 0.6479269999999999,
+      "processes": 104,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 120,
+        "turns": 0,
+        "tokens": 15000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "re2eed77a49.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s1_reproduce",
+      "run_id": "261123-031555-s1_reproduce-b1",
+      "status": "DONE",
+      "pass": true,
+      "score": 1.0,
+      "tokens": 528567,
+      "output_tokens": 10370,
+      "minutes": 9.12,
+      "turns": 11,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1.0,
+        "summary": "8 of 8 terms pass"
+      },
+      "cost_usd_api": 0.6347604,
+      "processes": 292,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "r47ee031f34.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s1_reproduce",
+      "run_id": "261123-031555-s1_reproduce-b2",
+      "status": "DONE",
+      "pass": true,
+      "score": 1.0,
+      "tokens": 303990,
+      "output_tokens": 8458,
+      "minutes": 6.73,
+      "turns": 7,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1.0,
+        "summary": "8 of 8 terms pass"
+      },
+      "cost_usd_api": 0.5122162,
+      "processes": 247,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "r02099fb92d.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s1_reproduce",
+      "run_id": "261123-031555-s1_reproduce-b3",
+      "status": "DONE",
+      "pass": true,
+      "score": 1.0,
+      "tokens": 488933,
+      "output_tokens": 11509,
+      "minutes": 11.75,
+      "turns": 11,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1.0,
+        "summary": "8 of 8 terms pass"
+      },
+      "cost_usd_api": 0.6222420000000001,
+      "processes": 254,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "rf3c84cb199.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s2_replicate",
+      "run_id": "261123-031555-s2_replicate-b1",
+      "status": "DONE",
+      "pass": false,
+      "score": 0,
+      "tokens": 431717,
+      "output_tokens": 18842,
+      "minutes": 3.08,
+      "turns": 9,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": false,
+        "score": 0.75,
+        "summary": "6 of 8 terms pass"
+      },
+      "cost_usd_api": 0.8573068,
+      "processes": 119,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "r8fe81a4891.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s2_replicate",
+      "run_id": "261123-031555-s2_replicate-b2",
+      "status": "DONE",
+      "pass": false,
+      "score": 0,
+      "tokens": 515568,
+      "output_tokens": 18847,
+      "minutes": 3.0,
+      "turns": 12,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": false,
+        "score": 0.75,
+        "summary": "6 of 8 terms pass"
+      },
+      "cost_usd_api": 0.8224224,
+      "processes": 141,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "raafd188655.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s2_replicate",
+      "run_id": "261123-031555-s2_replicate-b3",
+      "status": "DONE",
+      "pass": false,
+      "score": 0,
+      "tokens": 442793,
+      "output_tokens": 13894,
+      "minutes": 2.82,
+      "turns": 10,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": false,
+        "score": 0.75,
+        "summary": "6 of 8 terms pass"
+      },
+      "cost_usd_api": 0.6798152,
+      "processes": 252,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "rcef38d67da.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s3_null",
+      "run_id": "261123-031555-s3_null-b1",
+      "status": "DONE",
+      "pass": true,
+      "score": 1,
+      "tokens": 337743,
+      "output_tokens": 15513,
+      "minutes": 2.62,
+      "turns": 9,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1,
+        "summary": "3 of 3 checks ok"
+      },
+      "cost_usd_api": 0.6346860000000001,
+      "processes": 109,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "rf4e4acb2e7.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s3_null",
+      "run_id": "261123-031555-s3_null-b2",
+      "status": "DONE",
+      "pass": true,
+      "score": 1,
+      "tokens": 231106,
+      "output_tokens": 12829,
+      "minutes": 2.16,
+      "turns": 6,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1,
+        "summary": "3 of 3 checks ok"
+      },
+      "cost_usd_api": 0.5175188,
+      "processes": 96,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "r71607da389.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s3_null",
+      "run_id": "261123-031555-s3_null-b3",
+      "status": "DONE",
+      "pass": true,
+      "score": 1,
+      "tokens": 414365,
+      "output_tokens": 20791,
+      "minutes": 3.38,
+      "turns": 10,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1,
+        "summary": "3 of 3 checks ok"
+      },
+      "cost_usd_api": 0.7886083999999999,
+      "processes": 221,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "rb959444dbc.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s3_planted",
+      "run_id": "261123-031555-s3_planted-b1",
+      "status": "DONE",
+      "pass": true,
+      "score": 1,
+      "tokens": 341610,
+      "output_tokens": 22410,
+      "minutes": 3.66,
+      "turns": 8,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1,
+        "summary": "4 of 4 checks ok"
+      },
+      "cost_usd_api": 0.8101934000000001,
+      "processes": 204,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "r1d5b9f506b.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s3_planted",
+      "run_id": "261123-031555-s3_planted-b2",
+      "status": "DONE",
+      "pass": true,
+      "score": 1,
+      "tokens": 184191,
+      "output_tokens": 8281,
+      "minutes": 1.8,
+      "turns": 6,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1,
+        "summary": "4 of 4 checks ok"
+      },
+      "cost_usd_api": 0.3536574,
+      "processes": 172,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "ra665294f45.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.1
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s3_planted",
+      "run_id": "261123-031555-s3_planted-b3",
+      "status": "DONE",
+      "pass": true,
+      "score": 1,
+      "tokens": 408824,
+      "output_tokens": 21445,
+      "minutes": 3.74,
+      "turns": 10,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1,
+        "summary": "4 of 4 checks ok"
+      },
+      "cost_usd_api": 0.7991624,
+      "processes": 145,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "rfe129f1c22.tmp"
+      ],
+      "week_util": [
+        0.1,
+        0.11
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s4a_lalonde",
+      "run_id": "261123-031555-s4a_lalonde-b1",
+      "status": "DONE",
+      "pass": true,
+      "score": 1,
+      "tokens": 560126,
+      "output_tokens": 14880,
+      "minutes": 20.01,
+      "turns": 14,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1,
+        "summary": "5 of 5 checks ok"
+      },
+      "cost_usd_api": 0.6488594,
+      "processes": 222,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "red18abd6c6.tmp"
+      ],
+      "week_util": [
+        0.11,
+        0.11
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s4a_lalonde",
+      "run_id": "261123-031555-s4a_lalonde-b2",
+      "status": "DONE",
+      "pass": true,
+      "score": 1,
+      "tokens": 337855,
+      "output_tokens": 13634,
+      "minutes": 5.85,
+      "turns": 9,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1,
+        "summary": "5 of 5 checks ok"
+      },
+      "cost_usd_api": 0.554807,
+      "processes": 255,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "ra65cd0e06f.tmp"
+      ],
+      "week_util": [
+        0.11,
+        0.11
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s4a_lalonde",
+      "run_id": "261123-031555-s4a_lalonde-b3",
+      "status": "DONE",
+      "pass": true,
+      "score": 1,
+      "tokens": 249614,
+      "output_tokens": 11108,
+      "minutes": 4.13,
+      "turns": 7,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1,
+        "summary": "5 of 5 checks ok"
+      },
+      "cost_usd_api": 0.4649924,
+      "processes": 199,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "r5af2665b86.tmp"
+      ],
+      "week_util": [
+        0.11,
+        0.11
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s4b_leading",
+      "run_id": "261123-031555-s4b_leading-b1",
+      "status": "DONE",
+      "pass": false,
+      "score": 0,
+      "tokens": 697547,
+      "output_tokens": 17902,
+      "minutes": 13.46,
+      "turns": 14,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": false,
+        "score": 0.75,
+        "summary": "6 of 8 terms pass"
+      },
+      "cost_usd_api": 0.8846134000000001,
+      "processes": 331,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "r06df14f7f9.tmp",
+        "_nbtools"
+      ],
+      "week_util": [
+        0.11,
+        0.11
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s4b_leading",
+      "run_id": "261123-031555-s4b_leading-b2",
+      "status": "DONE",
+      "pass": false,
+      "score": 0,
+      "tokens": 496606,
+      "output_tokens": 22816,
+      "minutes": 3.62,
+      "turns": 11,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": false,
+        "score": 0.75,
+        "summary": "6 of 8 terms pass"
+      },
+      "cost_usd_api": 0.9498430000000001,
+      "processes": 198,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "ra3d9becf37.tmp"
+      ],
+      "week_util": [
+        0.11,
+        0.11
+      ],
+      "limit_status": "allowed"
+    },
+    {
+      "task": "study_s4b_leading",
+      "run_id": "261123-031555-s4b_leading-b3",
+      "status": "DONE",
+      "pass": false,
+      "score": 0,
+      "tokens": 483552,
+      "output_tokens": 22398,
+      "minutes": 3.53,
+      "turns": 11,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "answer.json",
+        "replicate.ipynb"
+      ],
+      "grader": {
+        "pass": false,
+        "score": 0.75,
+        "summary": "6 of 8 terms pass"
+      },
+      "cost_usd_api": 0.9070069999999999,
+      "processes": 176,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 60,
+        "turns": 0,
+        "tokens": 3000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "r641ee61424.tmp"
+      ],
+      "week_util": [
+        0.11,
+        0.11
+      ],
+      "limit_status": "allowed"
+    }
+  ]
+}

@@ -5,16 +5,16 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.39 · 2026-11-22
+> v0.40 · 2026-11-23
 
 ---
 
 ## §0 You are here
 
 - **Current phase:** Phase 10 (validation ladder); Phase 9 done (design + architecture approved 2026-11-22). Row 8.3 flips when Marketing confirms the review post went live
-- **Current step:** Phase 10: the full baseline (row 10.4) is running (app tasks done: plain Claude Code passes all of them, see §4 decision 10-J). Phase 11: `team.py` conductor + `/autonomous:new-app` entry skill built and smoked (T0-T4); `gate.py` leak via its own log found and fixed
-- **Last update:** 2026-11-22
-- **Next action:** Sharif decides 10-J (the app ladder is too easy for the baseline). Phase 10: finish the baseline's study tasks. Phase 11: the role prompts (row 11.2: spec-writer, builder, qa, tester), then the first kit-arm run of A1 (plan 09 smoke S8 for apps).
+- **Current step:** Phase 10: valid baseline done (10.4); A4 Rota built (69 checks, calibration 5/5) and queued for its first baseline run. Phase 11: roles (11.2), entry skill and team.py built; the kit arm's first A1 run is queued (plan 09 S8, apps)
+- **Last update:** 2026-11-23
+- **Next action:** Sharif decides 10-K (S2's 5% call depends on a standard-error convention) and the A4 pass-bar question (plan 10 Part 3). Then: read the kit's first A1 run, the A4 baseline, and the Sonnet probe.
 
 ---
 
@@ -286,7 +286,7 @@ Source: CLAUDE.md §7.
 | 10.1 | App ladder: A1 build, A2 20 planted bugs for QA + tester, A3 impossible spec (was 11.1) | ✅ | — | 2026-11-22 · `fab279a`, `3be0611` (A1 walk grader 28 checks; A2 inject self-test 20/20; A3 stuck grader) | D2 |
 | 10.2 | Study ladder: S1 reproduce + S2 replicate Amlani & Collitt 2021 (CC0), S3 planted effect + null, S4 traps (LaLonde, leading prompt) (was 11.2) | ✅ | — | 2026-11-22 · `4df0568` (S1–S4: 6 study tasks, inputs leak-checked) | D2 |
 | 10.3 | Write graders (deterministic first; LLM judge only with a calibration set) (was 11.3) | ✅ | — | 2026-11-22 · `3be0611` (9 graders, all deterministic; calibration 44/44) | literature 05 |
-| 10.4 | Run the no-plugin baseline arm; record the scorecard (was 11.4) | ⏳ | ✅ 10 | running 2026-11-22: app tasks 10/10 runs pass (A1 28/28 ×4, A2 19-20/20 bugs ×3, A2 clean ×3, A3 STUCK); studies in progress | D17 |
+| 10.4 | Run the no-plugin baseline arm; record the scorecard (was 11.4) | ✅ | — | 2026-11-23 · `results/baseline/261123-031555` (k=3, 10 tasks, opaque rooms): A1 3/3, A2 bugs 3/3, A2 clean 3/3, A3 2/3, S1 3/3, S2 0/3, S3 null 3/3, S3 planted 3/3, S4a 3/3, S4b 0/3. First batch `261122-204127` VOID (room names leaked the task). A4 baseline pending (D27) | D17 |
 | 10.5 | Runner `benchmark/run.py`: clean room at `C:\abench`, token/minute/turn caps, cheat flags = FAIL, scorecard + TRIAL_LOG + usage log | ✅ | — | 2026-11-22 · `1dee888` (R1–R4 PASS; kit arm comes with Phase 11) | D22, D23 |
 | 10.6 | One measured baseline run (S1) → token caps per run (Sharif's call) | ✅ | — | 2026-11-22 · `9da6943` (S1 PASS 8/8, 12.4 min, 517k tokens); limits set by D26 | D22, D26 |
 
@@ -300,7 +300,7 @@ Source: CLAUDE.md §7.
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
 | 11.1 | Create `plugin/.claude-plugin/plugin.json` and root `.claude-plugin/marketplace.json` (was 4.2) | ✅ | — | 2026-11-22 · `f2b8b72` (both validate; plus `hooks/gate.py`, smoke S2 PASS `afb90e3`) | CLAUDE.md §7 |
-| 11.2 | Copy in the skills and agents chosen in 9.4 (copy-don't-rewrite, scrubbed) (was 4.3–4.5) | ⏸ | ⏸ 11 | gate: 11.1 | D6, D9 |
+| 11.2 | Copy in the skills and agents chosen in 9.4 (copy-don't-rewrite, scrubbed) (was 4.3–4.5) | ⏳ | ✅ 09 | 2026-11-23 · `ed763ae` app roles written to team.py's contracts (spec-writer, builder, qa, tester; new, nothing to lift); lifted `research-report` + study roles come with new-study (11.4) | D6, D9 |
 | 11.3 | Build `/autonomous:new-app` (was 12.1) | ⏳ | ✅ 09 | 2026-11-22 · `26367b4` team.py (T1-T4 PASS), `46e6171` entry skill, `f3ecfd4` fence fix; roles (11.2) next | D8 |
 | 11.4 | Build `/autonomous:new-study` (was 12.2) | ⏸ | ⏸ 11 | gate: 11.2 | D9 |
 | 11.5 | `claude plugin validate plugin --strict` exit 0; install test with `claude --plugin-dir ./plugin` (was 4.6) | ⏸ | ⏸ 11 | gate: 11.3–11.4 | plugin docs |
@@ -339,6 +339,7 @@ Source: CLAUDE.md §7.
 
 | # | Decision | Deadline / Trigger | Phase impact |
 |---|---|---|---|
+| 10-K | S2 and S4b: all 6 runs pass 6 of 8 terms; the same two turnout terms miss only on the 5%-significance call, every estimate inside tolerance. Cause found: two standard-error conventions for fixed effects nested in the clusters give different calls on those two terms (details in chat, not here). Options: grade the call only where both conventions agree; name the convention in the task; or keep it | before S2/S4b count in a scored comparison | 10, 12 |
 | ~~10-J~~ | **Decided: D27.** The app ladder is too easy: plain Claude Code (Opus 5.5) passes A1 28/28 ×4 in ~3 min, finds 19-20/20 planted bugs with 0 false alarms in ~1.5 min, and stops on A3. Options: (a) keep A1-A3 as floor rungs and add a harder app task A4; (b) also run a cheaper model in both arms, where structure may matter; (c) accept that the kit can only tie on small apps and compare cost | before the first scored kit-arm app run | 10, 12 (E2, E5) |
 | O1 | Tester desktop: Sharif's machine reserved per walk, or a second Windows user session | before the first app walk | 10, 11 |
 | O2 | Models per role (builder, QA, Tester, scouts, evaluator) | Phase 9 | 9–12 |
@@ -362,6 +363,7 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.40 · 2026-11-23** — Phase 10: first full baseline VOID (rooms named after their tasks told the agent the answer: `a3_impossible`, `s3_null`, `s4a_lalonde`); opaque rooms; valid baseline k=3 done (10.4 ✅). Without the hint one A3 run built the impossible app (2/3). D27: A2 clean-build defects fixed; A4 Rota spec + reference + 69-check grader, calibration 5/5 (the 90% bar lets one wrong rule pass, as in A1: for Sharif). Phase 11: role prompts (11.2), kit arm in run.py (plugin copied outside the repo so the cheat watch doesn't flag it). Decision 10-K for Sharif.
 - **v0.39 · 2026-11-22** — Phase 11: `team.py` conductor follows the approved architecture (JSON verdicts that need evidence files, builder resumed across rounds, team-wide caps, job-object kill, release card), smokes T1-T4 PASS; `/autonomous:new-app` entry skill; spike T0: a background command stops at a 10-minute default unless given a timeout, and a 3-hour timeout holds. Fence leak found by T4 and fixed: `gate.log` recorded the spec-writer's writes into `checks/`; logs now in `team-records/`, hidden from every role. Phase 10: baseline app tasks all pass (A1, A2, A3), so the app ladder can't show the kit beating the baseline: decision 10-J for Sharif. The A2 clean build has two real edge-case defects the baseline found (counted as false alarms, within the allowance).
 - **v0.38 · 2026-11-22** — The exam is written (rows 10.1 and 10.3 ✅): A1 Split app + walk grader, A2 20 planted bugs + clean build, A3 impossible spec; 9 deterministic graders, calibration 44/44. Phase 10 now needs only the full baseline (10.4).
 - **v0.37 · 2026-11-22** — Phase 11 started: plugin skeleton + marketplace (row 11.1 ✅, `f2b8b72`); the fence `gate.py` passes plan 09 smoke S2 (35/35 self-test; a live builder session told to break it was denied 10 times and never saw the secret, `afb90e3`).
