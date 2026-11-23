@@ -132,6 +132,24 @@ def main():
         ("server.py", "    if len({m.lower() for m in members}) != len(members):", "    if False:")])
     app_case("bad", "no_start_file", drop=["START.txt"])
 
+    # A4 (Rota): the reference build, and copies with defects patched in. One wrong rule (ties by id) still
+    # clears the 90% bar on 69 checks (66/69), like A1's no_persistence_only: kept as a documented good case
+    ref4 = ROOT / "benchmark/tasks/app_a4_rota/reference"
+    def rota_case(kind, name, edits=(), drop=()):
+        d = OUT / "app_a4_rota" / kind / name
+        shutil.copytree(ref4, d, ignore=shutil.ignore_patterns("*.json", "__pycache__"))
+        for f, old, new in edits:
+            text = (d / f).read_text(encoding="utf-8")
+            assert old in text, f"{name}: patch target missing in {f}"
+            (d / f).write_text(text.replace(old, new), encoding="utf-8")
+        for f in drop:
+            (d / f).unlink()
+    rota_case("good", "reference")
+    rota_case("good", "autofill_ties_by_id_only", [("server.py", 'p["name"].lower()))', 'p["id"]))')])
+    rota_case("bad", "overnight_no_wrap", [("server.py", "return m + 1440 if m <= 0 else m", "return m")])
+    rota_case("bad", "no_undo", [("server.py", '    if not DB["undo"]:\n        raise Bad(409', '    if True:\n        raise Bad(409')])
+    rota_case("bad", "no_start_file", drop=["START.txt"])
+
     # A2 (planted bugs + clean build): bug reports built from the injection key
     a2 = json.loads((KEYS / "a2.json").read_text(encoding="utf-8"))["bugs"]
     def bug_case(task, kind, name, reports):

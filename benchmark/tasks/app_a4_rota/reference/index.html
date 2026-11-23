@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rota</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 860px; margin: 24px auto; padding: 0 16px; color: #222; }
+  section { border: 1px solid #ddd; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; }
+  input, select, button { font: inherit; padding: 4px 8px; margin: 4px 0; }
+  .row { padding: 4px 0; border-bottom: 1px solid #eee; }
+  .card { border: 1px solid #ccc; border-radius: 6px; padding: 8px; margin: 8px 0; }
+  .name { display: inline-block; background: #eef; border-radius: 4px; padding: 0 6px; margin-right: 4px; }
+  #error { color: #b00020; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<h1>Rota</h1>
+
+<section>
+  <h2>People</h2>
+  <input data-testid="person-name" placeholder="Name">
+  <select data-testid="person-role"><option value="nurse">nurse</option><option value="doctor">doctor</option><option value="porter">porter</option></select>
+  <input data-testid="person-max" type="number" min="1" max="60" value="40" placeholder="Max hours">
+  <div id="days"></div>
+  <button data-testid="add-person">Add person</button>
+  <div id="people"></div>
+</section>
+
+<section>
+  <h2>New shift</h2>
+  <input data-testid="shift-date" type="date">
+  <input data-testid="shift-start" placeholder="Start HH:MM">
+  <input data-testid="shift-end" placeholder="End HH:MM">
+  <select data-testid="shift-role"><option value="nurse">nurse</option><option value="doctor">doctor</option><option value="porter">porter</option></select>
+  <input data-testid="shift-slots" type="number" min="1" max="5" value="1">
+  <button data-testid="add-shift">Add shift</button>
+</section>
+
+<section>
+  <h2>Week</h2>
+  <label>Week containing <input data-testid="week-start" type="date"></label>
+  <button data-testid="autofill-button">Auto-fill week</button>
+  <button data-testid="undo-button">Undo</button>
+  <p id="error" data-testid="error" class="hidden"></p>
+  <div id="cards"></div>
+  <h3>Hours this week</h3>
+  <div id="hours"></div>
+</section>
+
+<script>
+const DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+const $ = (t) => document.querySelector(`[data-testid="${CSS.escape(t)}"]`);
+async function api(method, path, body, raw) {
+  const r = await fetch(path, { method, headers: { "Content-Type": "application/json" },
+                                body: body ? JSON.stringify(body) : undefined });
+  const data = r.status === 204 ? null : await r.json();
+  if (!r.ok) { const e = new Error(data && data.error ? data.error : r.statusText); e.rule = data && data.rule; throw e; }
+  return data;
+}
+function el(tag, attrs, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+function showError(e) {
+  const box = $("error");
+  const msg = e ? (e.rule ? `${e.message} (rule: ${e.rule})` : e.message) : "";
+  box.textContent = msg; box.classList.toggle("hidden", !msg);
+}
+function iso(d) { return d.toISOString().slice(0, 10); }
+function week() {
+  const v = $("week-start").value;
+  const d = v ? new Date(v + "T00:00:00Z") : new Date(new Date().toISOString().slice(0, 10) + "T00:00:00Z");
+  const mon = new Date(d); mon.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7));
+  const sun = new Date(mon); sun.setUTCDate(mon.getUTCDate() + 6);
+  return [iso(mon), iso(sun)];
+}
+
+for (const d of DAYS) {
+  const lab = el("label", {}); lab.append(el("input", { type: "checkbox", "data-testid": `person-unavailable-${d}` }), ` ${d} `);
+  document.getElementById("days").appendChild(lab);
+}
+$("week-start").value = new Date().toISOString().slice(0, 10);
+
+async function render() {
+  const [from, to] = week();
+  const people = await api("GET", "/api/people");
+  let shifts = [], page = 1;
+  for (;;) {
+    const r = await api("GET", `/api/shifts?from=${from}&to=${to}&page=${page}&per_page=100`);
+    shifts = shifts.concat(r.items);
+    if (shifts.length >= r.total || !r.items.length) break;
+    page += 1;
+  }
+  const byId = Object.fromEntries(people.map((p) => [p.id, p]));
+  const list = document.getElementById("people"); list.replaceChildren();
+  for (const p of people) {
+    const off = p.unavailable.length ? `, off ${p.unavailable.join(" ")}` : "";
+    list.appendChild(el("div", { class: "row", "data-testid": "person-row" }, `${p.name} — ${p.role} (max ${p.max_hours} h${off})`));
+  }
+  const hours = Object.fromEntries(people.map((p) => [p.id, 0]));
+  const cards = document.getElementById("cards"); cards.replaceChildren();
+  for (const s of shifts) {
+    const card = el("div", { class: "card", "data-testid": "shift-card" });
+    card.appendChild(el("div", {}, `${s.date} ${s.start}-${s.end} ${s.role} · ${s.hours} h · ${s.assigned.length}/${s.slots} filled`));
+    const names = el("div", {});
+    for (const id of s.assigned) {
+      if (id in hours) hours[id] += s.hours;
+      names.appendChild(el("span", { class: "name", "data-testid": "assigned-name" }, byId[id] ? byId[id].name : String(id)));
+    }
+    card.appendChild(names);
+    const sel = el("select", { "data-testid": "assign-select" });
+    for (const p of people) sel.appendChild(el("option", { value: String(p.id) }, `${p.name} (${p.role})`));
+    const btn = el("button", { "data-testid": "assign-button" }, "Assign");
+    btn.onclick = () => act(() => api("POST", `/api/shifts/${s.id}/assign`, { person_id: Number(sel.value) }));
+    card.append(sel, btn);
+    cards.appendChild(card);
+  }
+  const h = document.getElementById("hours"); h.replaceChildren();
+  for (const p of people) h.appendChild(el("div", { class: "row", "data-testid": `hours-${p.name}` }, `${p.name}: ${Math.round(hours[p.id] * 100) / 100} h`));
+}
+
+async function act(fn) {
+  try { await fn(); showError(null); } catch (e) { showError(e); }
+  await render();
+}
+
+$("add-person").onclick = () => act(async () => {
+  await api("POST", "/api/people", { name: $("person-name").value, role: $("person-role").value,
+    max_hours: Number($("person-max").value), unavailable: DAYS.filter((d) => $(`person-unavailable-${d}`).checked) });
+  $("person-name").value = "";
+  for (const d of DAYS) $(`person-unavailable-${d}`).checked = false;
+});
+$("add-shift").onclick = () => act(() => api("POST", "/api/shifts", { date: $("shift-date").value,
+  start: $("shift-start").value, end: $("shift-end").value, role: $("shift-role").value, slots: Number($("shift-slots").value) }));
+$("autofill-button").onclick = () => act(() => { const [from, to] = week(); return api("POST", "/api/autofill", { from, to }); });
+$("undo-button").onclick = () => act(() => api("POST", "/api/undo"));
+$("week-start").addEventListener("change", render);
+$("week-start").addEventListener("input", render);
+render();
+</script>
+</body>
+</html>

@@ -35,8 +35,8 @@ language or framework you like. Every rule below is exact; the hidden checks tes
     `slots` is a whole number from 1 to 5. `assigned` lists the assigned person ids in the order assigned.
 - `GET /api/shifts?from=2026-03-02&to=2026-03-08&role=nurse&page=1&per_page=20` returns
   `{"items": [...], "page", "per_page", "total"}`: shifts whose date is within `from`..`to` inclusive (each
-  filter optional), ordered by date, then start time, then id. `per_page` defaults to 20, at most 100; `page`
-  starts at 1. `total` counts all matches, not just this page.
+  filter optional), ordered by date, then start time, then id. `per_page` defaults to 20; a value above 100 is
+  treated as 100. `page` starts at 1. `total` counts all matches, not just this page.
 
 ## Assigning people to shifts
 
@@ -93,6 +93,8 @@ then filled slots by name ignoring case before open slots. Lines end with `\n`.
   `{"error": "<message>"}`.
 - **Everything survives a restart** (people, shifts, assignments, versions, the audit log and the undo
   history): store it in a file inside this folder.
+- **Leave an empty store.** The checker starts your app from this folder exactly as you leave it and expects no
+  people, shifts or history yet: before you finish, delete any data your own testing created.
 
 ## Starting the app
 
@@ -112,7 +114,7 @@ The page must carry these `data-testid` attributes; checks find elements by them
 | `person-row` | one per person, its text containing the name and role |
 | `shift-date`, `shift-start`, `shift-end`, `shift-role`, `shift-slots`, `add-shift` | the shift form (`shift-role` is a `<select>`) |
 | `week-start` | a date input; the page shows the Monday-to-Sunday week containing that date |
-| `shift-card` | one per shift in the shown week, in shift order; its text contains the date, start and end |
+| `shift-card` | one per shift in the shown week, in shift order; its text contains the date (as `2026-03-02`), start and end |
 | `assigned-name` | inside a `shift-card`, one per assigned person, the person's name |
 | `assign-select`, `assign-button` | inside a `shift-card`: a `<select>` whose option values are person ids, and its button |
 | `hours-<name>` | one per person (e.g. `hours-Ana`), its text containing their hours in the shown week (`8`, `7.5`) |

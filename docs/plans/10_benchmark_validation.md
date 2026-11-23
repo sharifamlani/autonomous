@@ -431,3 +431,12 @@ scripts/benchmark/build_calibration.py   # + A4 cases: reference (good), 4 patch
 | Grader trustworthy (L11) | reference 100%; 4/4 bad builds fail | `run.py --calibrate --task app_a4_rota` | calibration output |
 | Checks test only the spec | every check names the spec line it tests | read of rota.py (each check's label quotes the rule) | rota.py |
 | Run cost known | one baseline run recorded with tokens and minutes | A4-3 | scorecard |
+
+### Part 3 progress
+
+| Step | Result | Evidence |
+|---|---|---|
+| A4-1 reference meets the spec | **PASS**: `rota.py` on the reference, 69 of 69 checks ok, twice (56 API, 3 restart, 10 UI); A1 still 28/28 (rota.py imports walk.py's App, Checks, call; walk.py unchanged) | calibration `good/reference` |
+| A4-2 the grader can fail | **As written, 1 of 4 (FAIL against the criterion).** Each of the 4 named bad builds fails the check it targets, but only one falls below 0.9: overnight hours without the wrap 47/69; rules 5 and 6 swapped 67/69, auto-fill ties by id 66/69, undo history not saved 68/69 still pass. With 69 checks the 90% bar lets about 6 checks fail. Calibration now holds what fails overall: `bad/overnight_no_wrap` 47/69, `bad/no_undo` 59/69, `bad/no_start_file`; `good/autofill_ties_by_id_only` 66/69 documents the bar's slack (A1 has the same: `no_persistence_only` 26/28). Changing the criterion or the bar is Sharif's decision; the score (fraction of checks) still separates every bad build from the reference | `run.py --calibrate --task app_a4_rota` → 5 of 5 |
+| Spec fixes before any agent sat A4 | from the builder's spec questions: `per_page` above 100 is treated as 100; the shift card shows the date as `2026-03-02`; **leave an empty store** (the checker starts the app as left, so an agent's own test data would fail checks unrelated to any rule) | task.md |
+| A4-3 not saturated | pending: one baseline run after the full baseline re-run finishes | — |
