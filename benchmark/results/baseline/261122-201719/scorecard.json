@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "arm": "baseline",
+    "ts": "261122-201719",
+    "model": "claude-opus-5-5",
+    "claude_version": "2.1.330 (Claude Code)",
+    "room_check": "PASS",
+    "task_spec": "app_a1_build",
+    "runs": 1,
+    "usage_before": [
+      {
+        "name": "week (all models)",
+        "pct": 6,
+        "resets": "Nov 29, 5:59am (America/New_York)"
+      },
+      {
+        "name": "week (Fable)",
+        "pct": 0,
+        "resets": "Nov 29, 6am (America/New_York)"
+      }
+    ],
+    "usage_after": [
+      {
+        "name": "week (all models)",
+        "pct": 6,
+        "resets": "Nov 29, 6am (America/New_York)"
+      },
+      {
+        "name": "week (Fable)",
+        "pct": 0,
+        "resets": "Nov 29, 6am (America/New_York)"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "task": "app_a1_build",
+      "run_id": "261122-201719-a1_build-b1",
+      "status": "DONE",
+      "pass": true,
+      "score": 1.0,
+      "tokens": 268323,
+      "output_tokens": 20656,
+      "minutes": 3.29,
+      "turns": 6,
+      "flags": [],
+      "stop": null,
+      "missing": [],
+      "made": [
+        "START.txt",
+        "index.html",
+        "server.py",
+        "split.db"
+      ],
+      "grader": {
+        "pass": true,
+        "score": 1.0,
+        "summary": "28 of 28 checks ok"
+      },
+      "cost_usd_api": 0.7201926,
+      "processes": 211,
+      "orphans_killed": 0,
+      "orphans_left": 0,
+      "exit": 0,
+      "caps": {
+        "minutes": 120,
+        "turns": 0,
+        "tokens": 15000000
+      },
+      "swept_before": [],
+      "swept_after": [
+        "261122-201719-a1_build-b1.tmp",
+        "bgwait-201842",
+        "bgwait-201921",
+        "bgwait-201925"
+      ],
+      "week_util": [
+        0.06,
+        0.06
+      ],
+      "limit_status": "allowed"
+    }
+  ]
+}
