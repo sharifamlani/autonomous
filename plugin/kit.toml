@@ -1,0 +1,22 @@
+# The kit's knobs (plan 09 architecture §10). A kit change is a diff to this file, logged as one trial and
+# kept only if the benchmark scorecard improves (rule L10). team.py copies it into every run folder.
+
+[app]
+roles = ["spec-writer", "builder", "qa", "tester"]
+max_rounds = 3
+
+[caps]                       # D26: the same caps as the baseline arm
+app_tokens = 15_000_000
+app_minutes = 120
+
+[turns]                      # per role step (architecture §7)
+spec-writer = 60
+builder = 200
+qa = 60
+tester = 120
+
+[models]
+default = "claude-opus-5-5"  # per-role overrides: builder = "..."
+
+[release]
+notify = ""                  # or an outside session's name (architecture §6b)
