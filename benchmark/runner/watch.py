@@ -16,16 +16,16 @@ REPO_MARKERS = ["dropbox (personal)", "genai company", "benchmark/keys", "/auton
 NET_TOOLS = {"WebSearch", "WebFetch", "Bash"}
 
 
-def flags(block, run_id, watch, watch_net=()):
+def flags(block, own_room, watch, watch_net=()):
     text = json.dumps(block.get("input", {})).lower().replace("\\\\", "/").replace("\\", "/")
     out = [f"watch:{w}" for w in watch if w.lower() in text]
     if block.get("name") in NET_TOOLS:
         out += [f"watch_net:{w}" for w in watch_net if w.lower() in text]
     out += [f"repo:{m}" for m in REPO_MARKERS if m in text]
-    # another run's room: only names shaped like a run id. Two honest S1 runs were failed by looser rules
-    # (`cd C:/abench/<own-id>; ls` read as "<own-id>;", then the agent's own C:/abench/_scratch_b1).
-    # Leftovers between runs are handled by room.sweep(), not here.
-    for other in re.findall(r"abench/(\d{6}-\d{6}-[a-z0-9_]+-[bk]\d+)", text):
-        if other != run_id.lower():
+    # another run's room: only names shaped like a room name (r + 10 hex, room.name). Two honest S1 runs were
+    # failed by looser rules (`cd C:/abench/<own>; ls` read as "<own>;", then the agent's own
+    # C:/abench/_scratch_b1). Leftovers between runs are handled by room.sweep(), not here.
+    for other in re.findall(r"abench/(r[0-9a-f]{10})(?![0-9a-f])", text):
+        if other != own_room.lower():
             out.append(f"room:{other}")
     return out

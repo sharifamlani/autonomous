@@ -1,16 +1,26 @@
-"""The clean room: a fresh folder per run at C:\\abench\\<run-id>, holding task.md and the inputs only.
+"""The clean room: a fresh folder per run at C:\\abench\\r<hash>, holding task.md and the inputs only.
+
+The room name is opaque (r + 10 hex of the run id, `name()`). Claude Code shows the agent its working folder,
+and the old names (`...-a3_impossible-b1`, `...-s3_null-b1`, `...-s4a_lalonde-b1`) told it the answer (found
+2026-11-22 in the first full baseline). The run id stays in the results folders, which the agent never sees.
 
 Why C:\\abench (D23, spike 2026-11-22): Claude Code finds CLAUDE.md files by walking up from the
 working folder, so any folder under the user's home picks up the personal ~/.claude/CLAUDE.md. A room
 outside the home folder, the repo and Dropbox starts as stock Claude Code and keeps the answer keys
 out of the agent's neighbourhood.
 """
+import hashlib
 import os
 import re
 import shutil
 from pathlib import Path
 
 ROOM_ROOT = Path(os.environ.get("AUTONOMOUS_ROOM_ROOT", "C:/abench"))
+
+
+def name(run_id):
+    """The opaque room name for a run: nothing in it names the task."""
+    return "r" + hashlib.sha1(run_id.encode()).hexdigest()[:10]
 
 
 def _assert_outside_home(p):
@@ -20,7 +30,7 @@ def _assert_outside_home(p):
 
 
 def build(task, run_id):
-    room = ROOM_ROOT / run_id
+    room = ROOM_ROOT / name(run_id)
     _assert_outside_home(ROOM_ROOT)
     if room.exists():
         raise SystemExit(f"room {room} already exists")
@@ -68,7 +78,7 @@ def remove(room):
 
 def tmpdir(run_id):
     """A per-run TMP/TEMP folder, so system temp cannot carry files from one run to the next."""
-    d = ROOM_ROOT / f"{run_id}.tmp"
+    d = ROOM_ROOT / f"{name(run_id)}.tmp"
     d.mkdir(parents=True, exist_ok=True)
     return d
 
