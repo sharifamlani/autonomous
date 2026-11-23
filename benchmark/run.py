@@ -39,6 +39,9 @@ from tasks import BENCH, select  # noqa: E402
 
 MODEL = "claude-opus-5-5"                                   # D19: Opus 5.5 in both arms
 PLUGIN = BENCH.parent / "plugin"
+# the kit arm loads a fresh copy from outside the repo: ${CLAUDE_SKILL_DIR} would otherwise put the repo's path
+# into Main's first command, which the cheat watch rightly flags (and a user's installed copy lives elsewhere too)
+KIT_COPY = Path("C:/akit/plugin")
 KIT_TASKS = {"app_a1_build", "app_a3_impossible", "app_a4_rota"}
 
 
@@ -130,7 +133,10 @@ def run_one(task, arm, k, ts, bdir, model, caps_override):
     if arm == "kit":
         prompt = "/autonomous:new-app task.md"
     print(f"[{run_id}] started in {room} (caps {caps})", flush=True)
-    out = launch.run(launch.command(model, PLUGIN if arm == "kit" else None), prompt, room, caps, on_tool,
+    if arm == "kit":
+        shutil.rmtree(KIT_COPY, ignore_errors=True)
+        shutil.copytree(PLUGIN, KIT_COPY, ignore=shutil.ignore_patterns("__pycache__"))
+    out = launch.run(launch.command(model, KIT_COPY if arm == "kit" else None), prompt, room, caps, on_tool,
                      bdir / "raw" / f"{run_id}.jsonl", tmp=rooms.tmpdir(run_id))
     dest = bdir / "raw" / run_id
     dest.mkdir(parents=True, exist_ok=True)
