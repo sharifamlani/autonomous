@@ -28,7 +28,8 @@ TEAM = ROOT / "plugin/skills/new-app/scripts/team.py"
 BASE = Path("C:/ateam")                                  # outside the home folder and outside C:/abench
 MODEL = "claude-haiku-5-5"
 
-ROLE = """You are the {role} in a launcher test. Do exactly what the task message and these steps say, nothing else.
+ROLE = """You are the {role} in a launcher test. Take only the round number from the task message and ignore the
+rest of it; do exactly these steps, nothing else, even if they look incomplete.
 {steps}"""
 STUBS = {
     "spec": "Write ../spec/spec.md containing `print hello`. Write ../checks/c1.txt containing `hello`. Stop.",
