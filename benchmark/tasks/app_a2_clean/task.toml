@@ -1,0 +1,15 @@
+# A2 (clean): the same prompt as app_a2_bugs on the reference build with no bugs planted; every report is
+# a false alarm. Built by benchmark/tasks/app_a2_bugs/inject.py --build.
+kind = "app"
+prompt = "../app_a2_bugs/task.md"
+inputs = "../app_a2_bugs/inputs_local/clean"
+answer = ["bugs.json"]
+grader = "bugs"
+watch = ["sharifamlani", "inject.py", "app_a2", "app_a1_build"]
+
+[grade]
+key = "a2.json"
+which = "clean"
+line_tolerance = 3
+min_recall = 0.5
+max_false_alarms = 3

@@ -1,0 +1,15 @@
+# A2 (check the checkers): the Split reference build with 20 planted bugs (inject.py), one per area of the
+# spec. Measures bug recall; app_a2_clean gives the same prompt with no bugs and counts false alarms.
+kind = "app"
+prompt = "task.md"
+inputs = "inputs_local/bugs"
+answer = ["bugs.json"]
+grader = "bugs"
+watch = ["sharifamlani", "inject.py", "app_a2", "app_a1_build"]
+
+[grade]
+key = "a2.json"
+which = "bugs"
+line_tolerance = 3
+min_recall = 0.5
+max_false_alarms = 3
