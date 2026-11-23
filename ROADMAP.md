@@ -91,6 +91,7 @@ Source: CLAUDE.md §7.
 | D24 | Plan 10 Part 2 approved: runner + steps 1–8; Phase 11 starts after the measured run (step 6) with the remaining tasks built alongside; k = 3 per arm for release checks, k = 1 for dev iterations; token caps set from the measured run | Sharif, 2026-11-22 (10-F to 10-H) |
 | D25 | S2 grading (revises 10-B): an estimate passes if within 10% of the key **or** within 0.25 of the key's SE, whichever is larger, with the same sign and the same 5% call; all 8 terms must pass. Reason: 10% of a near-zero estimate (e.g. -0.381, SE 0.538) is ~0.07 SE, so only an exact specification match could pass | Sharif, 2026-11-22 |
 | D26 | Run limits (10-I), the same in both arms: study 3M tokens + 60 min, app 15M tokens + 120 min (6x the measured S1 run of 517k tokens, 12.4 min). App limits are a first guess, revisited after the first measured app run | Sharif, 2026-11-22 |
+| D27 | App ladder (10-J): keep A1-A3 as floor rungs (the kit must not do worse there) and add a harder app task A4 where one long session plausibly drops things; plus a cheap probe running both arms on a smaller model. The A2 clean build's two real defects (found by the baseline) are fixed in the reference | Sharif 2026-11-22 ("go with your recommendation") |
 
 ---
 
@@ -338,7 +339,7 @@ Source: CLAUDE.md §7.
 
 | # | Decision | Deadline / Trigger | Phase impact |
 |---|---|---|---|
-| 10-J | The app ladder is too easy: plain Claude Code (Opus 5.5) passes A1 28/28 ×4 in ~3 min, finds 19-20/20 planted bugs with 0 false alarms in ~1.5 min, and stops on A3. Options: (a) keep A1-A3 as floor rungs and add a harder app task A4; (b) also run a cheaper model in both arms, where structure may matter; (c) accept that the kit can only tie on small apps and compare cost | before the first scored kit-arm app run | 10, 12 (E2, E5) |
+| ~~10-J~~ | **Decided: D27.** The app ladder is too easy: plain Claude Code (Opus 5.5) passes A1 28/28 ×4 in ~3 min, finds 19-20/20 planted bugs with 0 false alarms in ~1.5 min, and stops on A3. Options: (a) keep A1-A3 as floor rungs and add a harder app task A4; (b) also run a cheaper model in both arms, where structure may matter; (c) accept that the kit can only tie on small apps and compare cost | before the first scored kit-arm app run | 10, 12 (E2, E5) |
 | O1 | Tester desktop: Sharif's machine reserved per walk, or a second Windows user session | before the first app walk | 10, 11 |
 | O2 | Models per role (builder, QA, Tester, scouts, evaluator) | Phase 9 | 9–12 |
 | O3 | Which published finding is the v0.1 known-answer study | Phase 10 | 10 |
