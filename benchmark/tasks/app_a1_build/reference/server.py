@@ -41,7 +41,7 @@ def money(cents):
 def to_cents(value):
     s = str(value).strip() if not isinstance(value, bool) else ""
     if isinstance(value, (int, float)) and not isinstance(value, bool):
-        s = f"{value:.10f}".rstrip("0").rstrip(".")
+        s = repr(value) if isinstance(value, float) else str(value)   # shortest exact form: 1.230001 stays 1.230001
     if not AMOUNT.match(s):
         raise Bad(400, "amount must be a positive number with at most 2 decimals")
     whole, _, frac = s.partition(".")
