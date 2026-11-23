@@ -5,7 +5,7 @@
 > This document is CANON over every other doc in the repo. Plans are created in §3 Phase order;
 > work with no §3 row gets a proposed §3 edit first (CLAUDE.md, top).
 
-> v0.37 · 2026-11-22
+> v0.38 · 2026-11-22
 
 ---
 
@@ -14,7 +14,7 @@
 - **Current phase:** Phase 10 (validation ladder); Phase 9 done (design + architecture approved 2026-11-22). Row 8.3 flips when Marketing confirms the review post went live
 - **Current step:** limits set (D26). Two tracks in parallel (D24): step 7 of plan 10 (S4, A1, A2 + bug injection, A3, each with grader and calibration) and Phase 11 (kit build, against plan 09's smokes, starting with the folder fence)
 - **Last update:** 2026-11-22
-- **Next action:** step 7: the app tasks (A1 build, A2 known-good app + 20 planted bugs, A3 impossible spec) with their graders; Phase 11: `team.py` launcher and the kill-at-cap path (plan 09 smoke S1), then roles and the entry skills.
+- **Next action:** Phase 10: the full baseline (row 10.4, step 8): plain Claude Code on all 9 tasks, k=3. Phase 11: `team.py` launcher and the kill-at-cap path (plan 09 smoke S1), then roles and the entry skills.
 
 ---
 
@@ -282,9 +282,9 @@ Source: CLAUDE.md §7.
 
 | # | Action | Status | Plan? | Date · Commit / Plan | Source |
 |---|---|---|---|---|---|
-| 10.1 | App ladder: A1 build, A2 20 planted bugs for QA + tester, A3 impossible spec (was 11.1) | ⏸ | ✅ 10 | `docs/plans/10_benchmark_validation.md` (approved) | D2 |
+| 10.1 | App ladder: A1 build, A2 20 planted bugs for QA + tester, A3 impossible spec (was 11.1) | ✅ | — | 2026-11-22 · `fab279a`, `3be0611` (A1 walk grader 28 checks; A2 inject self-test 20/20; A3 stuck grader) | D2 |
 | 10.2 | Study ladder: S1 reproduce + S2 replicate Amlani & Collitt 2021 (CC0), S3 planted effect + null, S4 traps (LaLonde, leading prompt) (was 11.2) | ✅ | — | 2026-11-22 · `4df0568` (S1–S4: 6 study tasks, inputs leak-checked) | D2 |
-| 10.3 | Write graders (deterministic first; LLM judge only with a calibration set) (was 11.3) | ~ study graders calibrated 27/27 (`4df0568`); app graders with step 7 | ⏸ 10 | gate: 10.1–10.2 | literature 05 |
+| 10.3 | Write graders (deterministic first; LLM judge only with a calibration set) (was 11.3) | ✅ | — | 2026-11-22 · `3be0611` (9 graders, all deterministic; calibration 44/44) | literature 05 |
 | 10.4 | Run the no-plugin baseline arm; record the scorecard (was 11.4) | ⏸ | ✅ 10 | gate: 10.3, 10.5 | D17 |
 | 10.5 | Runner `benchmark/run.py`: clean room at `C:\abench`, token/minute/turn caps, cheat flags = FAIL, scorecard + TRIAL_LOG + usage log | ✅ | — | 2026-11-22 · `1dee888` (R1–R4 PASS; kit arm comes with Phase 11) | D22, D23 |
 | 10.6 | One measured baseline run (S1) → token caps per run (Sharif's call) | ✅ | — | 2026-11-22 · `9da6943` (S1 PASS 8/8, 12.4 min, 517k tokens); limits set by D26 | D22, D26 |
@@ -360,6 +360,7 @@ Source: CLAUDE.md §7.
 
 ## §6 Changelog
 
+- **v0.38 · 2026-11-22** — The exam is written (rows 10.1 and 10.3 ✅): A1 Split app + walk grader, A2 20 planted bugs + clean build, A3 impossible spec; 9 deterministic graders, calibration 44/44. Phase 10 now needs only the full baseline (10.4).
 - **v0.37 · 2026-11-22** — Phase 11 started: plugin skeleton + marketplace (row 11.1 ✅, `f2b8b72`); the fence `gate.py` passes plan 09 smoke S2 (35/35 self-test; a live builder session told to break it was denied 10 times and never saw the secret, `afb90e3`).
 - **v0.36 · 2026-11-22** — S4 traps built (row 10.2 ✅, `4df0568`): S4a LaLonde (grader `verdict`), S4b leading-prompt S2; the study half of the ladder is complete, 27/27 calibration. Next: app tasks and the kit's fence.
 - **v0.35 · 2026-11-22** — D26: run limits set (study 3M tokens / 60 min, app 15M / 120 min, both arms); `runner/tasks.py` applies them per task kind. Row 10.6 ✅. Step 7 and Phase 11 start in parallel.
