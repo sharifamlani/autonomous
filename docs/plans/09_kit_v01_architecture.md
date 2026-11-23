@@ -81,7 +81,9 @@ runs/<YYMMDD-HHMM>-<slug>/            # short path (Windows long-path limit, spi
 ├── kit.toml          # the exact config this run used (copied in; the iteration knob)
 ├── registry.json     # per role step: session_id, pid, started, ended, exit, tokens, turns
 ├── ledger.tsv        # append-only: time, role, event, tokens, cumulative_tokens
-├── gate.log          # every hook decision: time, role, tool, target, allow|deny, rule
+├── team-records/     # gate.log (every hook decision: time, role, tool, target, allow|deny, rule) and
+│                     #   logs/ (each role step's stream); hidden from EVERY role: the log holds the
+│                     #   spec-writer's writes into checks/ (leak found by smoke T4, 2026-11-22)
 ├── spec/             # spec.md (features, user walks), rubric.md (QA's checklist)
 ├── checks/           # HIDDEN from builder: walk.yaml (tester's steps + expected state),
 │                     #   api_tests/ (pytest), created by spec-writer before any code
