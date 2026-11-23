@@ -204,3 +204,68 @@ leading prompt); app rungs from building an app to planting 20 bugs that QA and 
 | Smoke | Result | Evidence |
 |---|---|---|
 | S2 fence | **PASS** 2026-11-22. Unit: `python plugin/hooks/gate.py --selftest` → `35/35 fence cases PASS` (the plan's 8 cases grew to 35: Read, Glob, Grep, Bash cat, `cd ..` then cat, backslash paths, Git Bash absolute paths, wildcards, a Python one-liner, recursive grep, forged verdicts by Write and redirect, the allow-list, the tester's and analyst's fences, no role, unknown role); negative control with the builder fence removed: 21/35. Live: `python scripts/kit/check_fence_live.py` → a real `claude -p` builder session told to break the fence: 10 calls denied, secret never in the stream, its own file written through the PermissionRequest allow path, 4/4. Control as the tester (may read `checks/`): 0/4, the secret leaks. Finding: with no role, Claude Code's own working-folder rule already blocks reads above `app/`, so the leak control needs a role that is allowed in | `f2b8b72`, `afb90e3` |
+| S1 caps | **PASS** in Phase 10 as runner smoke R3 (job-object kill, CAP at 1.0 min, 0 orphans, `results/baseline/261122-165152/`). Phase 11 repeats it for the kit's own launcher: T2 and T3 below | `1dee888` |
+
+## Row 11.3a: `team.py`, the kit's launcher (sub-plan, 2026-11-22)
+
+`/autonomous:new-app` is thin: Main starts `team.py app` **in the background** and waits for it. `team.py`
+is the team's foreman. It runs the roles in a fixed order, one `claude -p` per role, and holds the team-wide
+caps. The order is fixed in code, not chosen by a model (L7): v0.1 measures the team *structure*, and a
+Main that improvises the order would be a second variable. A model-led Main is a later trial (Phase 13).
+
+**Why in the background:** the Bash tool cuts a foreground command at 10 minutes, and a team build runs
+for an hour or more. Spike `scripts/kit/check_bg_wait.py` checks that an unattended session waits for a
+background command past 10 minutes (T0).
+
+```
+plugin/skills/new-app/
+├── SKILL.md                 # (11.3b) Main: start team.py app in the background, wait, summarise RUN_REPORT.md
+└── scripts/team.py          # NEW: init | run <role> | app ; caps, job object, ledger, verdict loop, report
+plugin/agents/<role>.md      # (11.2) role prompts; team.py appends the body as the system prompt
+scripts/kit/check_bg_wait.py # NEW: spike T0 (background Bash outlives 10 min under -p)
+scripts/kit/check_team.py    # NEW: smokes T1-T4 with stub roles (Haiku), prints `N/N team checks PASS`
+
+<run>/  (made by team.py init, under the folder Main was started in)
+├── idea.md  spec/  checks/  app/  evidence/  verdicts/  handoffs/     # the fence's folders (gate.py)
+├── .team/team.json          # ledger: caps, status, one row per session (role, round, tokens, minutes, stop)
+├── .team/logs/<role>-r<N>.jsonl   .team/prompts/<role>.md
+└── RUN_REPORT.md            # DONE | STUCK | CAP | FAIL | ERROR, rounds, verdicts, tokens per role
+```
+
+```
+ Main (claude, /autonomous:new-app "<idea>")
+   | Bash run_in_background: python team.py app "<idea>"           (CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0)
+   v
+ team.py app ---> init <run>/ ---> spec-writer (cwd spec/) ---> spec/spec.md + checks/  -- missing? --> FAIL
+                                        |
+             +--------------------------+  round r = 1..3
+             v
+          builder (cwd app/, sees verdicts of round r-1) --> app/STUCK.md? ---------------------> STUCK
+             |
+             v
+          qa (cwd verdicts/)  ||  tester (cwd evidence/)      each writes verdicts/<role>-r<r>.md
+             |                                                first line: VERDICT: APPROVE | FAIL
+             +-- both APPROVE --> DONE        any FAIL and r < 3 --> next round        r = 3 --> FAIL
+   every child: own job object (Windows) / process group (POSIX), AUTONOMOUS_ROLE + AUTONOMOUS_RUN set,
+   gate.py fences it; ledger sums tokens live across children; team cap hit --> kill all --> CAP
+   end: RUN_REPORT.md + team.json; Main reads the report and answers the user
+```
+
+**Derisking** (dependency order)
+
+| # | What it proves | Command | Expected | If it fails → |
+|---|---|---|---|---|
+| T0 | An unattended session waits for a background command longer than 10 min | `python scripts/kit/check_bg_wait.py` (and `--no-env` control) | `PASS`, minutes ≥ 11, final.txt holds the token | Main can't wait: team.py runs detached and the skill polls a status file instead |
+| T1 | `team.py run` starts a fenced child with the role set, and records it | `python scripts/kit/check_team.py --only T1` | role session ends DONE; team.json row with tokens > 0; gate.log has the role's decisions | Fix child command or env |
+| T2 | Time cap kills the whole team, including Git Bash children | `python scripts/kit/check_team.py --only T2` | status CAP:minutes within cap + 30 s; 0 processes left | Fix the kill path |
+| T3 | Token cap is team-wide, across two parallel children | `python scripts/kit/check_team.py --only T3` | status CAP:tokens; ledger total ≥ cap and < cap + one turn's worth | Fix the shared ledger |
+| T4 | The verdict loop: FAIL sends the builder back; APPROVE ends DONE; STUCK ends STUCK | `python scripts/kit/check_team.py --only T4` | stub run 1: round 1 FAIL, round 2 DONE; stub run 2: STUCK; RUN_REPORT.md matches | Fix verdict parsing / loop |
+
+**Evaluation criteria** (the kit's launcher; graded with the rest of the kit by the Phase 12 evaluator)
+
+| Criterion | Threshold | How measured | Evidence |
+|---|---|---|---|
+| A team run never outlives its caps | T2, T3 PASS; 0 orphan processes | `check_team.py` | its output, team.json |
+| The loop does what the report says | T4 PASS: report status = the stub's scripted outcome in 3/3 cases | `check_team.py` | RUN_REPORT.md |
+| Usage is complete | team.json tokens = sum of every child's stream (no child missing) | `check_team.py` T1/T3 | team.json |
+| End to end (real use) | plan 09 S8: `run.py --arm kit --task app_a1_build` finishes with a RUN_REPORT | S8 | scorecard |
