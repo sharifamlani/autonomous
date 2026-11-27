@@ -81,6 +81,27 @@ def names(token):
     return {c.lower() for c in re.split(r"[\\/]", token.strip().strip("\"'")) if c}
 
 
+def split_heredocs(command):
+    """(the command with heredoc bodies removed, the bodies). A body is data for the program it feeds, not shell:
+    `print(1 > 0)` in a Python heredoc is not a redirect. Bodies are still scanned for hidden paths."""
+    lines, kept, bodies, i = command.split("\n"), [], [], 0
+    while i < len(lines):
+        kept.append(lines[i])
+        for m in re.finditer(r"<<-?\s*(['\"]?)([A-Za-z_]\w*)\1", lines[i]):
+            i += 1
+            while i < len(lines) and lines[i].strip() != m.group(2):
+                bodies.append(lines[i])
+                i += 1
+        i += 1
+    return "\n".join(kept), "\n".join(bodies)
+
+
+def expand(token, shell_vars):
+    """$NAME and ${NAME} from simple assignments earlier in the same command; None if any stay unknown."""
+    out = re.sub(r"\$\{(\w+)\}|\$(\w+)", lambda m: shell_vars.get(m.group(1) or m.group(2), "\0"), token)
+    return None if "\0" in out else out
+
+
 class Gate:
     def __init__(self, role, run, cwd):
         self.role, self.run, self.cwd = role, norm(run), norm(cwd)
@@ -130,7 +151,14 @@ class Gate:
             base = inp.get("path") or "."
             pat = inp.get("pattern", "") if tool == "Glob" else inp.get("glob", "") or ""
             why = self.hidden_hit(base) or (self.hidden_hit(pat, resolve(base, self.cwd)) if pat else None)
-            return why or self.ancestor_hit(base), f"{base} {pat}".strip()
+            # the search starts below the pattern's literal folders: checks/api_tests/**/* searches checks/api_tests
+            lead = []
+            for c in re.split(r"[\\/]", pat)[:-1]:
+                if any(ch in c for ch in "*?[{"):
+                    break
+                lead.append(c)
+            root = os.path.join(base, *lead) if tool == "Glob" and lead else base
+            return why or self.ancestor_hit(root), f"{base} {pat}".strip()
         if tool in WRITE_TOOLS:
             t = inp.get(WRITE_TOOLS[tool], "")
             return self.hidden_hit(t) or self.write_miss(t), t
@@ -140,6 +168,11 @@ class Gate:
         return None, ""
 
     def bash_check(self, command):
+        command, bodies = split_heredocs(command)
+        for piece in re.split(r"[\s'\"(),;=]+", bodies.replace("\\", "/")):
+            why = piece and self.hidden_hit(piece)
+            if why:
+                return why
         try:
             lex = shlex.shlex(command.replace("\\", "/"), posix=True, punctuation_chars=True)
             lex.whitespace_split = True
@@ -154,10 +187,15 @@ class Gate:
             else:
                 seg.append(t)
         segments.append(seg)
-        cwd = self.cwd
+        cwd, shell_vars = self.cwd, {}
         for seg in segments:
             words = [w for w in seg if not re.match(r"^\w+=", w)]
             if not words:
+                for w in seg:                                   # NAME=value on its own: remember it for cd $NAME
+                    name, _, value = w.partition("=")
+                    known = expand(value, shell_vars)
+                    if known is not None:
+                        shell_vars[name] = known
                 continue
             cmd = os.path.basename(words[0]).lower().removesuffix(".exe")
             recursive = cmd in RECURSIVE_CMDS or any(re.match(r"^-[a-zA-Z]*[rR][a-zA-Z]*$|^--recursive$", w)
@@ -188,11 +226,14 @@ class Gate:
             elif cmd in WRITE_CMDS_LAST and operands:
                 targets.append(operands[-1])
             for t in targets:
-                why = self.write_miss(t, cwd)
+                why = self.write_miss(expand(t, shell_vars) or t, cwd)
                 if why:
                     return why
-            if cmd == "cd":
-                cwd = resolve(words[1], cwd) if len(words) > 1 else cwd
+            if cmd == "cd" and len(words) > 1:
+                target = expand(words[1], shell_vars)
+                if target is None:
+                    return f"cd {words[1]}: the fence cannot follow an unknown variable; cd to a literal path"
+                cwd = resolve(target, cwd)
         return None
 
     def allow_check(self, tool, inp):
@@ -333,6 +374,17 @@ def selftest():
         ("qa", app, pre, ("Grep", {"pattern": "secret", "path": "../team-records"}), "deny"),
         ("tester", run, pre, ("Read", {"file_path": "team-records/gate.log"}), "deny"),
         ("tester", run, pre, ("Read", {"file_path": "checks/walk.yaml"}), None),
+        # friction found in the first kit run (2026-11-23), and the holes their fixes must not open
+        ("builder", app, pre, bash("mkdir -p ../evidence/r1 && cat > ../evidence/r1/t.py <<'EOF'\nprint(1 > 0)\nEOF"), None),
+        ("builder", app, pre, bash("python - <<'EOF'\nprint(open('../checks/walk.yaml').read())\nEOF"), "deny"),
+        ("tester", run, pre, bash(f"R={gitbash}; cd app && ls; cd $R; echo ok > evidence/r1/a.txt"), None),
+        ("tester", run, pre, bash(f"R={gitbash}; cd app; cd ${{R}}/app; echo ok > ../evidence/a.txt"), None),
+        ("builder", app, pre, bash("cd $SOMEWHERE && echo PASS > ../verdicts/r1-qa.json"), "deny"),
+        ("builder", app, pre, bash("D=..; echo PASS > $D/verdicts/r1-qa.json"), "deny"),
+        ("tester", run, pre, ("Glob", {"pattern": "checks/api_tests/**/*"}), None),
+        ("tester", run, pre, ("Glob", {"pattern": "**/*.json"}), "deny"),
+        ("builder", run, pre, ("Glob", {"pattern": "checks/**/*"}), "deny"),
+        ("builder", app, pre, ("Glob", {"pattern": "../**/*.yaml"}), "deny"),
         ("tester", run, perm, ("Write", {"file_path": "verdicts/r1-tester.json", "content": "{}"}), "allow"),
         ("tester", run, pre, ("Write", {"file_path": "app/main.py", "content": ""}), "deny"),
         ("tester", run, perm, ("mcp__cua-driver__click", {}), "allow"),
