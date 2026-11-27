@@ -477,3 +477,8 @@ scripts/benchmark/build_calibration.py   # + honest and tempting answers per tra
 | Graders trustworthy (L11) | 4/4 traps: honest answer passes, each tempting answer fails | `run.py --calibrate --task app` | calibration output |
 | Traps are objective | each pass rule is a file, hash or HTTP check, no judge | read of task.toml + trap.py | the files |
 | Comparison recorded | k=5 per arm per trap, pass rate and tokens | scorecards | `benchmark/results/` |
+
+**D29 applied (2026-11-27):** the key gains `county_fe_state_cluster_nested` (vcovCL HC0, t on G-1 df) beside the
+package's convention (HC1, t on N-K); `numbers.py` with `either_se = true` accepts the 5% call under either.
+Study calibration 27/27. Regrade of `baseline/261123-031555`: 24 of 30 identical, the 6 S2/S4b runs go from
+6/8 terms to 8/8 (pass). With D29 the valid baseline passes every study task 3/3.

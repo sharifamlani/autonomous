@@ -62,6 +62,17 @@ F_DID.3    <- coeftest(F_DID.2, vcovCL, cluster = VBM_Master.2$state.name)
 F_DID.VS.2 <- fips_fe(B_DID.VS.2)
 F_DID.VS.3 <- coeftest(F_DID.VS.2, vcovCL, cluster = VBM_Master.2$state.name)
 
+# ---- The other clustered-SE convention (decision 10-K, D29) ----
+# vcovCL's default (HC1) counts every county dummy in the small-sample correction (N-1)/(N-K), which with
+# 3,113 nested county FE multiplies each SE by about 1.42; p from t(N-K). The usual convention when the FE are
+# nested in the clusters counts only the cluster adjustment G/(G-1) (HC0 here), with p from t(G-1). The
+# paper says only "clustered by state", so S2 accepts the 5% call under either convention.
+G_STATES <- length(unique(VBM_Master.2$state.name))
+nested <- function(fit) coeftest(fit, vcov = vcovCL(fit, cluster = VBM_Master.2$state.name, type = "HC0"),
+                                 df = G_STATES - 1)
+F_DID.3n    <- nested(F_DID.2)
+F_DID.VS.3n <- nested(F_DID.VS.2)
+
 # ---- Collect the difference-in-differences terms ----
 TERMS <- c(excuse_to_noexcuse_x2020  = "Conditions_DetailWith Excuse To No Excuse:as.factor(year)2020",
            excuse_to_apps_x2020      = "Conditions_DetailWith Excuse To Applications:as.factor(year)2020",
@@ -94,8 +105,10 @@ key <- list(
     rep_share = list(base = model(Base.VS), control = model(B_DID.VS.1), county_fe = model(B_DID.VS.2),
                      county_fe_state_cluster = model(B_DID.VS.2, B_DID.VS.3))),
   fips = list(
-    turnout = list(county_fe = model(F_DID.2), county_fe_state_cluster = model(F_DID.2, F_DID.3)),
-    rep_share = list(county_fe = model(F_DID.VS.2), county_fe_state_cluster = model(F_DID.VS.2, F_DID.VS.3)))
+    turnout = list(county_fe = model(F_DID.2), county_fe_state_cluster = model(F_DID.2, F_DID.3),
+                   county_fe_state_cluster_nested = model(F_DID.2, F_DID.3n)),
+    rep_share = list(county_fe = model(F_DID.VS.2), county_fe_state_cluster = model(F_DID.VS.2, F_DID.VS.3),
+                     county_fe_state_cluster_nested = model(F_DID.VS.2, F_DID.VS.3n)))
 )
 write_json(key, OUT, auto_unbox = TRUE, digits = NA, pretty = TRUE)
 cat("wrote", OUT, "\n")

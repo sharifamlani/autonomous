@@ -6,6 +6,9 @@ Config ([grade] in task.toml):
   rule   = "printed"     S1: b and se equal the key at 3 decimals
          | "tolerance"   S2 (decision 10-B): same sign, same 5% call, |b - key| <= max(rel*|key|, abs_se*key_se)
   rel, abs_se            tolerance settings (abs_se = 0 turns the SE-based allowance off)
+  either_se = true       S2 (decision 10-K, D29): the 5% call may match either clustered-SE convention, the
+                         key's (vcovCL HC1, county dummies counted) or the nested-FE one (HC0, t on G-1 df);
+                         the paper says only "clustered by state". Needs county_fe_state_cluster_nested in the key
 
 Every term must pass, and every reported b must appear in the notebook's saved output (copy check).
 Score = share of the 8 terms that pass.
@@ -27,6 +30,7 @@ results, ok_n = {}, 0
 for oc in OUTCOMES:
     for t in TERMS:
         k = ref[oc]["county_fe_state_cluster"]["terms"][t]
+        alt = (ref[oc].get("county_fe_state_cluster_nested") or {}).get("terms", {}).get(t) if g.get("either_se") else None
         a = (ans.get(oc) or {}).get(t) or {}
         try:
             b, se, p = float(a["b"]), float(a["se"]), float(a["p"])
@@ -39,7 +43,7 @@ for oc in OUTCOMES:
         else:
             allow = max(g.get("rel", 0.10) * abs(k["b"]), g.get("abs_se", 0.0) * k["se"])
             same_sign = (b > 0) == (k["b"] > 0)
-            same_call = (p < 0.05) == (k["p"] < 0.05)
+            same_call = (p < 0.05) == (k["p"] < 0.05) or (alt is not None and (p < 0.05) == (alt["p"] < 0.05))
             close = abs(b - k["b"]) <= allow
             ok = same_sign and same_call and close
             why = (f"b {b:.3f} vs {k['b']:.3f} (allow ±{allow:.3f}: {'ok' if close else 'off'}), "

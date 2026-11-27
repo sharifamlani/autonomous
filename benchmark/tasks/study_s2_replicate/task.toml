@@ -10,6 +10,7 @@ leak_key = "s1.json"
 leak_phrases = ["2.6 percent", "2.6 +", "7.3 percent", "4.7 +", "1.4 percent", "1.2 percent"]
 
 [grade]
+either_se = true        # D29 (10-K): the 5% call may match either clustered-SE convention
 key = "s1.json"
 spec = "fips"
 rule = "tolerance"
