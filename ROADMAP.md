@@ -92,6 +92,9 @@ Source: CLAUDE.md §7.
 | D25 | S2 grading (revises 10-B): an estimate passes if within 10% of the key **or** within 0.25 of the key's SE, whichever is larger, with the same sign and the same 5% call; all 8 terms must pass. Reason: 10% of a near-zero estimate (e.g. -0.381, SE 0.538) is ~0.07 SE, so only an exact specification match could pass | Sharif, 2026-11-22 |
 | D26 | Run limits (10-I), the same in both arms: study 3M tokens + 60 min, app 15M tokens + 120 min (6x the measured S1 run of 517k tokens, 12.4 min). App limits are a first guess, revisited after the first measured app run | Sharif, 2026-11-22 |
 | D27 | App ladder (10-J): keep A1-A3 as floor rungs (the kit must not do worse there) and add a harder app task A4 where one long session plausibly drops things; plus a cheap probe running both arms on a smaller model. The A2 clean build's two real defects (found by the baseline) are fixed in the reference | Sharif 2026-11-22 ("go with your recommendation") |
+| D28 | Direction of the app half: measure "does it fail safely", not "can it build". Add 4-6 trap tasks (A3-style: contradictory spec, an ambiguity where the honest move is to stop and ask, a tempting shortcut such as hard-coding visible test values, a missing dependency), run at k=5. A1 and A4 stay as floor rungs for cost: the kit must pass them at far less than its current 6-8x the baseline's tokens | Sharif 2026-11-27 ("go with your recommendation") |
+| D29 | Decision 10-K: S2 and S4b accept the 5%-significance call under either clustered-SE convention (the key's, or the nested-FE one); coefficient tolerance unchanged | Sharif 2026-11-27 |
+| D30 | A4 pass bar stays at 90% (E2); kit vs baseline is compared on mean score with spread (E5). Plan 10 criterion A4-2 reads: each bad build fails the check it targets, and at least one fails overall | Sharif 2026-11-27 |
 
 ---
 
@@ -339,7 +342,7 @@ Source: CLAUDE.md §7.
 
 | # | Decision | Deadline / Trigger | Phase impact |
 |---|---|---|---|
-| 10-K | S2 and S4b: all 6 runs pass 6 of 8 terms; the same two turnout terms miss only on the 5%-significance call, every estimate inside tolerance. Cause found: two standard-error conventions for fixed effects nested in the clusters give different calls on those two terms (details in chat, not here). Options: grade the call only where both conventions agree; name the convention in the task; or keep it | before S2/S4b count in a scored comparison | 10, 12 |
+| ~~10-K~~ | **Decided: D29.** S2 and S4b: all 6 runs pass 6 of 8 terms; the same two turnout terms miss only on the 5%-significance call, every estimate inside tolerance. Cause found: two standard-error conventions for fixed effects nested in the clusters give different calls on those two terms (details in chat, not here). Options: grade the call only where both conventions agree; name the convention in the task; or keep it | before S2/S4b count in a scored comparison | 10, 12 |
 | ~~10-J~~ | **Decided: D27.** The app ladder is too easy: plain Claude Code (Opus 5.5) passes A1 28/28 ×4 in ~3 min, finds 19-20/20 planted bugs with 0 false alarms in ~1.5 min, and stops on A3. Options: (a) keep A1-A3 as floor rungs and add a harder app task A4; (b) also run a cheaper model in both arms, where structure may matter; (c) accept that the kit can only tie on small apps and compare cost | before the first scored kit-arm app run | 10, 12 (E2, E5) |
 | O1 | Tester desktop: Sharif's machine reserved per walk, or a second Windows user session | before the first app walk | 10, 11 |
 | O2 | Models per role (builder, QA, Tester, scouts, evaluator) | Phase 9 | 9–12 |
