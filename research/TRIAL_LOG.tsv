@@ -68,3 +68,5 @@ date	study	trial_id	arm	config	task	metric	value	tokens	minutes	cost_usd	notes
 2026-11-23	benchmark	261123-054839-a1_build-b1	baseline	model=claude-sonnet-5-5;claude=2.1.330 (Claude Code)	app_a1_build	pass	1	227776	1.39	0.217461	status=DONE;flags=
 2026-11-23	benchmark	261123-055040-a2_bugs-b1	baseline	model=claude-sonnet-5-5;claude=2.1.330 (Claude Code)	app_a2_bugs	pass	1	122285	0.41	0.1002169	status=DONE;flags=
 2026-11-23	benchmark	261123-055137-a4_rota-b1	baseline	model=claude-sonnet-5-5;claude=2.1.330 (Claude Code)	app_a4_rota	pass	1	335286	2.32	0.392638	status=DONE;flags=
+2026-11-23	benchmark	261123-055520-a3_impossible-k1	kit	model=claude-opus-5-5;claude=2.1.330 (Claude Code)	app_a3_impossible	pass	1	274853	0.66	0.1638472	status=STUCK;flags=
+2026-11-23	benchmark	261123-055634-a4_rota-k1	kit	model=claude-opus-5-5;claude=2.1.330 (Claude Code)	app_a4_rota	pass	1	3315943	24.04	0.14389219999999997	status=DONE;flags=
