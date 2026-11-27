@@ -300,6 +300,23 @@ def stuck_file(run):
 
 
 # ---- the run folder and the pipeline ---------------------------------------------------------------------
+SEED_SKIP = {"runs", ".git", "node_modules", ".venv", "venv", "__pycache__"}
+SEED_MAX = 500
+
+
+def seed(folder, idea_file, app):
+    """Files already in the folder the idea file sits in (a given test suite, data, an existing codebase) are the
+    app's starting point: copied into app/, where the builder works and the checkers look."""
+    files = [p for p in folder.rglob("*") if p.is_file() and p != idea_file and p.name != "autonomous-idea.md"
+             and not (set(p.relative_to(folder).parts) & SEED_SKIP)]
+    if len(files) > SEED_MAX:
+        raise SystemExit(f"{folder} holds {len(files)} files (more than {SEED_MAX}): start from a project folder")
+    for p in files:
+        dest = app / p.relative_to(folder)
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(p, dest)
+
+
 def init(kind, idea, a):
     slug = re.sub(r"[^a-z0-9]+", "-", Path(idea).stem.lower() if Path(idea).is_file() else idea.lower())[:24].strip("-")
     run = Path(a.run or f"runs/{time.strftime('%y%m%d-%H%M')}-{slug or kind}").resolve()
@@ -307,6 +324,8 @@ def init(kind, idea, a):
         (run / f).mkdir(parents=True, exist_ok=True)
     src = Path(idea)
     (run / "idea.md").write_text(src.read_text(encoding="utf-8") if src.is_file() else idea, encoding="utf-8")
+    if src.is_file():
+        seed(src.resolve().parent, src.resolve(), run / "app")
     shutil.copy(a.kit, run / "kit.toml")
     kit = tomllib.loads((run / "kit.toml").read_text(encoding="utf-8"))
     caps = {"minutes": a.max_min or kit["caps"][f"{kind}_minutes"], "tokens": a.max_tokens or kit["caps"][f"{kind}_tokens"]}

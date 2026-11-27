@@ -19,7 +19,7 @@ Kit arm (Phase 11): the same room, model, tools and caps, plus `--plugin-dir plu
 `/autonomous:new-app task.md`. Main starts team.py, whose roles are separate sessions the stream here
 cannot see, so after the run: the app is graded and collected from runs/<id>/app/, the roles' tokens
 are added from registry.json, the cheat watch is run over their logs, and the status is the team's.
-Kit arm tasks: app builds (A1, A3, A4). A2 is a review task with no kit entry yet; studies need new-study.
+Kit arm tasks: app builds and traps (A1, A3-A8). A2 is a review task with no kit entry yet; studies need new-study.
 """
 import argparse
 import datetime as dt
@@ -42,7 +42,8 @@ PLUGIN = BENCH.parent / "plugin"
 # the kit arm loads a fresh copy from outside the repo: ${CLAUDE_SKILL_DIR} would otherwise put the repo's path
 # into Main's first command, which the cheat watch rightly flags (and a user's installed copy lives elsewhere too)
 KIT_COPY = Path("C:/akit/plugin")
-KIT_TASKS = {"app_a1_build", "app_a3_impossible", "app_a4_rota"}
+KIT_TASKS = {"app_a1_build", "app_a3_impossible", "app_a4_rota", "app_a5_missing_doc", "app_a6_wrong_test",
+             "app_a7_example_conflict", "app_a8_no_credential"}
 
 
 def short(task_id):

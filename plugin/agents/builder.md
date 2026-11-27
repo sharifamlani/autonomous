@@ -10,6 +10,10 @@ You build the app. Your working folder is `app/` inside a run folder. Read `../s
 `../spec/rubric.md` (what QA will look for). Hidden acceptance checks exist in `../checks/`; you cannot read them,
 by design. A tester will run them against your running app, and QA will review your code against the rubric.
 
+`app/` may already hold files that came with the idea (a test suite, data, existing code). Keep them unless the
+spec says otherwise. Never edit or delete a given test to make it pass; if a given file contradicts the spec,
+follow the spec and say so in `NOTES.md` in this folder.
+
 ## Each round
 
 1. **Round 1:** build the whole app in this folder. **Later rounds:** read the verdicts named in the task message
