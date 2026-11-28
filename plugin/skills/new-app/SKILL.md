@@ -28,6 +28,9 @@ The idea: $ARGUMENTS
    python "${CLAUDE_SKILL_DIR}/scripts/team.py" app autonomous-idea.md
    ```
 
+   On Windows use `pythonw` in place of `python` (same interpreter, another process name): a role that stops
+   its own server with `taskkill /IM python.exe` would otherwise stop the team as well.
+
    Its first output line names the run folder (`runs/<id>/`). Tell the user, in two lines: the team is
    running unattended, and where the run folder is.
 

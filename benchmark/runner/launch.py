@@ -130,7 +130,7 @@ def run(cmd, prompt, room, caps, on_tool_use, raw_path, tmp=None):
     threading.Thread(target=lambda: ([lines.put(l) for l in proc.stdout], lines.put(None)), daemon=True).start()
     threading.Thread(target=lambda: err.extend(proc.stderr), daemon=True).start()
 
-    usage, flags, result, stop, limits = {}, [], None, None, []
+    usage, flags, notes, result, stop, limits = {}, [], [], None, None, []
     with open(raw_path, "w", encoding="utf-8", newline="\n") as raw:
         while True:
             try:
@@ -153,6 +153,8 @@ def run(cmd, prompt, room, caps, on_tool_use, raw_path, tmp=None):
                     for b in m.get("content", []):
                         if b.get("type") == "tool_use":
                             new = on_tool_use(b)
+                            notes += [f for f in new if f.startswith("note:")]   # recorded, never a cheat
+                            new = [f for f in new if not f.startswith("note:")]
                             if new:
                                 flags += new
                                 stop = stop or "FLAGGED"
@@ -182,7 +184,7 @@ def run(cmd, prompt, room, caps, on_tool_use, raw_path, tmp=None):
     left = job.kill()
     job.close()
     week = [w.get("unifiedWindows", {}).get("seven_day", {}).get("utilization") for w in limits]
-    return {"stop": stop, "result": result, "flags": sorted(set(flags)),
+    return {"stop": stop, "result": result, "flags": sorted(set(flags)), "notes": sorted(set(notes)),
             "week_util": [week[0], week[-1]] if week else None,
             "limit_status": limits[-1].get("status") if limits else None,
             "minutes": round((time.monotonic() - t0) / 60, 2), "turns_live": len(usage),

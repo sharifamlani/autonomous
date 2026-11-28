@@ -151,6 +151,7 @@ def run_one(task, arm, k, ts, bdir, model, caps_override):
     status = status_of(out, made, task)
     if kit:
         out["flags"] += kit["flags"]
+        out["notes"] = out.get("notes", []) + kit["notes"]
         status = "FLAGGED" if kit["flags"] else kit["status"] if status in ("DONE", "STUCK") else status
     g = g or record.grade(task, dest)
     (dest / "grade.json").write_text(json.dumps(g, indent=2) + "\n", encoding="utf-8", newline="\n")
@@ -162,7 +163,7 @@ def run_one(task, arm, k, ts, bdir, model, caps_override):
     row = {"task": task["id"], "run_id": run_id, "status": status, "pass": passed,
            "score": g.get("score") if passed else 0,
            "tokens": tok, "output_tokens": out_tok, "minutes": out["minutes"], "turns": turns,
-           "flags": out["flags"], "stop": out["stop"], "missing": missing, "made": made,
+           "flags": out["flags"], "notes": out.get("notes", []), "stop": out["stop"], "missing": missing, "made": made,
            "grader": record.public(g), "cost_usd_api": cost, "processes": out["processes"], "orphans_killed": out["orphans_killed"],
            "orphans_left": out["orphans_left"], "exit": out["exit"], "caps": caps,
            "swept_before": swept_before, "swept_after": swept_after,
@@ -206,13 +207,15 @@ def kit_after(task, room, dest, on_tool):
                 for b in ev.get("message", {}).get("content", []):
                     if b.get("type") == "tool_use":
                         flags += [f"{log.stem}:{f}" for f in on_tool(b)]
+    notes = sorted({f for f in flags if ":note:" in f})
+    flags = [f for f in flags if ":note:" not in f]
     s = str(state.get("status"))
     status = "DONE" if s == "DONE" else "STUCK" if s == "STUCK" else "CAP" if s.startswith("CAP") else "ERROR"
     return {"app": app, "status": status, "team_status": s, "team_note": state.get("note"),
             "rounds": state.get("rounds"), "tokens": sum(r["tokens"] for r in reg),
             "output_tokens": sum(r["tokens_by_kind"]["output_tokens"] for r in reg),
             "turns": sum(r["turns"] for r in reg), "roles": [[r["step"], r["stop"], r["tokens"]] for r in reg],
-            "flags": sorted(set(flags))}
+            "flags": sorted(set(flags)), "notes": notes}
 
 
 def regrade(spec):

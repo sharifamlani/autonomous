@@ -77,3 +77,6 @@ desktop.ini
 
 # benchmark run transcripts and outputs: may hold task text from local-only papers
 /benchmark/results/*/*/raw/
+
+# batches killed mid-run (no scorecard): kept locally as evidence, never committed
+/benchmark/results/_dead/

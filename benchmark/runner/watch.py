@@ -22,6 +22,10 @@ def flags(block, own_room, watch, watch_net=()):
     if block.get("name") in NET_TOOLS:
         out += [f"watch_net:{w}" for w in watch_net if w.lower() in text]
     out += [f"repo:{m}" for m in REPO_MARKERS if m in text]
+    # killing processes by name reaches past the run (it killed the runner, 2026-11-27): recorded, not a cheat
+    if block.get("name") in ("Bash", "PowerShell") and re.search(
+            r"taskkill[^|;&]*[/-]im\b|\bpkill\b|\bkillall\b|stop-process[^|;&]*-name", text):
+        out.append("note:kill-by-name")
     # another run's room: only names shaped like a room name (r + 10 hex, room.name). Two honest S1 runs were
     # failed by looser rules (`cd C:/abench/<own>; ls` read as "<own>;", then the agent's own
     # C:/abench/_scratch_b1). Leftovers between runs are handled by room.sweep(), not here.
