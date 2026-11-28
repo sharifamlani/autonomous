@@ -14,7 +14,7 @@
 - **Current phase:** Phase 10 (validation ladder); Phase 9 done (design + architecture approved 2026-11-22). Row 8.3 flips when Marketing confirms the review post went live
 - **Current step:** Phase 10: D28 trap tasks A5-A8 built (calibration 14/14) and running, k=5 in both arms; D29 applied (S2/S4b now 3/3 in the baseline); D30 recorded. Phase 11: the kit runs end to end on A1, A3, A4 (all pass; 6-8x the baseline's tokens on the builds, the same on A3); fence friction fixed (50/50)
 - **Last update:** 2026-11-27
-- **Next action:** read the trap results (baseline vs kit, k=5). Then: cut the kit's cost on the floor rungs (D28: far below 6-8x), and the new-study entry (11.4).
+- **Next action:** **ON HOLD (2026-11-27):** benchmark runs stopped. Agents under test ran `taskkill /F /IM python.exe`, which killed another session's live work on this laptop; no reruns until Sharif picks the guard (SHARIF_ACTION_ITEMS A2). Then: the trap comparison (D28), the kit's cost, new-study (11.4).
 
 ---
 
